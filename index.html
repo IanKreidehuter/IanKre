@@ -5,15 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>HERTA SYSTEM — Andrian Kreidehüter</title>
-
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<!-- SCAN OVERLAY -->
+<div id="scan"></div>
+
 <!-- TOP BAR -->
 <div class="top-bar">
-
   <div class="dual">
     <div class="glyph">HERTA SYSTEM v3.7</div>
     <div class="latin">Herta System v3.7</div>
@@ -23,67 +24,30 @@
     <div class="glyph">STATUS: ACTIVE</div>
     <div class="latin">System running normally</div>
   </div>
-
 </div>
 
 <!-- MAIN GRID -->
 <div class="container">
 
-  <!-- LEFT PANEL -->
+  <!-- LEFT -->
   <div class="panel">
-
-    <div class="section">
-      <div class="dual">
-        <div class="glyph">IDENTITY DATA</div>
-        <div class="latin">Identity Data</div>
-      </div>
-
-      <div class="dual">
-        <div class="glyph">NAME: ANDRIAN KREIDEHÜTER</div>
-        <div class="latin">Name: Andrian Kreidehüter</div>
-      </div>
-
-      <div class="dual">
-        <div class="glyph">ORIGIN: UNKNOWN</div>
-        <div class="latin">Origin: Unknown</div>
-      </div>
-
-      <div class="dual">
-        <div class="glyph">TYPE: HUMAN ENTITY</div>
-        <div class="latin">Type: Human</div>
-      </div>
+    <div class="dual">
+      <div class="glyph">IDENTITY DATA</div>
+      <div class="latin">Identity Data</div>
     </div>
 
-    <div class="section">
-      <div class="dual">
-        <div class="glyph">PSYCHO STATE</div>
-        <div class="latin">Psychological State</div>
-      </div>
-
-      <div class="dual">
-        <div class="glyph">STABLE: 72%</div>
-        <div class="latin">Stability Level</div>
-      </div>
-
-      <div class="dual">
-        <div class="glyph">EMOTION: VARIABLE</div>
-        <div class="latin">Emotional Status</div>
-      </div>
-
-      <div class="dual">
-        <div class="glyph">FOCUS: FRAGMENTED</div>
-        <div class="latin">Focus Condition</div>
-      </div>
+    <div class="dual">
+      <div class="glyph">NAME: ANDRIAN KREIDEHÜTER</div>
+      <div class="latin">Andrian Kreidehüter</div>
     </div>
-
   </div>
 
-  <!-- CENTER CORE -->
-  <div class="core">
+  <!-- CENTER CORE (dynamic) -->
+  <div class="core" id="core">
 
     <img src="assets/images/profile.jpg" class="avatar">
 
-    <div class="dual center-text">
+    <div class="dual">
       <div class="glyph">ANDRIAN KREIDEHÜTER</div>
       <div class="latin">Andrian Kreidehüter</div>
     </div>
@@ -95,7 +59,7 @@
 
   </div>
 
-  <!-- RIGHT PANEL -->
+  <!-- RIGHT -->
   <div class="panel right">
 
     <div class="module" onclick="openModule('archive')">
@@ -119,28 +83,18 @@
       </div>
     </div>
 
-    <div class="module" onclick="openModule('fragments')">
-      <div class="dual">
-        <div class="glyph">FRAGMENTS</div>
-        <div class="latin">Memory fragments</div>
-      </div>
-    </div>
-
   </div>
 
 </div>
 
-<!-- BOTTOM BAR -->
+<!-- BOTTOM -->
 <div class="bottom-bar">
-
   <div class="dual">
     <div class="glyph" id="log">[SYS] INITIALIZING...</div>
-    <div class="latin" id="logLatin">System log output</div>
+    <div class="latin" id="logLatin">System log</div>
   </div>
-
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
