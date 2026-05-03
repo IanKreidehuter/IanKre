@@ -127,3 +127,59 @@ body::after{
 .bottom-bar .latin{
   font-size:10px;
 }
+
+/* ===== SCAN EFFECT ===== */
+#scan{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(
+    rgba(0,255,255,0.05),
+    transparent
+  );
+  animation:scanMove 4s linear infinite;
+}
+
+@keyframes scanMove{
+  0%{transform:translateY(-100%)}
+  100%{transform:translateY(100%)}
+}
+
+/* ===== CORE TRANSITION ===== */
+.core{
+  transition:all .3s ease;
+}
+
+/* fade animation */
+.fade-out{
+  opacity:0;
+  transform:scale(.98);
+}
+
+.fade-in{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* MODULE VIEW */
+.module-view{
+  text-align:center;
+  animation:fadeIn .3s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
+/* BACK BUTTON */
+.back{
+  margin-top:15px;
+  padding:8px 14px;
+  border:1px solid rgba(0,255,255,.3);
+  cursor:pointer;
+}
+
+.back:hover{
+  box-shadow:0 0 8px rgba(0,255,255,.5);
+}
