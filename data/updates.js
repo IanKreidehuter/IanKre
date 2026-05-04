@@ -1,17 +1,15 @@
 const UPDATES = [
+
   {
     type: "image",
-    src: "assets/images/post1.jpg",
-    caption: "Just existing."
+    src: "assets/media/test1.jpg",
+    caption: "SIGNAL LOG 01 — VISUAL ENTRY"
   },
+
   {
-    type: "video",
-    src: "assets/video/rev1.mp4",
-    caption: "Revelation"
-  },
-  {
-    type: "audio",
-    src: "assets/audio/song1.mp3",
-    caption: "Memory"
+    type: "image",
+    src: "assets/media/test2.jpg",
+    caption: "SIGNAL LOG 02 — MEMORY TRACE"
   }
+
 ];
