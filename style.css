@@ -23,7 +23,7 @@ body{
   color:#6ef2ff;
   font-family:"SR";
   height:100vh;
-  overflow:hidden; /* 🚫 NO SCROLL */
+  overflow:hidden;
 }
 
 /* scanlines */
@@ -47,12 +47,13 @@ body::after{
   align-items:center;
   padding:0 20px;
   border-bottom:1px solid rgba(0,255,255,.2);
+  font-size:12px;
 }
 
 /* ===== MAIN GRID ===== */
 .container{
   display:grid;
-  grid-template-columns: 260px 1fr 260px;
+  grid-template-columns:260px 1fr 260px;
   height:calc(100vh - 100px);
 }
 
@@ -69,10 +70,45 @@ body::after{
 
 /* ===== CENTER CORE ===== */
 .core{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
   padding:20px;
-  display:grid;
-  grid-template-rows: auto 1fr auto;
-  gap:14px;
+}
+
+/* ===== SYSTEM OVERLAY WINDOW ===== */
+.overlay{
+  width:100%;
+  max-width:720px;
+  height:100%;
+  max-height:520px;
+
+  border:1px solid rgba(0,255,255,.2);
+  padding:20px;
+
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+
+  background:rgba(0,10,14,0.6);
+  backdrop-filter:blur(6px);
+
+  overflow:hidden;
+}
+
+/* internal scroll ONLY */
+.overlay-content{
+  flex:1;
+  overflow-y:auto;
+  padding-right:6px;
+}
+
+.overlay-content::-webkit-scrollbar{
+  width:4px;
+}
+.overlay-content::-webkit-scrollbar-thumb{
+  background:#6ef2ff;
 }
 
 /* ===== MODULE BUTTONS ===== */
@@ -89,14 +125,10 @@ body::after{
   box-shadow:0 0 10px rgba(0,255,255,.6);
 }
 
-/* ===== CARD SECTIONS ===== */
+/* ===== CARDS ===== */
 .card{
   border:1px solid rgba(0,255,255,.15);
   padding:12px;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
 }
 
 /* ===== DUAL TEXT ===== */
@@ -119,7 +151,7 @@ body::after{
   opacity:.5;
 }
 
-/* ===== GRID CONTENT (NO OVERFLOW BREAK) ===== */
+/* ===== GRID ===== */
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -141,6 +173,32 @@ body::after{
   border:1px solid rgba(0,255,255,.2);
 }
 
+/* ===== BUTTON ===== */
+button{
+  align-self:flex-start;
+  background:none;
+  border:1px solid rgba(0,255,255,.4);
+  color:#6ef2ff;
+  padding:6px 14px;
+  cursor:pointer;
+  font-family:"SR-Semi";
+  font-size:11px;
+}
+
+button:hover{
+  box-shadow:0 0 10px #6ef2ff;
+}
+
+/* ===== AVATAR ===== */
+.avatar{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  border:1px solid #6ef2ff;
+  object-fit:cover;
+  box-shadow:0 0 12px rgba(0,255,255,.5);
+}
+
 /* ===== BOTTOM BAR ===== */
 .bottom-bar{
   height:50px;
@@ -149,14 +207,20 @@ body::after{
   font-size:11px;
   display:flex;
   align-items:center;
+  font-family:"SR-Light";
 }
 
-/* ===== RESPONSIVE (PORTRAIT) ===== */
+/* ===== MOBILE ===== */
 @media (max-width:900px){
+
+  body{
+    overflow:auto;
+  }
 
   .container{
     grid-template-columns:1fr;
     grid-template-rows:auto auto auto;
+    height:auto;
   }
 
   .panel{
@@ -168,8 +232,8 @@ body::after{
     border:none;
   }
 
-  body{
-    overflow:auto; /* allow scroll on mobile only */
+  .overlay{
+    max-height:none;
   }
 
 }
