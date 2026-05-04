@@ -47,10 +47,9 @@ body::after{
   align-items:center;
   padding:0 20px;
   border-bottom:1px solid rgba(0,255,255,.2);
-  font-size:12px;
 }
 
-/* ===== MAIN GRID ===== */
+/* ===== GRID ===== */
 .container{
   display:grid;
   grid-template-columns:260px 1fr 260px;
@@ -68,19 +67,18 @@ body::after{
   border-right:none;
 }
 
-/* ===== CENTER CORE ===== */
+/* ===== CENTER ===== */
 .core{
   display:flex;
   justify-content:center;
   align-items:center;
-  position:relative;
   padding:20px;
 }
 
-/* ===== SYSTEM OVERLAY WINDOW ===== */
+/* ===== OVERLAY ===== */
 .overlay{
   width:100%;
-  max-width:720px;
+  max-width:700px;
   height:100%;
   max-height:520px;
 
@@ -93,100 +91,39 @@ body::after{
 
   background:rgba(0,10,14,0.6);
   backdrop-filter:blur(6px);
-
-  overflow:hidden;
 }
 
-/* internal scroll ONLY */
-.overlay-content{
-  flex:1;
-  overflow-y:auto;
-  padding-right:6px;
-}
-
-.overlay-content::-webkit-scrollbar{
-  width:4px;
-}
-.overlay-content::-webkit-scrollbar-thumb{
-  background:#6ef2ff;
-}
-
-/* ===== MODULE BUTTONS ===== */
+/* ===== MODULE BUTTON ===== */
 .module{
   padding:10px;
   border:1px solid rgba(0,255,255,.2);
   margin-bottom:10px;
   cursor:pointer;
-  transition:.2s;
-  text-transform:uppercase;
 }
 
 .module:hover{
   box-shadow:0 0 10px rgba(0,255,255,.6);
 }
 
-/* ===== CARDS ===== */
-.card{
-  border:1px solid rgba(0,255,255,.15);
-  padding:12px;
-}
-
-/* ===== DUAL TEXT ===== */
+/* ===== AUTO DUAL TEXT ===== */
 .dual{
   display:flex;
   flex-direction:column;
-  margin-bottom:10px;
 }
 
-.glyph{
+.dual::before{
+  content: attr(data-text);
   font-family:"SR-Semi";
   letter-spacing:2px;
   font-size:14px;
   text-shadow:0 0 6px rgba(0,255,255,.6);
 }
 
-.latin{
+.dual::after{
+  content: attr(data-text);
   font-family:'Inter', sans-serif;
   font-size:10px;
   opacity:.5;
-}
-
-/* ===== GRID ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.grid img{
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:cover;
-  border:1px solid rgba(0,255,255,.2);
-}
-
-/* ===== MEDIA ===== */
-.media{
-  width:100%;
-  max-height:180px;
-  object-fit:cover;
-  border:1px solid rgba(0,255,255,.2);
-}
-
-/* ===== BUTTON ===== */
-button{
-  align-self:flex-start;
-  background:none;
-  border:1px solid rgba(0,255,255,.4);
-  color:#6ef2ff;
-  padding:6px 14px;
-  cursor:pointer;
-  font-family:"SR-Semi";
-  font-size:11px;
-}
-
-button:hover{
-  box-shadow:0 0 10px #6ef2ff;
 }
 
 /* ===== AVATAR ===== */
@@ -199,28 +136,21 @@ button:hover{
   box-shadow:0 0 12px rgba(0,255,255,.5);
 }
 
-/* ===== BOTTOM BAR ===== */
+/* ===== BOTTOM ===== */
 .bottom-bar{
   height:50px;
-  padding:8px 16px;
+  padding:10px;
   border-top:1px solid rgba(0,255,255,.2);
-  font-size:11px;
   display:flex;
   align-items:center;
-  font-family:"SR-Light";
 }
 
 /* ===== MOBILE ===== */
 @media (max-width:900px){
-
-  body{
-    overflow:auto;
-  }
+  body{ overflow:auto; }
 
   .container{
     grid-template-columns:1fr;
-    grid-template-rows:auto auto auto;
-    height:auto;
   }
 
   .panel{
@@ -231,9 +161,4 @@ button:hover{
   .right{
     border:none;
   }
-
-  .overlay{
-    max-height:none;
-  }
-
 }
