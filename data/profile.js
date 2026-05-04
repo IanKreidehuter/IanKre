@@ -1,11 +1,11 @@
 const PROFILE = {
-  name: "Andrian Kreidehüter",
-  alias: "Froylan",
-  age: "19",
-  origin: "German",
+  name: "IAN KREIDEHÜTER",
+  alias: "FroyIan",
+  age: 19,
+  origin: "Germany",
 
   description: [
-    "Ian Kreideprinz is a 19-year-old from Germany.",
+    "Ian Kreideprinz is an 19-year-old from Germany.",
     "He has a calm but introspective presence.",
     "",
     "A quiet soul carrying many storms inside.",
