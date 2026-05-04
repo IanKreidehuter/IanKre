@@ -6,29 +6,27 @@ function openModule(type){
     core.innerHTML = `
       <div class="overlay">
 
-        <div class="dual">
-          <div class="glyph">STORED DATA</div>
-          <div class="latin">Archive</div>
-        </div>
+        <div class="dual" data-text="STORED DATA"></div>
 
         <img src="assets/images/profile.jpg" class="avatar">
 
-        <div class="dual">
-          <div class="glyph">ANDRIAN KREIDEHÜTER</div>
-          <div class="latin">Profile</div>
+        <div class="dual" data-text="ANDRIAN KREIDEHÜTER"></div>
+
+        <div class="overlay-content">
+
+          <div class="dual" data-text="SOCIAL ANXIETY"></div>
+          <div class="dual" data-text="DEPRESSION"></div>
+          <div class="dual" data-text="C-PTSD"></div>
+          <div class="dual" data-text="ASD"></div>
+
+          <div class="dual" data-text="MUSIC ARCHIVE"></div>
+
+          <div class="dual" data-text="LOST BOY — RUTH B."></div>
+          <div class="dual" data-text="IRIS — GOO GOO DOLLS"></div>
+
         </div>
 
-        <div class="dual">
-          <div class="glyph">COGNITIVE STRUCTURE</div>
-          <div class="latin">Psychological</div>
-        </div>
-
-        <div class="dual">
-          <div class="glyph">MEMORY LINKS</div>
-          <div class="latin">Music archive</div>
-        </div>
-
-        <button onclick="resetCore()">RETURN</button>
+        <button class="sys-btn" onclick="resetCore()">RETURN</button>
 
       </div>
     `;
@@ -38,18 +36,21 @@ function openModule(type){
     core.innerHTML = `
       <div class="overlay">
 
-        <div class="dual">
-          <div class="glyph">INCOMING SIGNALS</div>
-          <div class="latin">Live data</div>
+        <div class="dual" data-text="INCOMING SIGNALS"></div>
+
+        <div class="overlay-content">
+
+          <img src="assets/images/post1.jpg" class="media">
+
+          <div class="dual" data-text="SIGNAL RECEIVED"></div>
+
+          <video controls class="media">
+            <source src="assets/media/video.mp4">
+          </video>
+
         </div>
 
-        <img src="assets/media/photo.jpg" class="media">
-
-        <video controls class="media">
-          <source src="assets/media/video.mp4">
-        </video>
-
-        <button onclick="resetCore()">RETURN</button>
+        <button class="sys-btn" onclick="resetCore()">RETURN</button>
 
       </div>
     `;
@@ -59,18 +60,25 @@ function openModule(type){
     core.innerHTML = `
       <div class="overlay">
 
-        <div class="dual">
-          <div class="glyph">LINKED ENTITIES</div>
-          <div class="latin">Fragments</div>
-        </div>
+        <div class="dual" data-text="LINKED ENTITIES"></div>
 
-        <div class="grid">
-          <div onclick="window.open('https://example.com')">
-            <img src="assets/images/f1.jpg">
+        <div class="overlay-content">
+
+          <div class="grid">
+            <div onclick="window.open('https://example.com')">
+              <img src="assets/images/fav-h.webp">
+              <div class="dual" data-text="ENTITY H"></div>
+            </div>
+
+            <div onclick="window.open('https://example.com')">
+              <img src="assets/images/fav-i.webp">
+              <div class="dual" data-text="ENTITY I"></div>
+            </div>
           </div>
+
         </div>
 
-        <button onclick="resetCore()">RETURN</button>
+        <button class="sys-btn" onclick="resetCore()">RETURN</button>
 
       </div>
     `;
