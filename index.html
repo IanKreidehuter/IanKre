@@ -34,6 +34,7 @@
   <!-- CENTER CORE -->
   <div class="core" id="core">
 
+    <!-- DEFAULT VIEW -->
     <div class="overlay">
 
       <img src="assets/images/profile.jpg" class="avatar">
@@ -65,10 +66,18 @@
 </div>
 
 <!-- BOTTOM BAR -->
-<div class="bottom-bar">
+<div class="bottom-bar" id="log">
   <div class="dual" data-text="[SYS] SYSTEM STABLE"></div>
 </div>
 
+<!-- ✅ LOAD DATA FIRST -->
+<script src="data/updates.js"></script>
+<script src="data/profile.js"></script>
+<script src="data/fragments.js"></script>
+<script src="data/chronicles.js"></script>
+
+<!-- MAIN LOGIC -->
 <script src="script.js"></script>
+
 </body>
 </html>
