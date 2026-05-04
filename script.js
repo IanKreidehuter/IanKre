@@ -1,104 +1,120 @@
 const core = document.getElementById("core");
 
-/* ===== ROUTER ===== */
 function openModule(type){
-  if(type === "stored") renderStored();
-  if(type === "signals") renderSignals();
-  if(type === "fragments") renderFragments();
+  if(type==="stored") renderStored();
+  if(type==="signals") renderSignals();
+  if(type==="fragments") renderFragments();
 }
 
-/* ===== STORED DATA ===== */
 function renderStored(){
-  core.innerHTML = `
-    <div class="overlay active">
 
-      <div class="dual" data-text="STORED DATA"></div>
+  core.innerHTML = `
+  <div class="overlay active">
+
+    <div class="dual" data-text="STORED DATA"></div>
+
+    <div style="display:flex; gap:20px;">
 
       <img src="assets/images/profile.jpg" class="avatar">
 
-      <div class="dual" data-text="ANDRIAN KREIDEHÜTER"></div>
-
-      <div class="overlay-content">
-
-        <div class="dual" data-text="PSYCHOLOGICAL RECORD"></div>
-
-        <div class="dual" data-text="SOCIAL ANXIETY"></div>
-        <div class="dual" data-text="DEPRESSION"></div>
-        <div class="dual" data-text="C-PTSD"></div>
-        <div class="dual" data-text="ASD"></div>
-
-        <br>
-
-        <div class="dual" data-text="MUSIC ARCHIVE"></div>
-
-        <div class="dual" data-text="LOST BOY — RUTH B."></div>
-        <div class="dual" data-text="IRIS — GOO GOO DOLLS"></div>
-
+      <div>
+        <div class="dual" data-text="NAME : ${PROFILE.name}"></div>
+        <div class="dual" data-text="ALIAS : ${PROFILE.alias}"></div>
+        <div class="dual" data-text="AGE : ${PROFILE.age}"></div>
+        <div class="dual" data-text="ORIGIN : ${PROFILE.origin}"></div>
       </div>
 
-      <button class="sys-btn" onclick="resetCore()">RETURN</button>
-
     </div>
-  `;
-}
 
-/* ===== SIGNALS ===== */
-function renderSignals(){
-  core.innerHTML = `
-    <div class="overlay active">
+    <div class="overlay-content">
 
-      <div class="dual" data-text="INCOMING SIGNALS"></div>
+      ${PROFILE.description.map(d =>
+        d ? `<div class="dual" data-text="${d}"></div>` : "<br>"
+      ).join("")}
 
-      <div class="overlay-content">
+      <br>
 
-        <div class="dual" data-text="SIGNAL RECEIVED"></div>
-        <img src="assets/images/post1.jpg" class="media">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
 
-        <div class="dual" data-text="VIDEO SIGNAL"></div>
-        <video controls class="media">
-          <source src="assets/media/video.mp4">
-        </video>
+        <div>
+          <div class="dual" data-text="PSYCHOLOGICAL RECORD"></div>
+          ${PROFILE.psychological.map(p =>
+            `<div class="dual" data-text="${p}"></div>`
+          ).join("")}
+        </div>
 
-      </div>
-
-      <button class="sys-btn" onclick="resetCore()">RETURN</button>
-
-    </div>
-  `;
-}
-
-/* ===== FRAGMENTS ===== */
-function renderFragments(){
-  core.innerHTML = `
-    <div class="overlay active">
-
-      <div class="dual" data-text="LINKED ENTITIES"></div>
-
-      <div class="overlay-content">
-
-        <div class="grid">
-
-          <div onclick="window.open('https://example.com')">
-            <img src="assets/images/fav-h.webp">
-            <div class="dual" data-text="ENTITY H"></div>
-          </div>
-
-          <div onclick="window.open('https://example.com')">
-            <img src="assets/images/fav-i.webp">
-            <div class="dual" data-text="ENTITY I"></div>
-          </div>
-
+        <div>
+          <div class="dual" data-text="MUSIC ARCHIVE"></div>
+          ${PROFILE.music.map(m =>
+            `<div class="dual" data-text="${m}"></div>`
+          ).join("")}
         </div>
 
       </div>
 
-      <button class="sys-btn" onclick="resetCore()">RETURN</button>
-
     </div>
+
+    <button class="sys-btn" onclick="location.reload()">RETURN</button>
+
+  </div>
   `;
 }
 
-/* ===== RESET ===== */
-function resetCore(){
-  location.reload();
+function renderSignals(){
+
+  core.innerHTML = `
+  <div class="overlay active">
+
+    <div class="dual" data-text="INCOMING SIGNALS"></div>
+
+    <div class="overlay-content">
+
+      ${UPDATES.map(u => {
+
+        if(u.type==="image"){
+          return `<div class="dual" data-text="${u.caption}"></div>
+                  <img src="${u.src}" class="media">`;
+        }
+
+        if(u.type==="video"){
+          return `<div class="dual" data-text="${u.caption}"></div>
+                  <video controls class="media">
+                    <source src="${u.src}">
+                  </video>`;
+        }
+
+      }).join("")}
+
+    </div>
+
+    <button class="sys-btn" onclick="location.reload()">RETURN</button>
+
+  </div>
+  `;
+}
+
+function renderFragments(){
+
+  core.innerHTML = `
+  <div class="overlay active">
+
+    <div class="dual" data-text="LINKED ENTITIES"></div>
+
+    <div class="overlay-content">
+
+      <div class="grid">
+        ${FRAGMENTS.map(f => `
+          <div onclick="window.open('${f.link}')">
+            <img src="${f.image}">
+            <div class="dual" data-text="${f.name}"></div>
+          </div>
+        `).join("")}
+      </div>
+
+    </div>
+
+    <button class="sys-btn" onclick="location.reload()">RETURN</button>
+
+  </div>
+  `;
 }
