@@ -1,3 +1,4 @@
+/* ===== FONTS ===== */
 @font-face {
   font-family: "SR";
   src: url("assets/fonts/StarRailNeue-Sans-Regular.ttf");
@@ -7,7 +8,10 @@
   src: url("assets/fonts/StarRailNeue-Sans-SemiBold.ttf");
 }
 
-*{ box-sizing:border-box; }
+/* ===== BASE ===== */
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
@@ -18,6 +22,7 @@ body{
   overflow:hidden;
 }
 
+/* ===== SCANLINES (FIXED CLICK ISSUE) ===== */
 body::after{
   content:"";
   position:fixed;
@@ -27,8 +32,19 @@ body::after{
     rgba(0,255,255,0.02) 0px,
     transparent 2px
   );
+  pointer-events:none; /* 🔥 IMPORTANT FIX */
+  z-index:0;
 }
 
+/* ===== LAYER FIX ===== */
+.top-bar,
+.container,
+.bottom-bar{
+  position:relative;
+  z-index:1;
+}
+
+/* ===== TOP BAR ===== */
 .top-bar{
   height:50px;
   display:flex;
@@ -38,12 +54,14 @@ body::after{
   border-bottom:1px solid rgba(0,255,255,.2);
 }
 
+/* ===== GRID ===== */
 .container{
   display:grid;
   grid-template-columns:260px 1fr 260px;
   height:calc(100vh - 100px);
 }
 
+/* ===== PANELS ===== */
 .panel{
   padding:16px;
   border-right:1px solid rgba(0,255,255,.1);
@@ -54,56 +72,86 @@ body::after{
   border-right:none;
 }
 
+/* ===== CENTER ===== */
 .core{
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
+/* ===== DEFAULT STATE (NO BOX) ===== */
 .overlay{
   display:flex;
   flex-direction:column;
   align-items:center;
   text-align:center;
   gap:10px;
+
+  border:none;
+  background:none;
+  backdrop-filter:none;
+  padding:0;
 }
 
+/* ===== ACTIVE MODULE ===== */
 .overlay.active{
   width:100%;
   max-width:700px;
   height:520px;
+
   border:1px solid rgba(0,255,255,.2);
   padding:16px;
+
   background:rgba(0,10,14,0.6);
   backdrop-filter:blur(6px);
+
   align-items:stretch;
   text-align:left;
 }
 
+/* ===== SCROLL AREA ===== */
 .overlay-content{
   flex:1;
   overflow-y:auto;
+  padding-right:6px;
 }
 
+.overlay-content::-webkit-scrollbar{
+  width:4px;
+}
+.overlay-content::-webkit-scrollbar-thumb{
+  background:#6ef2ff;
+}
+
+/* ===== MODULE BUTTON ===== */
 .module{
   padding:10px;
   border:1px solid rgba(0,255,255,.2);
   margin-bottom:10px;
   cursor:pointer;
+  transition:.2s;
 }
 
 .module:hover{
   box-shadow:0 0 10px rgba(0,255,255,.6);
 }
 
+/* ===== SYSTEM BUTTON ===== */
 .sys-btn{
   background:none;
   border:1px solid rgba(0,255,255,.4);
   color:#6ef2ff;
   padding:6px 12px;
   cursor:pointer;
+  font-family:"SR-Semi";
+  font-size:11px;
 }
 
+.sys-btn:hover{
+  box-shadow:0 0 10px #6ef2ff;
+}
+
+/* ===== DUAL TEXT (GLYPH + LATIN) ===== */
 .dual{
   display:flex;
   flex-direction:column;
@@ -115,6 +163,7 @@ body::after{
   font-family:"SR-Semi";
   letter-spacing:2px;
   font-size:14px;
+  text-shadow:0 0 6px rgba(0,255,255,.6);
 }
 
 .dual::after{
@@ -124,28 +173,69 @@ body::after{
   opacity:.5;
 }
 
+/* ===== AVATAR ===== */
 .avatar{
   width:110px;
   height:110px;
   border-radius:50%;
   border:1px solid #6ef2ff;
+  object-fit:cover;
+  box-shadow:0 0 12px rgba(0,255,255,.5);
 }
 
+/* ===== MEDIA ===== */
 .media{
   width:100%;
-  margin:10px 0;
+  max-height:180px;
+  object-fit:cover;
+  border:1px solid rgba(0,255,255,.2);
+  margin:6px 0;
 }
 
+/* ===== GRID ===== */
 .grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(2,1fr);
   gap:10px;
 }
 
+.grid img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border:1px solid rgba(0,255,255,.2);
+}
+
+/* ===== BOTTOM BAR ===== */
 .bottom-bar{
   height:50px;
   display:flex;
   align-items:center;
   padding:10px;
   border-top:1px solid rgba(0,255,255,.2);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width:900px){
+
+  body{
+    overflow:auto;
+  }
+
+  .container{
+    grid-template-columns:1fr;
+  }
+
+  .panel{
+    border:none;
+    border-bottom:1px solid rgba(0,255,255,.1);
+  }
+
+  .right{
+    border:none;
+  }
+
+  .overlay.active{
+    height:auto;
+  }
 }
