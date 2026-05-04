@@ -1,7 +1,12 @@
-const CHRONICLES = [
+const FRAGMENTS = [
   {
-    title: "Entry 01",
-    subtitle: "Something changed",
-    link: "https://example.com"
+    name:"ENTITY H",
+    image:"assets/images/fav-h.webp",
+    link:"https://example.com"
+  },
+  {
+    name:"ENTITY I",
+    image:"assets/images/fav-i.webp",
+    link:"https://example.com"
   }
 ];
