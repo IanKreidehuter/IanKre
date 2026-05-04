@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>HERTA SYSTEM — Andrian Kreidehüter</title>
 
@@ -12,82 +12,182 @@
 
 <body>
 
-<!-- SCAN EFFECT -->
-<div id="scan"></div>
-
-<!-- TOP BAR -->
+<!-- ===== TOP BAR ===== -->
 <div class="top-bar">
   <div class="dual">
-    <div class="glyph">HERTA SYSTEM</div>
-    <div class="latin">Central Interface</div>
+    <div class="glyph">ACCESS_DATA_NODE</div>
+    <div class="latin">System Identity</div>
   </div>
 
   <div class="dual">
-    <div class="glyph">UNIT — AK-01</div>
-    <div class="latin">Andrian Kreidehüter</div>
+    <div class="glyph">UNIT-672</div>
+    <div class="latin">Active Unit</div>
   </div>
 </div>
 
-<!-- MAIN LAYOUT -->
+<!-- ===== MAIN GRID ===== -->
 <div class="container">
 
-  <!-- LEFT PANEL -->
-  <div class="panel left">
-    <div class="section">
+  <!-- ===== LEFT PANEL ===== -->
+  <div class="panel">
+
+    <div class="dual">
+      <div class="glyph">SYSTEM MODULES</div>
+      <div class="latin">Navigation</div>
+    </div>
+
+    <div class="module" onclick="location.href='index.html'">
+      STORED DATA
+    </div>
+
+    <div class="module" onclick="location.href='index.html'">
+      INCOMING SIGNALS
+    </div>
+
+    <div class="module" onclick="location.href='index.html'">
+      LINKING ENTITIES
+    </div>
+
+  </div>
+
+  <!-- ===== CENTER CORE ===== -->
+  <div class="core">
+
+    <!-- PROFILE -->
+    <div class="card">
       <div class="dual">
-        <div class="glyph">IDENTITY NODE</div>
-        <div class="latin">Profile Access</div>
+        <div class="glyph">SUBJECT PROFILE</div>
+        <div class="latin">Level 1</div>
+      </div>
+
+      <img src="assets/images/profile.jpg" class="media">
+
+      <div class="dual">
+        <div class="glyph">ANDRIAN KREIDEHÜTER</div>
+        <div class="latin">Identity Registered</div>
+      </div>
+
+      <div class="latin">
+        A quiet subject under observation. Displays introspective patterns,
+        emotional depth, and isolation tendencies.
       </div>
     </div>
 
-    <div class="section">
+    <!-- STORED DATA -->
+    <div class="card">
       <div class="dual">
-        <div class="glyph">STATUS</div>
-        <div class="latin">Stable / Online</div>
+        <div class="glyph">STORED DATA</div>
+        <div class="latin">Psychological + Archive</div>
+      </div>
+
+      <div class="dual">
+        <div class="glyph">SOCIAL ANXIETY</div>
+        <div class="latin">Behavioral pattern</div>
+      </div>
+
+      <div class="dual">
+        <div class="glyph">DEPRESSION</div>
+        <div class="latin">Emotional instability</div>
+      </div>
+
+      <div class="dual">
+        <div class="glyph">C-PTSD</div>
+        <div class="latin">Trauma response</div>
+      </div>
+
+      <div class="dual">
+        <div class="glyph">ASD</div>
+        <div class="latin">Cognitive structure</div>
+      </div>
+
+      <div class="dual">
+        <div class="glyph">MUSIC ARCHIVE</div>
+        <div class="latin">Memory links</div>
+      </div>
+
+      <div class="latin">
+        Lost Boy — Ruth B.<br>
+        Iris — Goo Goo Dolls<br>
+        Somewhere I Belong — Linkin Park
       </div>
     </div>
+
+    <!-- INCOMING SIGNALS -->
+    <div class="card">
+      <div class="dual">
+        <div class="glyph">INCOMING SIGNALS</div>
+        <div class="latin">Level 4 Updates</div>
+      </div>
+
+      <img src="assets/images/post1.jpg" class="media">
+
+      <div class="latin">
+        Signal received. Subject emotional state unstable but controlled.
+      </div>
+    </div>
+
+    <!-- LINKING ENTITIES -->
+    <div class="card">
+      <div class="dual">
+        <div class="glyph">LINKING ENTITIES</div>
+        <div class="latin">Fragments</div>
+      </div>
+
+      <div class="grid">
+        <img src="assets/images/fav-h.webp">
+        <img src="assets/images/fav-i.webp">
+        <img src="assets/images/fav-k.webp">
+        <img src="assets/images/fav-a.webp">
+      </div>
+    </div>
+
   </div>
 
-  <!-- CENTER PANEL (THIS IS YOUR STORED DATA) -->
-  <div class="core" id="core">
-    <!-- JS will inject everything here -->
-  </div>
-
-  <!-- RIGHT PANEL -->
+  <!-- ===== RIGHT PANEL ===== -->
   <div class="panel right">
-    <div class="section">
+
+    <div class="dual">
+      <div class="glyph">SYSTEM STATUS</div>
+      <div class="latin">Live diagnostics</div>
+    </div>
+
+    <div class="card">
       <div class="dual">
-        <div class="glyph">SYSTEM MODULES</div>
-        <div class="latin">Passive Monitoring</div>
+        <div class="glyph">SERVER STATUS</div>
+        <div class="latin">Nodes</div>
+      </div>
+
+      <div class="latin">
+        ONLINE — 01<br>
+        ONLINE — 02<br>
+        ONLINE — 03<br>
+        OFFLINE — 04
       </div>
     </div>
 
-    <div class="section">
+    <div class="card">
       <div class="dual">
-        <div class="glyph">SIGNAL</div>
-        <div class="latin">Connected</div>
+        <div class="glyph">GPS DATA</div>
+        <div class="latin">Coordinates</div>
+      </div>
+
+      <div class="latin">
+        N 51° 30' 0.5486"<br>
+        W 0° 7' 34.4503"
       </div>
     </div>
+
   </div>
 
 </div>
 
-<!-- BOTTOM BAR -->
+<!-- ===== BOTTOM BAR ===== -->
 <div class="bottom-bar">
   <div class="dual">
-    <div class="glyph" id="log">[SYS] READY</div>
-    <div class="latin" id="logLatin">System initialized</div>
+    <div class="glyph">[SYS] ALL SYSTEMS STABLE</div>
+    <div class="latin">Alive Feeling</div>
   </div>
 </div>
-
-<!-- DATA FILES -->
-<script src="data/profile.js"></script>
-<script src="data/updates.js"></script>
-<script src="data/chronicles.js"></script>
-<script src="data/fragments.js"></script>
-
-<!-- CORE LOGIC -->
-<script src="script.js"></script>
 
 </body>
 </html>
