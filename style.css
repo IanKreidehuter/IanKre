@@ -67,6 +67,21 @@ body::after{
   border-right:none;
 }
 
+.sys-btn{
+  align-self:flex-start;
+  background:none;
+  border:1px solid rgba(0,255,255,.4);
+  color:#6ef2ff;
+  padding:6px 14px;
+  cursor:pointer;
+  font-family:"SR-Semi";
+  font-size:11px;
+}
+
+.sys-btn:hover{
+  box-shadow:0 0 10px #6ef2ff;
+}
+
 /* ===== CENTER ===== */
 .core{
   display:flex;
