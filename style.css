@@ -13,9 +13,7 @@
 }
 
 /* ===== BASE ===== */
-*{
-  box-sizing:border-box;
-}
+*{ box-sizing:border-box; }
 
 body{
   margin:0;
@@ -67,16 +65,30 @@ body::after{
   border-right:none;
 }
 
-/* ===== CENTER ===== */
+/* ===== CORE (IMPORTANT FIX) ===== */
 .core{
   display:flex;
   justify-content:center;
   align-items:center;
-  padding:20px;
+  height:100%;
 }
 
-/* ===== OVERLAY (MAIN SYSTEM WINDOW) ===== */
+/* ===== DEFAULT OVERLAY (NO BOX) ===== */
 .overlay{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:10px;
+
+  border:none;
+  background:none;
+  backdrop-filter:none;
+  padding:0;
+}
+
+/* ===== ACTIVE MODULE MODE ===== */
+.overlay.active{
   width:100%;
   max-width:700px;
   height:100%;
@@ -85,22 +97,21 @@ body::after{
   border:1px solid rgba(0,255,255,.2);
   padding:16px;
 
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-
   background:rgba(0,10,14,0.6);
   backdrop-filter:blur(6px);
+
+  align-items:stretch;
+  text-align:left;
+  gap:12px;
 }
 
-/* ===== SCROLL AREA INSIDE OVERLAY ===== */
+/* ===== SCROLL AREA ===== */
 .overlay-content{
   flex:1;
   overflow-y:auto;
   padding-right:6px;
 }
 
-/* scrollbar */
 .overlay-content::-webkit-scrollbar{
   width:4px;
 }
@@ -121,7 +132,7 @@ body::after{
   box-shadow:0 0 10px rgba(0,255,255,.6);
 }
 
-/* ===== BUTTON ===== */
+/* ===== SYSTEM BUTTON ===== */
 .sys-btn{
   align-self:flex-start;
   background:none;
@@ -137,7 +148,7 @@ body::after{
   box-shadow:0 0 10px #6ef2ff;
 }
 
-/* ===== AUTO DUAL TEXT ===== */
+/* ===== DUAL TEXT ===== */
 .dual{
   display:flex;
   flex-direction:column;
@@ -205,9 +216,7 @@ body::after{
 /* ===== MOBILE ===== */
 @media (max-width:900px){
 
-  body{
-    overflow:auto;
-  }
+  body{ overflow:auto; }
 
   .container{
     grid-template-columns:1fr;
@@ -222,7 +231,7 @@ body::after{
     border:none;
   }
 
-  .overlay{
+  .overlay.active{
     max-height:none;
   }
 }
