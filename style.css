@@ -1,76 +1,172 @@
-body{
+/* ===== RESET ===== */
+*{
   margin:0;
-  background:#05070a;
-  color:#6ef2ff;
-  font-family:"SR", monospace;
+  padding:0;
+  box-sizing:border-box;
 }
 
+/* ===== FONT ===== */
+@font-face{
+  font-family:"StarRail";
+  src:url("StarRailNeue-Sans-Bold.ttf");
+}
+
+/* ===== BODY ===== */
+body{
+  background:#05070a;
+  color:#8dfcff;
+  font-family:"StarRail", monospace;
+  overflow:hidden;
+}
+
+/* ===== SCAN EFFECT ===== */
 #scan{
   position:fixed;
   inset:0;
-  background:linear-gradient(rgba(0,255,255,.05), transparent);
-  animation:scan 4s linear infinite;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(0,255,255,0.03) 0px,
+    transparent 2px
+  );
   pointer-events:none;
 }
 
-@keyframes scan{
-  0%{transform:translateY(-100%)}
-  100%{transform:translateY(100%)}
-}
-
+/* ===== LAYOUT ===== */
 .container{
-  display:grid;
-  grid-template-columns:1fr 2fr 1fr;
-  height:100vh;
+  display:flex;
+  height:calc(100vh - 80px);
 }
 
+/* ===== TOP BAR ===== */
+.top-bar{
+  height:40px;
+  border-bottom:1px solid rgba(0,255,255,.2);
+  display:flex;
+  justify-content:space-between;
+  padding:0 20px;
+  align-items:center;
+}
+
+/* ===== BOTTOM BAR ===== */
+.bottom-bar{
+  height:40px;
+  border-top:1px solid rgba(0,255,255,.2);
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+}
+
+/* ===== PANELS ===== */
 .panel{
+  width:200px;
+  border-right:1px solid rgba(0,255,255,.1);
   padding:20px;
 }
 
+.panel.right{
+  border-left:1px solid rgba(0,255,255,.1);
+  border-right:none;
+}
+
+/* ===== CENTER CORE ===== */
 .core{
+  flex:1;
   padding:20px;
   overflow-y:auto;
 }
 
-.module{
-  margin-bottom:10px;
-  padding:10px;
-  border:1px solid #0ff;
-  cursor:pointer;
+/* ===== SECTION ===== */
+.section{
+  margin-bottom:20px;
 }
 
-.module:hover{
-  box-shadow:0 0 10px #0ff;
+/* ===== BLOCK (DATA GROUP) ===== */
+.block{
+  margin-bottom:30px;
+  border-bottom:1px solid rgba(0,255,255,.08);
+  padding-bottom:20px;
 }
 
+/* ===== DUAL TEXT (GLYPH + LATIN) ===== */
 .dual{
   margin-bottom:10px;
 }
 
 .glyph{
   font-size:14px;
+  letter-spacing:2px;
   text-transform:uppercase;
-  text-shadow:0 0 6px cyan;
 }
 
 .latin{
-  font-family:'Inter', sans-serif;
-  font-size:10px;
-  opacity:.5;
+  font-family:Inter, sans-serif;
+  font-size:12px;
+  opacity:.7;
 }
 
+/* ===== AVATAR ===== */
+.avatar{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  margin-bottom:10px;
+  border:1px solid rgba(0,255,255,.3);
+}
+
+/* ===== MEDIA ===== */
 .media{
   width:100%;
-  margin:10px 0;
+  margin-top:10px;
+  border:1px solid rgba(0,255,255,.15);
 }
 
+/* ===== GRID (FRAGMENTS) ===== */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(100px,1fr));
+  grid-template-columns:repeat(2, 1fr);
   gap:10px;
 }
 
 .grid img{
   width:100%;
+  border:1px solid rgba(0,255,255,.2);
+}
+
+/* ===== LINKS ===== */
+a{
+  color:#8dfcff;
+  text-decoration:none;
+  font-size:12px;
+  display:inline-block;
+  margin-top:5px;
+}
+
+a:hover{
+  text-shadow:0 0 6px #00ffff;
+}
+
+/* ===== SCROLLBAR ===== */
+.core::-webkit-scrollbar{
+  width:6px;
+}
+
+.core::-webkit-scrollbar-thumb{
+  background:rgba(0,255,255,.3);
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:900px){
+
+  .panel{
+    display:none;
+  }
+
+  .core{
+    padding:15px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
 }
