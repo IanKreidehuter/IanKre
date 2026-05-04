@@ -22,7 +22,7 @@ body{
   overflow:hidden;
 }
 
-/* ===== SCANLINES (FIXED CLICK ISSUE) ===== */
+/* ===== SCANLINES ===== */
 body::after{
   content:"";
   position:fixed;
@@ -32,7 +32,7 @@ body::after{
     rgba(0,255,255,0.02) 0px,
     transparent 2px
   );
-  pointer-events:none; /* 🔥 IMPORTANT FIX */
+  pointer-events:none;
   z-index:0;
 }
 
@@ -79,7 +79,7 @@ body::after{
   align-items:center;
 }
 
-/* ===== DEFAULT STATE (NO BOX) ===== */
+/* ===== DEFAULT STATE ===== */
 .overlay{
   display:flex;
   flex-direction:column;
@@ -151,7 +151,7 @@ body::after{
   box-shadow:0 0 10px #6ef2ff;
 }
 
-/* ===== DUAL TEXT (GLYPH + LATIN) ===== */
+/* ===== DUAL TEXT ===== */
 .dual{
   display:flex;
   flex-direction:column;
@@ -183,13 +183,15 @@ body::after{
   box-shadow:0 0 12px rgba(0,255,255,.5);
 }
 
-/* ===== MEDIA ===== */
+/* ===== MEDIA (FIXED — NO DISTORTION) ===== */
 .media{
   width:100%;
-  max-height:180px;
-  object-fit:cover;
+  height:auto;              /* 🔥 keeps ratio */
+  max-height:400px;         /* 🔥 prevents huge images */
+  object-fit:contain;       /* 🔥 no cropping */
   border:1px solid rgba(0,255,255,.2);
   margin:6px 0;
+  display:block;
 }
 
 /* ===== GRID ===== */
