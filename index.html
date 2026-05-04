@@ -12,52 +12,81 @@
 
 <body>
 
+<!-- SCAN EFFECT -->
 <div id="scan"></div>
 
+<!-- TOP BAR -->
 <div class="top-bar">
   <div class="dual">
     <div class="glyph">HERTA SYSTEM</div>
-    <div class="latin">System Interface</div>
+    <div class="latin">Central Interface</div>
+  </div>
+
+  <div class="dual">
+    <div class="glyph">UNIT — AK-01</div>
+    <div class="latin">Andrian Kreidehüter</div>
   </div>
 </div>
 
+<!-- MAIN LAYOUT -->
 <div class="container">
 
-  <!-- LEFT -->
-  <div class="panel">
-    <div class="module" onclick="openModule('profile')">PROFILE</div>
-    <div class="module" onclick="openModule('archive')">ARCHIVE</div>
-    <div class="module" onclick="openModule('chronicles')">CHRONICLES</div>
-    <div class="module" onclick="openModule('fragments')">FRAGMENTS</div>
+  <!-- LEFT PANEL -->
+  <div class="panel left">
+    <div class="section">
+      <div class="dual">
+        <div class="glyph">IDENTITY NODE</div>
+        <div class="latin">Profile Access</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="dual">
+        <div class="glyph">STATUS</div>
+        <div class="latin">Stable / Online</div>
+      </div>
+    </div>
   </div>
 
-  <!-- CENTER -->
-  <div class="core" id="core"></div>
+  <!-- CENTER PANEL (THIS IS YOUR STORED DATA) -->
+  <div class="core" id="core">
+    <!-- JS will inject everything here -->
+  </div>
 
-  <!-- RIGHT -->
+  <!-- RIGHT PANEL -->
   <div class="panel right">
-    <div class="dual">
-      <div class="glyph">SYSTEM STATUS</div>
-      <div class="latin">Operational</div>
+    <div class="section">
+      <div class="dual">
+        <div class="glyph">SYSTEM MODULES</div>
+        <div class="latin">Passive Monitoring</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="dual">
+        <div class="glyph">SIGNAL</div>
+        <div class="latin">Connected</div>
+      </div>
     </div>
   </div>
 
 </div>
 
+<!-- BOTTOM BAR -->
 <div class="bottom-bar">
   <div class="dual">
     <div class="glyph" id="log">[SYS] READY</div>
-    <div class="latin" id="logLatin">System ready</div>
+    <div class="latin" id="logLatin">System initialized</div>
   </div>
 </div>
 
-<!-- DATA -->
+<!-- DATA FILES -->
 <script src="data/profile.js"></script>
 <script src="data/updates.js"></script>
 <script src="data/chronicles.js"></script>
 <script src="data/fragments.js"></script>
 
-<!-- CORE -->
+<!-- CORE LOGIC -->
 <script src="script.js"></script>
 
 </body>
