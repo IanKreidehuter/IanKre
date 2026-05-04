@@ -1,148 +1,76 @@
-/* ===== FONTS (GLYPH STYLE) ===== */
-@font-face {
-  font-family: "SR";
-  src: url("assets/fonts/StarRailNeue-Sans-Regular.ttf");
-}
-@font-face {
-  font-family: "SR-Semi";
-  src: url("assets/fonts/StarRailNeue-Sans-SemiBold.ttf");
-}
-@font-face {
-  font-family: "SR-Light";
-  src: url("assets/fonts/StarRailNeue-Sans-Light.ttf");
-}
-
-/* ===== BASE ===== */
 body{
   margin:0;
   background:#05070a;
   color:#6ef2ff;
-  font-family:"SR"; /* glyph base */
+  font-family:"SR", monospace;
 }
 
-/* scanlines */
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:repeating-linear-gradient(
-    to bottom,
-    rgba(0,255,255,0.02) 0px,
-    transparent 2px
-  );
-  pointer-events:none;
-}
-
-/* ===== SCAN EFFECT ===== */
 #scan{
   position:fixed;
   inset:0;
+  background:linear-gradient(rgba(0,255,255,.05), transparent);
+  animation:scan 4s linear infinite;
   pointer-events:none;
-  background:linear-gradient(
-    rgba(0,255,255,0.05),
-    transparent
-  );
-  animation:scanMove 4s linear infinite;
 }
 
-@keyframes scanMove{
+@keyframes scan{
   0%{transform:translateY(-100%)}
   100%{transform:translateY(100%)}
-}
-
-/* ===== LAYOUT ===== */
-.top-bar{
-  display:flex;
-  justify-content:space-between;
-  padding:10px 20px;
-  border-bottom:1px solid rgba(0,255,255,.2);
 }
 
 .container{
   display:grid;
   grid-template-columns:1fr 2fr 1fr;
-  min-height:calc(100vh - 80px);
+  height:100vh;
 }
 
-/* ===== PANELS ===== */
 .panel{
   padding:20px;
-  border-right:1px solid rgba(0,255,255,.1);
 }
 
-.right{
-  border-left:1px solid rgba(0,255,255,.1);
-}
-
-/* ===== CORE ===== */
 .core{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  transition:.3s;
+  padding:20px;
+  overflow-y:auto;
 }
 
-.avatar{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  border:1px solid #6ef2ff;
-  box-shadow:0 0 12px rgba(0,255,255,.4);
-  margin-bottom:15px;
-}
-
-/* ===== MODULE ===== */
 .module{
-  padding:12px;
-  border:1px solid rgba(0,255,255,.2);
   margin-bottom:10px;
+  padding:10px;
+  border:1px solid #0ff;
   cursor:pointer;
-  transition:.2s;
 }
 
 .module:hover{
-  box-shadow:0 0 10px rgba(0,255,255,.5);
+  box-shadow:0 0 10px #0ff;
 }
 
-/* ===== DUAL TEXT ===== */
 .dual{
-  display:flex;
-  flex-direction:column;
-  margin-bottom:6px;
+  margin-bottom:10px;
 }
 
-/* GLYPH (stylized) */
 .glyph{
-  font-family:"SR-Semi";
-  letter-spacing:2px;
   font-size:14px;
   text-transform:uppercase;
-  text-shadow:0 0 6px rgba(0,255,255,.6);
+  text-shadow:0 0 6px cyan;
 }
 
-/* LATIN (REAL readable font) */
 .latin{
-  font-family:'Inter', sans-serif; /* 🔥 REAL FIX */
+  font-family:'Inter', sans-serif;
   font-size:10px;
   opacity:.5;
-  letter-spacing:.5px;
 }
 
-/* ===== BOTTOM ===== */
-.bottom-bar{
-  padding:10px;
-  border-top:1px solid rgba(0,255,255,.2);
+.media{
+  width:100%;
+  margin:10px 0;
 }
 
-/* ===== ANIMATION ===== */
-.fade-out{
-  opacity:0;
-  transform:scale(.98);
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(100px,1fr));
+  gap:10px;
 }
 
-.fade-in{
-  opacity:1;
-  transform:scale(1);
+.grid img{
+  width:100%;
 }
