@@ -7,28 +7,75 @@ function openModule(type){
   if(type === "fragments") return renderFragments();
 }
 
-/* ===== STORED DATA ===== */
+/* ===== STORED DATA (FROM profile.js) ===== */
 function renderStored(){
+
+  if(typeof PROFILE === "undefined"){
+    core.innerHTML = `
+      <div class="overlay">
+        <div class="dual" data-text="ERROR: PROFILE NOT FOUND"></div>
+        <button class="sys-btn" onclick="resetCore()">RETURN</button>
+      </div>
+    `;
+    return;
+  }
+
   core.innerHTML = `
     <div class="overlay">
 
       <div class="dual" data-text="STORED DATA"></div>
 
-      <img src="assets/images/profile.jpg" class="avatar">
+      <!-- TOP PROFILE -->
+      <div style="display:flex; gap:20px; align-items:flex-start;">
 
-      <div class="dual" data-text="ANDRIAN KREIDEHÜTER"></div>
+        <img src="assets/images/profile.jpg" class="avatar">
 
+        <div>
+
+          <div class="dual" data-text="${PROFILE.name.toUpperCase()}"></div>
+
+          <div class="latin">
+            Name : ${PROFILE.name}<br>
+            Alias : ${PROFILE.alias}<br>
+            Age : ${PROFILE.age}<br>
+            Origin : ${PROFILE.origin}
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- DESCRIPTION -->
       <div class="overlay-content">
 
-        <div class="dual" data-text="SOCIAL ANXIETY"></div>
-        <div class="dual" data-text="DEPRESSION"></div>
-        <div class="dual" data-text="C-PTSD"></div>
-        <div class="dual" data-text="ASD"></div>
+        <div class="latin" style="line-height:1.5;">
+          ${PROFILE.description.join("<br>")}
+        </div>
 
-        <div class="dual" data-text="MUSIC ARCHIVE"></div>
+        <br><br>
 
-        <div class="dual" data-text="LOST BOY — RUTH B."></div>
-        <div class="dual" data-text="IRIS — GOO GOO DOLLS"></div>
+        <!-- TWO COLUMN -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+
+          <!-- LEFT -->
+          <div>
+            <div class="dual" data-text="PSYCHOLOGICAL RECORD"></div>
+
+            ${PROFILE.psychological.map(p => `
+              <div class="dual" data-text="${p.toUpperCase()}"></div>
+            `).join("")}
+          </div>
+
+          <!-- RIGHT -->
+          <div>
+            <div class="dual" data-text="MUSIC ARCHIVE"></div>
+
+            ${PROFILE.music.map(m => `
+              <div class="dual" data-text="${m.toUpperCase()}"></div>
+            `).join("")}
+          </div>
+
+        </div>
 
       </div>
 
@@ -44,7 +91,7 @@ function renderSignals(){
   if(typeof UPDATES === "undefined"){
     core.innerHTML = `
       <div class="overlay">
-        <div class="dual" data-text="ERROR: NO DATA"></div>
+        <div class="dual" data-text="ERROR: NO SIGNAL DATA"></div>
         <button class="sys-btn" onclick="resetCore()">RETURN</button>
       </div>
     `;
@@ -62,7 +109,7 @@ function renderSignals(){
 
           if(item.type === "image"){
             return `
-              <div class="dual" data-text="${item.caption || "SIGNAL"}"></div>
+              <div class="dual" data-text="${item.caption || "IMAGE SIGNAL"}"></div>
               <img src="${item.src}" class="media">
             `;
           }
@@ -122,7 +169,7 @@ function renderFragments(){
           ${FRAGMENTS.map(f => `
             <div onclick="window.open('${f.link}', '_blank')">
               <img src="${f.image}">
-              <div class="dual" data-text="${f.name}"></div>
+              <div class="dual" data-text="${f.name.toUpperCase()}"></div>
             </div>
           `).join("")}
 
