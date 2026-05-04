@@ -1,81 +1,38 @@
 const core = document.getElementById("core");
 
-/* ===== MAIN ROUTER ===== */
+/* ===== ROUTER ===== */
 function openModule(type){
-  if(type === "stored") return renderStored();
-  if(type === "signals") return renderSignals();
-  if(type === "fragments") return renderFragments();
+  if(type === "stored") renderStored();
+  if(type === "signals") renderSignals();
+  if(type === "fragments") renderFragments();
 }
 
-/* ===== STORED DATA (FROM profile.js) ===== */
+/* ===== STORED DATA ===== */
 function renderStored(){
-
-  if(typeof PROFILE === "undefined"){
-    core.innerHTML = `
-      <div class="overlay">
-        <div class="dual" data-text="ERROR: PROFILE NOT FOUND"></div>
-        <button class="sys-btn" onclick="resetCore()">RETURN</button>
-      </div>
-    `;
-    return;
-  }
-
   core.innerHTML = `
-    <div class="overlay">
+    <div class="overlay active">
 
       <div class="dual" data-text="STORED DATA"></div>
 
-      <!-- TOP PROFILE -->
-      <div style="display:flex; gap:20px; align-items:flex-start;">
+      <img src="assets/images/profile.jpg" class="avatar">
 
-        <img src="assets/images/profile.jpg" class="avatar">
+      <div class="dual" data-text="ANDRIAN KREIDEHÜTER"></div>
 
-        <div>
-
-          <div class="dual" data-text="${PROFILE.name.toUpperCase()}"></div>
-
-          <div class="latin">
-            Name : ${PROFILE.name}<br>
-            Alias : ${PROFILE.alias}<br>
-            Age : ${PROFILE.age}<br>
-            Origin : ${PROFILE.origin}
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- DESCRIPTION -->
       <div class="overlay-content">
 
-        <div class="latin" style="line-height:1.5;">
-          ${PROFILE.description.join("<br>")}
-        </div>
+        <div class="dual" data-text="PSYCHOLOGICAL RECORD"></div>
 
-        <br><br>
+        <div class="dual" data-text="SOCIAL ANXIETY"></div>
+        <div class="dual" data-text="DEPRESSION"></div>
+        <div class="dual" data-text="C-PTSD"></div>
+        <div class="dual" data-text="ASD"></div>
 
-        <!-- TWO COLUMN -->
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <br>
 
-          <!-- LEFT -->
-          <div>
-            <div class="dual" data-text="PSYCHOLOGICAL RECORD"></div>
+        <div class="dual" data-text="MUSIC ARCHIVE"></div>
 
-            ${PROFILE.psychological.map(p => `
-              <div class="dual" data-text="${p.toUpperCase()}"></div>
-            `).join("")}
-          </div>
-
-          <!-- RIGHT -->
-          <div>
-            <div class="dual" data-text="MUSIC ARCHIVE"></div>
-
-            ${PROFILE.music.map(m => `
-              <div class="dual" data-text="${m.toUpperCase()}"></div>
-            `).join("")}
-          </div>
-
-        </div>
+        <div class="dual" data-text="LOST BOY — RUTH B."></div>
+        <div class="dual" data-text="IRIS — GOO GOO DOLLS"></div>
 
       </div>
 
@@ -85,56 +42,22 @@ function renderStored(){
   `;
 }
 
-/* ===== INCOMING SIGNALS (FROM updates.js) ===== */
+/* ===== SIGNALS ===== */
 function renderSignals(){
-
-  if(typeof UPDATES === "undefined"){
-    core.innerHTML = `
-      <div class="overlay">
-        <div class="dual" data-text="ERROR: NO SIGNAL DATA"></div>
-        <button class="sys-btn" onclick="resetCore()">RETURN</button>
-      </div>
-    `;
-    return;
-  }
-
   core.innerHTML = `
-    <div class="overlay">
+    <div class="overlay active">
 
       <div class="dual" data-text="INCOMING SIGNALS"></div>
 
       <div class="overlay-content">
 
-        ${UPDATES.map(item => {
+        <div class="dual" data-text="SIGNAL RECEIVED"></div>
+        <img src="assets/images/post1.jpg" class="media">
 
-          if(item.type === "image"){
-            return `
-              <div class="dual" data-text="${item.caption || "IMAGE SIGNAL"}"></div>
-              <img src="${item.src}" class="media">
-            `;
-          }
-
-          if(item.type === "video"){
-            return `
-              <div class="dual" data-text="${item.caption || "VIDEO SIGNAL"}"></div>
-              <video controls class="media">
-                <source src="${item.src}">
-              </video>
-            `;
-          }
-
-          if(item.type === "audio"){
-            return `
-              <div class="dual" data-text="${item.caption || "AUDIO SIGNAL"}"></div>
-              <audio controls>
-                <source src="${item.src}">
-              </audio>
-            `;
-          }
-
-          return "";
-
-        }).join("")}
+        <div class="dual" data-text="VIDEO SIGNAL"></div>
+        <video controls class="media">
+          <source src="assets/media/video.mp4">
+        </video>
 
       </div>
 
@@ -144,21 +67,10 @@ function renderSignals(){
   `;
 }
 
-/* ===== FRAGMENTS (FROM fragments.js) ===== */
+/* ===== FRAGMENTS ===== */
 function renderFragments(){
-
-  if(typeof FRAGMENTS === "undefined"){
-    core.innerHTML = `
-      <div class="overlay">
-        <div class="dual" data-text="ERROR: NO FRAGMENTS"></div>
-        <button class="sys-btn" onclick="resetCore()">RETURN</button>
-      </div>
-    `;
-    return;
-  }
-
   core.innerHTML = `
-    <div class="overlay">
+    <div class="overlay active">
 
       <div class="dual" data-text="LINKED ENTITIES"></div>
 
@@ -166,12 +78,15 @@ function renderFragments(){
 
         <div class="grid">
 
-          ${FRAGMENTS.map(f => `
-            <div onclick="window.open('${f.link}', '_blank')">
-              <img src="${f.image}">
-              <div class="dual" data-text="${f.name.toUpperCase()}"></div>
-            </div>
-          `).join("")}
+          <div onclick="window.open('https://example.com')">
+            <img src="assets/images/fav-h.webp">
+            <div class="dual" data-text="ENTITY H"></div>
+          </div>
+
+          <div onclick="window.open('https://example.com')">
+            <img src="assets/images/fav-i.webp">
+            <div class="dual" data-text="ENTITY I"></div>
+          </div>
 
         </div>
 
