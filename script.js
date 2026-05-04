@@ -1,12 +1,17 @@
-const core = document.getElementById("core");
+const core = document.querySelector(".core");
 
 function renderStoredData(){
 
   core.innerHTML = `
 
     <!-- PROFILE -->
-    <div class="block">
-      <img src="assets/images/profile.jpg" class="avatar">
+    <div class="card">
+      <div class="dual">
+        <div class="glyph">SUBJECT PROFILE</div>
+        <div class="latin">Identity</div>
+      </div>
+
+      <img src="assets/images/profile.jpg" class="media">
 
       <div class="dual">
         <div class="glyph">${PROFILE_DATA.name.toUpperCase()}</div>
@@ -14,8 +19,13 @@ function renderStoredData(){
       </div>
     </div>
 
-    <!-- IDENTITY -->
-    <div class="block">
+    <!-- STORED DATA -->
+    <div class="card">
+      <div class="dual">
+        <div class="glyph">STORED DATA</div>
+        <div class="latin">Psychological</div>
+      </div>
+
       ${PROFILE_DATA.psychological.map(p => `
         <div class="dual">
           <div class="glyph">${p.toUpperCase()}</div>
@@ -25,17 +35,24 @@ function renderStoredData(){
     </div>
 
     <!-- MUSIC -->
-    <div class="block">
+    <div class="card">
+      <div class="dual">
+        <div class="glyph">MUSIC ARCHIVE</div>
+        <div class="latin">Memory</div>
+      </div>
+
       ${PROFILE_DATA.music.map(m => `
-        <div class="dual">
-          <div class="glyph">${m.toUpperCase()}</div>
-          <div class="latin">${m}</div>
-        </div>
+        <div class="latin">${m}</div>
       `).join("")}
     </div>
 
-    <!-- UPDATES (MEDIA MIX) -->
-    <div class="block">
+    <!-- SIGNALS -->
+    <div class="card">
+      <div class="dual">
+        <div class="glyph">INCOMING SIGNALS</div>
+        <div class="latin">Updates</div>
+      </div>
+
       ${UPDATES.map(item => {
 
         if(item.type === "image"){
@@ -54,7 +71,12 @@ function renderStoredData(){
     </div>
 
     <!-- CHRONICLES -->
-    <div class="block">
+    <div class="card">
+      <div class="dual">
+        <div class="glyph">CHRONICLES</div>
+        <div class="latin">External Logs</div>
+      </div>
+
       ${CHRONICLES.map(c => `
         <div class="dual">
           <div class="glyph">${c.title}</div>
@@ -65,17 +87,24 @@ function renderStoredData(){
     </div>
 
     <!-- FRAGMENTS -->
-    <div class="block grid">
-      ${FRAGMENTS.map(f => `
-        <div onclick="window.open('${f.link}')">
-          <img src="${f.image}">
-          <div class="latin">${f.name}</div>
-        </div>
-      `).join("")}
+    <div class="card">
+      <div class="dual">
+        <div class="glyph">LINKING ENTITIES</div>
+        <div class="latin">Fragments</div>
+      </div>
+
+      <div class="grid">
+        ${FRAGMENTS.map(f => `
+          <div onclick="window.open('${f.link}')">
+            <img src="${f.image}">
+            <div class="latin">${f.name}</div>
+          </div>
+        `).join("")}
+      </div>
     </div>
 
   `;
 }
 
-/* AUTO LOAD */
+/* LOAD */
 renderStoredData();
