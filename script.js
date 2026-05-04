@@ -1,64 +1,105 @@
 const core = document.getElementById("core");
-const glyphLog = document.getElementById("log");
-const latinLog = document.getElementById("logLatin");
 
-const logs = [
-  { glyph: "[SYS] SCANNING...", latin: "Scanning system..." },
-  { glyph: "[OK] LINK STABLE", latin: "Connection stable" },
-  { glyph: "[SYS] READY", latin: "System ready" }
-];
+/* ===== PROFILE ===== */
+function renderProfile(){
+  core.innerHTML = `
+    <img src="assets/images/profile.jpg" class="media">
 
-let i = 0;
-
-setInterval(()=>{
-  glyphLog.textContent = logs[i].glyph;
-  latinLog.textContent = logs[i].latin;
-  i = (i + 1) % logs.length;
-}, 2500);
-
-/* MODULE CONTENT */
-const MODULES = {
-  archive: `
     <div class="dual">
-      <div class="glyph">ARCHIVE DATABASE</div>
-      <div class="latin">Stored records</div>
+      <div class="glyph">${PROFILE_DATA.name.toUpperCase()}</div>
+      <div class="latin">${PROFILE_DATA.name}</div>
     </div>
-    <div class="back" onclick="resetCore()">RETURN</div>
-  `,
-  signals: `
-    <div class="dual">
-      <div class="glyph">SIGNAL INTERFACE</div>
-      <div class="latin">Incoming signals</div>
-    </div>
-    <div class="back" onclick="resetCore()">RETURN</div>
-  `,
-  connections: `
-    <div class="dual">
-      <div class="glyph">CONNECTION NODE</div>
-      <div class="latin">Linked entities</div>
-    </div>
-    <div class="back" onclick="resetCore()">RETURN</div>
-  `
-};
 
-const defaultCore = core.innerHTML;
+    ${PROFILE_DATA.psychological.map(p => `
+      <div class="dual">
+        <div class="glyph">${p.toUpperCase()}</div>
+        <div class="latin">${p}</div>
+      </div>
+    `).join("")}
 
+    <hr>
+
+    ${PROFILE_DATA.music.map(m => `
+      <div class="dual">
+        <div class="glyph">${m.toUpperCase()}</div>
+        <div class="latin">${m}</div>
+      </div>
+    `).join("")}
+  `;
+}
+
+/* ===== UPDATES ===== */
+function renderUpdates(){
+
+  core.innerHTML = "";
+
+  UPDATES.forEach(item => {
+
+    let media = "";
+
+    if(item.type === "image"){
+      media = `<img src="${item.src}" class="media">`;
+    }
+
+    if(item.type === "video"){
+      media = `<video controls class="media"><source src="${item.src}"></video>`;
+    }
+
+    if(item.type === "audio"){
+      media = `<audio controls><source src="${item.src}"></audio>`;
+    }
+
+    core.innerHTML += `
+      ${media}
+      <div class="latin">${item.caption}</div>
+    `;
+  });
+}
+
+/* ===== CHRONICLES ===== */
+function renderChronicles(){
+
+  core.innerHTML = "";
+
+  CHRONICLES.forEach(c => {
+    core.innerHTML += `
+      <div class="dual">
+        <div class="glyph">${c.title}</div>
+        <div class="latin">${c.subtitle}</div>
+      </div>
+      <a href="${c.link}" target="_blank">OPEN</a>
+      <hr>
+    `;
+  });
+}
+
+/* ===== FRAGMENTS ===== */
+function renderFragments(){
+
+  core.innerHTML = `<div class="grid"></div>`;
+  const grid = core.querySelector(".grid");
+
+  FRAGMENTS.forEach(f => {
+    const el = document.createElement("div");
+
+    el.innerHTML = `
+      <img src="${f.image}">
+      <div class="latin">${f.name}</div>
+    `;
+
+    el.onclick = () => window.open(f.link, "_blank");
+
+    grid.appendChild(el);
+  });
+}
+
+/* ===== SWITCH ===== */
 function openModule(name){
-  core.classList.add("fade-out");
-
-  setTimeout(()=>{
-    core.innerHTML = MODULES[name];
-    core.classList.remove("fade-out");
-    core.classList.add("fade-in");
-  },200);
+  if(name==="profile") return renderProfile();
+  if(name==="archive") return renderUpdates();
+  if(name==="chronicles") return renderChronicles();
+  if(name==="fragments") return renderFragments();
 }
 
-function resetCore(){
-  core.classList.add("fade-out");
-
-  setTimeout(()=>{
-    core.innerHTML = defaultCore;
-    core.classList.remove("fade-out");
-    core.classList.add("fade-in");
-  },200);
-}
+/* DEFAULT */
+renderProfile();
