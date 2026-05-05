@@ -1,9 +1,13 @@
 const UPDATES = [
 
   {
+    type: "video",
+    src: "assets/video/hikaru.mp4",
+    caption: "TESTIING TESTIING TESTIING TESTIING TESTIING TESTIING TESTIING TESTIING TESTIING MENTAL "
+  },
     type: "image",
     src: "assets/images/test1.jpg",
-    caption: "SIGNAL LOG 01 — VISUAL ENTRY"
+    caption: "TESTIING TESTIING TESTIING TESTIING TESTIING TESTIING TESTIING TESTIING TESTIING TESTIING "
   },
 
   {
