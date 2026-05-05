@@ -6,6 +6,7 @@ function openModule(type){
   if(type==="fragments") renderFragments();
 }
 
+/* ===== STORED ===== */
 function renderStored(){
 
   core.innerHTML = `
@@ -60,6 +61,7 @@ function renderStored(){
   `;
 }
 
+/* ===== SIGNALS (FIXED HERE) ===== */
 function renderSignals(){
 
   core.innerHTML = `
@@ -72,16 +74,22 @@ function renderSignals(){
       ${UPDATES.map(u => {
 
         if(u.type==="image"){
-          return `<div class="dual" data-text="${u.caption}"></div>
-                  <img src="${u.src}" class="media">`;
+          return `
+            <img src="${u.src}" class="media">
+            <div class="caption">${u.caption}</div>
+          `;
         }
 
         if(u.type==="video"){
-          return `<div class="dual" data-text="${u.caption}"></div>
-                  <video controls class="media">
-                    <source src="${u.src}">
-                  </video>`;
+          return `
+            <video controls class="media">
+              <source src="${u.src}">
+            </video>
+            <div class="caption">${u.caption}</div>
+          `;
         }
+
+        return "";
 
       }).join("")}
 
@@ -93,6 +101,7 @@ function renderSignals(){
   `;
 }
 
+/* ===== FRAGMENTS ===== */
 function renderFragments(){
 
   core.innerHTML = `
