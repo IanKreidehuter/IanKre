@@ -183,15 +183,26 @@ body::after{
   box-shadow:0 0 12px rgba(0,255,255,.5);
 }
 
-/* ===== MEDIA (FIXED — NO DISTORTION) ===== */
+/* ===== MEDIA ===== */
 .media{
   width:100%;
-  height:auto;              /* 🔥 keeps ratio */
-  max-height:400px;         /* 🔥 prevents huge images */
-  object-fit:contain;       /* 🔥 no cropping */
+  height:auto;
+  max-height:400px;
+  object-fit:contain;
   border:1px solid rgba(0,255,255,.2);
   margin:6px 0;
   display:block;
+}
+
+/* ===== CAPTION (🔥 THIS WAS MISSING) ===== */
+.caption{
+  font-family:'Inter', sans-serif;
+  font-size:11px;
+  opacity:.65;
+  line-height:1.6;
+  margin-bottom:14px;
+  white-space:pre-wrap;   /* keeps natural spacing */
+  word-break:break-word;  /* prevents overflow */
 }
 
 /* ===== GRID ===== */
