@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Heart Flow</title>
+
+<style>
+body{
+  margin:0;
+  background:#000;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  font-family:Arial, sans-serif;
+}
+
+/* container */
+.container{
+  position:relative;
+  width:400px;
+  height:400px;
+}
+
+/* text */
+.word{
+  position:absolute;
+  color:#ff7aa8;
+  font-size:16px; /* 🔥 bigger text */
+
+  white-space:nowrap;
+
+  opacity:0;
+
+  animation:flow 2.5s linear infinite;
+
+  text-shadow:0 0 6px rgba(255,120,160,0.5);
+}
+
+/* simple fade wave ONLY (no scale = no fake 3D) */
+@keyframes flow{
+  0%{ opacity:0; }
+  50%{ opacity:1; }
+  100%{ opacity:0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="heart"></div>
+
+<script>
+const container = document.getElementById("heart");
+
+/* heart formula */
+function heart(t){
+  return {
+    x: 16 * Math.pow(Math.sin(t),3),
+    y: -(13*Math.cos(t) - 5*Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t))
+  };
+}
+
+const total = 140;
+
+for(let i=0;i<total;i++){
+
+  const t = (i / total) * Math.PI * 2;
+  const pos = heart(t);
+
+  const el = document.createElement("div");
+  el.className = "word";
+  el.innerText = "I love you";
+
+  const scale = 12;
+
+  el.style.left = (200 + pos.x * scale) + "px";
+  el.style.top  = (200 + pos.y * scale) + "px";
+
+  /* clean wave */
+  el.style.animationDelay = (i * 0.02) + "s";
+
+  container.appendChild(el);
+}
+</script>
+
+</body>
+</html>
