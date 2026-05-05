@@ -235,20 +235,77 @@ body::after{
     overflow:auto;
   }
 
+  /* stack layout clean */
   .container{
-    grid-template-columns:1fr;
+    display:flex;
+    flex-direction:column;
+    height:auto;
   }
 
+  /* panels spacing */
   .panel{
     border:none;
     border-bottom:1px solid rgba(0,255,255,.1);
+    padding:12px;
   }
 
   .right{
-    border:none;
+    order:3; /* move buttons to bottom cleanly */
   }
 
-  .overlay.active{
-    height:auto;
+  /* core spacing */
+  .core{
+    padding:10px;
   }
+
+  /* overlay becomes full-width card */
+  .overlay.active{
+    width:100%;
+    max-width:100%;
+    height:auto;
+
+    padding:14px;
+    border:1px solid rgba(0,255,255,.15);
+  }
+
+  /* FIX TEXT READABILITY */
+  .dual::before{
+    font-size:13px;
+    letter-spacing:1px;
+  }
+
+  .dual::after{
+    font-size:11px;
+  }
+
+  /* 🔥 IMPORTANT: caption readable */
+  .caption{
+    font-size:13px;
+    line-height:1.7;
+  }
+
+  /* images scale better */
+  .media{
+    max-height:none;
+    border-radius:4px;
+  }
+
+  /* buttons stretch nicely */
+  .sys-btn{
+    width:100%;
+    text-align:center;
+    margin-top:10px;
+  }
+
+  /* modules look like cards */
+  .module{
+    padding:12px;
+    margin-bottom:8px;
+  }
+
+  /* FIX GRID (no squish) */
+  .grid{
+    grid-template-columns:1fr;
+  }
+
 }
