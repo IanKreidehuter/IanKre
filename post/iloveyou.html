@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Heart Text</title>
+
+<style>
+body{
+  margin:0;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  overflow:hidden;
+  perspective:1000px;
+  font-family:Arial, sans-serif;
+}
+
+/* container */
+.container{
+  position:relative;
+  transform-style:preserve-3d;
+  animation:rotate 12s linear infinite;
+}
+
+/* text particles */
+.word{
+  position:absolute;
+  color:#ff6b9a;
+  font-size:14px;
+  opacity:0;
+  animation:fade 3s ease-in-out infinite;
+  text-shadow:0 0 10px #ff6b9a;
+}
+
+/* rotation */
+@keyframes rotate{
+  from{ transform:rotateY(0deg) rotateX(10deg); }
+  to{ transform:rotateY(360deg) rotateX(10deg); }
+}
+
+/* fade */
+@keyframes fade{
+  0%,100%{ opacity:0; }
+  50%{ opacity:1; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="heart"></div>
+
+<script>
+const container = document.getElementById("heart");
+
+/* heart math */
+function heartShape(t){
+  const x = 16 * Math.pow(Math.sin(t),3);
+  const y = -(13*Math.cos(t) - 5*Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t));
+  return {x, y};
+}
+
+/* generate words */
+for(let i=0; i<200; i++){
+
+  const t = Math.random() * Math.PI * 2;
+  const {x,y} = heartShape(t);
+
+  const span = document.createElement("span");
+  span.className = "word";
+  span.innerText = "I love you";
+
+  /* position */
+  span.style.left = (x * 15) + "px";
+  span.style.top  = (y * 15) + "px";
+
+  /* depth */
+  span.style.transform = `translateZ(${Math.random()*200 - 100}px)`;
+
+  /* random animation delay */
+  span.style.animationDelay = (Math.random()*3) + "s";
+
+  container.appendChild(span);
+}
+</script>
+
+</body>
+</html>
