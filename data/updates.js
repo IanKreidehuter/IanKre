@@ -21,13 +21,13 @@ const UPDATES = [
   {
     type: "image",
     src: "assets/images/test1.jpg",
-    caption: "TESTING..."
+    caption: "he's kind..."
   },
 
   {
     type: "image",
     src: "assets/images/test2.jpg",
-    caption: "SIGNAL LOG 02 — MEMORY TRACE"
+    caption: "i like how he treats me"
   }
 
 ];
