@@ -1,6 +1,12 @@
 const UPDATES = [
 
   {
+    type: "image",
+    src: "assets/images/re4lity0flife-20260506-0001.jpg",
+    caption: "hurts more that im not even an option."
+  },
+  
+  {
     type: "video",
     src: "assets/video/daddyissues.mp4",
     caption: "DON'T CARE HOW LONG IT TAKES. IF I WANT IT I'M GONNA GET IT."
