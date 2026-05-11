@@ -1,0 +1,402 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relationship State Machine</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Consolas", monospace;
+    }body {
+  background: #050505;
+  color: #d4d4d4;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image:
+    radial-gradient(circle at top, rgba(120,0,0,0.2), transparent 50%),
+    linear-gradient(to bottom, #050505, #0b0b0b);
+}
+
+.panel {
+  width: 900px;
+  max-width: 95%;
+  height: 620px;
+  border: 1px solid rgba(255,0,0,0.15);
+  background: rgba(10,10,10,0.95);
+  box-shadow: 0 0 50px rgba(255,0,0,0.08);
+  border-radius: 18px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.left, .right {
+  padding: 28px;
+  position: relative;
+}
+
+.left {
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+h1 {
+  color: #ff5c5c;
+  font-size: 18px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.status-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.label {
+  color: #888;
+  font-size: 12px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.value {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.green {
+  color: #7dffb3;
+}
+
+.red {
+  color: #ff7d7d;
+}
+
+.yellow {
+  color: #ffd27d;
+}
+
+button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  background: rgba(255,0,0,0.08);
+  border: 1px solid rgba(255,0,0,0.15);
+  color: #ffb3b3;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: rgba(255,0,0,0.15);
+}
+
+.terminal {
+  height: 100%;
+  overflow-y: auto;
+  background: #040404;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 18px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.log {
+  margin-bottom: 12px;
+  opacity: 0;
+  transform: translateY(5px);
+  animation: fadeIn 0.4s forwards;
+}
+
+.system {
+  color: #8e8e8e;
+}
+
+.warning {
+  color: #ff8f8f;
+}
+
+.target {
+  color: #8fd1ff;
+}
+
+.user {
+  color: #d9b3ff;
+}
+
+.error {
+  color: #ff4d4d;
+}
+
+.glitch {
+  animation: glitch 0.15s infinite;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  25% { transform: translate(-1px, 1px); }
+  50% { transform: translate(1px, -1px); }
+  75% { transform: translate(-1px, -1px); }
+  100% { transform: translate(1px, 1px); }
+}
+
+.pulse {
+  animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0;
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .panel {
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+    grid-template-columns: 1fr;
+    border-radius: 0;
+  }
+
+  .left {
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .left,
+  .right {
+    padding: 14px;
+  }
+
+  h1 {
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
+  .status-box {
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+  }
+
+  .label {
+    font-size: 10px;
+  }
+
+  .value {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  button {
+    padding: 12px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
+
+  .terminal {
+    height: 55vh;
+    min-height: 350px;
+    max-height: 500px;
+    font-size: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    line-height: 1.5;
+  }
+
+  .log {
+    margin-bottom: 9px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <div class="left">
+      <h1>RELATIONSHIP STATE MACHINE</h1><div class="status-box">
+    <div class="label">Target Status</div>
+    <div class="value green" id="targetState">Friend</div>
+  </div>
+
+  <div class="status-box">
+    <div class="label">User Internal State</div>
+    <div class="value red glitch" id="userState">Developing Romantic Attachment...</div>
+  </div>
+
+  <div class="status-box">
+    <div class="label">Detected Malfunction</div>
+    <div class="value yellow" id="malfunction">
+      User cannot rewrite emotional expectation module.
+    </div>
+  </div>
+
+  <div class="status-box">
+    <div class="label">Core Conflict</div>
+    <div class="value">
+      Input received as affection.
+      <br><br>
+      Target continues providing comfort while insisting relationship status remains <span class="green">Friend</span>.
+    </div>
+  </div>
+
+  <button onclick="feedInput()">Receive Affection Input</button>
+  <button onclick="attemptRepair()">Attempt Emotional Reconfiguration</button>
+  <button onclick="forceFriendMode()">Force Friend Mode</button>
+</div>
+
+<div class="right">
+  <div class="terminal" id="terminal"></div>
+</div>
+
+  </div>  <script>
+    const terminal = document.getElementById('terminal');
+    const userState = document.getElementById('userState');
+    const malfunction = document.getElementById('malfunction');
+
+    let attachmentLevel = 0;
+    let friendMode = false;
+
+    const logs = [
+      '[SYSTEM] Initializing emotional interpreter...',
+      '[SYSTEM] Target identified as safe person.',
+      '[TARGET] “But it’s different with me. I don’t mind you doing that.”',
+      '[TARGET] “One thing though... we’re just friends. That’s all.”',
+      '[SYSTEM] Parsing emotional contradiction...',
+      '[WARNING] Affection input exceeds friendship threshold.',
+      '[USER] Emotional dependency starting to form.',
+      '[SYSTEM] User attempting to stay in friend state.',
+      '[ERROR] Romantic expectation process still running.',
+      '[TARGET] Sends comfort again.',
+      '[SYSTEM] Re-reading affection input...',
+      '[WARNING] Loop detected.',
+      '[SYSTEM] User receives mixed emotional signal.',
+      '[USER] “Maybe it means more this time.”',
+      '[TARGET] “No, we are still just friends.”',
+      '[SYSTEM] Attempting emotional rollback...',
+      '[ERROR] Rollback failed.',
+      '[WARNING] Attachment continues growing.',
+      '[SYSTEM] Repeating cycle...',
+      '[TARGET] Gives attention.',
+      '[USER] Hope level increased.',
+      '[TARGET] Maintains friend status.',
+      '[ERROR] Internal conflict escalating.',
+      '[WARNING] Emotional loop becoming unstable.',
+      '[SYSTEM] Logic module active.',
+      '[ERROR] Heart module overriding logic.',
+      '[SYSTEM] Attempting emergency reconfiguration...',
+      '[ERROR] User unable to emotionally downgrade target status.',
+      '[WARNING] Repeating affection/friendship contradiction detected.',
+      '[SYSTEM] Memory cache flooded with target references.',
+      '[ERROR] Emotional exhaustion approaching critical state.',
+      '[SYSTEM] Final loop iteration started...',
+      '[USER] “Why does it still feel like love?”',
+      '[TARGET] “I told you we are friends.”',
+      '[SYSTEM FAILURE] Relationship state cannot be stabilized.'
+    ];
+
+    function addLog(text, type = 'system') {
+      const div = document.createElement('div');
+      div.className = `log ${type}`;
+      div.textContent = text;
+      terminal.appendChild(div);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i >= logs.length) {
+        clearInterval(interval);
+        addLog('[SYSTEM] Emotional loop stabilized temporarily.', 'system');
+        return;
+      }
+
+      const text = logs[i];
+
+      if (text.includes('[ERROR]')) addLog(text, 'error');
+      else if (text.includes('[WARNING]')) addLog(text, 'warning');
+      else if (text.includes('[TARGET]')) addLog(text, 'target');
+      else if (text.includes('[USER]')) addLog(text, 'user');
+      else addLog(text, 'system');
+
+      i++;
+    }, 900);
+
+    function feedInput() {
+      attachmentLevel++;
+
+      addLog('[TARGET] Sent affection input.', 'target');
+      addLog('[SYSTEM] Interpreting emotional data...', 'system');
+
+      if (!friendMode) {
+        addLog('[WARNING] User converting comfort into romantic expectation.', 'warning');
+        addLog('[SYSTEM] Friendship label acknowledged but emotionally rejected.', 'system');
+        userState.textContent = 'Looping Between Friend / Partner State...';
+        malfunction.textContent = 'Affection repeatedly feeding unresolved romantic expectation.';
+      } else {
+        addLog('[SYSTEM] Friend mode active. Emotional spike reduced temporarily.', 'system');
+      }
+
+      if (attachmentLevel >= 2) {
+        addLog('[WARNING] Repeating emotional cycle detected.', 'warning');
+      }
+
+      if (attachmentLevel > 4) {
+        addLog('[ERROR] User now expecting emotional exclusivity.', 'error');
+        userState.classList.add('pulse');
+      }
+
+      if (attachmentLevel > 6) {
+        addLog('[SYSTEM FAILURE] Emotional loop exceeded safe threshold.', 'error');
+        addLog('[ERROR] User unable to return to normal friendship state.', 'error');
+        malfunction.textContent = 'Critical failure. User emotionally trapped between hope and reality.';
+      }
+    }
+
+    function attemptRepair() {
+      addLog('[SYSTEM] Attempting emotional repair...', 'system');
+      addLog('[SYSTEM] Replacing expectation: PARTNER -> FRIEND', 'system');
+
+      setTimeout(() => {
+        addLog('[ERROR] Replacement failed.', 'error');
+        addLog('[ERROR] User continues associating affection with romantic possibility.', 'error');
+        malfunction.textContent = 'Repair unsuccessful. Emotional logic conflict persists.';
+      }, 800);
+    }
+
+    function forceFriendMode() {
+      friendMode = true;
+      addLog('[SYSTEM] Force enabling Friend Mode...', 'system');
+
+      setTimeout(() => {
+        addLog('[ERROR] User emotionally understands but does not internally believe it.', 'error');
+        addLog('[USER] “I know we are friends... but why does it still hurt?”', 'user');
+        userState.textContent = 'Cognitive Acceptance / Emotional Rejection';
+      }, 1000);
+    }
+  </script></body>
+</html>
