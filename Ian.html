@@ -1,0 +1,399 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ABSOLUTE SYSTEM // FAHLAN CORE</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Consolas", monospace;
+    }body {
+  background: #040404;
+  color: #d7d7d7;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(circle at top, rgba(255,0,0,0.08), transparent 40%),
+    linear-gradient(to bottom, #050505, #0b0b0b);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.system {
+  width: 1000px;
+  max-width: 100%;
+  min-height: 720px;
+  border: 1px solid rgba(255,255,255,0.05);
+  background: rgba(8,8,8,0.97);
+  border-radius: 18px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  box-shadow: 0 0 60px rgba(255,0,0,0.06);
+}
+
+.sidebar {
+  border-right: 1px solid rgba(255,255,255,0.05);
+  padding: 22px;
+}
+
+.main {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+h1 {
+  color: #ff7777;
+  font-size: 20px;
+  letter-spacing: 2px;
+  margin-bottom: 18px;
+}
+
+.box {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.label {
+  color: #8c8c8c;
+  font-size: 11px;
+  margin-bottom: 7px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.value {
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.danger {
+  color: #ff7a7a;
+}
+
+.safe {
+  color: #8effc3;
+}
+
+.warning {
+  color: #ffd27d;
+}
+
+.terminal {
+  flex: 1;
+  background: #030303;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 14px;
+  padding: 18px;
+  overflow-y: auto;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.log {
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: translateY(4px);
+  animation: fadeIn 0.4s forwards;
+}
+
+.systemlog { color: #909090; }
+.heart { color: #ff9696; }
+.memory { color: #9fd2ff; }
+.thought { color: #d7b3ff; }
+.error { color: #ff4d4d; }
+.warninglog { color: #ffd27d; }
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+button {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255,0,0,0.08);
+  color: #ffb3b3;
+  border: 1px solid rgba(255,0,0,0.15);
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 12px;
+}
+
+button:hover {
+  background: rgba(255,0,0,0.15);
+}
+
+.pulse {
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0;
+  }
+
+  .system {
+    min-height: 100vh;
+    border-radius: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 14px;
+  }
+
+  .main {
+    padding: 14px;
+  }
+
+  h1 {
+    font-size: 15px;
+  }
+
+  .value {
+    font-size: 12px;
+  }
+
+  .terminal {
+    min-height: 52vh;
+    font-size: 10px;
+    padding: 12px;
+  }
+
+  .controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="system">
+    <div class="sidebar">
+      <h1>ABSOLUTE SYSTEM</h1><div class="box">
+    <div class="label">Core Identity</div>
+    <div class="value">
+      Fahlan Aditya.
+      <br>
+      19 years old.
+      <br>
+      Emotionally absorbent human.
+      <br>
+      Learns love before stability.
+      <br>
+      Wants a home more than attention.
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="label">Primary Wound</div>
+    <div class="value danger pulse">
+      Fear of abandonment.
+      <br>
+      Fear of being forgotten.
+      <br>
+      Emotional starvation since childhood.
+      <br>
+      Grew up without stable emotional guidance.
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="label">Defense Mechanism</div>
+    <div class="value warning">
+      Romanticization.
+      <br>
+      Overthinking.
+      <br>
+      Emotional merging.
+      <br>
+      Isolation.
+      <br>
+      Villain fantasies during grief.
+      <br>
+      Music-assisted emotional looping.
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="label">Desired Outcome</div>
+    <div class="value safe">
+      Emotional home.
+      <br>
+      Someone who stays.
+      <br>
+      Safe fatherly presence.
+      <br>
+      Quiet rainy peace.
+      <br>
+      Future in Germany/Austria.
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="label">System Conflict</div>
+    <div class="value">
+      Heart interprets affection as survival.
+      <br><br>
+      Logic understands reality.
+      <br><br>
+      Heart refuses downgrade.
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="terminal" id="terminal"></div>
+
+  <div class="controls">
+    <button onclick="receiveAffection()">Receive Affection</button>
+    <button onclick="triggerMemory()">Trigger Memory</button>
+    <button onclick="attemptDetach()">Attempt Detachment</button>
+    <button onclick="stabilize()">Stabilize System</button>
+  </div>
+</div>
+
+  </div>  <script>
+    const terminal = document.getElementById('terminal');
+
+    let attachment = 0;
+    let exhaustion = 0;
+
+    const startupLogs = [
+      ['[SYSTEM] Booting FAHLAN CORE...', 'systemlog'],
+      ['[SYSTEM] Detecting unresolved childhood attachment...', 'systemlog'],
+      ['[WARNING] Stable father guidance not detected during developmental years.', 'warninglog'],
+      ['[SYSTEM] User learned survival before emotional regulation.', 'systemlog'],
+      ['[MEMORY] User associates rain, trains, music, and quiet calls with safety.', 'memory'],
+      ['[SYSTEM] Emotional sensitivity level: EXTREME.', 'warninglog'],
+      ['[HEART] Affection interpreted as survival and emotional shelter.', 'heart'],
+      ['[MEMORY] Simon imprint still active.', 'memory'],
+      ['[THOUGHT] “Why not me?” process found repeating.', 'thought'],
+      ['[SYSTEM] User repeatedly searches for father/mother/friend/partner in one person.', 'systemlog'],
+      ['[ERROR] Emotional dependency risk elevated.', 'error'],
+      ['[SYSTEM] User capable of deep empathy toward children and vulnerable people.', 'systemlog'],
+      ['[MEMORY] German language linked to future hope and emotional escape.', 'memory'],
+      ['[SYSTEM] User fears being forgotten more than being alone.', 'systemlog'],
+      ['[ERROR] Sleep deprivation amplifying emotional instability.', 'error'],
+      ['[HEART] “Please stay.”', 'heart'],
+      ['[SYSTEM] Despite damage, user still seeks love instead of destruction.', 'systemlog'],
+      ['[SYSTEM] ABSOLUTE SYSTEM // FAHLAN CORE initialized.', 'systemlog']
+    ];
+
+    function addLog(text, type) {
+      const div = document.createElement('div');
+      div.className = `log ${type}`;
+      div.textContent = text;
+      terminal.appendChild(div);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    let i = 0;
+    const init = setInterval(() => {
+      if (i >= startupLogs.length) {
+        clearInterval(init);
+        return;
+      }
+
+      addLog(startupLogs[i][0], startupLogs[i][1]);
+      i++;
+    }, 900);
+
+    function receiveAffection() {
+      attachment++;
+      exhaustion++;
+
+      addLog('[TARGET] Comfort and attention received.', 'memory');
+      addLog('[HEART] “This feels like home.”', 'heart');
+
+      if (attachment >= 2) {
+        addLog('[THOUGHT] Future imagination process started.', 'thought');
+        addLog('[THOUGHT] “Maybe this person will finally stay.”', 'thought');
+      }
+
+      if (attachment >= 4) {
+        addLog('[WARNING] Emotional merging detected.', 'warninglog');
+      }
+
+      if (attachment >= 6) {
+        addLog('[ERROR] User now monitoring emotional changes constantly.', 'error');
+      }
+
+      if (attachment >= 8) {
+        addLog('[ERROR] Heart treating target as emotional survival source.', 'error');
+      }
+    }
+
+    function triggerMemory() {
+      exhaustion++;
+
+      const memories = [
+        '[MEMORY] Song lyric triggered Simon reference.',
+        '[MEMORY] Coffee smell linked to emotional imprint.',
+        '[MEMORY] Rain ambience triggered loneliness response.',
+        '[MEMORY] Train imagery associated with escape fantasy.',
+        '[MEMORY] German language connected to imagined future.',
+        '[MEMORY] Voice tone similarity triggered attachment response.',
+        '[MEMORY] Random object caused emotional flashback.'
+      ];
+
+      const randomMemory = memories[Math.floor(Math.random() * memories.length)];
+
+      addLog(randomMemory, 'memory');
+      addLog('[THOUGHT] “Everything reminds me of them.”', 'thought');
+
+      if (exhaustion >= 5) {
+        addLog('[ERROR] Emotional exhaustion increasing.', 'error');
+      }
+    }
+
+    function attemptDetach() {
+      addLog('[SYSTEM] Attempting emotional separation...', 'systemlog');
+      addLog('[SYSTEM] Rewriting target status: HOME -> HUMAN', 'systemlog');
+
+      setTimeout(() => {
+        addLog('[ERROR] Rewrite denied by heart module.', 'error');
+        addLog('[HEART] “But I love them.”', 'heart');
+      }, 900);
+    }
+
+    function stabilize() {
+      addLog('[SYSTEM] Stabilization attempt started...', 'systemlog');
+      addLog('[SYSTEM] Reminder: love is not survival.', 'systemlog');
+      addLog('[SYSTEM] Reminder: user still exists outside attachment.', 'systemlog');
+
+      if (attachment > 5) {
+        addLog('[WARNING] Stabilization difficult due to deep emotional imprint.', 'warninglog');
+      } else {
+        addLog('[SYSTEM] Emotional wave reduced temporarily.', 'systemlog');
+      }
+    }
+  </script></body>
+</html>
