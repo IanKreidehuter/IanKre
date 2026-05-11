@@ -1,6 +1,18 @@
 const UPDATES = [
 
   {
+    type: "video",
+    src: "assets/video/goodperson.mp4",
+    caption: "People only seem to notice you when you stop doing the things you've always done for them. When you work hard, stay quiet, solve problems, and carry responsibilities.. it's treated like it's just normal. No one really asks if you're tired. No one really asks if something is wrong. But the moment you slow down, the moment you stop fixing everything for everyone... that's when people finally notice Not because they care. But because something they depended on suddenly missing.."
+  },
+  
+  {
+    type: "video",
+    src: "assets/video/icanthate.mp4",
+    caption: "I knew i was never gonna be the one for you»."
+  },
+  
+  {
     type: "image",
     src: "assets/images/re4lity0flife-20260506-0001.jpg",
     caption: "hurts more that im not even an option."
@@ -21,18 +33,18 @@ const UPDATES = [
   {
     type: "video",
     src: "assets/video/hikaru.mp4",
-    caption: "TESTING..."
+    caption: "Hikaru..."
   },
 
   {
     type: "image",
-    src: "assets/images/test1.jpg",
+    src: "assets/images/ianandyeo.jpg",
     caption: "he's kind..."
   },
 
   {
     type: "image",
-    src: "assets/images/test2.jpg",
+    src: "assets/images/yeoandian.jpg",
     caption: "i like how he treats me"
   }
 
