@@ -38,7 +38,7 @@ const UPDATES = [
 
   {
     type: "image",
-    src: "assets/images/ianandyeo.jpg",
+    src: "assets/images/ianandyeo.png",
     caption: "he's kind..."
   },
 
