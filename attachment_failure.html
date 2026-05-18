@@ -2,12 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Glitch Terminal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Glitch Terminal Panel</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-
 *{
     margin:0;
     padding:0;
@@ -16,229 +14,221 @@
 
 body{
     background:#050505;
-    color:#00ff9f;
-    font-family:'Share Tech Mono', monospace;
+    font-family:Consolas, monospace;
     height:100vh;
-    overflow:hidden;
     display:flex;
-    align-items:center;
     justify-content:center;
-    position:relative;
+    align-items:center;
+    overflow:hidden;
+    color:#ff3b3b;
 }
 
-/* Background scanlines */
-body::before{
-    content:"";
+.container{
+    width:800px;
+    aspect-ratio:4/5;
+    background:rgba(10,10,10,0.95);
+    border:2px solid #ff2a2a;
+    box-shadow:
+        0 0 10px #ff0000,
+        0 0 40px rgba(255,0,0,0.25),
+        inset 0 0 25px rgba(255,0,0,0.1);
+    position:relative;
+    overflow:hidden;
+}
+
+.scanline{
     position:absolute;
     width:100%;
     height:100%;
-    background:
-    repeating-linear-gradient(
+    background:repeating-linear-gradient(
         to bottom,
-        rgba(255,255,255,0.03),
+        rgba(255,255,255,0.03) 0px,
         rgba(255,255,255,0.03) 1px,
-        transparent 1px,
-        transparent 3px
+        transparent 2px,
+        transparent 4px
     );
     pointer-events:none;
-    animation:flicker .15s infinite;
+    animation:scan 8s linear infinite;
 }
 
-/* Main terminal panel */
-.terminal{
-    width:90%;
-    max-width:950px;
-    height:85vh;
-    border:1px solid #00ff9f55;
-    background:rgba(0,0,0,0.82);
-    box-shadow:
-        0 0 15px #00ff9f33,
-        inset 0 0 25px #00ff9f11;
-    position:relative;
-    overflow:hidden;
-    padding:25px;
+@keyframes scan{
+    from{
+        transform:translateY(-100%);
+    }
+    to{
+        transform:translateY(100%);
+    }
 }
 
-/* Header */
-.topbar{
+.header{
+    padding:18px;
+    border-bottom:1px solid rgba(255,0,0,0.35);
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:20px;
-    border-bottom:1px solid #00ff9f33;
-    padding-bottom:12px;
+    background:rgba(255,0,0,0.05);
 }
 
 .title{
-    font-size:14px;
-    letter-spacing:3px;
+    font-size:15px;
+    letter-spacing:2px;
     text-transform:uppercase;
+    animation:glitch 1.4s infinite;
 }
 
 .status{
-    color:#ff4d6d;
-    animation:blink 1s infinite;
+    font-size:12px;
+    opacity:0.7;
 }
 
-/* Glitch text */
-.glitch{
+.content{
+    padding:28px;
+    height:calc(100% - 70px);
+    overflow:auto;
     position:relative;
-    color:#00ff9f;
-    font-size:15px;
-    line-height:1.9;
+}
+
+.text{
     white-space:pre-wrap;
-    overflow-y:auto;
-    height:calc(100% - 100px);
-    padding-right:10px;
+    line-height:1.7;
+    font-size:15px;
+    color:#ff8d8d;
+    text-shadow:0 0 4px rgba(255,0,0,0.5);
+    animation:flicker 4s infinite;
 }
 
-.glitch::-webkit-scrollbar{
-    width:4px;
+@keyframes flicker{
+    0%,19%,21%,23%,80%,100%{
+        opacity:1;
+    }
+    20%,22%,81%{
+        opacity:0.92;
+    }
 }
 
-.glitch::-webkit-scrollbar-thumb{
-    background:#00ff9f;
+@keyframes glitch{
+    0%{
+        text-shadow:2px 0 red,-2px 0 #ff9c9c;
+    }
+    25%{
+        text-shadow:-2px 0 red,2px 0 #ff9c9c;
+    }
+    50%{
+        text-shadow:2px 2px red,-2px -2px #ff9c9c;
+    }
+    75%{
+        text-shadow:-2px 2px red,2px -2px #ff9c9c;
+    }
+    100%{
+        text-shadow:2px 0 red,-2px 0 #ff9c9c;
+    }
 }
 
-.glitch::before,
-.glitch::after{
-    content:attr(data-text);
-    position:absolute;
-    left:0;
-    top:0;
-    width:100%;
-    overflow:hidden;
-    opacity:.06;
-}
-
-.glitch::before{
-    left:2px;
-    text-shadow:-2px 0 red;
-    animation:glitch1 .4s infinite linear alternate-reverse;
-}
-
-.glitch::after{
-    left:-2px;
-    text-shadow:2px 0 blue;
-    animation:glitch2 .3s infinite linear alternate-reverse;
-}
-
-/* Button */
-.contact-btn{
-    position:absolute;
-    bottom:20px;
-    right:20px;
-    background:transparent;
-    border:1px solid #00ff9f88;
-    color:#00ff9f;
-    padding:12px 18px;
-    cursor:pointer;
-    font-family:inherit;
-    transition:.2s;
-    text-transform:uppercase;
-    letter-spacing:2px;
-}
-
-.contact-btn:hover{
-    background:#00ff9f11;
-    box-shadow:0 0 10px #00ff9f66;
-}
-
-/* Popup */
-.popup{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.7);
+.button-wrap{
+    margin-top:28px;
     display:flex;
-    align-items:center;
+    justify-content:flex-end;
+}
+
+button{
+    background:transparent;
+    border:1px solid #ff3b3b;
+    color:#ff5a5a;
+    padding:12px 18px;
+    font-family:Consolas, monospace;
+    cursor:pointer;
+    transition:0.25s;
+    letter-spacing:1px;
+}
+
+button:hover{
+    background:#ff1f1f;
+    color:#000;
+    box-shadow:0 0 18px rgba(255,0,0,0.7);
+}
+
+.popup{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.82);
+    display:flex;
     justify-content:center;
+    align-items:center;
     opacity:0;
-    pointer-events:none;
-    transition:.25s;
+    visibility:hidden;
+    transition:0.25s;
+    backdrop-filter:blur(4px);
 }
 
 .popup.active{
     opacity:1;
-    pointer-events:auto;
+    visibility:visible;
 }
 
 .popup-panel{
-    width:90%;
-    max-width:420px;
-    background:#070707;
-    border:1px solid #00ff9f55;
+    width:78%;
+    background:#090909;
+    border:1px solid #ff2a2a;
     padding:30px;
-    box-shadow:0 0 20px #00ff9f33;
-    position:relative;
-    animation:popupGlitch .25s ease;
+    box-shadow:
+        0 0 12px rgba(255,0,0,0.5),
+        inset 0 0 18px rgba(255,0,0,0.08);
+    animation:popupGlitch 1.2s infinite;
 }
 
-.popup-panel h2{
+@keyframes popupGlitch{
+    0%,100%{
+        transform:translate(0);
+    }
+    20%{
+        transform:translate(1px,-1px);
+    }
+    40%{
+        transform:translate(-1px,1px);
+    }
+    60%{
+        transform:translate(1px,1px);
+    }
+    80%{
+        transform:translate(-1px,-1px);
+    }
+}
+
+.popup-title{
+    font-size:17px;
     margin-bottom:20px;
-    font-size:18px;
-    color:#00ff9f;
+    color:#ff4444;
     text-transform:uppercase;
+    letter-spacing:2px;
 }
 
 .info{
     line-height:2;
-    font-size:15px;
+    color:#ff9e9e;
 }
 
-.close{
-    position:absolute;
-    top:10px;
-    right:15px;
-    cursor:pointer;
-    color:#ff4d6d;
-    font-size:20px;
-}
-
-/* Animations */
-@keyframes glitch1{
-    0%{clip-path:inset(20% 0 65% 0);}
-    100%{clip-path:inset(80% 0 5% 0);}
-}
-
-@keyframes glitch2{
-    0%{clip-path:inset(10% 0 85% 0);}
-    100%{clip-path:inset(60% 0 15% 0);}
-}
-
-@keyframes flicker{
-    0%{opacity:.95;}
-    50%{opacity:1;}
-    100%{opacity:.94;}
-}
-
-@keyframes blink{
-    50%{opacity:.2;}
-}
-
-@keyframes popupGlitch{
-    0%{
-        transform:scale(.9) skewX(5deg);
-        opacity:0;
-    }
-    100%{
-        transform:scale(1);
-        opacity:1;
-    }
+.close-btn{
+    margin-top:22px;
+    width:100%;
 }
 </style>
 </head>
 
 <body>
 
-<div class="terminal">
+<div class="container">
 
-    <div class="topbar">
-        <div class="title">SYSTEM LOG // PERSONAL ENTRY</div>
-        <div class="status">unstable</div>
+    <div class="scanline"></div>
+
+    <div class="header">
+        <div class="title">SYSTEM_LOG // emotional_overload.exe</div>
+        <div class="status">STATUS : unstable</div>
     </div>
 
-    <div class="glitch" data-text="same">
-I’m tired as fuck honestly.
+    <div class="content">
+
+<div class="text">
+“I’m tired as fuck honestly.
 
 I try my best to be there for people. I stay loyal, I listen, I remember shit about y’all, I worry about y’all, I make time for y’all even when my own head is destroying me. But somehow I’m always the one ending up feeling replaceable the second someone new walks into your life.
 
@@ -250,63 +240,47 @@ Some of y’all act like I don’t matter at all while I’m over here trying my
 
 So for my own mental health, I’m deleting this app for a while. I can’t keep watching people I cared about slowly become closer with someone else while acting like I’m just some side character they can mute whenever they want.
 
-I’m tired. Frustrated. Hurt. And honestly disappointed in myself too for getting attached this deeply again.
-    </div>
-
-    <button class="contact-btn" id="openPopup">
-        Emergency Contact
-    </button>
-
+I’m tired. Frustrated. Hurt. And honestly disappointed in myself too for getting attached this deeply again.”
 </div>
 
-<!-- Popup -->
-<div class="popup" id="popup">
+<div class="button-wrap">
+    <button onclick="openPopup()">
+        OPEN EMERGENCY CONTACT
+    </button>
+</div>
 
-    <div class="popup-panel">
+    </div>
 
-        <div class="close" id="closePopup">✕</div>
+    <div class="popup" id="popup">
+        <div class="popup-panel">
 
-        <h2>froy's emergency contact</h2>
+            <div class="popup-title">
+                FROY'S EMERGENCY CONTACT
+            </div>
 
-        <div class="info">
-            Phone Number: 085161840928<br><br>
-            Discord: @kreidehuter<br><br>
-            Roblox: @gutierrezfroy
+            <div class="info">
+                Phone Number : 085161840928<br>
+                Discord : @kreidehuter<br>
+                Roblox : @gutierrezfroy
+            </div>
+
+            <button class="close-btn" onclick="closePopup()">
+                CLOSE PANEL
+            </button>
+
         </div>
-
     </div>
 
 </div>
 
 <script>
-const popup = document.getElementById('popup');
-const openBtn = document.getElementById('openPopup');
-const closeBtn = document.getElementById('closePopup');
+function openPopup(){
+    document.getElementById("popup").classList.add("active");
+}
 
-openBtn.addEventListener('click', () => {
-    popup.classList.add('active');
-});
-
-closeBtn.addEventListener('click', () => {
-    popup.classList.remove('active');
-});
-
-popup.addEventListener('click', (e) => {
-    if(e.target === popup){
-        popup.classList.remove('active');
-    }
-});
-
-/* Random glitch effect */
-setInterval(() => {
-    document.querySelector('.terminal').style.transform =
-        `translate(${Math.random()*2-1}px, ${Math.random()*2-1}px)`;
-
-    setTimeout(() => {
-        document.querySelector('.terminal').style.transform = 'translate(0,0)';
-    }, 80);
-
-}, 3000);
+function closePopup(){
+    document.getElementById("popup").classList.remove("active");
+}
 </script>
 
 </body>
