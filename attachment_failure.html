@@ -1,286 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Glitch Terminal Panel</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EMOTIONAL_OVERLOAD.EXE</title>
 
 <style>
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 body{
-    background:#050505;
-    font-family:Consolas, monospace;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
-    color:#ff3b3b;
+  background:#050505;
+  color:#ff4d4d;
+  font-family:Consolas, monospace;
+
+  width:100%;
+  height:100vh;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  overflow:hidden;
+
+  padding:20px;
 }
 
-.container{
-    width:800px;
-    aspect-ratio:4/5;
-    background:rgba(10,10,10,0.95);
-    border:2px solid #ff2a2a;
-    box-shadow:
-        0 0 10px #ff0000,
-        0 0 40px rgba(255,0,0,0.25),
-        inset 0 0 25px rgba(255,0,0,0.1);
-    position:relative;
-    overflow:hidden;
+/* background flicker */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+
+  background:
+  repeating-linear-gradient(
+    to bottom,
+    rgba(255,0,0,.03) 0px,
+    transparent 2px
+  );
+
+  pointer-events:none;
+
+  animation:flicker .15s infinite;
 }
 
-.scanline{
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,0.03) 0px,
-        rgba(255,255,255,0.03) 1px,
-        transparent 2px,
-        transparent 4px
-    );
-    pointer-events:none;
-    animation:scan 8s linear infinite;
-}
+/* soft glow */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
 
-@keyframes scan{
-    from{
-        transform:translateY(-100%);
-    }
-    to{
-        transform:translateY(100%);
-    }
-}
+  background:
+  radial-gradient(circle,
+  transparent 45%,
+  rgba(255,0,0,.08) 100%);
 
-.header{
-    padding:18px;
-    border-bottom:1px solid rgba(255,0,0,0.35);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:rgba(255,0,0,0.05);
-}
-
-.title{
-    font-size:15px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    animation:glitch 1.4s infinite;
-}
-
-.status{
-    font-size:12px;
-    opacity:0.7;
-}
-
-.content{
-    padding:28px;
-    height:calc(100% - 70px);
-    overflow:auto;
-    position:relative;
-}
-
-.text{
-    white-space:pre-wrap;
-    line-height:1.7;
-    font-size:15px;
-    color:#ff8d8d;
-    text-shadow:0 0 4px rgba(255,0,0,0.5);
-    animation:flicker 4s infinite;
+  pointer-events:none;
 }
 
 @keyframes flicker{
-    0%,19%,21%,23%,80%,100%{
-        opacity:1;
-    }
-    20%,22%,81%{
-        opacity:0.92;
-    }
+  0%{opacity:.8;}
+  50%{opacity:1;}
+  100%{opacity:.85;}
+}
+
+/* PANEL */
+
+.panel{
+
+  width:min(760px,100%);
+  aspect-ratio:4/5;
+
+  background:#070000;
+
+  border:1px solid rgba(255,0,0,.45);
+
+  box-shadow:
+  0 0 25px rgba(255,0,0,.18),
+  inset 0 0 25px rgba(255,0,0,.08);
+
+  position:relative;
+
+  overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
+}
+
+/* top bar */
+
+.top{
+
+  border-bottom:1px solid rgba(255,0,0,.2);
+
+  padding:18px 22px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+
+  background:rgba(255,0,0,.03);
+}
+
+.title{
+
+  font-size:15px;
+  line-height:1.6;
+  letter-spacing:2px;
+
+  text-transform:uppercase;
+
+  animation:glitch 2s infinite;
+}
+
+.status{
+
+  font-size:12px;
+  line-height:1.5;
+
+  opacity:.65;
+
+  text-align:right;
 }
 
 @keyframes glitch{
-    0%{
-        text-shadow:2px 0 red,-2px 0 #ff9c9c;
-    }
-    25%{
-        text-shadow:-2px 0 red,2px 0 #ff9c9c;
-    }
-    50%{
-        text-shadow:2px 2px red,-2px -2px #ff9c9c;
-    }
-    75%{
-        text-shadow:-2px 2px red,2px -2px #ff9c9c;
-    }
-    100%{
-        text-shadow:2px 0 red,-2px 0 #ff9c9c;
-    }
+
+  0%{
+    text-shadow:
+    0 0 4px rgba(255,0,0,.4);
+  }
+
+  20%{
+    transform:translateX(1px);
+  }
+
+  40%{
+    transform:translateX(-1px);
+  }
+
+  60%{
+    transform:translateX(.5px);
+  }
+
+  100%{
+    transform:translateX(0);
+  }
 }
 
-.button-wrap{
-    margin-top:28px;
-    display:flex;
-    justify-content:flex-end;
+/* content */
+
+.content{
+
+  flex:1;
+
+  overflow:auto;
+
+  padding:28px;
+
+  display:flex;
+  flex-direction:column;
+  gap:26px;
+
+  scrollbar-width:none;
 }
 
-button{
-    background:transparent;
-    border:1px solid #ff3b3b;
-    color:#ff5a5a;
-    padding:12px 18px;
-    font-family:Consolas, monospace;
-    cursor:pointer;
-    transition:0.25s;
-    letter-spacing:1px;
+.content::-webkit-scrollbar{
+  display:none;
 }
 
-button:hover{
-    background:#ff1f1f;
-    color:#000;
-    box-shadow:0 0 18px rgba(255,0,0,0.7);
+.text{
+
+  color:#ff7070;
+
+  font-size:19px;
+  line-height:2;
+
+  letter-spacing:.4px;
+
+  opacity:0;
+
+  transform:translateY(10px);
+
+  animation:fadeUp .8s forwards;
 }
+
+.text:nth-child(1){animation-delay:.2s;}
+.text:nth-child(2){animation-delay:.5s;}
+.text:nth-child(3){animation-delay:.8s;}
+.text:nth-child(4){animation-delay:1.1s;}
+.text:nth-child(5){animation-delay:1.4s;}
+.text:nth-child(6){animation-delay:1.7s;}
+
+@keyframes fadeUp{
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* bottom */
+
+.bottom{
+
+  padding:22px;
+
+  border-top:1px solid rgba(255,0,0,.2);
+
+  display:flex;
+  justify-content:center;
+}
+
+.button{
+
+  background:none;
+
+  border:1px solid rgba(255,0,0,.4);
+
+  color:#ff8a8a;
+
+  padding:14px 24px;
+
+  font-size:13px;
+
+  letter-spacing:3px;
+
+  text-transform:uppercase;
+
+  cursor:pointer;
+
+  transition:.25s;
+}
+
+.button:hover{
+
+  background:rgba(255,0,0,.06);
+
+  box-shadow:
+  0 0 16px rgba(255,0,0,.25);
+}
+
+/* popup */
 
 .popup{
-    position:absolute;
-    inset:0;
-    background:rgba(0,0,0,0.82);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    opacity:0;
-    visibility:hidden;
-    transition:0.25s;
-    backdrop-filter:blur(4px);
+
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.78);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  opacity:0;
+  visibility:hidden;
+
+  transition:.25s;
 }
 
 .popup.active{
+
+  opacity:1;
+  visibility:visible;
+}
+
+.popup-box{
+
+  width:min(420px,90%);
+
+  background:#090000;
+
+  border:1px solid rgba(255,0,0,.35);
+
+  padding:28px;
+
+  box-shadow:
+  0 0 20px rgba(255,0,0,.18);
+
+  animation:popupIn .3s ease;
+}
+
+@keyframes popupIn{
+
+  from{
+    transform:scale(.95);
+    opacity:0;
+  }
+
+  to{
+    transform:scale(1);
     opacity:1;
-    visibility:visible;
-}
-
-.popup-panel{
-    width:78%;
-    background:#090909;
-    border:1px solid #ff2a2a;
-    padding:30px;
-    box-shadow:
-        0 0 12px rgba(255,0,0,0.5),
-        inset 0 0 18px rgba(255,0,0,0.08);
-    animation:popupGlitch 1.2s infinite;
-}
-
-@keyframes popupGlitch{
-    0%,100%{
-        transform:translate(0);
-    }
-    20%{
-        transform:translate(1px,-1px);
-    }
-    40%{
-        transform:translate(-1px,1px);
-    }
-    60%{
-        transform:translate(1px,1px);
-    }
-    80%{
-        transform:translate(-1px,-1px);
-    }
+  }
 }
 
 .popup-title{
-    font-size:17px;
-    margin-bottom:20px;
-    color:#ff4444;
-    text-transform:uppercase;
-    letter-spacing:2px;
+
+  font-size:18px;
+
+  margin-bottom:22px;
+
+  letter-spacing:2px;
+
+  color:#ff8f8f;
 }
 
-.info{
-    line-height:2;
-    color:#ff9e9e;
+.contact{
+
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+
+  font-size:16px;
+
+  line-height:1.8;
+
+  color:#ff6f6f;
 }
 
-.close-btn{
-    margin-top:22px;
-    width:100%;
+.close{
+
+  margin-top:28px;
+
+  width:100%;
+
+  background:none;
+
+  border:1px solid rgba(255,0,0,.3);
+
+  color:#ff8a8a;
+
+  padding:12px;
+
+  cursor:pointer;
+
+  letter-spacing:2px;
+
+  transition:.2s;
 }
+
+.close:hover{
+
+  background:rgba(255,0,0,.05);
+}
+
+/* mobile */
+
+@media(max-width:700px){
+
+  body{
+    overflow:auto;
+    align-items:flex-start;
+  }
+
+  .panel{
+    aspect-ratio:auto;
+    min-height:100vh;
+  }
+
+  .content{
+    padding:22px;
+  }
+
+  .text{
+    font-size:16px;
+    line-height:1.9;
+  }
+
+  .title{
+    font-size:13px;
+  }
+}
+
 </style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="panel">
 
-    <div class="scanline"></div>
+  <div class="top">
 
-    <div class="header">
-        <div class="title">SYSTEM_LOG // emotional_overload.exe</div>
-        <div class="status">STATUS : unstable</div>
+    <div class="title">
+      SYSTEM LOG //<br>
+      EMOTIONAL_OVERLOAD.EXE
     </div>
 
-    <div class="content">
+    <div class="status">
+      STATUS :<br>
+      unstable
+    </div>
 
-<div class="text">
-“I’m tired as fuck honestly.
+  </div>
 
-I try my best to be there for people. I stay loyal, I listen, I remember shit about y’all, I worry about y’all, I make time for y’all even when my own head is destroying me. But somehow I’m always the one ending up feeling replaceable the second someone new walks into your life.
+  <div class="content">
 
-And yeah maybe my mistake is expecting too much from humans. Maybe my mistake is believing words too deeply when people say shit like ‘I’ll stay’ or ‘you matter to me.’ Because the moment I finally let my guard down and start trusting, everything suddenly changes and I’m left looking stupid for caring too much.
+    <div class="text">
+      “I’m tired as fuck honestly.
+    </div>
 
-I know I fucked up too. I know my fear, jealousy, attachment, overthinking, all that shit damaged things. I’m not acting innocent. But damn, do y’all know how exhausting it is trying so hard to understand everyone while feeling like nobody truly tries to understand you back?
+    <div class="text">
+      I try my best to be there for people. I stay loyal, I listen, I remember shit about y’all, I worry about y’all, I make time for y’all even when my own head is destroying me. But somehow I’m always the one ending up feeling replaceable the second someone new walks into your life.
+    </div>
 
-Some of y’all act like I don’t matter at all while I’m over here trying my hardest to make sure nobody feels alone the way I do.
+    <div class="text">
+      And yeah maybe my mistake is expecting too much from humans. Maybe my mistake is believing words too deeply when people say shit like ‘I’ll stay’ or ‘you matter to me.’ Because the moment I finally let my guard down and start trusting, everything suddenly changes and I’m left looking stupid for caring too much.
+    </div>
 
-So for my own mental health, I’m deleting this app for a while. I can’t keep watching people I cared about slowly become closer with someone else while acting like I’m just some side character they can mute whenever they want.
+    <div class="text">
+      I know I fucked up too. I know my fear, jealousy, attachment, overthinking, all that shit damaged things. I’m not acting innocent. But damn, do y’all know how exhausting it is trying so hard to understand everyone while feeling like nobody truly tries to understand you back?
+    </div>
 
-I’m tired. Frustrated. Hurt. And honestly disappointed in myself too for getting attached this deeply again.”
-</div>
+    <div class="text">
+      Some of y’all act like I don’t matter at all while I’m over here trying my hardest to make sure nobody feels alone the way I do.
+    </div>
 
-<div class="button-wrap">
-    <button onclick="openPopup()">
-        OPEN EMERGENCY CONTACT
+    <div class="text">
+      So for my own mental health, I’m deleting this app for a while. I can’t keep watching people I cared about slowly become closer with someone else while acting like I’m just some side character they can mute whenever they want.
+      <br><br>
+      I’m tired. Frustrated. Hurt. And honestly disappointed in myself too for getting attached this deeply again.”
+    </div>
+
+  </div>
+
+  <div class="bottom">
+
+    <button class="button" onclick="openPopup()">
+      Open Emergency Contact
     </button>
+
+  </div>
+
 </div>
 
+<!-- popup -->
+
+<div class="popup" id="popup">
+
+  <div class="popup-box">
+
+    <div class="popup-title">
+      FROY'S EMERGENCY CONTACT
     </div>
 
-    <div class="popup" id="popup">
-        <div class="popup-panel">
+    <div class="contact">
 
-            <div class="popup-title">
-                FROY'S EMERGENCY CONTACT
-            </div>
+      <div>
+        PHONE NUMBER<br>
+        085161840928
+      </div>
 
-            <div class="info">
-                Phone Number : 085161840928<br>
-                Discord : @kreidehuter<br>
-                Roblox : @gutierrezfroy
-            </div>
+      <div>
+        DISCORD<br>
+        @kreidehuter
+      </div>
 
-            <button class="close-btn" onclick="closePopup()">
-                CLOSE PANEL
-            </button>
-
-        </div>
     </div>
+
+    <button class="close" onclick="closePopup()">
+      CLOSE
+    </button>
+
+  </div>
 
 </div>
 
 <script>
+
+const popup = document.getElementById("popup");
+
 function openPopup(){
-    document.getElementById("popup").classList.add("active");
+  popup.classList.add("active");
 }
 
 function closePopup(){
-    document.getElementById("popup").classList.remove("active");
+  popup.classList.remove("active");
 }
+
+window.addEventListener("click",(e)=>{
+
+  if(e.target === popup){
+    popup.classList.remove("active");
+  }
+
+});
+
 </script>
 
 </body>
