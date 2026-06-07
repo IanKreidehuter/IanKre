@@ -1,7 +1,7 @@
 const FRAGMENTS = [
   {
-    name: "S◇◇◇",
-    image: "assets/images/satrya.jpg",
-    link: "remnant-001.html"
+    name: "f◇◇◇",
+    image: "assets/images/liam.png",
+    link: "https://vt.tiktok.com/ZSQjq5gfh/"
   }
 ];
