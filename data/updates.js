@@ -43,15 +43,15 @@ const UPDATES = [
   },
 
   {
-    type: "image",
-    src: "assets/images/ianandyeo.png",
-    caption: "he's kind..."
+    type: "video",
+    src: "assets/images/test2.mp4",
+    caption: "..."
   },
 
   {
-    type: "image",
-    src: "assets/images/yeoandian.jpg",
-    caption: "i like how he treats me"
+    type: "video",
+    src: "assets/images/test1.mp4",
+    caption: "luna"
   }
 
 ];
