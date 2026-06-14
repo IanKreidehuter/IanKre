@@ -7,7 +7,6 @@ const UPDATES = [
   },
 
   {
-  {
     type: "image",
     src: "assets/images/bleed.jpg",
     caption: "I got close with someone and we started talking a lot, having deep conversations, sharing feelings, staying on calls, comforting each other — all of that. He said things that slowly made me let my guard down and trust him emotionally, and I think I became too attached because of it.\n\nThe problem started when my fear and jealousy got triggered. I noticed his tone changing and him talking about someone from his past, and instead of handling it calmly, I reacted emotionally and made him feel unsafe opening up to me. After that, he started pulling away and saying he doesn’t want to feel hurt again.\n\nThen I panicked because, to me, he already felt like home. So I kept trying to explain myself over and over so he would understand that I was never trying to hurt him on purpose. But I think the more I explained and begged, the more overwhelmed he felt.\n\nNow he wants space and wants to be alone, and honestly, I understand why he feels hurt. But I’m hurting too because I genuinely cared about him and what we had. I think I kept trying to fix everything through explanations because my brain believed that if he understood my intentions, things wouldn’t fall apart.\n\nI don’t know. I’m mentally exhausted right now."
