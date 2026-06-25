@@ -1,6 +1,12 @@
 const UPDATES = [
 
   {
+    type: "video",
+    src: "assets/images/nevermind.mp4",
+    caption: "nevermind you were never mine."
+  },
+
+  {
     type: "image",
     src: "assets/images/togood.png",
     caption: "Too good to be true."
