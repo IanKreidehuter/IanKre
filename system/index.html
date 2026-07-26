@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Andrian_Brain.lua — running</title>
+<style>
+  :root{
+    --bg: #060a08;
+    --panel: #0a100d;
+    --green: #4dff8f;
+    --green-dim: #1e6b3f;
+    --green-faint: #0e2c1a;
+    --amber: #ffb454;
+    --cyan: #6fe3ff;
+    --pink: #ff6f9c;
+    --red: #ff3b5c;
+    --text-shadow: 0 0 6px rgba(77,255,143,0.35);
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{
+    margin:0; padding:0; height:100%;
+    background: var(--bg);
+    font-family: 'JetBrains Mono','Fira Code',ui-monospace,'Cascadia Code','SFMono-Regular',Consolas,monospace;
+    overflow: hidden;
+  }
+
+  .stage{
+    position: relative;
+    width: 100%; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(20,60,35,0.25), transparent 60%),
+      var(--bg);
+  }
+
+  .crt-frame{
+    position: relative;
+    width: min(96vw, 980px);
+    height: min(88vh, 680px);
+    background: linear-gradient(180deg, #0c130f, #060a08);
+    border-radius: 14px;
+    border: 1px solid var(--green-faint);
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,0.6),
+      0 30px 80px rgba(0,0,0,0.7),
+      0 0 120px rgba(30,150,80,0.06),
+      inset 0 0 60px rgba(0,0,0,0.6);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .titlebar{
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: linear-gradient(180deg, #0f1712, #0a0f0c);
+    border-bottom: 1px solid var(--green-faint);
+    position: relative;
+    z-index: 5;
+  }
+  .dot{ width:10px; height:10px; border-radius:50%; opacity:0.85; }
+  .dot.r{ background:#ff5f57; }
+  .dot.y{ background:#febc2e; }
+  .dot.g{ background:#28c840; }
+  .titletext{
+    flex: 1;
+    text-align: center;
+    color: var(--green-dim);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: lowercase;
+  }
+  .titletext .status{
+    color: var(--amber);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity: .55; }
+    50%{ opacity: 1; }
+  }
+
+  .screen-wrap{
+    position: relative;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  #screen{
+    position: absolute;
+    inset: 0;
+    padding: 22px 26px 30px 26px;
+    overflow-y: auto;
+    color: var(--green);
+    font-size: 14px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    text-shadow: var(--text-shadow);
+    scrollbar-width: thin;
+    scrollbar-color: var(--green-faint) transparent;
+  }
+  #screen::-webkit-scrollbar{ width: 6px; }
+  #screen::-webkit-scrollbar-thumb{ background: var(--green-faint); border-radius: 4px; }
+
+  .ln{ display: block; min-height: 1.65em; }
+  .comment{ color: var(--green-dim); }
+  .kw{ color: var(--amber); }
+  .fn{ color: var(--cyan); }
+  .str{ color: var(--pink); }
+  .num{ color: var(--cyan); }
+  .divider{ color: var(--green-faint); }
+  .dim{ color: var(--green-dim); }
+
+  .cursor{
+    display: inline-block;
+    width: 8px; height: 15px;
+    background: var(--green);
+    margin-left: 1px;
+    vertical-align: -2px;
+    box-shadow: 0 0 8px rgba(77,255,143,0.8);
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink{
+    0%,49%{ opacity:1; }
+    50%,100%{ opacity:0; }
+  }
+
+  /* scanlines + vignette overlay */
+  .overlay{
+    position: absolute; inset: 0;
+    pointer-events: none;
+    z-index: 6;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.0) 0px,
+        rgba(0,0,0,0.0) 2px,
+        rgba(0,0,0,0.12) 3px,
+        rgba(0,0,0,0.0) 4px
+      );
+    mix-blend-mode: multiply;
+  }
+  .vignette{
+    position: absolute; inset:0;
+    pointer-events: none;
+    z-index: 7;
+    box-shadow: inset 0 0 140px rgba(0,0,0,0.75);
+  }
+  .flicker{
+    position: absolute; inset: 0;
+    pointer-events:none;
+    z-index: 8;
+    background: rgba(180,255,210,0.02);
+    opacity: 0;
+  }
+
+  /* glitch state applied briefly to screen-wrap */
+  .glitching #screen{
+    animation: glitchShift 220ms steps(2,end) both;
+  }
+  .glitching .overlay{
+    animation: glitchOverlay 220ms steps(2,end) both;
+  }
+  @keyframes glitchShift{
+    0%{ transform: translate(0,0); filter: none; }
+    20%{ transform: translate(-3px,1px); filter: drop-shadow(2px 0 var(--red)) drop-shadow(-2px 0 var(--cyan)); }
+    40%{ transform: translate(3px,-1px); filter: drop-shadow(-2px 0 var(--red)) drop-shadow(2px 0 var(--cyan)); }
+    60%{ transform: translate(-2px,0); filter: drop-shadow(1px 0 var(--red)); }
+    80%{ transform: translate(2px,0); filter: none; }
+    100%{ transform: translate(0,0); filter: none; }
+  }
+  @keyframes glitchOverlay{
+    0%,100%{ opacity: 1; }
+    50%{ opacity: 0.4; background: rgba(255,255,255,0.03); }
+  }
+
+  .cracklines{
+    position:absolute; left:0; right:0; height:2px;
+    background: rgba(180,255,210,0.5);
+    opacity:0;
+    z-index: 9;
+    pointer-events:none;
+  }
+
+  .footer-hint{
+    flex: 0 0 auto;
+    padding: 6px 14px 10px;
+    text-align: center;
+    color: var(--green-faint);
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    border-top: 1px solid var(--green-faint);
+    background: #060a08;
+  }
+  .footer-hint button{
+    background: transparent;
+    border: 1px solid var(--green-faint);
+    color: var(--green-dim);
+    font: inherit;
+    font-size: 10.5px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 1px;
+  }
+  .footer-hint button:hover{
+    color: var(--green);
+    border-color: var(--green-dim);
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="crt-frame">
+    <div class="titlebar">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+      <div class="titletext">Andrian_brain.lua — <span class="status">running</span></div>
+    </div>
+    <div class="screen-wrap" id="screenWrap">
+      <div id="screen"></div>
+      <div class="overlay"></div>
+      <div class="vignette"></div>
+      <div class="flicker" id="flickerLayer"></div>
+    </div>
+    <div class="footer-hint">
+      <span id="hintText">esc build 19y &nbsp;·&nbsp; status: compiling a person</span>
+      &nbsp;&nbsp;<button id="skipBtn">skip ▸▸</button>
+      &nbsp;<button id="replayBtn">replay ↺</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const raw = [
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- Andrian_Brain.lua", c:"comment"},
+    {t:"-- Build: 19 years", c:"comment"},
+    {t:"-- Status: Running", c:"comment"},
+    {t:"", c:""},
+    {t:"local Brain = {}", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- CORE", c:"comment"},
+    {t:"", c:""},
+    {t:"Brain.identity = {", c:"code"},
+    {t:"  knowsWhoAmI = false,", c:"code", indent:1},
+    {t:"  searching = true,", c:"code", indent:1},
+    {t:"  selfWorth = 25,", c:"code", indent:1, hit:true},
+    {t:"  trueSelfHidden = true,", c:"code", indent:1},
+    {t:"  maskEnabled = true,", c:"code", indent:1},
+    {t:"}", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.energy = 100", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.socialBattery = 100", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.hope = 60", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.loneliness = 90", c:"code", hit:true},
+    {t:"", c:""},
+    {t:"Brain.trust = 100", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.curiosity = math.huge", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.hypervigilance = true", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.observeEverything = true", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.sensorySensitivity = true", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.executiveFunction = \"unstable\"", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.needConnection = true", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.needMeaning = true", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.fearOfBeingUnwanted = true", c:"code", hit:true},
+    {t:"", c:""},
+    {t:"Brain.needToUnderstandEverything = true", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.grief = {}", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.memories = {}", c:"code"},
+    {t:"", c:""},
+    {t:"Brain.trauma = {}", c:"code", hit:true},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- STARTUP", c:"comment"},
+    {t:"", c:""},
+    {t:"function Boot()", c:"code"},
+    {t:"  Childhood()", c:"code", indent:1},
+    {t:"  School()", c:"code", indent:1},
+    {t:"  Family()", c:"code", indent:1},
+    {t:"  Social()", c:"code", indent:1},
+    {t:"  CurrentLife()", c:"code", indent:1},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- CHILDHOOD", c:"comment"},
+    {t:"", c:""},
+    {t:"function Childhood()", c:"code"},
+    {t:"  while Child do", c:"code", indent:1},
+    {t:"    ObserveAdults()", c:"code", indent:2},
+    {t:"    ObserveChildren()", c:"code", indent:2},
+    {t:"    Learn()", c:"code", indent:2},
+    {t:"    if Different then", c:"code", indent:2},
+    {t:"      Question(\"Why can't I be like them?\")", c:"code", indent:3, hit:true},
+    {t:"      SaveMemory(\"Different\")", c:"code", indent:3},
+    {t:"    end", c:"code", indent:2},
+    {t:"    if Cry then", c:"code", indent:2},
+    {t:"      Label = \"Sensitive\"", c:"code", indent:3},
+    {t:"      SaveTrauma()", c:"code", indent:3},
+    {t:"    end", c:"code", indent:2},
+    {t:"    if Smart then", c:"code", indent:2},
+    {t:"      ReceiveValidation()", c:"code", indent:3},
+    {t:"    end", c:"code", indent:2},
+    {t:"    if WrongAnswer then", c:"code", indent:2},
+    {t:"      FearFailure = FearFailure + 10", c:"code", indent:3},
+    {t:"    end", c:"code", indent:2},
+    {t:"  end", c:"code", indent:1},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- SCHOOL", c:"comment"},
+    {t:"", c:""},
+    {t:"function School()", c:"code"},
+    {t:"  if Elementary then", c:"code", indent:1},
+    {t:"    GoBehindTree()", c:"code", indent:2},
+    {t:"    StayAlone()", c:"code", indent:2},
+    {t:"  end", c:"code", indent:1},
+    {t:"  if MiddleSchool then", c:"code", indent:1},
+    {t:"    Bullied()", c:"code", indent:2, hit:true},
+    {t:"    StayInsideClass()", c:"code", indent:2},
+    {t:"  end", c:"code", indent:1},
+    {t:"  if HighSchool then", c:"code", indent:1},
+    {t:"    StayAlone()", c:"code", indent:2},
+    {t:"    ObserveEveryone()", c:"code", indent:2},
+    {t:"  end", c:"code", indent:1},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- OBSERVATION ENGINE", c:"comment"},
+    {t:"", c:""},
+    {t:"function ObserveWorld()", c:"code"},
+    {t:"  while Awake do", c:"code", indent:1},
+    {t:"    ScanMovement()", c:"code", indent:2},
+    {t:"    ScanVoices()", c:"code", indent:2},
+    {t:"    ScanExpressions()", c:"code", indent:2},
+    {t:"    ScanTone()", c:"code", indent:2},
+    {t:"    ScanChanges()", c:"code", indent:2},
+    {t:"    ScanDanger()", c:"code", indent:2},
+    {t:"    SaveEverything()", c:"code", indent:2},
+    {t:"  end", c:"code", indent:1},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- SOCIAL ENGINE", c:"comment"},
+    {t:"", c:""},
+    {t:"function Meet(person)", c:"code"},
+    {t:"  Observe(person)", c:"code", indent:1},
+    {t:"  if person.kind then", c:"code", indent:1},
+    {t:"    trust = 100", c:"code", indent:2},
+    {t:"    OpenHeart()", c:"code", indent:2},
+    {t:"    ShareDeepThoughts()", c:"code", indent:2},
+    {t:"    Attach()", c:"code", indent:2},
+    {t:"  end", c:"code", indent:1},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- ATTACHMENT", c:"comment"},
+    {t:"", c:""},
+    {t:"function Attach(person)", c:"code"},
+    {t:"  CurrentSafePerson = person", c:"code", indent:1},
+    {t:"  HappinessDependsOn(person)", c:"code", indent:1, hit:true},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- PERSON DISTANCES THEMSELF", c:"comment"},
+    {t:"", c:""},
+    {t:"function PersonChanges(person)", c:"code"},
+    {t:"  while true do", c:"code", indent:1},
+    {t:"    SearchReason()", c:"code", indent:2},
+    {t:"    SearchAgain()", c:"code", indent:2},
+    {t:"    ReplayMemories()", c:"code", indent:2},
+    {t:"    ReadChats()", c:"code", indent:2},
+    {t:"    BlameSelf()", c:"code", indent:2, hit:true},
+    {t:"    Hope()", c:"code", indent:2},
+    {t:"    Repeat()", c:"code", indent:2},
+    {t:"  end", c:"code", indent:1},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- SELF BLAME", c:"comment"},
+    {t:"", c:""},
+    {t:"function BlameSelf()", c:"code"},
+    {t:"  selfWorth = selfWorth - 10", c:"code", indent:1, hit:true},
+    {t:"  Think(\"I wasn't enough.\")", c:"code", indent:1, hit:true},
+    {t:"  Think(\"What did I do?\")", c:"code", indent:1},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- MASK", c:"comment"},
+    {t:"", c:""},
+    {t:"function SocialMode()", c:"code"},
+    {t:"  while AroundPeople do", c:"code", indent:1},
+    {t:"    MonitorFace()", c:"code", indent:2},
+    {t:"    MonitorVoice()", c:"code", indent:2},
+    {t:"    MonitorPosture()", c:"code", indent:2},
+    {t:"    PredictReactions()", c:"code", indent:2},
+    {t:"    HideRealThoughts()", c:"code", indent:2, hit:true},
+    {t:"    SaySafeThing()", c:"code", indent:2},
+    {t:"  end", c:"code", indent:1},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- EXECUTIVE DYSFUNCTION", c:"comment"},
+    {t:"", c:""},
+    {t:"function DoTask(task)", c:"code"},
+    {t:"  if Brain.energy < 40 then", c:"code", indent:1},
+    {t:"    return \"Later...\"", c:"code", indent:2},
+    {t:"  end", c:"code", indent:1},
+    {t:"  if Sadness > 60 then", c:"code", indent:1},
+    {t:"    return \"Not now...\"", c:"code", indent:2},
+    {t:"  end", c:"code", indent:1},
+    {t:"  if Overthinking then", c:"code", indent:1},
+    {t:"    Analyze(task)", c:"code", indent:2},
+    {t:"    Analyze(task)", c:"code", indent:2},
+    {t:"    Analyze(task)", c:"code", indent:2},
+    {t:"    return \"Tomorrow\"", c:"code", indent:2},
+    {t:"  end", c:"code", indent:1},
+    {t:"  Start(task)", c:"code", indent:1},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- NIGHT", c:"comment"},
+    {t:"", c:""},
+    {t:"function Night()", c:"code"},
+    {t:"  ReplayEverything()", c:"code", indent:1},
+    {t:"  Regret()", c:"code", indent:1},
+    {t:"  ImagineFuture()", c:"code", indent:1},
+    {t:"  Fear()", c:"code", indent:1},
+    {t:"  Can'tSleep()", c:"code", indent:1, hit:true},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- EVERY MESSAGE", c:"comment"},
+    {t:"", c:""},
+    {t:"function Phone()", c:"code"},
+    {t:"  if Notification == nil then", c:"code", indent:1},
+    {t:"    Think(\"Nobody wants me.\")", c:"code", indent:2, hit:true},
+    {t:"  end", c:"code", indent:1},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- EVERY COMPLIMENT", c:"comment"},
+    {t:"", c:""},
+    {t:"function Compliment()", c:"code"},
+    {t:"  if ComplimentReceived then", c:"code", indent:1},
+    {t:"    Suspicious = true", c:"code", indent:2},
+    {t:"    Think(\"Do they really mean it?\")", c:"code", indent:2},
+    {t:"  end", c:"code", indent:1},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- EVERY MISTAKE", c:"comment"},
+    {t:"", c:""},
+    {t:"function Mistake()", c:"code"},
+    {t:"  Shame = Shame + 30", c:"code", indent:1, hit:true},
+    {t:"  ReplayForever()", c:"code", indent:1},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- EVERY SUCCESS", c:"comment"},
+    {t:"", c:""},
+    {t:"function Success()", c:"code"},
+    {t:"  Think(\"Does it matter anyway?\")", c:"code", indent:1},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- EVERY FAILURE", c:"comment"},
+    {t:"", c:""},
+    {t:"function Failure()", c:"code"},
+    {t:"  selfWorth = selfWorth - 20", c:"code", indent:1, hit:true},
+    {t:"end", c:"code"},
+    {t:"", c:""},
+    {t:"----------------------------------------------------", c:"divider"},
+    {t:"-- EVERY DAY", c:"comment"},
+    {t:"", c:""},
+    {t:"while Alive do", c:"code"},
+    {t:"  ObserveWorld()", c:"code", indent:1},
+    {t:"  SocialMode()", c:"code", indent:1},
+    {t:"  CompareSelfToOthers()", c:"code", indent:1},
+    {t:"  SearchMeaning()", c:"code", indent:1},
+    {t:"  Think()", c:"code", indent:1},
+    {t:"  Think()", c:"code", indent:1},
+    {t:"  Think()", c:"code", indent:1},
+    {t:"  Think()", c:"code", indent:1},
+    {t:"  Exhaust()", c:"code", indent:1, hit:true},
+    {t:"end", c:"code"},
+  ];
+
+  const screen = document.getElementById('screen');
+  const screenWrap = document.getElementById('screenWrap');
+  const flickerLayer = document.getElementById('flickerLayer');
+  const skipBtn = document.getElementById('skipBtn');
+  const replayBtn = document.getElementById('replayBtn');
+
+  const KEYWORDS = ["local","function","end","if","then","while","do","true","false","nil","return","and","or","not"];
+
+  function highlightToken(word){
+    if (KEYWORDS.includes(word)) return `<span class="kw">${word}</span>`;
+    return word;
+  }
+
+  function renderPlainLine(text, cls){
+    // basic syntax coloring for code lines
+    if (cls === "comment" || cls === "divider") {
+      return `<span class="${cls}">${escapeHtml(text)}</span>`;
+    }
+    if (cls === "code" && text.trim() !== "") {
+      let escaped = escapeHtml(text);
+      // strings
+      escaped = escaped.replace(/(&quot;[^&]*?&quot;)/g, m => `<span class="str">${m}</span>`);
+      // numbers
+      escaped = escaped.replace(/\b(\d+)\b/g, m => `<span class="num">${m}</span>`);
+      // keywords
+      escaped = escaped.replace(/\b(local|function|end|if|then|while|do|true|false|nil|return)\b/g, m => `<span class="kw">${m}</span>`);
+      // function-call-ish Capitalized names before (
+      escaped = escaped.replace(/\b([A-Z][A-Za-z0-9_]*)(\()/g, (m,a,b) => `<span class="fn">${a}</span>${b}`);
+      return escaped;
+    }
+    return escapeHtml(text);
+  }
+
+  function escapeHtml(s){
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  let cancelled = false;
+  let skipRequested = false;
+
+  function sleep(ms){
+    return new Promise(res => {
+      const id = setTimeout(res, ms);
+      if (skipRequested) { clearTimeout(id); res(); }
+    });
+  }
+
+  async function triggerGlitch(intensity){
+    screenWrap.classList.add('glitching');
+    flickerLayer.style.opacity = '1';
+    await sleep(skipRequested ? 0 : (140 + intensity*40));
+    screenWrap.classList.remove('glitching');
+    flickerLayer.style.opacity = '0';
+  }
+
+  function autoScroll(){
+    screen.scrollTop = screen.scrollHeight;
+  }
+
+  async function typeLine(item){
+    const lineEl = document.createElement('span');
+    lineEl.className = 'ln';
+    const indent = '  '.repeat(item.indent || 0);
+    screen.appendChild(lineEl);
+
+    const cursor = document.createElement('span');
+    cursor.className = 'cursor';
+
+    const full = indent + item.t;
+    if (full.length === 0) {
+      lineEl.appendChild(cursor);
+      autoScroll();
+      if (!skipRequested) await sleep(70);
+      cursor.remove();
+      return;
+    }
+
+    let shown = "";
+    for (let i = 0; i < full.length; i++) {
+      shown += full[i];
+      const cls = item.c || "code";
+      lineEl.innerHTML = renderPlainLine(shown, cls);
+      lineEl.appendChild(cursor);
+      autoScroll();
+      if (!skipRequested) {
+        const ch = full[i];
+        let delay = 14 + Math.random() * 26;
+        if (ch === ' ') delay *= 0.5;
+        if (",.(){}=\"'".includes(ch)) delay += 10;
+        // occasional human hesitation
+        if (Math.random() < 0.02) delay += 120 + Math.random()*180;
+        await sleep(delay);
+      }
+    }
+    cursor.remove();
+
+    if (item.hit) {
+      await triggerGlitch(2 + Math.random()*2);
+    }
+
+    if (!skipRequested) {
+      let pause = 40;
+      if (item.c === "divider") pause = 220;
+      if (item.c === "comment") pause = 90;
+      if (item.t === "") pause = 40;
+      if (item.t === "end") pause = 160;
+      await sleep(pause);
+    }
+  }
+
+  async function runSequence(){
+    cancelled = false;
+    skipRequested = false;
+    screen.innerHTML = "";
+    for (const item of raw) {
+      if (cancelled) return;
+      await typeLine(item);
+    }
+    // final idle cursor
+    const finalCursor = document.createElement('span');
+    finalCursor.className = 'cursor';
+    screen.appendChild(finalCursor);
+    autoScroll();
+  }
+
+  skipBtn.addEventListener('click', () => {
+    skipRequested = true;
+  });
+
+  replayBtn.addEventListener('click', () => {
+    cancelled = true;
+    setTimeout(() => {
+      runSequence();
+    }, 30);
+  });
+
+  // occasional ambient screen flicker even outside typing
+  setInterval(() => {
+    if (Math.random() < 0.06) {
+      flickerLayer.style.transition = 'opacity 80ms';
+      flickerLayer.style.opacity = '0.5';
+      setTimeout(()=> flickerLayer.style.opacity = '0', 80);
+    }
+  }, 1400);
+
+  runSequence();
+})();
+</script>
+
+</body>
+</html>
