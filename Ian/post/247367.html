@@ -280,7 +280,11 @@
   const fullText = "If I wasn't what you wanted, you should have just left me alone. What's the point in giving me hope if you're just gonna walk away? Why get my hopes up? If it didn't mean anything. Anyway, I think we stumble into relationships more often than we walk into them falling over ourselves to get to a prize that we are convinced we need. And for so long, we continue to tell ourselves that despite any signals that are thrown our way. We are in the right place and that goes for both. You and me because I saw you as someone, I would fight to have someone worth pouring my time in energy into, but you saw me as someone that you would fight to lose. That wasn't worth the same time, but it wasn't until it was already too late. That either of us realized what we really wanted. It's just that you figured it out a little bit earlier than me and that little bit, it meant the whole world. It meant that I wasn't ready. When your time to leave, came that I wasn't ready for you to slam the door, but you had already thrown that key in the trash. You already knew that. You wouldn't need it anymore. If you knew you didn't want me, I think you would have left me. Loan. I don't think you would have approached and even considered making me your own. So, how can I be angry at someone who just wanted to give it a try? Because you can't blame someone for reaching when all they wanted to do was to catch your eye.";
 
   const AUDIO_DURATION_MS = 73000; // 1:13
-  const START_OFFSET_MS = 1500;
+  // Delay from tap until the audio actually starts playing.
+  const AUDIO_START_DELAY_MS = 2000;
+  // Typing starts together with the audio, so the words appear as the
+  // speech begins rather than 1.5s ahead of it.
+  const START_OFFSET_MS = AUDIO_START_DELAY_MS;
   const scrambleSet = "!<>-_\\/[]{}=+*^?#01アイウエオカキクケコサシスセソ";
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -291,7 +295,11 @@
   const audio = document.getElementById('audio');
   const promptLine = document.getElementById('promptLine');
 
-  const perCharDelay = Math.max(18, (AUDIO_DURATION_MS - START_OFFSET_MS) / fullText.length);
+  // TYPING_SPEED_FACTOR < 1 makes each character resolve faster. Tune this
+  // down further (e.g. 0.4) for an even quicker pace, or up toward 1 to
+  // slow it back down.
+  const TYPING_SPEED_FACTOR = 0.55;
+  const perCharDelay = Math.max(10, ((AUDIO_DURATION_MS - START_OFFSET_MS) / fullText.length) * TYPING_SPEED_FACTOR);
 
   // ---- Diagnostics -----------------------------------------------------
   // These fire regardless of user interaction, so open devtools (or a
@@ -398,26 +406,32 @@
 
     gate.classList.add('hidden');
 
-    audio.currentTime = 0;
-    const playPromise = audio.play();
-    if (playPromise && typeof playPromise.then === 'function'){
-      playPromise
-        .then(() => console.log('[audio] playback started successfully'))
-        .catch(err => {
-          // Do NOT swallow this. Common causes: file 404 (check exact
-          // filename/case on GitHub Pages), unsupported format for the
-          // browser, or the play() call happening outside a trusted
-          // user-gesture callstack (shouldn't happen here since this
-          // runs directly inside the tap handler).
-          console.error('[audio] play() rejected:', err.name, '-', err.message);
-          showWarning('tap again — audio blocked (' + err.name + ')');
-          // Allow the user to retry without a full reload.
-          started = false;
-          gate.classList.remove('hidden');
-          gate.addEventListener('touchend', begin, { passive: false });
-          gate.addEventListener('click', begin);
-        });
-    }
+    // Delay the actual audio.play() call by AUDIO_START_DELAY_MS. A
+    // setTimeout scheduled synchronously inside this tap handler is still
+    // honored by mobile browsers' autoplay policies (Chrome/Android and
+    // Safari both allow a play() call originating from a gesture-triggered
+    // timer chain like this one).
+    setTimeout(() => {
+      audio.currentTime = 0;
+      const playPromise = audio.play();
+      if (playPromise && typeof playPromise.then === 'function'){
+        playPromise
+          .then(() => console.log('[audio] playback started successfully'))
+          .catch(err => {
+            // Do NOT swallow this. Common causes: file 404 (check exact
+            // filename/case on GitHub Pages), unsupported format for the
+            // browser, or the play() call happening outside a trusted
+            // user-gesture callstack.
+            console.error('[audio] play() rejected:', err.name, '-', err.message);
+            showWarning('tap again — audio blocked (' + err.name + ')');
+            // Allow the user to retry without a full reload.
+            started = false;
+            gate.classList.remove('hidden');
+            gate.addEventListener('touchend', begin, { passive: false });
+            gate.addEventListener('click', begin);
+          });
+      }
+    }, AUDIO_START_DELAY_MS);
 
     if (!reduceMotion) scheduleBursts();
     setTimeout(typeAll, START_OFFSET_MS);
