@@ -137,6 +137,10 @@
     letter-spacing: .06em;
   }
 
+  .prompt-line.warn{
+    color: var(--glitch-a);
+  }
+
   #typed{
     font-size: clamp(1rem, 2.6vw, 1.35rem);
     line-height: 1.65;
@@ -193,6 +197,10 @@
     z-index: 10;
     cursor:pointer;
     transition: opacity .6s ease;
+    /* prevents double-tap-to-zoom / long-press callouts from interfering with the tap gesture on mobile */
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
   }
   .gate.hidden{ opacity:0; pointer-events:none; }
   .gate-label{
@@ -257,12 +265,14 @@
     </div>
     <div class="term-screen" id="screen">
       <div class="term-inner" id="inner">
-        <div class="prompt-line">&gt; decoding transmission...</div>
+        <div class="prompt-line" id="promptLine">&gt; decoding transmission...</div>
         <div id="typed"></div><span class="cursor" id="cursor"></span>
       </div>
     </div>
   </div>
 
+  <!-- preload="auto" hints the browser to fetch the file eagerly; playsinline has no effect on
+       <audio> but is harmless. The real fix for playback is in the script below, not this tag. -->
   <audio id="audio" src="audio.mp3" preload="auto"></audio>
 
 <script>
@@ -279,8 +289,34 @@
   const innerEl = document.getElementById('inner');
   const gate = document.getElementById('gate');
   const audio = document.getElementById('audio');
+  const promptLine = document.getElementById('promptLine');
 
   const perCharDelay = Math.max(18, (AUDIO_DURATION_MS - START_OFFSET_MS) / fullText.length);
+
+  // ---- Diagnostics -----------------------------------------------------
+  // These fire regardless of user interaction, so open devtools (or a
+  // remote-debug session for mobile Chrome via chrome://inspect) and you
+  // will see exactly why playback fails: 404, wrong MIME type, decode
+  // error, etc. This is what the original silent .catch(()=>{}) hid.
+  audio.addEventListener('error', () => {
+    const err = audio.error;
+    const codes = {1:'MEDIA_ERR_ABORTED',2:'MEDIA_ERR_NETWORK',3:'MEDIA_ERR_DECODE',4:'MEDIA_ERR_SRC_NOT_SUPPORTED'};
+    console.error('[audio] element error:', err ? (codes[err.code] || err.code) : 'unknown', '— check that audio.mp3 exists next to index.html, that the filename casing matches exactly (GitHub Pages is case-sensitive), and that it was actually committed (not caught by .gitignore / Git LFS).');
+    showWarning('audio failed to load — see console');
+  });
+  audio.addEventListener('stalled', () => console.warn('[audio] stalled — network fetch is stuck'));
+  audio.addEventListener('abort', () => console.warn('[audio] load aborted'));
+  audio.addEventListener('loadedmetadata', () => console.log('[audio] metadata loaded, duration =', audio.duration));
+  audio.addEventListener('canplaythrough', () => console.log('[audio] canplaythrough — ready to play cleanly'));
+
+  // Force the browser to start fetching immediately rather than waiting,
+  // so by the time the user taps, the file is already warm in cache.
+  audio.load();
+
+  function showWarning(msg){
+    promptLine.textContent = '> ' + msg;
+    promptLine.classList.add('warn');
+  }
 
   function randChar(){
     return scrambleSet[Math.floor(Math.random() * scrambleSet.length)];
@@ -295,15 +331,16 @@
     setTimeout(() => screenEl.classList.remove('burst'), 220);
   }
 
+  let typingDone = false;
+  let burstTimer = null;
+
   function scheduleBursts(){
     const next = 2500 + Math.random() * 4000;
-    setTimeout(() => {
+    burstTimer = setTimeout(() => {
       if (!typingDone) burstGlitch();
       scheduleBursts();
     }, next);
   }
-
-  let typingDone = false;
 
   async function typeChar(span, real){
     if (reduceMotion || real === ' ' || real === '\n'){
@@ -338,18 +375,62 @@
     if (cursor) cursor.style.animationDuration = '1s';
   }
 
-  function begin(){
+  // ---- Single, guarded entry point --------------------------------------
+  // `started` makes begin() idempotent no matter how many events land on
+  // it. This is what actually fixes "audio doesn't play": previously
+  // touchstart AND the trailing synthetic click both called begin(),
+  // which called audio.play() twice and reset currentTime back to 0
+  // right after playback started, and also kicked off typeAll() twice
+  // (which appends to #typed rather than clearing it, corrupting the
+  // animation). Guarding on a flag makes it truly "one interaction only".
+  let started = false;
+
+  function begin(e){
+    if (started) return;
+    started = true;
+
+    if (e && e.cancelable) e.preventDefault();
+
+    // Remove both listeners now that we've fired — belt and suspenders
+    // alongside the `started` flag.
+    gate.removeEventListener('touchend', begin);
+    gate.removeEventListener('click', begin);
+
     gate.classList.add('hidden');
+
     audio.currentTime = 0;
-    audio.play().catch(() => {});
+    const playPromise = audio.play();
+    if (playPromise && typeof playPromise.then === 'function'){
+      playPromise
+        .then(() => console.log('[audio] playback started successfully'))
+        .catch(err => {
+          // Do NOT swallow this. Common causes: file 404 (check exact
+          // filename/case on GitHub Pages), unsupported format for the
+          // browser, or the play() call happening outside a trusted
+          // user-gesture callstack (shouldn't happen here since this
+          // runs directly inside the tap handler).
+          console.error('[audio] play() rejected:', err.name, '-', err.message);
+          showWarning('tap again — audio blocked (' + err.name + ')');
+          // Allow the user to retry without a full reload.
+          started = false;
+          gate.classList.remove('hidden');
+          gate.addEventListener('touchend', begin, { passive: false });
+          gate.addEventListener('click', begin);
+        });
+    }
+
     if (!reduceMotion) scheduleBursts();
     setTimeout(typeAll, START_OFFSET_MS);
   }
 
-  gate.addEventListener('click', begin, { once: true });
-  gate.addEventListener('touchstart', begin, { once: true });
+  // touchend (with preventDefault) is the primary mobile trigger: it fires
+  // once per tap and preventDefault() suppresses the ~300ms-later synthetic
+  // click that would otherwise re-enter begin(). click alone covers mouse
+  // users on desktop. The `started` guard makes the combination safe even
+  // if a browser doesn't fully suppress the synthetic click.
+  gate.addEventListener('touchend', begin, { passive: false });
+  gate.addEventListener('click', begin);
 })();
 </script>
 </body>
-    </html>
-    
+</html>
