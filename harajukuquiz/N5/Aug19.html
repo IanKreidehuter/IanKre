@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>Quiz Bahasa Jepang N5</title>
 
+
 <style>
+
+/* ==================================================
+   GLOBAL
+================================================== */
 
 * {
     box-sizing: border-box;
@@ -20,53 +31,103 @@ body {
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     background: #f4f4f4;
+
     color: #171717;
 }
 
+
+/* ==================================================
+   PAGE
+================================================== */
+
 .page {
+
     min-height: 100vh;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
     padding: 20px;
 }
 
+
 .card {
+
     width: 100%;
+
     max-width: 560px;
+
     background: white;
+
     border-radius: 22px;
+
     padding: 28px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+
+    box-shadow:
+        0 10px 40px
+        rgba(0,0,0,0.08);
 }
+
 
 .hidden {
     display: none !important;
 }
 
+
+/* ==================================================
+   ANIMATION
+================================================== */
+
 .fade-in {
-    animation: fadeIn 0.4s ease;
+
+    animation:
+        fadeIn
+        0.4s
+        ease;
 }
+
 
 .fade-out {
-    animation: fadeOut 0.35s ease forwards;
+
+    animation:
+        fadeOut
+        0.35s
+        ease
+        forwards;
 }
+
 
 @keyframes fadeIn {
+
     from {
+
         opacity: 0;
-        transform: translateY(10px);
+
+        transform:
+            translateY(10px);
     }
 
     to {
+
         opacity: 1;
-        transform: translateY(0);
+
+        transform:
+            translateY(0);
     }
 }
+
 
 @keyframes fadeOut {
+
     from {
         opacity: 1;
     }
@@ -76,159 +137,492 @@ body {
     }
 }
 
+
+/* ==================================================
+   TEXT
+================================================== */
+
 h1 {
+
     text-align: center;
+
     margin-top: 0;
 }
 
+
 .subtitle {
+
     text-align: center;
+
     color: #777;
 }
 
+
+.small {
+
+    text-align: center;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+
+.error {
+
+    text-align: center;
+
+    color: #b00020;
+
+    margin-top: 12px;
+}
+
+
+/* ==================================================
+   INPUT
+================================================== */
+
 input {
+
     width: 100%;
+
     padding: 15px;
+
     margin-top: 20px;
-    border: 1px solid #ccc;
+
+    border:
+        1px solid #ccc;
+
     border-radius: 12px;
+
     font-size: 16px;
+
     outline: none;
 }
 
+
 input:focus {
-    border-color: #171717;
+
+    border-color:
+        #171717;
 }
 
+
+/* ==================================================
+   BUTTON
+================================================== */
+
 button {
+
     width: 100%;
+
     padding: 15px;
+
     margin-top: 15px;
+
     border: none;
+
     border-radius: 12px;
+
     background: #171717;
+
     color: white;
+
     font-size: 16px;
+
     cursor: pointer;
 }
 
+
 button:disabled {
+
     opacity: 0.5;
-    cursor: not-allowed;
+
+    cursor:
+        not-allowed;
 }
 
+
+/* ==================================================
+   QUIZ HEADER
+================================================== */
+
 .progress {
+
     display: flex;
-    justify-content: space-between;
+
+    justify-content:
+        space-between;
+
     color: #777;
+
     font-size: 14px;
 }
 
+
+/* ==================================================
+   KANJI
+================================================== */
+
 .kanji {
+
     text-align: center;
+
     font-size: 64px;
-    margin: 35px 0;
+
+    margin:
+        35px 0;
 }
 
+
 .instruction {
+
     text-align: center;
+
     color: #777;
+
     margin-bottom: 18px;
 }
 
+
+.loading {
+
+    text-align: center;
+
+    color: #777;
+
+    padding:
+        20px 0;
+}
+
+
+/* ==================================================
+   OPTIONS
+================================================== */
+
 .options {
+
     display: grid;
+
     gap: 12px;
 }
 
+
 .option {
+
     padding: 17px;
-    border: 2px solid #ddd;
+
+    border:
+        2px solid #ddd;
+
     border-radius: 14px;
+
     cursor: pointer;
+
     background: white;
-    transition: 0.15s;
+
+    transition:
+        0.15s;
 }
+
 
 .option.selected {
-    border-color: #171717;
-    background: #f0f0f0;
+
+    border-color:
+        #171717;
+
+    background:
+        #f0f0f0;
 }
+
 
 .option.correct {
-    border-color: #222;
-    background: #e8f5e9;
+
+    border-color:
+        #222;
+
+    background:
+        #e8f5e9;
 }
+
 
 .option.wrong {
-    border-color: #777;
-    background: #f5f5f5;
+
+    border-color:
+        #777;
+
+    background:
+        #f5f5f5;
 }
+
+
+/* ==================================================
+   RESULT
+================================================== */
 
 .result {
+
     text-align: center;
+
     font-size: 24px;
+
     font-weight: bold;
-    margin: 20px 0;
-    min-height: 30px;
+
+    margin:
+        20px 0;
+
+    min-height:
+        30px;
 }
 
+
 .retry-info {
+
     text-align: center;
+
     color: #777;
+
     font-size: 13px;
+
     margin-top: 10px;
 }
 
+
+/* ==================================================
+   RESULT STATISTICS
+================================================== */
+
 .stats {
+
     text-align: center;
-    margin: 25px 0;
+
+    margin:
+        25px 0;
 }
 
+
 .stat {
-    margin: 12px 0;
+
+    margin:
+        12px 0;
+
     font-size: 18px;
 }
 
+
+/* ==================================================
+   REVIEW
+================================================== */
+
 .review-item {
-    border: 1px solid #ddd;
+
+    border:
+        1px solid #ddd;
+
     border-radius: 14px;
+
     padding: 16px;
+
     margin-top: 12px;
 }
 
+
 .review-kanji {
+
     font-size: 28px;
+
     font-weight: bold;
 }
+
 
 .review-status {
+
     margin-top: 8px;
+
     font-weight: bold;
 }
 
-.small {
-    text-align: center;
+
+.review-improvement {
+
+    margin-top: 10px;
+
+    padding-top: 10px;
+
+    border-top:
+        1px solid #eee;
+
     color: #777;
+
     font-size: 14px;
 }
 
-.error {
-    text-align: center;
-    color: #b00020;
-    margin-top: 12px;
+
+/* ==================================================
+   RETRY PHASE OVERLAY
+================================================== */
+
+.retry-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 25px;
+
+    background:
+        rgba(
+            244,
+            244,
+            244,
+            0.94
+        );
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity
+        0.3s
+        ease;
 }
 
-.loading {
+
+.retry-overlay.show {
+
+    opacity: 1;
+}
+
+
+.retry-message {
+
+    width: 100%;
+
+    max-width: 430px;
+
+    background: white;
+
+    border-radius: 22px;
+
+    padding:
+        35px 25px;
+
     text-align: center;
+
+    box-shadow:
+        0 15px 50px
+        rgba(
+            0,
+            0,
+            0,
+            0.12
+        );
+
+    animation:
+        retryMessageIn
+        0.35s
+        ease;
+}
+
+
+.retry-label {
+
+    font-size: 13px;
+
     color: #777;
-    padding: 20px 0;
+
+    letter-spacing:
+        1px;
+
+    margin-bottom:
+        12px;
+}
+
+
+.retry-title {
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    margin-bottom:
+        10px;
+}
+
+
+.retry-description {
+
+    color: #777;
+
+    line-height:
+        1.5;
+}
+
+
+@keyframes retryMessageIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(15px)
+            scale(0.97);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
 }
 
 </style>
+
 </head>
 
+
 <body>
+
+
+<!-- ==================================================
+     RETRY PHASE OVERLAY
+================================================== -->
+
+<div
+    id="retryOverlay"
+    class="retry-overlay">
+
+    <div class="retry-message">
+
+        <div class="retry-label">
+            REVIEW / RETRY PHASE
+        </div>
+
+        <div class="retry-title">
+            Fase Pengulangan
+        </div>
+
+        <div class="retry-description">
+            Mengulang pertanyaan yang
+            belum benar.
+        </div>
+
+    </div>
+
+</div>
 
 
 <!-- ==================================================
@@ -242,7 +636,7 @@ button:disabled {
     <div class="card">
 
         <h1>
-            Quiz Bahasa Jepang(N5)
+            Quiz Bahasa Jepang N5(Test)
         </h1>
 
         <p class="subtitle">
@@ -405,7 +799,7 @@ button:disabled {
 
             <div class="stat">
 
-                ✓
+                △
 
                 <strong
                     id="partialResult">
@@ -498,7 +892,7 @@ const API_URL =
 
 
 /* ==================================================
-   DATA QUIZ
+   DATA
 ================================================== */
 
 let playerName = "";
@@ -511,17 +905,57 @@ let selectedOptions = [];
 
 let attemptNumber = 0;
 
-let completedQuestions = new Set();
+
+/*
+   Soal yang sudah berhasil 2/2
+   pada akhirnya.
+*/
+
+let completedQuestions =
+    new Set();
+
+
+/*
+   Hasil percobaan TERAKHIR.
+   Digunakan untuk mengetahui
+   apakah soal akhirnya berhasil.
+*/
 
 let latestResults = {};
 
+
+/*
+   Hasil PERTAMA.
+   Ini yang dipakai untuk:
+
+   - statistik
+   - review
+   - laporan admin
+
+   Retry tidak menimpa data ini.
+*/
+
+let firstResults = {};
+
+
+/*
+   Antrean soal yang belum benar.
+*/
+
 let retryQueue = [];
+
+
+/*
+   Berapa soal lain yang sudah
+   dikerjakan sejak soal masuk
+   antrean retry.
+*/
 
 let retryCounters = {};
 
 
 /* ==================================================
-   ELEMENT
+   ELEMENTS
 ================================================== */
 
 const namePage =
@@ -649,9 +1083,14 @@ document.getElementById(
     "backResultButton"
 );
 
+const retryOverlay =
+document.getElementById(
+    "retryOverlay"
+);
+
 
 /* ==================================================
-   TOMBOL MULAI
+   START QUIZ
 ================================================== */
 
 startButton.addEventListener(
@@ -687,10 +1126,8 @@ async function startQuiz() {
 
 
     /*
-       LANGSUNG pindah ke halaman quiz.
-
-       Kita tidak menunggu API
-       terlebih dahulu.
+       Langsung pindah ke quiz.
+       Tidak menunggu API.
     */
 
     namePage.classList.add(
@@ -720,11 +1157,6 @@ async function startQuiz() {
                 "fade-in"
             );
 
-
-            /*
-               Sekarang baru ambil
-               pertanyaan dari API.
-            */
 
             loadQuestions();
 
@@ -827,13 +1259,16 @@ async function loadQuestions() {
 
 
         /*
-           Reset semua data quiz.
+           Reset quiz.
         */
 
         completedQuestions =
             new Set();
 
         latestResults =
+            {};
+
+        firstResults =
             {};
 
         retryQueue =
@@ -845,10 +1280,6 @@ async function loadQuestions() {
         attemptNumber =
             0;
 
-
-        /*
-           Acak pertanyaan.
-        */
 
         shuffle(
             questions
@@ -864,10 +1295,6 @@ async function loadQuestions() {
             "hidden"
         );
 
-
-        /*
-           Mulai soal pertama.
-        */
 
         showNextQuestion();
 
@@ -917,14 +1344,13 @@ async function loadQuestions() {
 
 
 /* ==================================================
-   NEXT QUESTION
+   SHOW NEXT QUESTION
 ================================================== */
 
 function showNextQuestion() {
 
     /*
-       Kalau semua soal sudah 2/2,
-       quiz selesai.
+       Semua soal sudah dikuasai.
     */
 
     if (
@@ -942,8 +1368,12 @@ function showNextQuestion() {
         null;
 
 
+    let isRetry =
+        false;
+
+
     /*
-       Cek soal retry yang sudah
+       Cari retry yang sudah
        menunggu 5 soal lain.
     */
 
@@ -990,14 +1420,19 @@ function showNextQuestion() {
             ];
 
 
+            isRetry =
+                true;
+
+
             break;
         }
     }
 
 
     /*
-       Kalau belum ada retry,
-       ambil soal baru.
+       Kalau tidak ada retry,
+       ambil soal baru yang
+       belum pernah dijawab.
     */
 
     if (
@@ -1007,7 +1442,7 @@ function showNextQuestion() {
         nextQuestion =
             questions.find(
                 question =>
-                    !latestResults[
+                    !firstResults[
                         question.id
                     ]
             );
@@ -1016,9 +1451,12 @@ function showNextQuestion() {
 
     /*
        Kalau semua soal baru sudah
-       pernah dicoba tetapi masih
-       ada retry, ambil retry
-       terdekat.
+       pernah dikerjakan dan masih
+       ada retry, pakai retry yang
+       paling dekat.
+
+       Ini hanya pengaman supaya
+       quiz tidak berhenti.
     */
 
     if (
@@ -1039,9 +1477,10 @@ function showNextQuestion() {
                         b.id
                     ] || 0;
 
+
                 return (
-                    (5 - aCount) -
-                    (5 - bCount)
+                    aCount -
+                    bCount
                 );
             }
         );
@@ -1066,12 +1505,12 @@ function showNextQuestion() {
         delete retryCounters[
             retry.id
         ];
+
+
+        isRetry =
+            true;
     }
 
-
-    /*
-       Pengaman.
-    */
 
     if (
         !nextQuestion
@@ -1083,30 +1522,70 @@ function showNextQuestion() {
     }
 
 
+    /*
+       Kalau ini retry,
+       tampilkan layar khusus
+       sebentar dulu.
+    */
+
+    if (
+        isRetry
+    ) {
+
+        showRetryPhase(
+            function() {
+
+                startQuestion(
+                    nextQuestion
+                );
+
+            }
+        );
+
+
+        return;
+    }
+
+
+    startQuestion(
+        nextQuestion
+    );
+}
+
+
+/* ==================================================
+   START SPECIFIC QUESTION
+================================================== */
+
+function startQuestion(
+    question
+) {
+
     currentQuestion =
-        nextQuestion;
+        question;
 
 
     attemptNumber++;
 
 
     /*
-       Soal retry yang sedang
-       menunggu dihitung sebagai
-       "soal lain" hanya kalau
-       bukan soal yang sedang
-       ditampilkan.
+       Semua retry lain mendapat
+       tambahan satu "soal lain".
+
+       Soal yang baru saja dijawab
+       tidak dihitung sebagai dirinya
+       sendiri.
     */
 
     retryQueue.forEach(
-        retry => {
+        function(retry) {
 
             if (
                 String(
                     retry.id
                 ) !==
                 String(
-                    currentQuestion.id
+                    question.id
                 )
             ) {
 
@@ -1119,12 +1598,55 @@ function showNextQuestion() {
                         ] || 0
                     ) + 1;
             }
+
         }
     );
 
 
     showQuestion(
-        currentQuestion
+        question
+    );
+}
+
+
+/* ==================================================
+   RETRY PHASE
+================================================== */
+
+function showRetryPhase(
+    callback
+) {
+
+    retryOverlay.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        function() {
+
+            retryOverlay.classList.remove(
+                "show"
+            );
+
+
+            setTimeout(
+                function() {
+
+                    if (
+                        typeof callback ===
+                        "function"
+                    ) {
+
+                        callback();
+                    }
+
+                },
+                300
+            );
+
+        },
+        1200
     );
 }
 
@@ -1175,7 +1697,7 @@ function showQuestion(
 
 
 /* ==================================================
-   CREATE ANSWERS
+   CREATE OPTIONS
 ================================================== */
 
 function createOptions(
@@ -1185,11 +1707,6 @@ function createOptions(
     options.innerHTML =
         "";
 
-
-    /*
-       Cari soal lain untuk
-       membuat jawaban salah.
-    */
 
     const others =
         questions.filter(
@@ -1221,13 +1738,15 @@ function createOptions(
 
 
     /*
-       Dua jawaban benar:
-       - Hiragana
-       - Indonesia
+       Dua benar:
 
-       Dua jawaban salah:
-       - Hiragana soal lain
-       - Indonesia soal lain
+       Hiragana
+       Indonesia
+
+       Dua salah:
+
+       Hiragana soal lain
+       Indonesia soal lain
     */
 
     const answerList = [
@@ -1327,7 +1846,7 @@ function createOptions(
 
 
 /* ==================================================
-   PILIH JAWABAN
+   SELECT OPTION
 ================================================== */
 
 function toggleOption(
@@ -1341,8 +1860,7 @@ function toggleOption(
 
 
     /*
-       Kalau sudah dipilih,
-       batalkan.
+       Batalkan pilihan.
     */
 
     if (
@@ -1367,7 +1885,7 @@ function toggleOption(
     } else {
 
         /*
-           Maksimal dua pilihan.
+           Maksimal 2.
         */
 
         if (
@@ -1395,7 +1913,7 @@ function toggleOption(
 
 
 /* ==================================================
-   TOMBOL JAWAB
+   ANSWER BUTTON
 ================================================== */
 
 answerButton.addEventListener(
@@ -1468,6 +1986,19 @@ function checkAnswer() {
     );
 
 
+    /*
+       Kategori.
+
+       2 benar:
+       BENAR
+
+       1 benar:
+       SEBAGIAN
+
+       0 benar:
+       SALAH
+    */
+
     let category;
 
 
@@ -1492,7 +2023,7 @@ function checkAnswer() {
 
 
         result.textContent =
-            "1/2 BENAR";
+            "1/2 SEBAGIAN BENAR";
 
 
     } else {
@@ -1506,14 +2037,7 @@ function checkAnswer() {
     }
 
 
-    /*
-       Simpan hasil terakhir
-       pertanyaan ini.
-    */
-
-    latestResults[
-        currentQuestion.id
-    ] = {
+    const resultData = {
 
         id:
             currentQuestion.id,
@@ -1540,8 +2064,44 @@ function checkAnswer() {
 
 
     /*
-       Tampilkan jawaban benar
-       dan jawaban salah user.
+       PENTING:
+
+       firstResults hanya diisi
+       pada percobaan pertama.
+
+       Jadi retry TIDAK akan
+       menimpa hasil awal.
+    */
+
+    if (
+        !firstResults[
+            currentQuestion.id
+        ]
+    ) {
+
+        firstResults[
+            currentQuestion.id
+        ] =
+            resultData;
+    }
+
+
+    /*
+       latestResults selalu
+       diperbarui.
+
+       Ini hanya untuk mengetahui
+       apakah akhirnya berhasil.
+    */
+
+    latestResults[
+        currentQuestion.id
+    ] =
+        resultData;
+
+
+    /*
+       Tampilkan benar/salah.
     */
 
     optionElements.forEach(
@@ -1590,7 +2150,8 @@ function checkAnswer() {
 
 
     /*
-       2/2 = selesai.
+       Kalau 2/2:
+       soal dikuasai.
     */
 
     if (
@@ -1619,15 +2180,40 @@ function checkAnswer() {
         ];
 
 
-        retryInfo.textContent =
-            "✓ Soal selesai.";
+        /*
+           Kalau ini adalah retry
+           dan sekarang benar,
+           beri keterangan.
+        */
+
+        const first =
+            firstResults[
+                currentQuestion.id
+            ];
+
+
+        if (
+            first &&
+            first.category !==
+            "benar"
+        ) {
+
+            retryInfo.textContent =
+                "✓ Berhasil setelah pengulangan.";
+
+        } else {
+
+            retryInfo.textContent =
+                "✓ Soal selesai.";
+        }
 
 
     } else {
 
         /*
-           1/2 atau 0/2.
-           Masukkan ke retry queue.
+           Masukkan soal ke antrean
+           pengulangan kalau belum
+           ada di sana.
         */
 
         const alreadyQueued =
@@ -1656,18 +2242,29 @@ function checkAnswer() {
 
             retryCounters[
                 currentQuestion.id
-            ] = 0;
+            ] =
+                0;
         }
 
 
-        retryInfo.textContent =
-            "Soal akan diulang setelah 5 soal lain.";
+        if (
+            correctCount === 1
+        ) {
+
+            retryInfo.textContent =
+                "Sebagian benar. Soal akan diulang setelah 5 soal lain.";
+
+        } else {
+
+            retryInfo.textContent =
+                "Belum benar. Soal akan diulang setelah 5 soal lain.";
+        }
     }
 
 
     /*
-       Beri waktu melihat
-       hasil sebelum lanjut.
+       Tunggu sebentar agar user
+       bisa melihat hasil.
     */
 
     setTimeout(
@@ -1676,7 +2273,7 @@ function checkAnswer() {
             showNextQuestion();
 
         },
-        900
+        1000
     );
 }
 
@@ -1716,15 +2313,17 @@ async function finishQuiz() {
 
 
             /*
-               Ambil hasil terakhir
-               setiap pertanyaan.
+               STATISTIK MENGGUNAKAN
+               HASIL PERTAMA.
+
+               BUKAN HASIL RETRY.
             */
 
             const allResults =
                 questions
                     .map(
                         question =>
-                            latestResults[
+                            firstResults[
                                 question.id
                             ]
                     )
@@ -1783,7 +2382,8 @@ async function finishQuiz() {
 
 
             /*
-               Kirim ke Sheet1.
+               Kirim hasil pertama
+               ke admin.
             */
 
             await sendResults(
@@ -1801,7 +2401,7 @@ async function finishQuiz() {
 
 
 /* ==================================================
-   SEND RESULT KE GOOGLE SHEETS
+   SEND RESULT
 ================================================== */
 
 async function sendResults(
@@ -1916,8 +2516,13 @@ function showReview() {
     questions.forEach(
         function(question) {
 
+            /*
+               REVIEW MENGGUNAKAN
+               HASIL PERTAMA.
+            */
+
             const item =
-                latestResults[
+                firstResults[
                     question.id
                 ];
 
@@ -1934,6 +2539,10 @@ function showReview() {
                 "×";
 
 
+            let statusText =
+                "Salah";
+
+
             if (
                 item.category ===
                 "benar"
@@ -1941,6 +2550,9 @@ function showReview() {
 
                 symbol =
                     "✓";
+
+                statusText =
+                    "Benar";
 
 
             } else if (
@@ -1950,7 +2562,23 @@ function showReview() {
 
                 symbol =
                     "△";
+
+                statusText =
+                    "Sebagian benar";
             }
+
+
+            const latest =
+                latestResults[
+                    question.id
+                ];
+
+
+            const improved =
+                latest &&
+                latest.score === 2 &&
+                item.category !==
+                    "benar";
 
 
             const selectedAnswers =
@@ -1979,29 +2607,45 @@ function showReview() {
             div.innerHTML = `
 
                 <div class="review-kanji">
+
                     ${escapeHTML(
                         item.kanji
                     )}
+
                 </div>
 
+
                 <div>
+
                     ${escapeHTML(
                         item.hiragana
                     )}
+
                     —
+
                     ${escapeHTML(
                         item.indonesia
                     )}
+
                 </div>
 
+
                 <div class="review-status">
+
                     ${symbol}
+
                     ${item.score}/2
+
+                    —
+
+                    ${statusText}
+
                 </div>
+
 
                 <div class="small">
 
-                    Jawaban kamu:
+                    Jawaban pertama:
 
                     <br>
 
@@ -2011,6 +2655,23 @@ function showReview() {
                     }
 
                 </div>
+
+
+                ${
+                    improved
+                    ? `
+
+                        <div
+                            class="review-improvement">
+
+                            ✓ Berhasil setelah
+                            pengulangan.
+
+                        </div>
+
+                    `
+                    : ""
+                }
 
             `;
 
@@ -2025,7 +2686,7 @@ function showReview() {
 
 
 /* ==================================================
-   KEMBALI KE HASIL
+   BACK TO RESULT
 ================================================== */
 
 backResultButton.addEventListener(
@@ -2128,4 +2789,5 @@ function escapeHTML(
 </script>
 
 </body>
+
 </html>
