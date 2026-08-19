@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Quiz Bahasa Jepang N5(Test)</title>
+<title>Quiz Bahasa Jepang N5</title>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
@@ -36,7 +34,7 @@ body {
 .card {
     width: 100%;
     max-width: 560px;
-    background: white;
+    background: #fff;
     border-radius: 22px;
     padding: 28px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.08);
@@ -150,10 +148,6 @@ button:disabled {
     transition: 0.15s;
 }
 
-.option:hover {
-    border-color: #999;
-}
-
 .option.selected {
     border-color: #171717;
     background: #f0f0f0;
@@ -217,15 +211,19 @@ button:disabled {
     font-size: 14px;
 }
 
+.error {
+    color: #b00020;
+    text-align: center;
+    margin-top: 12px;
+}
 </style>
 </head>
 
 <body>
 
-
-<!-- ======================================
-     PAGE 1 — NAMA
-======================================= -->
+<!-- ================================
+     NAMA
+================================ -->
 
 <section id="namePage" class="page">
 
@@ -248,17 +246,16 @@ button:disabled {
             MULAI
         </button>
 
-        <p id="nameError" class="small"></p>
+        <p id="nameError" class="error"></p>
 
     </div>
 
 </section>
 
 
-
-<!-- ======================================
-     PAGE 2 — QUIZ
-======================================= -->
+<!-- ================================
+     QUIZ
+================================ -->
 
 <section id="quizPage" class="page hidden">
 
@@ -317,10 +314,9 @@ button:disabled {
 </section>
 
 
-
-<!-- ======================================
-     PAGE 3 — HASIL
-======================================= -->
+<!-- ================================
+     HASIL
+================================ -->
 
 <section id="resultPage" class="page hidden">
 
@@ -337,36 +333,25 @@ button:disabled {
         <div class="stats">
 
             <div class="stat">
-                <strong id="totalResult">
-                    0
-                </strong>
+                <strong id="totalResult">0</strong>
                 Pertanyaan
             </div>
 
-
             <div class="stat">
                 ✓
-                <strong id="correctResult">
-                    0
-                </strong>
+                <strong id="correctResult">0</strong>
                 Benar
             </div>
 
-
             <div class="stat">
                 ✓
-                <strong id="partialResult">
-                    0
-                </strong>
+                <strong id="partialResult">0</strong>
                 Sebagian benar
             </div>
 
-
             <div class="stat">
                 ×
-                <strong id="wrongResult">
-                    0
-                </strong>
+                <strong id="wrongResult">0</strong>
                 Salah
             </div>
 
@@ -389,10 +374,9 @@ button:disabled {
 </section>
 
 
-
-<!-- ======================================
-     PAGE 4 — REVIEW
-======================================= -->
+<!-- ================================
+     REVIEW
+================================ -->
 
 <section id="reviewPage" class="page hidden">
 
@@ -411,93 +395,68 @@ button:disabled {
 </section>
 
 
-
 <script>
 
-
-/* ======================================
+/* =================================
    API
-======================================= */
+================================= */
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzwwzXuR4RyVsYotVtvrj8azxZyfmNyIwxngTkH6SEAJl7P8_Y4HKKHRFuPLT4JMSWCTQ/exec";
 
 
-/* ======================================
-   PLAYER
-======================================= */
+/* =================================
+   STATE
+================================= */
 
 let playerName = "";
 
-
-/* ======================================
-   ALL QUESTIONS
-======================================= */
-
 let questions = [];
 
+let currentQuestion = null;
 
-/*
-   Soal yang sudah mendapatkan 2/2
-   dianggap selesai.
-*/
+let currentQuestionIndex = 0;
 
-let completedQuestions = new Set();
-
-
-/*
-   Antrean soal yang harus diulang.
-
-   Contoh:
-
-   {
-       id: "3",
-       dueAfter: 5
-   }
-*/
-
-let retryQueue = [];
-
-
-/*
-   Jumlah soal lain yang sudah
-   dikerjakan sejak sebuah soal gagal.
-*/
-
-let retryCounters = {};
-
-
-/*
-   Hasil terakhir setiap soal.
-*/
-
-let latestResults = {};
-
-
-/*
-   Jumlah attempt keseluruhan.
-*/
+let selectedOptions = [];
 
 let attemptNumber = 0;
 
 
 /*
-   Soal yang sedang ditampilkan.
+    ID soal yang sudah mendapat 2/2.
 */
-
-let currentQuestion = null;
+let completedQuestions = new Set();
 
 
 /*
-   Pilihan user.
+    Hasil terakhir setiap soal.
 */
+let latestResults = {};
 
-let selectedOptions = [];
+
+/*
+    Soal yang harus diulang.
+
+    Contoh:
+
+    {
+        id: "3",
+        remaining: 5
+    }
+*/
+let retryQueue = [];
 
 
-/* ======================================
+/*
+    Jumlah percobaan sejak soal
+    tertentu terakhir dijawab.
+*/
+let retryCounters = {};
+
+
+/* =================================
    ELEMENTS
-======================================= */
+================================= */
 
 const namePage =
 document.getElementById("namePage");
@@ -569,10 +528,9 @@ const backResultButton =
 document.getElementById("backResultButton");
 
 
-
-/* ======================================
-   START QUIZ
-======================================= */
+/* =================================
+   START
+================================= */
 
 startButton.addEventListener(
     "click",
@@ -610,6 +568,14 @@ async function startQuiz() {
             await fetch(API_URL);
 
 
+        if (!response.ok) {
+
+            throw new Error(
+                "API tidak dapat diakses."
+            );
+        }
+
+
         const data =
             await response.json();
 
@@ -624,7 +590,9 @@ async function startQuiz() {
 
 
         questions =
-            data.questions || [];
+            Array.isArray(data.questions)
+                ? data.questions
+                : [];
 
 
         if (
@@ -638,50 +606,65 @@ async function startQuiz() {
 
 
         /*
-           Reset semua data quiz.
+            Reset quiz.
         */
 
         completedQuestions =
             new Set();
 
+        latestResults = {};
+
         retryQueue = [];
 
         retryCounters = {};
 
-        latestResults = {};
-
         attemptNumber = 0;
+
+        currentQuestionIndex = 0;
 
 
         /*
-           Acak urutan soal awal.
+            Acak soal awal.
         */
 
         shuffle(questions);
 
+
+        /*
+            Fade halaman nama.
+        */
 
         namePage.classList.add(
             "fade-out"
         );
 
 
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            namePage.classList.add(
-                "hidden"
-            );
+                namePage.classList.add(
+                    "hidden"
+                );
 
-            quizPage.classList.remove(
-                "hidden"
-            );
+                namePage.classList.remove(
+                    "fade-out"
+                );
 
-            quizPage.classList.add(
-                "fade-in"
-            );
 
-            showNextQuestion();
+                quizPage.classList.remove(
+                    "hidden"
+                );
 
-        }, 350);
+                quizPage.classList.add(
+                    "fade-in"
+                );
+
+
+                showNextQuestion();
+
+            },
+            350
+        );
 
 
     } catch (error) {
@@ -690,11 +673,12 @@ async function startQuiz() {
 
 
         nameError.textContent =
-            "Gagal mengambil soal: " +
             error.message;
 
 
-        startButton.disabled = false;
+        startButton.disabled =
+            false;
+
 
         startButton.textContent =
             "MULAI";
@@ -702,16 +686,15 @@ async function startQuiz() {
 }
 
 
-
-/* ======================================
-   SELECT NEXT QUESTION
-======================================= */
+/* =================================
+   NEXT QUESTION
+================================= */
 
 function showNextQuestion() {
 
     /*
-       Kalau semua soal sudah 2/2,
-       quiz selesai.
+        Kalau semua soal sudah
+        mendapat 2/2, selesai.
     */
 
     if (
@@ -729,8 +712,9 @@ function showNextQuestion() {
 
 
     /*
-       Pertama cek apakah ada soal
-       retry yang sudah waktunya.
+        1.
+        Cari retry yang sudah
+        menunggu 5 soal lain.
     */
 
     for (
@@ -744,20 +728,24 @@ function showNextQuestion() {
 
 
         if (
-            retryCounters[retry.id] >=
-            retry.dueAfter
+            retryCounters[retry.id] >= 5
         ) {
 
             nextQuestion =
                 questions.find(
-                    q => q.id === retry.id
+                    question =>
+                        String(question.id) ===
+                        String(retry.id)
                 );
 
 
-            retryQueue.splice(
-                i,
-                1
-            );
+            retryQueue.splice(i, 1);
+
+
+            delete retryCounters[
+                retry.id
+            ];
+
 
             break;
         }
@@ -765,30 +753,29 @@ function showNextQuestion() {
 
 
     /*
-       Kalau tidak ada retry yang
-       waktunya tiba, ambil soal
-       baru yang belum pernah
-       dikerjakan.
+        2.
+        Kalau tidak ada retry,
+        cari soal baru.
     */
 
     if (!nextQuestion) {
 
         nextQuestion =
             questions.find(
-                q =>
-                    !completedQuestions.has(
-                        q.id
-                    ) &&
-                    !latestResults[q.id]
+                question =>
+                    !latestResults[
+                        question.id
+                    ]
             );
     }
 
 
     /*
-       Kalau semua soal baru sudah
-       pernah dicoba tetapi masih
-       menunggu retry, ambil soal
-       retry yang paling dekat.
+        3.
+        Kalau semua soal baru sudah
+        pernah dicoba tetapi retry
+        masih menunggu, kerjakan
+        soal dengan retry terdekat.
     */
 
     if (!nextQuestion) {
@@ -797,18 +784,17 @@ function showNextQuestion() {
             retryQueue.length > 0
         ) {
 
-            /*
-               Paksa satu retry
-               terdekat agar quiz
-               tidak berhenti.
-            */
-
             retryQueue.sort(
-                (a, b) =>
-                    a.dueAfter -
-                    retryCounters[a.id] -
+                (
+                    a,
+                    b
+                ) =>
                     (
-                        b.dueAfter -
+                        5 -
+                        retryCounters[a.id]
+                    ) -
+                    (
+                        5 -
                         retryCounters[b.id]
                     )
             );
@@ -820,16 +806,21 @@ function showNextQuestion() {
 
             nextQuestion =
                 questions.find(
-                    q =>
-                        q.id ===
-                        retry.id
+                    question =>
+                        String(question.id) ===
+                        String(retry.id)
                 );
+
+
+            delete retryCounters[
+                retry.id
+            ];
         }
     }
 
 
     /*
-       Pengaman.
+        Pengaman.
     */
 
     if (!nextQuestion) {
@@ -847,22 +838,37 @@ function showNextQuestion() {
     attemptNumber++;
 
 
+    /*
+        Setiap soal yang bukan
+        soal sekarang menunggu
+        satu langkah lebih dekat
+        ke retry.
+    */
+
+    updateRetryCounters();
+
+
     showQuestion(
         currentQuestion
     );
 }
 
 
-
-/* ======================================
+/* =================================
    SHOW QUESTION
-======================================= */
+================================= */
 
 function showQuestion(question) {
 
+    currentQuestion =
+        question;
+
+
     selectedOptions = [];
 
+
     result.textContent = "";
+
 
     retryInfo.textContent = "";
 
@@ -892,10 +898,9 @@ function showQuestion(question) {
 }
 
 
-
-/* ======================================
+/* =================================
    CREATE OPTIONS
-======================================= */
+================================= */
 
 function createOptions(question) {
 
@@ -903,91 +908,110 @@ function createOptions(question) {
 
 
     /*
-       Cari soal lain untuk
-       membuat jawaban salah.
+        Soal lain digunakan untuk
+        membuat distractor.
     */
 
-    const otherQuestions =
+    const others =
         questions.filter(
-            q =>
-                q.id !==
-                question.id
+            questionItem =>
+                String(questionItem.id) !==
+                String(question.id)
         );
 
 
-    shuffle(otherQuestions);
+    shuffle(others);
 
 
     const wrongHiragana =
-        otherQuestions[0]
-            ? otherQuestions[0].hiragana
+        others[0]
+            ? others[0].hiragana
             : "よむ";
 
 
     const wrongIndonesia =
-        otherQuestions[1]
-            ? otherQuestions[1].indonesia
+        others[1]
+            ? others[1].indonesia
             : "membaca";
 
 
-    const list = [
+    /*
+        Dua benar:
+        1. Hiragana
+        2. Indonesia
+
+        Dua salah:
+        3. Hiragana soal lain
+        4. Indonesia soal lain
+    */
+
+    const answerList = [
 
         {
-            type: "hiragana",
-            value: question.hiragana,
-            correct: true
+            value:
+                question.hiragana,
+
+            correct:
+                true
         },
 
         {
-            type: "indonesia",
-            value: question.indonesia,
-            correct: true
+            value:
+                question.indonesia,
+
+            correct:
+                true
         },
 
         {
-            type: "hiragana",
-            value: wrongHiragana,
-            correct: false
+            value:
+                wrongHiragana,
+
+            correct:
+                false
         },
 
         {
-            type: "indonesia",
-            value: wrongIndonesia,
-            correct: false
+            value:
+                wrongIndonesia,
+
+            correct:
+                false
         }
 
     ];
 
 
-    shuffle(list);
+    shuffle(answerList);
 
 
-    list.forEach(
-        (item, index) => {
+    answerList.forEach(
+        (
+            item,
+            index
+        ) => {
 
-            const element =
+            const option =
                 document.createElement(
                     "div"
                 );
 
 
-            element.className =
+            option.className =
                 "option";
 
 
-            element.dataset.index =
+            option.dataset.index =
                 index;
 
 
-            element.dataset.correct =
-                item.correct;
+            option.dataset.correct =
+                item.correct
+                    ? "true"
+                    : "false";
 
 
-            element.dataset.type =
-                item.type;
-
-
-            element.textContent =
+            option.textContent =
                 String.fromCharCode(
                     65 + index
                 ) +
@@ -995,35 +1019,39 @@ function createOptions(question) {
                 item.value;
 
 
-            element.addEventListener(
+            option.addEventListener(
                 "click",
                 () =>
                     toggleOption(
-                        element
+                        option
                     )
             );
 
 
             options.appendChild(
-                element
+                option
             );
         }
     );
 }
 
 
-
-/* ======================================
+/* =================================
    SELECT OPTION
-======================================= */
+================================= */
 
-function toggleOption(element) {
+function toggleOption(option) {
 
     const index =
         Number(
-            element.dataset.index
+            option.dataset.index
         );
 
+
+    /*
+        Kalau sudah dipilih,
+        batalkan pilihan.
+    */
 
     if (
         selectedOptions.includes(
@@ -1033,17 +1061,22 @@ function toggleOption(element) {
 
         selectedOptions =
             selectedOptions.filter(
-                x =>
-                    x !== index
+                selectedIndex =>
+                    selectedIndex !==
+                    index
             );
 
 
-        element.classList.remove(
+        option.classList.remove(
             "selected"
         );
 
 
     } else {
+
+        /*
+            Maksimal 2 pilihan.
+        */
 
         if (
             selectedOptions.length >= 2
@@ -1058,7 +1091,7 @@ function toggleOption(element) {
         );
 
 
-        element.classList.add(
+        option.classList.add(
             "selected"
         );
     }
@@ -1069,10 +1102,9 @@ function toggleOption(element) {
 }
 
 
-
-/* ======================================
-   ANSWER
-======================================= */
+/* =================================
+   ANSWER BUTTON
+================================= */
 
 answerButton.addEventListener(
     "click",
@@ -1090,7 +1122,7 @@ function checkAnswer() {
     }
 
 
-    const elements =
+    const optionElements =
         document.querySelectorAll(
             ".option"
         );
@@ -1105,16 +1137,16 @@ function checkAnswer() {
     selectedOptions.forEach(
         index => {
 
-            const element =
-                elements[index];
+            const option =
+                optionElements[index];
 
 
-            const isCorrect =
-                element.dataset.correct ===
+            const correct =
+                option.dataset.correct ===
                 "true";
 
 
-            if (isCorrect) {
+            if (correct) {
 
                 correctCount++;
             }
@@ -1123,16 +1155,16 @@ function checkAnswer() {
             selectedData.push({
 
                 answer:
-                    element.textContent,
+                    option.textContent,
 
                 correct:
-                    isCorrect
+                    correct
             });
         }
     );
 
 
-    let category;
+    let category = "";
 
 
     if (
@@ -1171,8 +1203,7 @@ function checkAnswer() {
 
 
     /*
-       Simpan hasil terakhir
-       soal ini.
+        Simpan hasil terakhir soal.
     */
 
     latestResults[
@@ -1203,9 +1234,55 @@ function checkAnswer() {
 
 
     /*
-       Kalau 2/2:
+        Tampilkan jawaban benar
+        dan pilihan salah user.
+    */
 
-       SOAL SELESAI.
+    optionElements.forEach(
+        option => {
+
+            const isCorrect =
+                option.dataset.correct ===
+                "true";
+
+
+            const wasSelected =
+                selectedOptions.includes(
+                    Number(
+                        option.dataset.index
+                    )
+                );
+
+
+            if (isCorrect) {
+
+                option.classList.add(
+                    "correct"
+                );
+
+            } else if (
+                wasSelected
+            ) {
+
+                option.classList.add(
+                    "wrong"
+                );
+            }
+
+
+            option.style.pointerEvents =
+                "none";
+        }
+    );
+
+
+    answerButton.disabled =
+        true;
+
+
+    /*
+        Kalau 2/2:
+        soal selesai.
     */
 
     if (
@@ -1218,15 +1295,15 @@ function checkAnswer() {
 
 
         /*
-           Kalau sebelumnya ada
-           di retry queue, hapus.
+            Hapus soal ini dari
+            antrean retry.
         */
 
         retryQueue =
             retryQueue.filter(
-                item =>
-                    item.id !==
-                    currentQuestion.id
+                retry =>
+                    String(retry.id) !==
+                    String(currentQuestion.id)
             );
 
 
@@ -1236,76 +1313,280 @@ function checkAnswer() {
 
 
         retryInfo.textContent =
-            "Soal selesai.";
+            "Soal selesai. Tidak akan diulang.";
+
     }
 
 
     /*
-       Kalau 1/2 atau 0/2:
-
-       MASUK ANTREAN ULANG.
+        Kalau belum 2/2:
+        masuk antrean retry.
     */
 
     else {
 
-        retryCounters[
-            currentQuestion.id
-        ] = 0;
-
-
         /*
-           Tunggu 5 soal lain.
+            Jangan masukkan duplicate
+            retry untuk soal yang sama.
         */
 
-        retryQueue.push({
+        const alreadyQueued =
+            retryQueue.some(
+                retry =>
+                    String(retry.id) ===
+                    String(currentQuestion.id)
+            );
 
-            id:
-                currentQuestion.id,
 
-            dueAfter:
-                5
-        });
+        if (!alreadyQueued) {
+
+            retryQueue.push({
+
+                id:
+                    currentQuestion.id
+            });
+
+
+            retryCounters[
+                currentQuestion.id
+            ] = 0;
+        }
 
 
         retryInfo.textContent =
-            "Soal akan diulang setelah 5 soal lain.";
+            "Belum 2/2. Akan diulang setelah 5 soal lain.";
     }
 
 
     /*
-       Setiap kali sebuah soal lain
-       dikerjakan, counter retry
-       akan bertambah.
+        Tunggu sebentar supaya
+        user bisa melihat hasil.
     */
 
-    updateRetryCounters();
+    setTimeout(
+        showNextQuestion,
+        900
+    );
+}
 
+
+/* =================================
+   RETRY COUNTERS
+================================= */
+
+function updateRetryCounters() {
 
     /*
-       Tampilkan jawaban benar/salah.
+        Kita menghitung setiap soal
+        yang sudah dikerjakan.
+
+        Soal yang sedang menunggu
+        retry akan bertambah 1.
+
+        Soal yang baru saja dikerjakan
+        tidak dihitung sebagai soal lain.
     */
 
-    elements.forEach(
-        element => {
+    retryQueue.forEach(
+        retry => {
 
-            const isCorrect =
-                element.dataset.correct ===
-                "true";
-
-
-            if (isCorrect) {
-
-                element.classList.add(
-                    "correct"
-                );
-
-
-            } else if (
-                selectedOptions.includes(
-                    Number(
-                        element.dataset.index
-                    )
+            if (
+                String(retry.id) !==
+                String(
+                    currentQuestion.id
                 )
             ) {
 
-                element.classList.ad
+                retryCounters[
+                    retry.id
+                ] =
+                    (
+                        retryCounters[
+                            retry.id
+                        ] || 0
+                    ) + 1;
+            }
+        }
+    );
+}
+
+
+/* =================================
+   FINISH
+================================= */
+
+async function finishQuiz() {
+
+    quizPage.classList.add(
+        "fade-out"
+    );
+
+
+    setTimeout(
+        async () => {
+
+            quizPage.classList.add(
+                "hidden"
+            );
+
+
+            quizPage.classList.remove(
+                "fade-out"
+            );
+
+
+            resultPage.classList.remove(
+                "hidden"
+            );
+
+
+            resultPage.classList.add(
+                "fade-in"
+            );
+
+
+            /*
+                Ambil hasil terakhir
+                dari setiap soal.
+            */
+
+            const allResults =
+                questions.map(
+                    question =>
+                        latestResults[
+                            question.id
+                        ]
+                ).filter(
+                    resultItem =>
+                        resultItem
+                );
+
+
+            const total =
+                questions.length;
+
+
+            const correct =
+                allResults.filter(
+                    resultItem =>
+                        resultItem.category ===
+                        "benar"
+                ).length;
+
+
+            const partial =
+                allResults.filter(
+                    resultItem =>
+                        resultItem.category ===
+                        "sebagian"
+                ).length;
+
+
+            const wrong =
+                allResults.filter(
+                    resultItem =>
+                        resultItem.category ===
+                        "salah"
+                ).length;
+
+
+            resultName.textContent =
+                playerName;
+
+
+            totalResult.textContent =
+                total;
+
+
+            correctResult.textContent =
+                correct;
+
+
+            partialResult.textContent =
+                partial;
+
+
+            wrongResult.textContent =
+                wrong;
+
+
+            await sendResults(
+                total,
+                correct,
+                partial,
+                wrong,
+                allResults
+            );
+
+        },
+        350
+    );
+}
+
+
+/* =================================
+   POST RESULT
+================================= */
+
+async function sendResults(
+    total,
+    correct,
+    partial,
+    wrong,
+    allResults
+) {
+
+    saveStatus.textContent =
+        "Mengirim hasil ke admin...";
+
+
+    const payload = {
+
+        nama:
+            playerName,
+
+        total:
+            total,
+
+        benar:
+            correct,
+
+        sebagian:
+            partial,
+
+        salah:
+            wrong,
+
+        detail:
+            allResults
+    };
+
+
+    try {
+
+        await fetch(
+            API_URL,
+            {
+
+                method:
+                    "POST",
+
+                mode:
+                    "no-cors",
+
+                headers: {
+
+                    "Content-Type":
+                        "text/plain;charset=utf-8"
+                },
+
+                body:
+                    JSON.stringify(
+                        payload
+                    )
+            }
+        );
+
+
+        saveStatus.textContent =
+            "
