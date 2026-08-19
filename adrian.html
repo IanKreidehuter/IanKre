@@ -1,197 +1,812 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Japanese Quiz Test</title>
+<title>Japanese Quiz</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      padding: 30px 20px;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      color: #222;
-    }
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+}
 
-    .quiz {
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 25px;
-      border-radius: 18px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    }
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f4f4;
+  color: #171717;
+}
 
-    h1 {
-      margin-top: 0;
-    }
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
 
-    .kanji {
-      font-size: 60px;
-      text-align: center;
-      margin: 30px 0;
-    }
+.card {
+  width: 100%;
+  max-width: 520px;
+  background: white;
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
 
-    input[type="text"] {
-      width: 100%;
-      padding: 14px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
+.hidden {
+  display: none !important;
+}
 
-    .option {
-      display: block;
-      padding: 15px;
-      margin: 10px 0;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      cursor: pointer;
-    }
+.fade-out {
+  animation: fadeOut 0.35s forwards;
+}
 
-    .option input {
-      margin-right: 10px;
-    }
+.fade-in {
+  animation: fadeIn 0.45s forwards;
+}
 
-    button {
-      width: 100%;
-      padding: 15px;
-      margin-top: 15px;
-      border: 0;
-      border-radius: 10px;
-      background: #222;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
 
-    #hasil {
-      text-align: center;
-      margin-top: 20px;
-      font-weight: bold;
-    }
-  </style>
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: #777;
+  margin-bottom: 28px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+}
+
+input[type="text"]:focus {
+  border-color: #222;
+}
+
+button {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 16px;
+  background: #171717;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.progress {
+  display: flex;
+  justify-content: space-between;
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.kanji {
+  text-align: center;
+  font-size: 64px;
+  margin: 20px 0 35px;
+}
+
+.question-text {
+  text-align: center;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.options {
+  display: grid;
+  gap: 12px;
+}
+
+.option {
+  border: 2px solid #ddd;
+  border-radius: 14px;
+  padding: 17px;
+  cursor: pointer;
+  background: white;
+  transition: 0.15s;
+}
+
+.option:hover {
+  border-color: #999;
+}
+
+.option.selected {
+  border-color: #171717;
+  background: #f0f0f0;
+}
+
+.option.disabled {
+  pointer-events: none;
+}
+
+.result-message {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 25px 0;
+}
+
+.small {
+  color: #777;
+  font-size: 14px;
+  text-align: center;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="quiz">
+<!-- =========================
+     PAGE 1 : NAMA
+========================= -->
+
+<section id="namePage" class="page">
+
+  <div class="card">
 
     <h1>Japanese Quiz</h1>
 
+    <p class="subtitle">
+      Masukkan nama untuk memulai
+    </p>
+
     <input
+      id="nameInput"
       type="text"
-      id="nama"
-      placeholder="Masukkan nama"
+      placeholder="Nama kamu"
+      autocomplete="name"
     >
 
-    <div class="kanji">食べる</div>
-
-    <label class="option">
-      <input type="radio" name="jawaban" value="たべる">
-      A. たべる
-    </label>
-
-    <label class="option">
-      <input type="radio" name="jawaban" value="のむ">
-      B. のむ
-    </label>
-
-    <label class="option">
-      <input type="radio" name="jawaban" value="みる">
-      C. みる
-    </label>
-
-    <label class="option">
-      <input type="radio" name="jawaban" value="きく">
-      D. きく
-    </label>
-
-    <button onclick="kirimJawaban()">
-      KIRIM JAWABAN
+    <button id="startButton">
+      MULAI
     </button>
 
-    <div id="hasil"></div>
+    <p id="nameError" class="small"></p>
 
   </div>
 
-  <script>
+</section>
 
-    const API_URL =
-      "https://script.google.com/macros/s/AKfycbyzpiEaqOtcoBqxmP81jp08_ZafyjNaCzB59SZ2YF1g8yN-1xh98VWWbQS5gYh2ore0/exec";
 
-    async function kirimJawaban() {
+<!-- =========================
+     PAGE 2 : QUIZ
+========================= -->
 
-      const nama =
-        document.getElementById("nama").value.trim();
+<section id="quizPage" class="page hidden">
 
-      const pilihan =
-        document.querySelector(
-          'input[name="jawaban"]:checked'
-        );
+  <div class="card">
 
-      const hasil =
-        document.getElementById("hasil");
+    <div class="progress">
 
-      if (!nama) {
-        hasil.textContent = "Masukkan nama dulu.";
-        return;
-      }
+      <span id="questionNumber">
+        Pertanyaan 1
+      </span>
 
-      if (!pilihan) {
-        hasil.textContent = "Pilih jawaban dulu.";
-        return;
-      }
+      <span id="questionScore">
+        0/2
+      </span>
 
-      const jawaban = pilihan.value;
+    </div>
 
-      const skor =
-        jawaban === "たべる" ? 1 : 0;
+    <div
+      id="kanji"
+      class="kanji">
+      ---
+    </div>
 
-      hasil.textContent = "Mengirim hasil...";
+    <div class="question-text">
+      Pilih maksimal 2 jawaban
+    </div>
 
-      try {
+    <div
+      id="options"
+      class="options">
+    </div>
 
-        await fetch(API_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8"
-          },
-          body: JSON.stringify({
-            nama: nama,
-            kanji: "食べる",
-            jawaban: jawaban,
-            skor: skor
-          })
-        });
+    <button
+      id="answerButton"
+      disabled>
+      JAWAB
+    </button>
 
-        if (skor === 1) {
-          hasil.textContent =
-            "Benar! Hasil sudah dikirim.";
-        } else {
-          hasil.textContent =
-            "Salah. Hasil sudah dikirim.";
-        }
+    <div
+      id="resultMessage"
+      class="result-message">
+    </div>
 
-      } catch (error) {
+  </div>
 
-        console.error(error);
+</section>
 
-        hasil.textContent =
-          "Gagal mengirim hasil.";
 
-      }
+<script>
+
+/* =========================================
+   API
+========================================= */
+
+const API_URL =
+"https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnTlgifnymFG-Lgt0gevmwxi521IbsZcxD2u56b_0NrA6EgRiF1Igrt27-2vVhlQLVJoGiHxDUKN_eIP2XnCwkHWA8lgldQJ7bweajzbpgdzYFMBDuJ3FRiYnQRVW0n4Ykx7YLPv-gict3y0e2OW3lipNdx-Vcg9DgAZ-MeV-9WDn0qHhUZa68yqhSQd55LdgPC3Ko_icrhNnLkfvpIf6sKEYNwvm6gR0f9kUKG89IZ2pwso5cBDJZJyAYtLY4K0mNcj1LPBvVCPVLLAVf7bg5IybIfNLw&lib=MqiVLkVKA-qgXDyB_uv6hbku3mArqSlQY";
+
+
+/* =========================================
+   STATE
+========================================= */
+
+let playerName = "";
+
+let questions = [];
+
+let currentQuestionIndex = 0;
+
+let selectedOptions = [];
+
+let currentQuestion = null;
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const namePage =
+  document.getElementById("namePage");
+
+const quizPage =
+  document.getElementById("quizPage");
+
+const nameInput =
+  document.getElementById("nameInput");
+
+const startButton =
+  document.getElementById("startButton");
+
+const nameError =
+  document.getElementById("nameError");
+
+const questionNumber =
+  document.getElementById("questionNumber");
+
+const questionScore =
+  document.getElementById("questionScore");
+
+const kanji =
+  document.getElementById("kanji");
+
+const optionsContainer =
+  document.getElementById("options");
+
+const answerButton =
+  document.getElementById("answerButton");
+
+const resultMessage =
+  document.getElementById("resultMessage");
+
+
+/* =========================================
+   START QUIZ
+========================================= */
+
+startButton.addEventListener(
+  "click",
+  startQuiz
+);
+
+
+async function startQuiz() {
+
+  playerName =
+    nameInput.value.trim();
+
+  if (!playerName) {
+
+    nameError.textContent =
+      "Masukkan nama terlebih dahulu.";
+
+    return;
+  }
+
+  nameError.textContent = "";
+
+  startButton.disabled = true;
+
+  startButton.textContent =
+    "MEMUAT...";
+
+  try {
+
+    const response =
+      await fetch(API_URL);
+
+    const data =
+      await response.json();
+
+    if (!data.success) {
+
+      throw new Error(
+        data.error ||
+        "Gagal mengambil soal."
+      );
     }
 
-  </script>
+    questions =
+      data.questions || [];
+
+    if (questions.length === 0) {
+
+      throw new Error(
+        "Tidak ada soal di Questions."
+      );
+    }
+
+    namePage.classList.add(
+      "fade-out"
+    );
+
+    setTimeout(() => {
+
+      namePage.classList.add(
+        "hidden"
+      );
+
+      quizPage.classList.remove(
+        "hidden"
+      );
+
+      quizPage.classList.add(
+        "fade-in"
+      );
+
+      showQuestion();
+
+    }, 350);
+
+  } catch (error) {
+
+    console.error(error);
+
+    nameError.textContent =
+      "Gagal mengambil soal: " +
+      error.message;
+
+    startButton.disabled = false;
+
+    startButton.textContent =
+      "MULAI";
+  }
+}
+
+
+/* =========================================
+   SHOW QUESTION
+========================================= */
+
+function showQuestion() {
+
+  currentQuestion =
+    questions[currentQuestionIndex];
+
+  selectedOptions = [];
+
+  resultMessage.textContent = "";
+
+  answerButton.disabled = true;
+
+  questionNumber.textContent =
+    "Pertanyaan " +
+    (currentQuestionIndex + 1) +
+    " / " +
+    questions.length;
+
+  questionScore.textContent =
+    "0/2";
+
+  kanji.textContent =
+    currentQuestion.kanji;
+
+  createOptions();
+}
+
+
+/* =========================================
+   CREATE OPTIONS
+========================================= */
+
+function createOptions() {
+
+  optionsContainer.innerHTML = "";
+
+  /*
+    Untuk sementara kita menggunakan
+    soal lain sebagai pilihan salah.
+  */
+
+  const wrongQuestions =
+    questions.filter(
+      question =>
+        question.id !== currentQuestion.id
+    );
+
+  shuffleArray(wrongQuestions);
+
+  const wrongHiragana =
+    wrongQuestions[0]
+      ? wrongQuestions[0].hiragana
+      : "よむ";
+
+  const wrongIndonesia =
+    wrongQuestions[1]
+      ? wrongQuestions[1].indonesia
+      : "membaca";
+
+
+  const options = [
+
+    {
+      type: "hiragana",
+      value: currentQuestion.hiragana,
+      correct: true
+    },
+
+    {
+      type: "indonesia",
+      value: currentQuestion.indonesia,
+      correct: true
+    },
+
+    {
+      type: "hiragana",
+      value: wrongHiragana,
+      correct: false
+    },
+
+    {
+      type: "indonesia",
+      value: wrongIndonesia,
+      correct: false
+    }
+
+  ];
+
+  shuffleArray(options);
+
+
+  options.forEach(
+    (option, index) => {
+
+      const element =
+        document.createElement("div");
+
+      element.className =
+        "option";
+
+      element.dataset.index =
+        index;
+
+      element.dataset.type =
+        option.type;
+
+      element.dataset.correct =
+        option.correct;
+
+      element.innerHTML =
+        `<strong>${String.fromCharCode(65 + index)}.</strong>
+         ${escapeHTML(option.value)}`;
+
+      element.addEventListener(
+        "click",
+        () => selectOption(element)
+      );
+
+      optionsContainer.appendChild(
+        element
+      );
+    }
+  );
+}
+
+
+/* =========================================
+   SELECT OPTION
+========================================= */
+
+function selectOption(element) {
+
+  const index =
+    Number(element.dataset.index);
+
+  const alreadySelected =
+    selectedOptions.includes(index);
+
+
+  if (alreadySelected) {
+
+    selectedOptions =
+      selectedOptions.filter(
+        value => value !== index
+      );
+
+    element.classList.remove(
+      "selected"
+    );
+
+  } else {
+
+    if (selectedOptions.length >= 2) {
+
+      return;
+    }
+
+    selectedOptions.push(index);
+
+    element.classList.add(
+      "selected"
+    );
+  }
+
+
+  questionScore.textContent =
+    selectedOptions.length + "/2";
+
+
+  answerButton.disabled =
+    selectedOptions.length === 0;
+}
+
+
+/* =========================================
+   ANSWER
+========================================= */
+
+answerButton.addEventListener(
+  "click",
+  checkAnswer
+);
+
+
+function checkAnswer() {
+
+  if (selectedOptions.length === 0) {
+    return;
+  }
+
+  const optionElements =
+    document.querySelectorAll(".option");
+
+
+  let correctCount = 0;
+
+
+  selectedOptions.forEach(
+    index => {
+
+      const option =
+        optionElements[index];
+
+      if (
+        option.dataset.correct ===
+        "true"
+      ) {
+
+        correctCount++;
+      }
+    }
+  );
+
+
+  /*
+    Kalau user memilih satu saja,
+    misalnya hiragana benar:
+
+    1/2
+
+    Kalau dua jawaban benar:
+
+    2/2
+
+    Kalau semuanya salah:
+
+    0/2
+  */
+
+  questionScore.textContent =
+    correctCount + "/2";
+
+
+  if (correctCount === 2) {
+
+    resultMessage.textContent =
+      "2/2 BENAR";
+
+  } else if (correctCount === 1) {
+
+    resultMessage.textContent =
+      "1/2 BENAR";
+
+  } else {
+
+    resultMessage.textContent =
+      "0/2 SALAH";
+  }
+
+
+  optionElements.forEach(
+    option => {
+
+      option.classList.add(
+        "disabled"
+      );
+    }
+  );
+
+
+  answerButton.disabled =
+    true;
+
+
+  setTimeout(
+    nextQuestion,
+    1000
+  );
+}
+
+
+/* =========================================
+   NEXT QUESTION
+========================================= */
+
+function nextQuestion() {
+
+  currentQuestionIndex++;
+
+
+  if (
+    currentQuestionIndex >=
+    questions.length
+  ) {
+
+    showTemporaryFinished();
+
+    return;
+  }
+
+
+  showQuestion();
+}
+
+
+/* =========================================
+   TEMPORARY FINISH
+========================================= */
+
+function showTemporaryFinished() {
+
+  kanji.textContent =
+    "Selesai";
+
+  optionsContainer.innerHTML =
+    "";
+
+  questionNumber.textContent =
+    "Quiz selesai";
+
+  questionScore.textContent =
+    "";
+
+  resultMessage.textContent =
+    "Semua soal selesai.";
+
+  answerButton.classList.add(
+    "hidden"
+  );
+}
+
+
+/* =========================================
+   SHUFFLE
+========================================= */
+
+function shuffleArray(array) {
+
+  for (
+    let i = array.length - 1;
+    i > 0;
+    i--
+  ) {
+
+    const j =
+      Math.floor(
+        Math.random() * (i + 1)
+      );
+
+    [
+      array[i],
+      array[j]
+    ] =
+    [
+      array[j],
+      array[i]
+    ];
+  }
+
+  return array;
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(value) {
+
+  return String(value)
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+}
+
+</script>
 
 </body>
 </html>
