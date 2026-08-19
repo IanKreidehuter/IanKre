@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quiz Bahasa Jepang N5(Test)</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f4f4;
+    color: #171717;
+}
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card {
+    width: 100%;
+    max-width: 560px;
+    background: white;
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease;
+}
+
+.fade-out {
+    animation: fadeOut 0.35s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+h1 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.subtitle {
+    text-align: center;
+    color: #777;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #171717;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 12px;
+    background: #171717;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.progress {
+    display: flex;
+    justify-content: space-between;
+    color: #777;
+    font-size: 14px;
+}
+
+.kanji {
+    text-align: center;
+    font-size: 64px;
+    margin: 35px 0;
+}
+
+.instruction {
+    text-align: center;
+    color: #777;
+    margin-bottom: 18px;
+}
+
+.options {
+    display: grid;
+    gap: 12px;
+}
+
+.option {
+    padding: 17px;
+    border: 2px solid #ddd;
+    border-radius: 14px;
+    cursor: pointer;
+    background: white;
+    transition: 0.15s;
+}
+
+.option:hover {
+    border-color: #999;
+}
+
+.option.selected {
+    border-color: #171717;
+    background: #f0f0f0;
+}
+
+.option.correct {
+    border-color: #222;
+    background: #e8f5e9;
+}
+
+.option.wrong {
+    border-color: #777;
+    background: #f5f5f5;
+}
+
+.result {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+    min-height: 30px;
+}
+
+.retry-info {
+    text-align: center;
+    color: #777;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.stats {
+    text-align: center;
+    margin: 25px 0;
+}
+
+.stat {
+    margin: 12px 0;
+    font-size: 18px;
+}
+
+.review-item {
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    padding: 16px;
+    margin-top: 12px;
+}
+
+.review-kanji {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.review-status {
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+.small {
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- ======================================
+     PAGE 1 — NAMA
+======================================= -->
+
+<section id="namePage" class="page">
+
+    <div class="card">
+
+        <h1>Japanese Quiz</h1>
+
+        <p class="subtitle">
+            Masukkan nama untuk memulai
+        </p>
+
+        <input
+            id="nameInput"
+            type="text"
+            placeholder="Nama kamu"
+            autocomplete="name"
+        >
+
+        <button id="startButton">
+            MULAI
+        </button>
+
+        <p id="nameError" class="small"></p>
+
+    </div>
+
+</section>
+
+
+
+<!-- ======================================
+     PAGE 2 — QUIZ
+======================================= -->
+
+<section id="quizPage" class="page hidden">
+
+    <div class="card">
+
+        <div class="progress">
+
+            <span id="progressText">
+                Soal 1 / 10
+            </span>
+
+            <span id="masteryText">
+                0 / 10
+            </span>
+
+        </div>
+
+
+        <div
+            id="kanji"
+            class="kanji">
+        </div>
+
+
+        <div class="instruction">
+            Pilih maksimal 2 jawaban
+        </div>
+
+
+        <div
+            id="options"
+            class="options">
+        </div>
+
+
+        <button
+            id="answerButton"
+            disabled>
+            JAWAB
+        </button>
+
+
+        <div
+            id="result"
+            class="result">
+        </div>
+
+
+        <div
+            id="retryInfo"
+            class="retry-info">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ======================================
+     PAGE 3 — HASIL
+======================================= -->
+
+<section id="resultPage" class="page hidden">
+
+    <div class="card">
+
+        <h1>Quiz Selesai</h1>
+
+        <p
+            id="resultName"
+            class="subtitle">
+        </p>
+
+
+        <div class="stats">
+
+            <div class="stat">
+                <strong id="totalResult">
+                    0
+                </strong>
+                Pertanyaan
+            </div>
+
+
+            <div class="stat">
+                ✓
+                <strong id="correctResult">
+                    0
+                </strong>
+                Benar
+            </div>
+
+
+            <div class="stat">
+                ✓
+                <strong id="partialResult">
+                    0
+                </strong>
+                Sebagian benar
+            </div>
+
+
+            <div class="stat">
+                ×
+                <strong id="wrongResult">
+                    0
+                </strong>
+                Salah
+            </div>
+
+        </div>
+
+
+        <p
+            id="saveStatus"
+            class="small">
+            Menyimpan hasil...
+        </p>
+
+
+        <button id="reviewButton">
+            LIHAT REVIEW
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- ======================================
+     PAGE 4 — REVIEW
+======================================= -->
+
+<section id="reviewPage" class="page hidden">
+
+    <div class="card">
+
+        <h1>Review</h1>
+
+        <div id="reviewList"></div>
+
+        <button id="backResultButton">
+            KEMBALI KE HASIL
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<script>
+
+
+/* ======================================
+   API
+======================================= */
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbzwwzXuR4RyVsYotVtvrj8azxZyfmNyIwxngTkH6SEAJl7P8_Y4HKKHRFuPLT4JMSWCTQ/exec";
+
+
+/* ======================================
+   PLAYER
+======================================= */
+
+let playerName = "";
+
+
+/* ======================================
+   ALL QUESTIONS
+======================================= */
+
+let questions = [];
+
+
+/*
+   Soal yang sudah mendapatkan 2/2
+   dianggap selesai.
+*/
+
+let completedQuestions = new Set();
+
+
+/*
+   Antrean soal yang harus diulang.
+
+   Contoh:
+
+   {
+       id: "3",
+       dueAfter: 5
+   }
+*/
+
+let retryQueue = [];
+
+
+/*
+   Jumlah soal lain yang sudah
+   dikerjakan sejak sebuah soal gagal.
+*/
+
+let retryCounters = {};
+
+
+/*
+   Hasil terakhir setiap soal.
+*/
+
+let latestResults = {};
+
+
+/*
+   Jumlah attempt keseluruhan.
+*/
+
+let attemptNumber = 0;
+
+
+/*
+   Soal yang sedang ditampilkan.
+*/
+
+let currentQuestion = null;
+
+
+/*
+   Pilihan user.
+*/
+
+let selectedOptions = [];
+
+
+/* ======================================
+   ELEMENTS
+======================================= */
+
+const namePage =
+document.getElementById("namePage");
+
+const quizPage =
+document.getElementById("quizPage");
+
+const resultPage =
+document.getElementById("resultPage");
+
+const reviewPage =
+document.getElementById("reviewPage");
+
+const nameInput =
+document.getElementById("nameInput");
+
+const startButton =
+document.getElementById("startButton");
+
+const nameError =
+document.getElementById("nameError");
+
+const progressText =
+document.getElementById("progressText");
+
+const masteryText =
+document.getElementById("masteryText");
+
+const kanji =
+document.getElementById("kanji");
+
+const options =
+document.getElementById("options");
+
+const answerButton =
+document.getElementById("answerButton");
+
+const result =
+document.getElementById("result");
+
+const retryInfo =
+document.getElementById("retryInfo");
+
+const resultName =
+document.getElementById("resultName");
+
+const totalResult =
+document.getElementById("totalResult");
+
+const correctResult =
+document.getElementById("correctResult");
+
+const partialResult =
+document.getElementById("partialResult");
+
+const wrongResult =
+document.getElementById("wrongResult");
+
+const saveStatus =
+document.getElementById("saveStatus");
+
+const reviewButton =
+document.getElementById("reviewButton");
+
+const reviewList =
+document.getElementById("reviewList");
+
+const backResultButton =
+document.getElementById("backResultButton");
+
+
+
+/* ======================================
+   START QUIZ
+======================================= */
+
+startButton.addEventListener(
+    "click",
+    startQuiz
+);
+
+
+async function startQuiz() {
+
+    playerName =
+        nameInput.value.trim();
+
+
+    if (!playerName) {
+
+        nameError.textContent =
+            "Masukkan nama terlebih dahulu.";
+
+        return;
+    }
+
+
+    nameError.textContent = "";
+
+
+    startButton.disabled = true;
+
+    startButton.textContent =
+        "MEMUAT...";
+
+
+    try {
+
+        const response =
+            await fetch(API_URL);
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.error ||
+                "Gagal mengambil soal."
+            );
+        }
+
+
+        questions =
+            data.questions || [];
+
+
+        if (
+            questions.length === 0
+        ) {
+
+            throw new Error(
+                "Questions kosong."
+            );
+        }
+
+
+        /*
+           Reset semua data quiz.
+        */
+
+        completedQuestions =
+            new Set();
+
+        retryQueue = [];
+
+        retryCounters = {};
+
+        latestResults = {};
+
+        attemptNumber = 0;
+
+
+        /*
+           Acak urutan soal awal.
+        */
+
+        shuffle(questions);
+
+
+        namePage.classList.add(
+            "fade-out"
+        );
+
+
+        setTimeout(() => {
+
+            namePage.classList.add(
+                "hidden"
+            );
+
+            quizPage.classList.remove(
+                "hidden"
+            );
+
+            quizPage.classList.add(
+                "fade-in"
+            );
+
+            showNextQuestion();
+
+        }, 350);
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        nameError.textContent =
+            "Gagal mengambil soal: " +
+            error.message;
+
+
+        startButton.disabled = false;
+
+        startButton.textContent =
+            "MULAI";
+    }
+}
+
+
+
+/* ======================================
+   SELECT NEXT QUESTION
+======================================= */
+
+function showNextQuestion() {
+
+    /*
+       Kalau semua soal sudah 2/2,
+       quiz selesai.
+    */
+
+    if (
+        completedQuestions.size ===
+        questions.length
+    ) {
+
+        finishQuiz();
+
+        return;
+    }
+
+
+    let nextQuestion = null;
+
+
+    /*
+       Pertama cek apakah ada soal
+       retry yang sudah waktunya.
+    */
+
+    for (
+        let i = 0;
+        i < retryQueue.length;
+        i++
+    ) {
+
+        const retry =
+            retryQueue[i];
+
+
+        if (
+            retryCounters[retry.id] >=
+            retry.dueAfter
+        ) {
+
+            nextQuestion =
+                questions.find(
+                    q => q.id === retry.id
+                );
+
+
+            retryQueue.splice(
+                i,
+                1
+            );
+
+            break;
+        }
+    }
+
+
+    /*
+       Kalau tidak ada retry yang
+       waktunya tiba, ambil soal
+       baru yang belum pernah
+       dikerjakan.
+    */
+
+    if (!nextQuestion) {
+
+        nextQuestion =
+            questions.find(
+                q =>
+                    !completedQuestions.has(
+                        q.id
+                    ) &&
+                    !latestResults[q.id]
+            );
+    }
+
+
+    /*
+       Kalau semua soal baru sudah
+       pernah dicoba tetapi masih
+       menunggu retry, ambil soal
+       retry yang paling dekat.
+    */
+
+    if (!nextQuestion) {
+
+        if (
+            retryQueue.length > 0
+        ) {
+
+            /*
+               Paksa satu retry
+               terdekat agar quiz
+               tidak berhenti.
+            */
+
+            retryQueue.sort(
+                (a, b) =>
+                    a.dueAfter -
+                    retryCounters[a.id] -
+                    (
+                        b.dueAfter -
+                        retryCounters[b.id]
+                    )
+            );
+
+
+            const retry =
+                retryQueue.shift();
+
+
+            nextQuestion =
+                questions.find(
+                    q =>
+                        q.id ===
+                        retry.id
+                );
+        }
+    }
+
+
+    /*
+       Pengaman.
+    */
+
+    if (!nextQuestion) {
+
+        finishQuiz();
+
+        return;
+    }
+
+
+    currentQuestion =
+        nextQuestion;
+
+
+    attemptNumber++;
+
+
+    showQuestion(
+        currentQuestion
+    );
+}
+
+
+
+/* ======================================
+   SHOW QUESTION
+======================================= */
+
+function showQuestion(question) {
+
+    selectedOptions = [];
+
+    result.textContent = "";
+
+    retryInfo.textContent = "";
+
+
+    answerButton.disabled =
+        true;
+
+
+    progressText.textContent =
+        "Percobaan " +
+        attemptNumber;
+
+
+    masteryText.textContent =
+        completedQuestions.size +
+        " / " +
+        questions.length;
+
+
+    kanji.textContent =
+        question.kanji;
+
+
+    createOptions(
+        question
+    );
+}
+
+
+
+/* ======================================
+   CREATE OPTIONS
+======================================= */
+
+function createOptions(question) {
+
+    options.innerHTML = "";
+
+
+    /*
+       Cari soal lain untuk
+       membuat jawaban salah.
+    */
+
+    const otherQuestions =
+        questions.filter(
+            q =>
+                q.id !==
+                question.id
+        );
+
+
+    shuffle(otherQuestions);
+
+
+    const wrongHiragana =
+        otherQuestions[0]
+            ? otherQuestions[0].hiragana
+            : "よむ";
+
+
+    const wrongIndonesia =
+        otherQuestions[1]
+            ? otherQuestions[1].indonesia
+            : "membaca";
+
+
+    const list = [
+
+        {
+            type: "hiragana",
+            value: question.hiragana,
+            correct: true
+        },
+
+        {
+            type: "indonesia",
+            value: question.indonesia,
+            correct: true
+        },
+
+        {
+            type: "hiragana",
+            value: wrongHiragana,
+            correct: false
+        },
+
+        {
+            type: "indonesia",
+            value: wrongIndonesia,
+            correct: false
+        }
+
+    ];
+
+
+    shuffle(list);
+
+
+    list.forEach(
+        (item, index) => {
+
+            const element =
+                document.createElement(
+                    "div"
+                );
+
+
+            element.className =
+                "option";
+
+
+            element.dataset.index =
+                index;
+
+
+            element.dataset.correct =
+                item.correct;
+
+
+            element.dataset.type =
+                item.type;
+
+
+            element.textContent =
+                String.fromCharCode(
+                    65 + index
+                ) +
+                ". " +
+                item.value;
+
+
+            element.addEventListener(
+                "click",
+                () =>
+                    toggleOption(
+                        element
+                    )
+            );
+
+
+            options.appendChild(
+                element
+            );
+        }
+    );
+}
+
+
+
+/* ======================================
+   SELECT OPTION
+======================================= */
+
+function toggleOption(element) {
+
+    const index =
+        Number(
+            element.dataset.index
+        );
+
+
+    if (
+        selectedOptions.includes(
+            index
+        )
+    ) {
+
+        selectedOptions =
+            selectedOptions.filter(
+                x =>
+                    x !== index
+            );
+
+
+        element.classList.remove(
+            "selected"
+        );
+
+
+    } else {
+
+        if (
+            selectedOptions.length >= 2
+        ) {
+
+            return;
+        }
+
+
+        selectedOptions.push(
+            index
+        );
+
+
+        element.classList.add(
+            "selected"
+        );
+    }
+
+
+    answerButton.disabled =
+        selectedOptions.length === 0;
+}
+
+
+
+/* ======================================
+   ANSWER
+======================================= */
+
+answerButton.addEventListener(
+    "click",
+    checkAnswer
+);
+
+
+function checkAnswer() {
+
+    if (
+        selectedOptions.length === 0
+    ) {
+
+        return;
+    }
+
+
+    const elements =
+        document.querySelectorAll(
+            ".option"
+        );
+
+
+    let correctCount = 0;
+
+
+    const selectedData = [];
+
+
+    selectedOptions.forEach(
+        index => {
+
+            const element =
+                elements[index];
+
+
+            const isCorrect =
+                element.dataset.correct ===
+                "true";
+
+
+            if (isCorrect) {
+
+                correctCount++;
+            }
+
+
+            selectedData.push({
+
+                answer:
+                    element.textContent,
+
+                correct:
+                    isCorrect
+            });
+        }
+    );
+
+
+    let category;
+
+
+    if (
+        correctCount === 2
+    ) {
+
+        category =
+            "benar";
+
+
+        result.textContent =
+            "2/2 BENAR";
+
+
+    } else if (
+        correctCount === 1
+    ) {
+
+        category =
+            "sebagian";
+
+
+        result.textContent =
+            "1/2 BENAR";
+
+
+    } else {
+
+        category =
+            "salah";
+
+
+        result.textContent =
+            "0/2 SALAH";
+    }
+
+
+    /*
+       Simpan hasil terakhir
+       soal ini.
+    */
+
+    latestResults[
+        currentQuestion.id
+    ] = {
+
+        id:
+            currentQuestion.id,
+
+        kanji:
+            currentQuestion.kanji,
+
+        hiragana:
+            currentQuestion.hiragana,
+
+        indonesia:
+            currentQuestion.indonesia,
+
+        score:
+            correctCount,
+
+        category:
+            category,
+
+        selected:
+            selectedData
+    };
+
+
+    /*
+       Kalau 2/2:
+
+       SOAL SELESAI.
+    */
+
+    if (
+        correctCount === 2
+    ) {
+
+        completedQuestions.add(
+            currentQuestion.id
+        );
+
+
+        /*
+           Kalau sebelumnya ada
+           di retry queue, hapus.
+        */
+
+        retryQueue =
+            retryQueue.filter(
+                item =>
+                    item.id !==
+                    currentQuestion.id
+            );
+
+
+        delete retryCounters[
+            currentQuestion.id
+        ];
+
+
+        retryInfo.textContent =
+            "Soal selesai.";
+    }
+
+
+    /*
+       Kalau 1/2 atau 0/2:
+
+       MASUK ANTREAN ULANG.
+    */
+
+    else {
+
+        retryCounters[
+            currentQuestion.id
+        ] = 0;
+
+
+        /*
+           Tunggu 5 soal lain.
+        */
+
+        retryQueue.push({
+
+            id:
+                currentQuestion.id,
+
+            dueAfter:
+                5
+        });
+
+
+        retryInfo.textContent =
+            "Soal akan diulang setelah 5 soal lain.";
+    }
+
+
+    /*
+       Setiap kali sebuah soal lain
+       dikerjakan, counter retry
+       akan bertambah.
+    */
+
+    updateRetryCounters();
+
+
+    /*
+       Tampilkan jawaban benar/salah.
+    */
+
+    elements.forEach(
+        element => {
+
+            const isCorrect =
+                element.dataset.correct ===
+                "true";
+
+
+            if (isCorrect) {
+
+                element.classList.add(
+                    "correct"
+                );
+
+
+            } else if (
+                selectedOptions.includes(
+                    Number(
+                        element.dataset.index
+                    )
+                )
+            ) {
+
+                element.classList.ad
