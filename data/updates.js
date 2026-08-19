@@ -8,7 +8,7 @@ const UPDATES = [
 
   {
     type: "image",
-    src: "assets/images/togood.png",
+    src: "assets/images/togoodd.png",
     caption: "Too good to be true."
   },
 
