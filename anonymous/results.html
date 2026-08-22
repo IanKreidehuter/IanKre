@@ -86,7 +86,13 @@
     max-width: 480px;
     display: flex;
     flex-direction: column;
-    gap: 52px;
+    gap: 28px;
+  }
+
+  #feedList {
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
   }
 
   .feed-header {
@@ -248,7 +254,8 @@
   /* ---------------------------------------------------- */
   @media (max-width: 400px) {
     .page { padding: 28px 14px 60px; }
-    .feed { gap: 42px; }
+    .feed { gap: 20px; }
+    #feedList { gap: 32px; }
     .message-card { padding: 20px 18px 22px; }
     .message-text { font-size: 16px; }
     .sender-card { padding: 10px 16px; }
