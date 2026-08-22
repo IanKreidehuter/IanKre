@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Adrian Kreidehüter — Anonymous Message</title>
+
+<!-- ================================================== -->
+<!-- CSS                                                 -->
+<!-- ================================================== -->
+<style>
+  :root{
+    --glass-bg: rgba(255, 255, 255, 0.14);
+    --glass-bg-strong: rgba(255, 255, 255, 0.22);
+    --glass-border: rgba(255, 255, 255, 0.35);
+    --glass-border-dark: rgba(10, 14, 30, 0.35);
+    --text-primary: #f5f8ff;
+    --text-secondary: rgba(245, 248, 255, 0.72);
+    --accent: #dce6ff;
+    --shadow-soft: 0 8px 32px rgba(5, 8, 20, 0.35);
+    --radius-xl: 32px;
+    --radius-lg: 24px;
+    --radius-md: 18px;
+    --radius-pill: 999px;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ---------------------------------------------------- */
+  /* Background layers                                    */
+  /* ---------------------------------------------------- */
+  .bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    background-image: url("background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(2px) saturate(1.05);
+    transform: scale(1.03); /* avoid blurred edges at viewport border */
+  }
+
+  .bg-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+      linear-gradient(180deg, rgba(6, 10, 24, 0.35) 0%, rgba(6, 10, 24, 0.15) 35%, rgba(4, 8, 20, 0.55) 100%);
+  }
+
+  .bg-vignette {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(120% 90% at 50% 10%, transparent 40%, rgba(2, 5, 14, 0.45) 100%);
+    pointer-events: none;
+  }
+
+  /* ---------------------------------------------------- */
+  /* Page layout                                          */
+  /* ---------------------------------------------------- */
+  .page {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 48px 20px 60px;
+  }
+
+  .stack {
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  /* ---------------------------------------------------- */
+  /* Glass base                                            */
+  /* ---------------------------------------------------- */
+  .glass {
+    position: relative;
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    backdrop-filter: blur(22px) saturate(140%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    box-shadow:
+      var(--shadow-soft),
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+
+  .glass::before {
+    /* soft top highlight / reflection */
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 45%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 100%);
+    pointer-events: none;
+  }
+
+  .fade-in {
+    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .fade-in:nth-child(1) { animation-delay: 0.05s; }
+  .fade-in:nth-child(2) { animation-delay: 0.15s; }
+  .fade-in:nth-child(3) { animation-delay: 0.25s; }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+      filter: blur(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  /* ---------------------------------------------------- */
+  /* Profile card                                          */
+  /* ---------------------------------------------------- */
+  .profile-card {
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .profile-pic {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.3), inset 0 0 0 2px rgba(255,255,255,0.08);
+    flex-shrink: 0;
+  }
+
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .profile-name {
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .profile-username {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.01em;
+  }
+
+  /* ---------------------------------------------------- */
+  /* Message card                                          */
+  /* ---------------------------------------------------- */
+  .message-card {
+    padding: 26px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .prompt-text {
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    text-shadow: 0 2px 14px rgba(0,0,0,0.3);
+  }
+
+  /* Anonymous toggle row */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 2px;
+  }
+
+  .toggle-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .switch {
+    position: relative;
+    width: 50px;
+    height: 30px;
+    flex-shrink: 0;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+
+  .switch-track {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: background 0.35s ease, border-color 0.35s ease;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .switch-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #ffffff, #dfe7f5);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35), inset 0 -1px 1px rgba(0,0,0,0.05);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .switch input:checked + .switch-track {
+    background: rgba(180, 210, 255, 0.55);
+    border-color: rgba(220, 235, 255, 0.7);
+  }
+
+  .switch input:checked + .switch-track .switch-thumb {
+    transform: translateX(20px);
+  }
+
+  /* Name input */
+  .field-wrap {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease, margin 0.4s ease;
+    opacity: 1;
+  }
+
+  .field-wrap.collapsed {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .field-wrap > div {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .glass-input,
+  .glass-textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-md);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 15px;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .glass-input::placeholder,
+  .glass-textarea::placeholder {
+    color: rgba(245, 248, 255, 0.55);
+  }
+
+  .glass-input:focus,
+  .glass-textarea:focus {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-textarea {
+    resize: none;
+    min-height: 110px;
+    line-height: 1.5;
+  }
+
+  /* ---------------------------------------------------- */
+  /* Bottom row: name/status + send button                */
+  /* ---------------------------------------------------- */
+  .send-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .status-line {
+    flex: 1;
+    min-width: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .status-line.success {
+    color: #b9f5c9;
+  }
+
+  .status-line.error {
+    color: #ffb3b3;
+  }
+
+  .send-btn {
+    position: relative;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: linear-gradient(160deg, rgba(255,255,255,0.35), rgba(255,255,255,0.1));
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s ease, background 0.25s ease;
+    color: #1b2740;
+  }
+
+  .send-btn svg {
+    width: 22px;
+    height: 22px;
+    transform: translateX(1px);
+  }
+
+  .send-btn:active {
+    transform: scale(0.9);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.5);
+  }
+
+  .send-btn.sending {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .send-btn.sending svg {
+    animation: spin 0.9s linear infinite;
+  }
+
+  .send-btn:disabled,
+  .send-btn.sending {
+    opacity: 0.75;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .send-btn.success {
+    background: linear-gradient(160deg, rgba(180,245,200,0.55), rgba(150,230,180,0.25));
+  }
+
+  /* ---------------------------------------------------- */
+  /* Responsive tweaks                                     */
+  /* ---------------------------------------------------- */
+  @media (max-width: 400px) {
+    .page { padding: 32px 14px 48px; }
+    .profile-card { padding: 18px 18px; gap: 14px; }
+    .profile-pic { width: 58px; height: 58px; }
+    .profile-name { font-size: 18px; }
+    .message-card { padding: 20px 18px 18px; }
+    .prompt-text { font-size: 18px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================================================== -->
+<!-- HTML STRUCTURE                                      -->
+<!-- ================================================== -->
+
+<div class="bg-layer"></div>
+<div class="bg-overlay"></div>
+<div class="bg-vignette"></div>
+
+<div class="page">
+  <div class="stack">
+
+    <!-- Profile card -->
+    <section class="glass profile-card fade-in">
+      <img class="profile-pic" src="profile.jpg" alt="Adrian Kreidehüter">
+      <div class="profile-info">
+        <div class="profile-name">Adrian Kreidehüter</div>
+        <div class="profile-username">@Kreidehuter</div>
+      </div>
+    </section>
+
+    <!-- Message card -->
+    <section class="glass message-card fade-in">
+      <p class="prompt-text">Send your anonymous message<br>to Adrian here.</p>
+
+      <!-- Anonymous toggle -->
+      <div class="toggle-row">
+        <span class="toggle-label">Send anonymously</span>
+        <label class="switch">
+          <input type="checkbox" id="anonToggle" checked>
+          <span class="switch-track"><span class="switch-thumb"></span></span>
+        </label>
+      </div>
+
+      <!-- Name field (hidden when anonymous) -->
+      <div class="field-wrap collapsed" id="nameFieldWrap">
+        <div>
+          <input type="text" id="nameInput" class="glass-input" placeholder="Input your name here" maxlength="60">
+        </div>
+      </div>
+
+      <!-- Message textarea -->
+      <textarea id="messageInput" class="glass-textarea" placeholder="Write your message here..." maxlength="1000"></textarea>
+
+      <!-- Status + send button -->
+      <div class="send-row">
+        <span class="status-line" id="statusLine"></span>
+        <button class="send-btn" id="sendBtn" aria-label="Send message" type="button">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 4L16 12L6 20" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ================================================== -->
+<!-- JAVASCRIPT                                          -->
+<!-- ================================================== -->
+<script>
+(function () {
+  "use strict";
+
+  /* -------------------------------------------------- */
+  /* API configuration                                  */
+  /* -------------------------------------------------- */
+  const API_URL = "https://script.google.com/macros/s/AKfycbxP2zrsxB1TyIfXpH-PdgaR3huJgpoQuYkjmMDQWl99ZI_3VErsrpVygnMZ6lf1gpDa1Q/exec";
+
+  /* -------------------------------------------------- */
+  /* Element references                                 */
+  /* -------------------------------------------------- */
+  const anonToggle   = document.getElementById("anonToggle");
+  const nameFieldWrap = document.getElementById("nameFieldWrap");
+  const nameInput    = document.getElementById("nameInput");
+  const messageInput = document.getElementById("messageInput");
+  const sendBtn      = document.getElementById("sendBtn");
+  const statusLine   = document.getElementById("statusLine");
+
+  const sendIconHTML = sendBtn.innerHTML;
+
+  /* -------------------------------------------------- */
+  /* Anonymous toggle logic                              */
+  /* -------------------------------------------------- */
+  function syncAnonState() {
+    if (anonToggle.checked) {
+      nameFieldWrap.classList.add("collapsed");
+      nameInput.value = "";
+    } else {
+      nameFieldWrap.classList.remove("collapsed");
+    }
+  }
+
+  anonToggle.addEventListener("change", syncAnonState);
+  syncAnonState(); // initialize on load (defaults to anonymous ON)
+
+  /* -------------------------------------------------- */
+  /* Status helper                                       */
+  /* -------------------------------------------------- */
+  let statusTimer = null;
+
+  function setStatus(text, type) {
+    statusLine.textContent = text;
+    statusLine.classList.remove("success", "error");
+    if (type) statusLine.classList.add(type);
+
+    if (statusTimer) clearTimeout(statusTimer);
+    if (text) {
+      statusTimer = setTimeout(() => {
+        statusLine.textContent = "";
+        statusLine.classList.remove("success", "error");
+      }, 4000);
+    }
+  }
+
+  /* -------------------------------------------------- */
+  /* Form validation                                     */
+  /* -------------------------------------------------- */
+  function getMessageText() {
+    return messageInput.value.trim();
+  }
+
+  function isValidSubmission() {
+    return getMessageText().length > 0;
+  }
+
+  /* -------------------------------------------------- */
+  /* Sending state lock                                  */
+  /* -------------------------------------------------- */
+  let isSending = false;
+
+  function enterSendingState() {
+    isSending = true;
+    sendBtn.classList.add("sending");
+    sendBtn.classList.remove("success");
+    sendBtn.setAttribute("aria-label", "Sending message");
+    sendBtn.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+      '<circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="2.4" ' +
+      'stroke-linecap="round" stroke-dasharray="34 20"/></svg>';
+  }
+
+  function exitSendingState() {
+    isSending = false;
+    sendBtn.classList.remove("sending");
+    sendBtn.setAttribute("aria-label", "Send message");
+    sendBtn.innerHTML = sendIconHTML;
+  }
+
+  function flashSuccessIcon() {
+    sendBtn.classList.add("success");
+    sendBtn.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+      '<path d="M5 12.5L10 17.5L19 7" stroke="currentColor" stroke-width="2.6" ' +
+      'stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    setTimeout(() => {
+      sendBtn.classList.remove("success");
+      sendBtn.innerHTML = sendIconHTML;
+    }, 1400);
+  }
+
+  /* -------------------------------------------------- */
+  /* Message sending                                     */
+  /* -------------------------------------------------- */
+  async function handleSend() {
+    if (isSending) return; // prevent duplicate submissions
+
+    if (!isValidSubmission()) {
+      setStatus("Please write a message first.", "error");
+      return;
+    }
+
+    const isAnonymous = anonToggle.checked;
+    const messageText = getMessageText();
+    const senderName = isAnonymous
+      ? "Anonymous"
+      : (nameInput.value.trim() || "Anonymous");
+
+    enterSendingState();
+    setStatus("Sending…");
+
+    try {
+      await fetch(API_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify({
+          name: senderName,
+          message: messageText,
+          anonymous: isAnonymous
+        })
+      });
+
+      // no-cors means we cannot read the real response;
+      // if fetch didn't throw, treat it as sent.
+      flashSuccessIcon();
+      setStatus("Message sent.", "success");
+
+      messageInput.value = "";
+      nameInput.value = "";
+    } catch (err) {
+      setStatus("Failed to send message. Please try again.", "error");
+    } finally {
+      exitSendingState();
+    }
+  }
+
+  sendBtn.addEventListener("click", handleSend);
+
+})();
+</script>
+
+</body>
+</html>
