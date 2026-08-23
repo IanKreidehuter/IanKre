@@ -493,6 +493,253 @@ body{
   background:#000;
 }
 
+/* CUSTOM VIDEO PLAYER */
+
+.video-media{
+  position:relative;
+  cursor:pointer;
+
+  /* prevents accidental text-selection / callouts on long-press (mobile) */
+  -webkit-user-select:none;
+  user-select:none;
+}
+
+.video-media video.custom-video{
+  display:block;
+
+  width:100%;
+  max-width:100%;
+
+  height:auto;
+
+  margin:0;
+  padding:0;
+  border:0;
+
+  background:#000;
+}
+
+/* hide native controls across browsers */
+.video-media video.custom-video::-webkit-media-controls,
+.video-media video.custom-video::-webkit-media-controls-panel,
+.video-media video.custom-video::-webkit-media-controls-start-playback-button{
+  display:none !important;
+  -webkit-appearance:none;
+}
+
+.video-media video.custom-video::-moz-media-controls{
+  display:none !important;
+}
+
+.video-overlay-gradient{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+
+  height:96px;
+
+  background:linear-gradient(
+    180deg,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0.55) 100%
+  );
+
+  pointer-events:none;
+
+  opacity:0;
+  transition:opacity 0.25s ease;
+}
+
+.video-media.controls-visible .video-overlay-gradient,
+.video-media:not(.is-playing) .video-overlay-gradient{
+  opacity:1;
+}
+
+.video-center-play{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+
+  width:58px;
+  height:58px;
+
+  border-radius:50%;
+
+  background:rgba(10,10,12,0.45);
+
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+
+  border:1px solid rgba(255,255,255,0.22);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+  padding:0;
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:opacity 0.2s ease, transform 0.15s ease;
+}
+
+.video-media:not(.is-playing) .video-center-play{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.video-media.is-playing.controls-visible .video-center-play{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.video-center-play:active{
+  transform:translate(-50%,-50%) scale(0.92);
+}
+
+.video-center-play svg{
+  width:22px;
+  height:22px;
+  fill:#f2f2f4;
+}
+
+.video-center-play svg.icon-play{
+  margin-left:3px;
+}
+
+.video-center-play svg.icon-pause{
+  display:none;
+}
+
+.video-media.is-playing .video-center-play svg.icon-play{
+  display:none;
+}
+
+.video-media.is-playing .video-center-play svg.icon-pause{
+  display:block;
+}
+
+.video-controls-bar{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+
+  padding:8px 12px 10px;
+
+  opacity:0;
+  transform:translateY(6px);
+
+  pointer-events:none;
+
+  transition:opacity 0.25s ease, transform 0.25s ease;
+}
+
+.video-media.controls-visible .video-controls-bar,
+.video-media:not(.is-playing) .video-controls-bar{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+.video-progress-container{
+  position:relative;
+
+  width:100%;
+  height:16px;
+
+  display:flex;
+  align-items:center;
+
+  cursor:pointer;
+}
+
+.video-progress-track{
+  width:100%;
+  height:3px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,0.25);
+
+  position:relative;
+  overflow:hidden;
+}
+
+.video-progress-fill{
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+
+  width:0%;
+
+  background:rgba(242,242,244,0.9);
+
+  border-radius:999px;
+}
+
+.video-controls-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  margin-top:2px;
+}
+
+.video-icon-btn{
+  width:26px;
+  height:26px;
+
+  flex-shrink:0;
+
+  border:none;
+  background:transparent;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+  padding:0;
+}
+
+.video-icon-btn svg{
+  width:17px;
+  height:17px;
+  fill:#f2f2f4;
+}
+
+.video-time{
+  font-size:12px;
+  font-weight:700;
+
+  color:rgba(242,242,244,0.92);
+
+  white-space:nowrap;
+
+  font-variant-numeric:tabular-nums;
+}
+
+.video-controls-row .video-spacer{
+  flex:1;
+}
+
+.video-error{
+  padding:34px 16px;
+
+  text-align:center;
+
+  font-size:13.5px;
+  font-weight:600;
+
+  color:var(--text-sub);
+}
+
 /* STATES */
 
 .state-box{
@@ -946,6 +1193,94 @@ body{
   }
 
 
+  /* ------------------------------------------------------------
+     Custom video player markup (used only for direct video URLs,
+     i.e. NOT the Google Drive iframe player, which already ships
+     its own controls and can't be restyled since it's a
+     cross-origin iframe).
+  ------------------------------------------------------------ */
+
+  function renderCustomVideoMarkup(url){
+
+    return `
+
+      <video
+        class="custom-video"
+        preload="metadata"
+        playsinline
+        webkit-playsinline
+        src="${escapeHtml(url)}"
+      ></video>
+
+      <div class="video-overlay-gradient"></div>
+
+      <button
+        class="video-center-play"
+        type="button"
+        aria-label="Play or pause video"
+      >
+
+        <svg class="icon-play" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+
+        <svg class="icon-pause" viewBox="0 0 24 24">
+          <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
+        </svg>
+
+      </button>
+
+      <div class="video-controls-bar">
+
+        <div class="video-progress-container">
+          <div class="video-progress-track">
+            <div class="video-progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="video-controls-row">
+
+          <button
+            class="video-icon-btn video-mute-btn"
+            type="button"
+            aria-label="Mute or unmute video"
+          >
+
+            <svg class="icon-vol-on" viewBox="0 0 24 24">
+              <path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+            </svg>
+
+            <svg class="icon-vol-off" viewBox="0 0 24 24" style="display:none">
+              <path d="M3 10v4h4l5 5V5L7 10H3zm13.6-3.1l-1.42 1.42L16.6 10l-1.42 1.42 1.42 1.42L18 11.42l1.4 1.42 1.42-1.42L19.4 10l1.42-1.42L19.4 7.16 18 8.58z"/>
+            </svg>
+
+          </button>
+
+          <span class="video-time">0:00 / 0:00</span>
+
+          <div class="video-spacer"></div>
+
+          <button
+            class="video-icon-btn video-fullscreen-btn"
+            type="button"
+            aria-label="Fullscreen"
+          >
+
+            <svg viewBox="0 0 24 24">
+              <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+            </svg>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
   function renderPost(post){
 
     const caption =
@@ -988,7 +1323,10 @@ body{
 
         This is much more reliable than
         trying to force a download URL
-        into an HTML video element.
+        into an HTML video element, and
+        since it's a cross-origin iframe
+        we can't restyle its controls -
+        Drive's own UI is used as-is.
       */
 
       if(driveId){
@@ -1014,7 +1352,8 @@ body{
       }
 
       /*
-        Normal direct video URL
+        Normal direct video URL -
+        gets the custom player UI.
       */
 
       else{
@@ -1022,12 +1361,7 @@ body{
         mediaHtml =
           `<div class="post-media video-media">
 
-            <video
-              controls
-              preload="metadata"
-              playsinline
-              src="${escapeHtml(rawMediaUrl)}"
-            ></video>
+            ${renderCustomVideoMarkup(rawMediaUrl)}
 
           </div>`;
 
@@ -1144,13 +1478,256 @@ body{
 
     });
 
+    /*
+      Video error handling is now wired up
+      inside initCustomVideoPlayers(), since
+      the custom player needs the same
+      "error" event to also tear down its
+      controls UI, not just swap in a
+      message.
+    */
 
-    const videos =
+  }
+
+
+  /* ------------------------------------------------------------
+     Wires up play/pause, progress, mute, and fullscreen for every
+     custom video player currently in the feed. Safe to call
+     repeatedly - already-initialized players are skipped.
+  ------------------------------------------------------------ */
+
+  function initCustomVideoPlayers(){
+
+    const players =
       feedEl.querySelectorAll(
-        ".post-media video"
+        ".video-media"
       );
 
-    videos.forEach(function(video){
+    players.forEach(function(wrap){
+
+      if(wrap.dataset.videoInit){
+        return;
+      }
+
+      const video =
+        wrap.querySelector(
+          ".custom-video"
+        );
+
+      if(!video){
+        /* this is the Drive iframe case - nothing to wire up */
+        return;
+      }
+
+      wrap.dataset.videoInit = "true";
+
+      const centerBtn =
+        wrap.querySelector(".video-center-play");
+
+      const progressContainer =
+        wrap.querySelector(".video-progress-container");
+
+      const progressFill =
+        wrap.querySelector(".video-progress-fill");
+
+      const timeLabel =
+        wrap.querySelector(".video-time");
+
+      const muteBtn =
+        wrap.querySelector(".video-mute-btn");
+
+      const volOnIcon =
+        wrap.querySelector(".icon-vol-on");
+
+      const volOffIcon =
+        wrap.querySelector(".icon-vol-off");
+
+      const fullscreenBtn =
+        wrap.querySelector(".video-fullscreen-btn");
+
+      let hideControlsTimeout =
+        null;
+
+
+      function formatTime(sec){
+
+        if(
+          !isFinite(sec) ||
+          isNaN(sec) ||
+          sec < 0
+        ){
+          return "0:00";
+        }
+
+        sec =
+          Math.floor(sec);
+
+        const m =
+          Math.floor(sec / 60);
+
+        const s =
+          sec % 60;
+
+        return (
+          m + ":" +
+          (s < 10 ? "0" + s : s)
+        );
+
+      }
+
+
+      function showControls(){
+
+        wrap.classList.add(
+          "controls-visible"
+        );
+
+        if(hideControlsTimeout){
+
+          clearTimeout(
+            hideControlsTimeout
+          );
+
+        }
+
+        if(!video.paused){
+
+          hideControlsTimeout =
+            setTimeout(
+              function(){
+
+                wrap.classList.remove(
+                  "controls-visible"
+                );
+
+              },
+              2800
+            );
+
+        }
+
+      }
+
+
+      function togglePlay(){
+
+        if(video.paused){
+
+          video.play().catch(
+            function(){
+              /* autoplay / play() rejection - ignore */
+            }
+          );
+
+        }
+        else{
+
+          video.pause();
+
+        }
+
+      }
+
+
+      video.addEventListener(
+        "play",
+        function(){
+
+          wrap.classList.add(
+            "is-playing"
+          );
+
+          showControls();
+
+        }
+      );
+
+      video.addEventListener(
+        "pause",
+        function(){
+
+          wrap.classList.remove(
+            "is-playing"
+          );
+
+          wrap.classList.add(
+            "controls-visible"
+          );
+
+          if(hideControlsTimeout){
+
+            clearTimeout(
+              hideControlsTimeout
+            );
+
+          }
+
+        }
+      );
+
+      video.addEventListener(
+        "ended",
+        function(){
+
+          wrap.classList.remove(
+            "is-playing"
+          );
+
+          wrap.classList.add(
+            "controls-visible"
+          );
+
+        }
+      );
+
+      video.addEventListener(
+        "loadedmetadata",
+        function(){
+
+          if(timeLabel){
+
+            timeLabel.textContent =
+              formatTime(0) +
+              " / " +
+              formatTime(video.duration);
+
+          }
+
+        }
+      );
+
+      video.addEventListener(
+        "timeupdate",
+        function(){
+
+          if(
+            !video.duration ||
+            isNaN(video.duration)
+          ){
+            return;
+          }
+
+          const pct =
+            (video.currentTime / video.duration) * 100;
+
+          if(progressFill){
+
+            progressFill.style.width =
+              pct + "%";
+
+          }
+
+          if(timeLabel){
+
+            timeLabel.textContent =
+              formatTime(video.currentTime) +
+              " / " +
+              formatTime(video.duration);
+
+          }
+
+        }
+      );
 
       video.addEventListener(
         "error",
@@ -1172,6 +1749,137 @@ body{
 
         }
       );
+
+
+      /* Tap the video itself: play/pause + reveal controls */
+
+      video.addEventListener(
+        "click",
+        function(e){
+
+          e.stopPropagation();
+
+          togglePlay();
+
+          showControls();
+
+        }
+      );
+
+
+      if(centerBtn){
+
+        centerBtn.addEventListener(
+          "click",
+          function(e){
+
+            e.stopPropagation();
+
+            togglePlay();
+
+            showControls();
+
+          }
+        );
+
+      }
+
+
+      if(progressContainer){
+
+        progressContainer.addEventListener(
+          "click",
+          function(e){
+
+            e.stopPropagation();
+
+            if(
+              !video.duration ||
+              isNaN(video.duration)
+            ){
+              return;
+            }
+
+            const rect =
+              progressContainer.getBoundingClientRect();
+
+            const ratio =
+              (e.clientX - rect.left) / rect.width;
+
+            video.currentTime =
+              Math.max(
+                0,
+                Math.min(1, ratio)
+              ) * video.duration;
+
+            showControls();
+
+          }
+        );
+
+      }
+
+
+      if(muteBtn){
+
+        muteBtn.addEventListener(
+          "click",
+          function(e){
+
+            e.stopPropagation();
+
+            video.muted =
+              !video.muted;
+
+            if(volOnIcon && volOffIcon){
+
+              volOnIcon.style.display =
+                video.muted ? "none" : "block";
+
+              volOffIcon.style.display =
+                video.muted ? "block" : "none";
+
+            }
+
+            showControls();
+
+          }
+        );
+
+      }
+
+
+      if(fullscreenBtn){
+
+        fullscreenBtn.addEventListener(
+          "click",
+          function(e){
+
+            e.stopPropagation();
+
+            if(video.requestFullscreen){
+
+              video.requestFullscreen();
+
+            }
+            else if(video.webkitEnterFullscreen){
+
+              /* iOS Safari - fullscreens the <video> natively */
+              video.webkitEnterFullscreen();
+
+            }
+            else if(video.webkitRequestFullscreen){
+
+              video.webkitRequestFullscreen();
+
+            }
+
+            showControls();
+
+          }
+        );
+
+      }
 
     });
 
@@ -1338,6 +2046,8 @@ body{
           .join("");
 
       attachMediaErrorHandlers();
+
+      initCustomVideoPlayers();
 
     }
     catch(err){
