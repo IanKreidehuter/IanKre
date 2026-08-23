@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Adrian Kreidehüter (@kreidehuter)</title>
+<style>
+  :root{
+    --bg-deep: #08090c;
+    --glass: rgba(255,255,255,0.06);
+    --glass-strong: rgba(255,255,255,0.1);
+    --glass-border: rgba(255,255,255,0.12);
+    --text-main: #f2f2f4;
+    --text-sub: #9a9aa2;
+    --text-dim: #6c6c74;
+    --accent: #ffffff;
+  }
+
+  *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body{
+    margin:0; padding:0;
+    min-height:100%;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+                 "Helvetica Neue", Arial, sans-serif;
+    color: var(--text-main);
+    background: var(--bg-deep);
+  }
+
+  body{
+    background:
+      radial-gradient(circle at 20% 0%, rgba(90,80,180,0.25) 0%, transparent 45%),
+      radial-gradient(circle at 85% 10%, rgba(200,60,140,0.18) 0%, transparent 45%),
+      radial-gradient(circle at 30% 90%, rgba(30,140,160,0.18) 0%, transparent 50%),
+      radial-gradient(circle at 90% 90%, rgba(120,90,40,0.14) 0%, transparent 50%),
+      linear-gradient(180deg, #0a0a0d 0%, #060608 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    padding-bottom: 60px;
+    animation: fadeInPage 0.6s ease;
+  }
+
+  @keyframes fadeInPage{
+    from{ opacity:0; }
+    to{ opacity:1; }
+  }
+
+  .page{
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 22px 14px 0;
+  }
+
+  /* ---------- Profile header ---------- */
+  .profile-card{
+    background: var(--glass);
+    backdrop-filter: blur(26px) saturate(160%);
+    -webkit-backdrop-filter: blur(26px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    box-shadow: 0 10px 34px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+    padding: 22px 20px 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .profile-card::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height: 90px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0));
+    pointer-events:none;
+  }
+
+  .avatar-row{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    margin-bottom: 14px;
+  }
+
+  .avatar{
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255,255,255,0.15);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    background:#222;
+  }
+
+  .header-actions{
+    display:flex;
+    gap: 10px;
+  }
+
+  .pill-btn{
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: var(--glass-strong);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor:pointer;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: transform 0.15s ease, background 0.2s ease;
+  }
+  .pill-btn:hover{ background: rgba(255,255,255,0.16); }
+  .pill-btn:active{ transform: scale(0.96); }
+  .pill-btn.primary{
+    background: linear-gradient(160deg, #f2f2f4, #cfcfd4);
+    color: #0a0a0c;
+    border: none;
+  }
+  .pill-btn.primary:hover{ filter: brightness(1.05); }
+
+  .name-row{
+    display:flex;
+    align-items:center;
+    gap: 6px;
+  }
+  .name-row h1{
+    margin:0;
+    font-size: 22px;
+    font-weight: 800;
+  }
+  .lock-icon{
+    width: 15px;
+    height: 15px;
+    opacity: 0.7;
+    flex-shrink:0;
+  }
+
+  .handle{
+    margin: 2px 0 10px;
+    font-size: 14.5px;
+    color: var(--text-sub);
+    font-weight: 600;
+  }
+
+  .bio{
+    margin: 0 0 12px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--text-main);
+  }
+
+  .meta-row{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .meta-row span{
+    display:flex;
+    align-items:center;
+    gap: 5px;
+  }
+
+  .counts-row{
+    display:flex;
+    gap: 18px;
+    font-size: 13.5px;
+    color: var(--text-sub);
+  }
+  .counts-row b{
+    color: var(--text-main);
+    font-weight: 800;
+  }
+
+  /* ---------- Tab bar ---------- */
+  .tab-bar{
+    display:flex;
+    gap: 6px;
+    margin: 18px 0 16px;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 5px;
+    overflow-x: auto;
+  }
+  .tab{
+    flex: 1;
+    text-align:center;
+    padding: 10px 12px;
+    border-radius: 15px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-sub);
+    cursor: default;
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .tab.active{
+    background: var(--glass-strong);
+    color: var(--text-main);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  /* ---------- Feed ---------- */
+  .feed{
+    display:flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .post{
+    background: var(--glass);
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 16px 16px 14px;
+    box-shadow: 0 8px 26px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+    animation: postIn 0.45s ease both;
+  }
+
+  @keyframes postIn{
+    from{ opacity:0; transform: translateY(10px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+
+  .post-head{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .post-avatar{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink:0;
+    border: 1px solid rgba(255,255,255,0.15);
+    background:#222;
+  }
+  .post-names{
+    display:flex;
+    flex-direction: column;
+    line-height: 1.25;
+    min-width:0;
+  }
+  .post-names .top-line{
+    display:flex;
+    align-items:center;
+    gap: 6px;
+    font-size: 14.5px;
+    font-weight: 800;
+    white-space:nowrap;
+  }
+  .post-names .sub-line{
+    font-size: 13px;
+    color: var(--text-dim);
+    display:flex;
+    gap: 6px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
+  }
+
+  .post-caption{
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-main);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin-bottom: 10px;
+  }
+
+  .post-media{
+    margin-top: 6px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(0,0,0,0.3);
+  }
+  .post-media img,
+  .post-media video{
+    display:block;
+    width: 100%;
+    height: auto;
+    max-height: 620px;
+    object-fit: contain;
+    background: #000;
+    border-radius: 18px;
+  }
+
+  /* ---------- Loading / empty / error states ---------- */
+  .state-box{
+    text-align:center;
+    padding: 50px 20px;
+    color: var(--text-sub);
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+
+  .spinner{
+    width: 30px;
+    height: 30px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.15);
+    border-top-color: rgba(255,255,255,0.75);
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin{
+    to{ transform: rotate(360deg); }
+  }
+
+  .retry-btn{
+    margin-top: 14px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    background: var(--glass-strong);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    font-weight: 700;
+    font-size: 13.5px;
+    cursor:pointer;
+  }
+  .retry-btn:active{ transform: scale(0.96); }
+
+  @media (max-width: 420px){
+    .avatar{ width: 72px; height: 72px; }
+    .name-row h1{ font-size: 19px; }
+    .pill-btn{ padding: 8px 14px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="profile-card">
+    <div class="avatar-row">
+      <img class="avatar" src="../profile.jpg" alt="Adrian Kreidehüter">
+      <div class="header-actions">
+        <button class="pill-btn">Share</button>
+        <button class="pill-btn primary">Edit profile</button>
+      </div>
+    </div>
+
+    <div class="name-row">
+      <h1>Adrian Kreidehüter</h1>
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+        <path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+    <p class="handle">@kreidehuter</p>
+
+    <p class="bio">infp t btw I want a friend</p>
+
+    <div class="meta-row">
+      <span>🎂 Born October 22, 2006</span>
+      <span>📅 Joined April 2026</span>
+    </div>
+
+    <div class="counts-row">
+      <span><b>6</b> Following</span>
+      <span><b>0</b> Followers</span>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab active">Posts</div>
+    <div class="tab">Replies</div>
+    <div class="tab">Media</div>
+    <div class="tab">Likes</div>
+  </div>
+
+  <div class="feed" id="feed">
+    <div class="state-box" id="stateBox">
+      <div class="spinner"></div>
+      Loading posts...
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const API_URL = "https://script.google.com/macros/s/AKfycbwj8X3sQJx2OTgsorUT_iObGiJ4eXlTIp2apSuKDIgP_9AXN8xGihetgaotxZe-0QKHPw/exec";
+
+  const feedEl = document.getElementById('feed');
+
+  function escapeHtml(str){
+    if (str === undefined || str === null) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function relativeTime(input){
+    if (!input) return '';
+    const date = new Date(input);
+    if (isNaN(date.getTime())) return '';
+    const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+
+    if (seconds < 5) return 'now';
+    if (seconds < 60) return seconds + 's';
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return minutes + 'm';
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return hours + 'h';
+    const days = Math.floor(hours / 24);
+    if (days < 7) return days + 'd';
+    const weeks = Math.floor(days / 7);
+    if (weeks < 5) return weeks + 'w';
+    const months = Math.floor(days / 30);
+    if (months < 12) return months + 'mo';
+    const years = Math.floor(days / 365);
+    return years + 'y';
+  }
+
+  function guessMediaType(post){
+    const mime = (post.mimeType || post.mimetype || post.type || '').toLowerCase();
+    if (mime.startsWith('video')) return 'video';
+    if (mime.startsWith('image')) return 'image';
+
+    const url = (post.fileUrl || post.fileURL || post.mediaUrl || post.url || '').toLowerCase();
+    if (/\.(mp4|mov|webm|m4v|ogg)(\?|$)/.test(url)) return 'video';
+    if (/\.(jpg|jpeg|png|gif|webp|heic)(\?|$)/.test(url)) return 'image';
+
+    return null;
+  }
+
+  function getMediaUrl(post){
+    return post.fileUrl || post.fileURL || post.mediaUrl || post.url || post.imageUrl || post.videoUrl || null;
+  }
+
+  function getCaption(post){
+    return post.caption || post.text || post.content || '';
+  }
+
+  function getTimestamp(post){
+    return post.timestamp || post.createdAt || post.date || post.time || null;
+  }
+
+  function renderPost(post){
+    const caption = getCaption(post);
+    const mediaUrl = getMediaUrl(post);
+    const mediaType = mediaUrl ? guessMediaType(post) : null;
+    const timeLabel = relativeTime(getTimestamp(post));
+
+    let mediaHtml = '';
+    if (mediaUrl && mediaType === 'image'){
+      mediaHtml = `<div class="post-media"><img src="${escapeHtml(mediaUrl)}" alt="Post attachment" loading="lazy"></div>`;
+    } else if (mediaUrl && mediaType === 'video'){
+      mediaHtml = `<div class="post-media"><video src="${escapeHtml(mediaUrl)}" controls preload="metadata"></video></div>`;
+    } else if (mediaUrl){
+      // Unknown type but a URL exists — attempt image fallback
+      mediaHtml = `<div class="post-media"><img src="${escapeHtml(mediaUrl)}" alt="Post attachment" loading="lazy"></div>`;
+    }
+
+    const captionHtml = caption
+      ? `<div class="post-caption">${escapeHtml(caption)}</div>`
+      : '';
+
+    return `
+      <article class="post">
+        <div class="post-head">
+          <img class="post-avatar" src="../profile.jpg" alt="Adrian Kreidehüter">
+          <div class="post-names">
+            <div class="top-line">Adrian Kreidehüter</div>
+            <div class="sub-line">
+              <span>@kreidehuter</span>
+              ${timeLabel ? `<span>· ${escapeHtml(timeLabel)}</span>` : ''}
+            </div>
+          </div>
+        </div>
+        ${captionHtml}
+        ${mediaHtml}
+      </article>
+    `;
+  }
+
+  function showState(html){
+    feedEl.innerHTML = `<div class="state-box">${html}</div>`;
+  }
+
+  function showLoading(){
+    showState(`<div class="spinner"></div>Loading posts...`);
+  }
+
+  function showEmpty(){
+    showState(`No posts yet.`);
+  }
+
+  function showError(){
+    showState(`
+      Couldn't load posts. Please check your connection.
+      <div><button class="retry-btn" id="retryBtn">Retry</button></div>
+    `);
+    const retryBtn = document.getElementById('retryBtn');
+    if (retryBtn){
+      retryBtn.addEventListener('click', loadPosts);
+    }
+  }
+
+  function sortPostsNewestFirst(posts){
+    return posts.slice().sort(function(a, b){
+      const ta = new Date(getTimestamp(a) || 0).getTime();
+      const tb = new Date(getTimestamp(b) || 0).getTime();
+      return tb - ta;
+    });
+  }
+
+  async function loadPosts(){
+    showLoading();
+    try{
+      const response = await fetch(API_URL, { method: 'GET' });
+      if (!response.ok){
+        throw new Error('Bad response');
+      }
+      const data = await response.json();
+
+      if (!data || data.success === false){
+        showError();
+        return;
+      }
+
+      let posts = data.posts || data.data || [];
+      if (!Array.isArray(posts)){
+        posts = [];
+      }
+
+      if (posts.length === 0){
+        showEmpty();
+        return;
+      }
+
+      posts = sortPostsNewestFirst(posts);
+
+      feedEl.innerHTML = posts.map(renderPost).join('');
+    }catch(err){
+      showError();
+    }
+  }
+
+  loadPosts();
+})();
+</script>
+
+</body>
+</html>
+
