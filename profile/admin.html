@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>New Post — Admin Panel</title>
+
 <style>
   :root{
     --glass-bg: rgba(255,255,255,0.35);
@@ -15,15 +16,24 @@
     --accent: #3a3a3c;
   }
 
-  *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  *{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+  }
 
   html, body{
     margin:0;
     padding:0;
     min-height:100%;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-                 "Helvetica Neue", Arial, sans-serif;
-    color: var(--text-main);
+    font-family:
+      -apple-system,
+      BlinkMacSystemFont,
+      "SF Pro Display",
+      "SF Pro Text",
+      "Helvetica Neue",
+      Arial,
+      sans-serif;
+    color:var(--text-main);
   }
 
   body{
@@ -33,193 +43,232 @@
       radial-gradient(circle at 30% 90%, #d9fff2 0%, transparent 50%),
       radial-gradient(circle at 80% 85%, #fff3d6 0%, transparent 50%),
       linear-gradient(160deg, #eef1f6 0%, #e4e8f0 100%);
-    background-attachment: fixed;
-    min-height: 100vh;
+    background-attachment:fixed;
+    min-height:100vh;
     display:flex;
     align-items:flex-start;
     justify-content:center;
-    padding: 32px 16px 60px;
+    padding:32px 16px 60px;
   }
 
-  /* soft floating blurred shapes for extra depth */
-  body::before, body::after{
+  body::before,
+  body::after{
     content:"";
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(60px);
+    position:fixed;
+    border-radius:50%;
+    filter:blur(60px);
     z-index:-1;
     opacity:0.6;
   }
+
   body::before{
-    width: 320px; height: 320px;
-    background: #a8c8ff;
-    top: -80px; left: -80px;
+    width:320px;
+    height:320px;
+    background:#a8c8ff;
+    top:-80px;
+    left:-80px;
   }
+
   body::after{
-    width: 360px; height: 360px;
-    background: #ffc9e3;
-    bottom: -100px; right: -100px;
+    width:360px;
+    height:360px;
+    background:#ffc9e3;
+    bottom:-100px;
+    right:-100px;
   }
 
   .page{
-    width: 100%;
-    max-width: 480px;
+    width:100%;
+    max-width:480px;
   }
 
   .panel{
-    background: var(--glass-bg);
-    backdrop-filter: blur(28px) saturate(180%);
-    -webkit-backdrop-filter: blur(28px) saturate(180%);
-    border: 1px solid var(--glass-border);
-    border-radius: 34px;
-    box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.7);
-    padding: 28px 24px 32px;
-    position: relative;
-    overflow: hidden;
+    background:var(--glass-bg);
+    backdrop-filter:blur(28px) saturate(180%);
+    -webkit-backdrop-filter:blur(28px) saturate(180%);
+    border:1px solid var(--glass-border);
+    border-radius:34px;
+    box-shadow:
+      var(--glass-shadow),
+      inset 0 1px 0 rgba(255,255,255,0.7);
+    padding:28px 24px 32px;
+    position:relative;
+    overflow:hidden;
   }
 
   .panel::before{
     content:"";
     position:absolute;
-    top:0; left:0; right:0;
-    height: 120px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 100%);
+    top:0;
+    left:0;
+    right:0;
+    height:120px;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255,255,255,0.55) 0%,
+        rgba(255,255,255,0) 100%
+      );
     pointer-events:none;
   }
 
   header.head{
     text-align:center;
-    margin-bottom: 18px;
+    margin-bottom:18px;
   }
+
   header.head h1{
     margin:0;
-    font-size: 34px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    color: var(--text-main);
+    font-size:34px;
+    font-weight:800;
+    letter-spacing:0.5px;
+    color:var(--text-main);
   }
+
   header.head p{
-    margin: 2px 0 0;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text-sub);
+    margin:2px 0 0;
+    font-size:15px;
+    font-weight:500;
+    color:var(--text-sub);
   }
 
   .divider{
     height:1px;
-    background: linear-gradient(90deg, transparent, rgba(0,0,0,0.35), transparent);
-    margin: 18px 0 22px;
-    border: none;
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        rgba(0,0,0,0.35),
+        transparent
+      );
+    margin:18px 0 22px;
+    border:none;
   }
 
   .profile-row{
     display:flex;
     align-items:center;
-    gap: 16px;
-    margin-bottom: 16px;
+    gap:16px;
+    margin-bottom:16px;
   }
 
   .avatar{
-    width: 74px;
-    height: 74px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid rgba(255,255,255,0.8);
-    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    width:74px;
+    height:74px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid rgba(255,255,255,0.8);
+    box-shadow:0 4px 14px rgba(0,0,0,0.15);
     flex-shrink:0;
-    background: #cfd8e3;
+    background:#cfd8e3;
   }
 
   .profile-info h2{
     margin:0;
-    font-size: 22px;
-    font-weight: 800;
+    font-size:22px;
+    font-weight:800;
   }
+
   .profile-info .handle{
-    margin: 2px 0 0;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text-sub);
+    margin:2px 0 0;
+    font-size:14px;
+    font-weight:700;
+    color:var(--text-sub);
   }
 
   .chip{
     display:inline-flex;
     align-items:center;
-    gap: 6px;
-    padding: 9px 18px;
-    border-radius: 999px;
-    background: var(--glass-bg-strong);
-    border: 1px solid var(--glass-border);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 8px rgba(0,0,0,0.06);
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 26px;
+    gap:6px;
+    padding:9px 18px;
+    border-radius:999px;
+    background:var(--glass-bg-strong);
+    border:1px solid var(--glass-border);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.8),
+      0 2px 8px rgba(0,0,0,0.06);
+    font-size:13px;
+    font-weight:700;
+    color:var(--accent);
+    margin-bottom:26px;
   }
 
   .spacer{
-    height: 26px;
+    height:26px;
   }
 
   .attachment-box{
-    position: relative;
-    width: 100%;
-    min-height: 220px;
-    border-radius: 28px;
-    background: linear-gradient(160deg, rgba(255,255,255,0.45), rgba(255,255,255,0.2));
-    border: 1.5px dashed rgba(120,120,130,0.4);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 6px 20px rgba(0,0,0,0.06);
+    position:relative;
+    width:100%;
+    min-height:220px;
+    border-radius:28px;
+    background:
+      linear-gradient(
+        160deg,
+        rgba(255,255,255,0.45),
+        rgba(255,255,255,0.2)
+      );
+    border:1.5px dashed rgba(120,120,130,0.4);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.6),
+      0 6px 20px rgba(0,0,0,0.06);
     display:flex;
     align-items:center;
     justify-content:center;
     text-align:center;
     cursor:pointer;
     overflow:hidden;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
   }
+
   .attachment-box:hover{
-    border-color: rgba(90,90,100,0.6);
+    border-color:rgba(90,90,100,0.6);
   }
+
   .attachment-box.has-file{
-    border-style: solid;
-    border-color: rgba(255,255,255,0.7);
+    border-style:solid;
+    border-color:rgba(255,255,255,0.7);
   }
 
   .attachment-placeholder{
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text-sub);
-    line-height: 1.5;
-    padding: 20px;
+    font-size:15px;
+    font-weight:700;
+    color:var(--text-sub);
+    line-height:1.5;
+    padding:20px;
   }
 
   .attachment-box img.preview,
   .attachment-box video.preview{
-    width: 100%;
-    height: 100%;
-    max-height: 320px;
-    object-fit: cover;
+    width:100%;
+    height:100%;
+    max-height:320px;
+    object-fit:cover;
     display:block;
-    border-radius: 28px;
+    border-radius:28px;
   }
 
   .remove-file{
     position:absolute;
-    top: 10px;
-    right: 10px;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.55);
+    top:10px;
+    right:10px;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:rgba(0,0,0,0.55);
     color:#fff;
     border:none;
-    font-size: 16px;
-    font-weight: 700;
+    font-size:16px;
+    font-weight:700;
     display:flex;
     align-items:center;
     justify-content:center;
     cursor:pointer;
-    backdrop-filter: blur(6px);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    z-index:5;
   }
 
   #fileInput{
@@ -227,90 +276,130 @@
   }
 
   .caption-wrap{
-    margin-top: 20px;
+    margin-top:20px;
   }
 
   .caption-wrap textarea{
-    width: 100%;
-    min-height: 84px;
-    resize: vertical;
-    border-radius: 20px;
-    border: 1px solid var(--glass-border);
-    background: var(--glass-bg-strong);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 2px 10px rgba(0,0,0,0.05);
-    padding: 14px 16px;
-    font-size: 15px;
-    font-family: inherit;
-    color: var(--text-main);
+    width:100%;
+    min-height:84px;
+    resize:vertical;
+    border-radius:20px;
+    border:1px solid var(--glass-border);
+    background:var(--glass-bg-strong);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.7),
+      0 2px 10px rgba(0,0,0,0.05);
+    padding:14px 16px;
+    font-size:15px;
+    font-family:inherit;
+    color:var(--text-main);
     outline:none;
-    backdrop-filter: blur(10px);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
   }
+
   .caption-wrap textarea::placeholder{
-    color: #8a8a8f;
-    font-weight: 500;
+    color:#8a8a8f;
+    font-weight:500;
   }
+
   .caption-wrap textarea:focus{
-    border-color: rgba(80,80,90,0.5);
+    border-color:rgba(80,80,90,0.5);
   }
 
   .post-btn{
     display:block;
-    width: 100%;
-    margin-top: 26px;
-    padding: 17px 0;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.6);
-    background: linear-gradient(160deg, rgba(60,60,66,0.9), rgba(30,30,34,0.9));
-    color: #fff;
-    font-size: 16px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    box-shadow: 0 8px 22px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.25);
-    transition: transform 0.15s ease, opacity 0.15s ease;
+    width:100%;
+    margin-top:26px;
+    padding:17px 0;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.6);
+    background:
+      linear-gradient(
+        160deg,
+        rgba(60,60,66,0.9),
+        rgba(30,30,34,0.9)
+      );
+    color:#fff;
+    font-size:16px;
+    font-weight:800;
+    letter-spacing:0.5px;
+    cursor:pointer;
+    box-shadow:
+      0 8px 22px rgba(0,0,0,0.25),
+      inset 0 1px 0 rgba(255,255,255,0.25);
+    transition:
+      transform 0.15s ease,
+      opacity 0.15s ease;
   }
+
   .post-btn:active{
-    transform: scale(0.98);
+    transform:scale(0.98);
   }
+
   .post-btn:disabled{
-    opacity: 0.6;
-    cursor: not-allowed;
+    opacity:0.6;
+    cursor:not-allowed;
     transform:none;
   }
 
   .status-msg{
-    margin-top: 16px;
+    margin-top:16px;
     text-align:center;
-    font-size: 14px;
-    font-weight: 700;
-    padding: 12px 16px;
-    border-radius: 16px;
+    font-size:14px;
+    font-weight:700;
+    padding:12px 16px;
+    border-radius:16px;
     display:none;
-  }
-  .status-msg.show{ display:block; }
-  .status-msg.success{
-    background: rgba(52, 199, 89, 0.15);
-    color: #1f7a34;
-    border: 1px solid rgba(52,199,89,0.35);
-  }
-  .status-msg.error{
-    background: rgba(255, 59, 48, 0.15);
-    color: #b3261e;
-    border: 1px solid rgba(255,59,48,0.35);
+    word-break:break-word;
   }
 
-  @media (max-width: 400px){
-    .panel{ padding: 22px 16px 26px; border-radius: 26px; }
-    header.head h1{ font-size: 28px; }
-    .avatar{ width: 62px; height: 62px; }
-    .profile-info h2{ font-size: 19px; }
+  .status-msg.show{
+    display:block;
+  }
+
+  .status-msg.success{
+    background:rgba(52,199,89,0.15);
+    color:#1f7a34;
+    border:1px solid rgba(52,199,89,0.35);
+  }
+
+  .status-msg.error{
+    background:rgba(255,59,48,0.15);
+    color:#b3261e;
+    border:1px solid rgba(255,59,48,0.35);
+  }
+
+  @media (max-width:400px){
+
+    .panel{
+      padding:22px 16px 26px;
+      border-radius:26px;
+    }
+
+    header.head h1{
+      font-size:28px;
+    }
+
+    .avatar{
+      width:62px;
+      height:62px;
+    }
+
+    .profile-info h2{
+      font-size:19px;
+    }
+
   }
 </style>
 </head>
+
 <body>
 
 <div class="page">
+
   <div class="panel">
+
     <header class="head">
       <h1>NEW POST</h1>
       <p>Admin Panel</p>
@@ -319,199 +408,714 @@
     <hr class="divider">
 
     <div class="profile-row">
-      <img class="avatar" src="profile.jpg" alt="Adrian Kreidehuter">
+
+      <img
+        class="avatar"
+        src="profile.jpg"
+        alt="Adrian Kreidehuter"
+      >
+
       <div class="profile-info">
         <h2>Adrian Kreidehuter</h2>
         <p class="handle">@Kreidehuter</p>
       </div>
+
     </div>
 
     <div class="chip">🎵 Music</div>
 
     <div class="spacer"></div>
 
-    <div class="attachment-box" id="attachmentBox">
-      <span class="attachment-placeholder" id="attachmentPlaceholder">
-        Attachment Here<br>(Picture, Video)
+    <div
+      class="attachment-box"
+      id="attachmentBox"
+    >
+
+      <span
+        class="attachment-placeholder"
+        id="attachmentPlaceholder"
+      >
+        Attachment Here<br>
+        (Picture, Video)
       </span>
-      <input type="file" id="fileInput" accept="image/*,video/*">
+
+      <input
+        type="file"
+        id="fileInput"
+        accept="image/*,video/*"
+      >
+
     </div>
 
     <div class="caption-wrap">
-      <textarea id="captionInput" placeholder="Write a caption..."></textarea>
+
+      <textarea
+        id="captionInput"
+        placeholder="Write a caption..."
+      ></textarea>
+
     </div>
 
-    <button class="post-btn" id="postBtn">POST</button>
+    <button
+      class="post-btn"
+      id="postBtn"
+      type="button"
+    >
+      POST
+    </button>
 
-    <div class="status-msg" id="statusMsg"></div>
+    <div
+      class="status-msg"
+      id="statusMsg"
+    ></div>
+
   </div>
+
 </div>
+
 
 <script>
 (function(){
-  const API_URL = "https://script.google.com/macros/s/AKfycbwj8X3sQJx2OTgsorUT_iObGiJ4eXlTIp2apSuKDIgP_9AXN8xGihetgaotxZe-0QKHPw/exec";
 
-  const attachmentBox = document.getElementById('attachmentBox');
-  const fileInput = document.getElementById('fileInput');
-  const placeholder = document.getElementById('attachmentPlaceholder');
-  const captionInput = document.getElementById('captionInput');
-  const postBtn = document.getElementById('postBtn');
-  const statusMsg = document.getElementById('statusMsg');
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbwj8X3sQJx2OTgsorUT_iObGiJ4eXlTIp2apSuKDIgP_9AXN8xGihetgaotxZe-0QKHPw/exec";
+
+
+  const attachmentBox =
+    document.getElementById(
+      "attachmentBox"
+    );
+
+  const fileInput =
+    document.getElementById(
+      "fileInput"
+    );
+
+  const placeholder =
+    document.getElementById(
+      "attachmentPlaceholder"
+    );
+
+  const captionInput =
+    document.getElementById(
+      "captionInput"
+    );
+
+  const postBtn =
+    document.getElementById(
+      "postBtn"
+    );
+
+  const statusMsg =
+    document.getElementById(
+      "statusMsg"
+    );
+
 
   let selectedFile = null;
   let previewEl = null;
   let removeBtn = null;
   let isSubmitting = false;
+  let previewUrl = null;
 
-  attachmentBox.addEventListener('click', function(e){
-    if (e.target === removeBtn) return;
-    fileInput.click();
-  });
 
-  fileInput.addEventListener('change', function(){
-    const file = fileInput.files[0];
-    if (!file) return;
-    selectedFile = file;
-    showPreview(file);
-  });
+  /* =============================================
+     OPEN FILE PICKER
+  ============================================= */
+
+  attachmentBox.addEventListener(
+    "click",
+    function(e){
+
+      if (
+        e.target === removeBtn ||
+        e.target.closest(".remove-file")
+      ){
+        return;
+      }
+
+      fileInput.click();
+
+    }
+  );
+
+
+  /* =============================================
+     FILE SELECTED
+  ============================================= */
+
+  fileInput.addEventListener(
+    "change",
+    function(){
+
+      const file =
+        fileInput.files[0];
+
+
+      if (!file){
+        return;
+      }
+
+
+      if (
+        !file.type.startsWith("image/") &&
+        !file.type.startsWith("video/")
+      ){
+
+        showStatus(
+          "Only images and videos are allowed.",
+          "error"
+        );
+
+        fileInput.value = "";
+
+        return;
+      }
+
+
+      selectedFile = file;
+
+      hideStatus();
+
+      showPreview(
+        file
+      );
+
+    }
+  );
+
+
+  /* =============================================
+     SHOW PREVIEW
+  ============================================= */
 
   function showPreview(file){
+
     clearPreviewEl();
 
-    const url = URL.createObjectURL(file);
-    placeholder.style.display = 'none';
-    attachmentBox.classList.add('has-file');
 
-    if (file.type.startsWith('image/')){
-      previewEl = document.createElement('img');
-      previewEl.className = 'preview';
-      previewEl.src = url;
-    } else if (file.type.startsWith('video/')){
-      previewEl = document.createElement('video');
-      previewEl.className = 'preview';
-      previewEl.src = url;
-      previewEl.controls = true;
-      previewEl.muted = true;
+    previewUrl =
+      URL.createObjectURL(
+        file
+      );
+
+
+    placeholder.style.display =
+      "none";
+
+
+    attachmentBox.classList.add(
+      "has-file"
+    );
+
+
+    if (
+      file.type.startsWith(
+        "image/"
+      )
+    ){
+
+      previewEl =
+        document.createElement(
+          "img"
+        );
+
+
+      previewEl.className =
+        "preview";
+
+
+      previewEl.src =
+        previewUrl;
+
     }
+
+
+    else if (
+      file.type.startsWith(
+        "video/"
+      )
+    ){
+
+      previewEl =
+        document.createElement(
+          "video"
+        );
+
+
+      previewEl.className =
+        "preview";
+
+
+      previewEl.src =
+        previewUrl;
+
+
+      previewEl.controls =
+        true;
+
+
+      previewEl.muted =
+        true;
+
+
+      previewEl.playsInline =
+        true;
+
+    }
+
 
     if (previewEl){
-      attachmentBox.appendChild(previewEl);
+
+      attachmentBox.appendChild(
+        previewEl
+      );
+
     }
 
-    removeBtn = document.createElement('button');
-    removeBtn.type = 'button';
-    removeBtn.className = 'remove-file';
-    removeBtn.innerHTML = '&times;';
-    removeBtn.addEventListener('click', function(e){
-      e.stopPropagation();
-      clearAttachment();
-    });
-    attachmentBox.appendChild(removeBtn);
+
+    removeBtn =
+      document.createElement(
+        "button"
+      );
+
+
+    removeBtn.type =
+      "button";
+
+
+    removeBtn.className =
+      "remove-file";
+
+
+    removeBtn.innerHTML =
+      "&times;";
+
+
+    removeBtn.addEventListener(
+      "click",
+      function(e){
+
+        e.stopPropagation();
+
+        clearAttachment();
+
+      }
+    );
+
+
+    attachmentBox.appendChild(
+      removeBtn
+    );
+
   }
+
+
+  /* =============================================
+     CLEAR PREVIEW
+  ============================================= */
 
   function clearPreviewEl(){
-    if (previewEl && previewEl.parentNode){
-      previewEl.parentNode.removeChild(previewEl);
+
+    if (
+      previewEl &&
+      previewEl.parentNode
+    ){
+
+      previewEl.parentNode.removeChild(
+        previewEl
+      );
+
     }
-    if (removeBtn && removeBtn.parentNode){
-      removeBtn.parentNode.removeChild(removeBtn);
+
+
+    if (
+      removeBtn &&
+      removeBtn.parentNode
+    ){
+
+      removeBtn.parentNode.removeChild(
+        removeBtn
+      );
+
     }
+
+
+    if (previewUrl){
+
+      URL.revokeObjectURL(
+        previewUrl
+      );
+
+      previewUrl = null;
+
+    }
+
+
     previewEl = null;
+
     removeBtn = null;
+
   }
+
+
+  /* =============================================
+     CLEAR ATTACHMENT
+  ============================================= */
 
   function clearAttachment(){
+
     clearPreviewEl();
+
     selectedFile = null;
-    fileInput.value = '';
-    placeholder.style.display = '';
-    attachmentBox.classList.remove('has-file');
+
+    fileInput.value = "";
+
+    placeholder.style.display = "";
+
+    attachmentBox.classList.remove(
+      "has-file"
+    );
+
   }
 
-  function showStatus(message, type){
-    statusMsg.textContent = message;
-    statusMsg.className = 'status-msg show ' + type;
+
+  /* =============================================
+     STATUS MESSAGE
+  ============================================= */
+
+  function showStatus(
+    message,
+    type
+  ){
+
+    statusMsg.textContent =
+      message;
+
+
+    statusMsg.className =
+      "status-msg show " +
+      type;
+
   }
+
 
   function hideStatus(){
-    statusMsg.className = 'status-msg';
-    statusMsg.textContent = '';
+
+    statusMsg.className =
+      "status-msg";
+
+
+    statusMsg.textContent =
+      "";
+
   }
+
+
+  /* =============================================
+     FILE TO BASE64
+  ============================================= */
 
   function fileToBase64(file){
-    return new Promise(function(resolve, reject){
-      const reader = new FileReader();
-      reader.onload = function(){
-        const result = reader.result;
-        const base64 = result.split(',')[1];
-        resolve(base64);
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
+
+    return new Promise(
+      function(resolve, reject){
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload =
+          function(){
+
+            const result =
+              reader.result;
+
+
+            const base64 =
+              String(result)
+                .split(",")[1];
+
+
+            resolve(
+              base64
+            );
+
+          };
+
+
+        reader.onerror =
+          function(){
+
+            reject(
+              new Error(
+                "Failed to read the selected file."
+              )
+            );
+
+          };
+
+
+        reader.readAsDataURL(
+          file
+        );
+
+      }
+    );
+
   }
 
-  postBtn.addEventListener('click', async function(){
-    if (isSubmitting) return;
 
-    const caption = captionInput.value.trim();
+  /* =============================================
+     PUBLISH POST
+  ============================================= */
 
-    if (!caption && !selectedFile){
-      showStatus('Please add a caption or an attachment.', 'error');
-      return;
-    }
+  postBtn.addEventListener(
+    "click",
+    async function(){
 
-    isSubmitting = true;
-    postBtn.disabled = true;
-    postBtn.textContent = 'POSTING...';
-    hideStatus();
-
-    try{
-      const payload = {
-        caption: caption
-      };
-
-      if (selectedFile){
-        const base64Data = await fileToBase64(selectedFile);
-        payload.fileData = base64Data;
-        payload.fileName = selectedFile.name;
-        payload.mimeType = selectedFile.type;
+      if (isSubmitting){
+        return;
       }
 
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8'
-        },
-        body: JSON.stringify(payload)
-      });
 
-      let result;
+      const caption =
+        captionInput.value.trim();
+
+
+      /*
+        Your current backend requires
+        a media file.
+      */
+
+      if (!selectedFile){
+
+        showStatus(
+          "Please add a picture or video.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      isSubmitting =
+        true;
+
+
+      postBtn.disabled =
+        true;
+
+
+      postBtn.textContent =
+        "POSTING...";
+
+
+      hideStatus();
+
+
       try{
-        result = await response.json();
-      }catch(parseErr){
-        result = { success: response.ok };
+
+        const base64Data =
+          await fileToBase64(
+            selectedFile
+          );
+
+
+        const payload = {
+
+          caption:
+            caption,
+
+          fileData:
+            base64Data,
+
+          fileName:
+            selectedFile.name,
+
+          mimeType:
+            selectedFile.type
+
+        };
+
+
+        const response =
+          await fetch(
+            API_URL,
+            {
+
+              method:
+                "POST",
+
+              headers:{
+                "Content-Type":
+                  "text/plain;charset=utf-8"
+              },
+
+              body:
+                JSON.stringify(
+                  payload
+                )
+
+            }
+          );
+
+
+        /*
+          Apps Script sometimes returns
+          a response even when the
+          HTTP response itself is 200.
+
+          So we inspect the JSON too.
+        */
+
+        const responseText =
+          await response.text();
+
+
+        let result = null;
+
+
+        try{
+
+          result =
+            JSON.parse(
+              responseText
+            );
+
+        }
+
+        catch(parseError){
+
+          console.error(
+            "Invalid response:",
+            responseText
+          );
+
+        }
+
+
+        console.log(
+          "Apps Script response:",
+          result
+        );
+
+
+        /*
+          SUCCESS
+        */
+
+        if (
+          response.ok &&
+          result &&
+          result.success === true
+        ){
+
+          showStatus(
+            "Post published successfully.",
+            "success"
+          );
+
+
+          captionInput.value =
+            "";
+
+
+          clearAttachment();
+
+
+          /*
+            Optional redirect after
+            successful posting.
+
+            Disabled for now so you
+            can see the success result.
+          */
+
+          // setTimeout(function(){
+          //   window.location.href = "/profile/";
+          // }, 1200);
+
+        }
+
+
+        /*
+          BACKEND ERROR
+        */
+
+        else{
+
+          const errorMessage =
+            result &&
+            (
+              result.error ||
+              result.message
+            )
+              ?
+              (
+                result.error ||
+                result.message
+              )
+              :
+              responseText ||
+              "Something went wrong. Please try again.";
+
+
+          console.error(
+            "Post error:",
+            errorMessage
+          );
+
+
+          showStatus(
+            errorMessage,
+            "error"
+          );
+
+        }
+
       }
 
-      if (response.ok && result && result.success !== false){
-        showStatus('Post published successfully.', 'success');
-        captionInput.value = '';
-        clearAttachment();
-      } else {
-        const errMsg = (result && result.message) ? result.message : 'Something went wrong. Please try again.';
-        showStatus(errMsg, 'error');
+
+      catch(error){
+
+        console.error(
+          "Network/client error:",
+          error
+        );
+
+
+        showStatus(
+          error.message ||
+          "Network error. Please try again.",
+          "error"
+        );
+
       }
-    }catch(err){
-      showStatus('Network error. Please try again.', 'error');
-    }finally{
-      isSubmitting = false;
-      postBtn.disabled = false;
-      postBtn.textContent = 'POST';
+
+
+      finally{
+
+        isSubmitting =
+          false;
+
+
+        postBtn.disabled =
+          false;
+
+
+        postBtn.textContent =
+          "POST";
+
+      }
+
     }
-  });
+  );
+
+
 })();
 </script>
 
 </body>
 </html>
-
