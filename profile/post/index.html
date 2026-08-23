@@ -421,7 +421,7 @@ body{
   text-overflow:ellipsis;
 }
 
-/* FIXED CAPTION */
+/* CAPTION */
 
 .post-caption{
   display:block;
@@ -456,12 +456,27 @@ body{
 
   border-radius:18px;
 
-  background:transparent;
+  background:#050506;
 
   border:1px solid rgba(255,255,255,0.08);
 }
 
-.post-media img,
+.post-media img{
+  display:block;
+
+  width:100%;
+  max-width:100%;
+
+  height:auto;
+
+  margin:0;
+  padding:0;
+
+  border:0;
+
+  background:transparent;
+}
+
 .post-media video{
   display:block;
 
@@ -469,17 +484,45 @@ body{
   max-width:100%;
 
   height:auto;
-  min-height:0;
-  max-height:none;
 
   margin:0;
   padding:0;
 
   border:0;
 
-  object-fit:initial;
+  background:#000;
+}
 
-  background:transparent;
+.video-loading{
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  min-height:180px;
+
+  padding:20px;
+
+  color:var(--text-sub);
+
+  font-size:14px;
+}
+
+.video-error{
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  min-height:180px;
+
+  padding:20px;
+
+  text-align:center;
+
+  color:var(--text-sub);
+
+  font-size:14px;
 }
 
 /* STATES */
@@ -764,6 +807,7 @@ body{
       return match[1];
     }
 
+
     match =
       url.match(
         /[?&]id=([^&]+)/i
@@ -772,6 +816,7 @@ body{
     if(match){
       return match[1];
     }
+
 
     return null;
   }
@@ -789,6 +834,7 @@ body{
     const driveId =
       getDriveFileId(url);
 
+
     if(
       driveId &&
       type === "image"
@@ -801,6 +847,7 @@ body{
       );
     }
 
+
     if(
       driveId &&
       type === "video"
@@ -812,6 +859,7 @@ body{
         + "&export=download&confirm=t"
       );
     }
+
 
     return url;
   }
@@ -875,11 +923,13 @@ body{
         ""
       ).toLowerCase();
 
+
     if(
       mime.startsWith("video/")
     ){
       return "video";
     }
+
 
     if(
       mime.startsWith("image/")
@@ -887,11 +937,13 @@ body{
       return "image";
     }
 
+
     if(
       mime === "video"
     ){
       return "video";
     }
+
 
     if(
       mime === "image"
@@ -899,10 +951,12 @@ body{
       return "image";
     }
 
+
     const url =
       String(
         getMediaUrl(post) || ""
       ).toLowerCase();
+
 
     if(
       /\.(mp4|mov|webm|m4v|ogg)(\?|$)/i.test(url)
@@ -910,11 +964,13 @@ body{
       return "video";
     }
 
+
     if(
       /\.(jpg|jpeg|png|gif|webp|heic)(\?|$)/i.test(url)
     ){
       return "image";
     }
+
 
     return "image";
   }
@@ -944,45 +1000,54 @@ body{
         getTimestamp(post)
       );
 
+
     let mediaHtml = "";
+
 
     if(
       mediaUrl &&
       mediaType === "video"
     ){
 
-      mediaHtml = `
-        <div class="post-media">
+      mediaHtml =
+        `<div class="post-media video-media">
+          <div class="video-loading">
+            Loading video...
+          </div>
+
           <video
             controls
             preload="metadata"
             playsinline
             src="${escapeHtml(mediaUrl)}"
           ></video>
-        </div>
-      `;
+        </div>`;
 
     }
 
+
     else if(mediaUrl){
 
-      mediaHtml = `
-        <div class="post-media">
+      mediaHtml =
+        `<div class="post-media">
           <img
             src="${escapeHtml(mediaUrl)}"
             alt="Post attachment"
             loading="lazy"
           >
-        </div>
-      `;
+        </div>`;
 
     }
 
 
-    /* IMPORTANT:
-       No indentation around the caption.
-       white-space: pre-wrap preserves
-       whitespace from the template.
+    /*
+      IMPORTANT:
+      The caption must remain on one continuous line
+      inside the template.
+
+      Because white-space:pre-wrap preserves whitespace,
+      putting indentation around the caption would create
+      visible spaces before the actual text.
     */
 
     const captionHtml =
@@ -1011,9 +1076,7 @@ body{
 
             <div class="sub-line">
 
-              <span>
-                @kreidehuter
-              </span>
+              <span>@kreidehuter</span>
 
               ${
                 timeLabel
@@ -1043,6 +1106,7 @@ body{
         ".post-media img"
       );
 
+
     images.forEach(function(img){
 
       img.addEventListener(
@@ -1055,7 +1119,12 @@ body{
             );
 
           if(mediaBox){
-            mediaBox.remove();
+
+            mediaBox.innerHTML =
+              `<div class="video-error">
+                Couldn't load image.
+              </div>`;
+
           }
 
         }
@@ -1069,19 +1138,66 @@ body{
         ".post-media video"
       );
 
+
     videos.forEach(function(video){
+
+      const mediaBox =
+        video.closest(
+          ".post-media"
+        );
+
+      const loading =
+        mediaBox
+          ? mediaBox.querySelector(
+              ".video-loading"
+            )
+          : null;
+
+
+      video.addEventListener(
+        "loadedmetadata",
+        function(){
+
+          if(loading){
+            loading.remove();
+          }
+
+        }
+      );
+
+
+      video.addEventListener(
+        "canplay",
+        function(){
+
+          if(loading){
+            loading.remove();
+          }
+
+        }
+      );
+
 
       video.addEventListener(
         "error",
         function(){
 
-          const mediaBox =
-            video.closest(
-              ".post-media"
-            );
+          console.error(
+            "Video failed to load:",
+            video.currentSrc ||
+            video.src
+          );
 
-          if(mediaBox){
-            mediaBox.remove();
+          if(
+            mediaBox &&
+            mediaBox.parentNode
+          ){
+
+            mediaBox.innerHTML =
+              `<div class="video-error">
+                This video couldn't be loaded.
+              </div>`;
+
           }
 
         }
@@ -1142,10 +1258,12 @@ body{
       `
     );
 
+
     const retryBtn =
       document.getElementById(
         "retryBtn"
       );
+
 
     if(retryBtn){
 
@@ -1171,10 +1289,12 @@ body{
               getTimestamp(a) || 0
             ).getTime();
 
+
           const tb =
             new Date(
               getTimestamp(b) || 0
             ).getTime();
+
 
           return tb - ta;
 
@@ -1188,6 +1308,7 @@ body{
 
     showLoading();
 
+
     try{
 
       const response =
@@ -1199,6 +1320,7 @@ body{
           }
         );
 
+
       if(
         !response.ok
       ){
@@ -1207,8 +1329,10 @@ body{
         );
       }
 
+
       const data =
         await response.json();
+
 
       if(
         !data ||
@@ -1216,9 +1340,11 @@ body{
       ){
 
         showError();
+
         return;
 
       }
+
 
       let posts =
         data.posts ||
@@ -1226,32 +1352,41 @@ body{
         data.items ||
         [];
 
+
       if(
         !Array.isArray(posts)
       ){
+
         posts = [];
+
       }
+
 
       if(
         posts.length === 0
       ){
 
         showEmpty();
+
         return;
 
       }
+
 
       posts =
         sortPostsNewestFirst(
           posts
         );
 
+
       feedEl.innerHTML =
         posts
           .map(renderPost)
           .join("");
 
+
       attachMediaErrorHandlers();
+
 
     }
     catch(err){
