@@ -2,717 +2,523 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
->
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Adrian Kreidehüter (@kreidehuter)</title>
 
 <style>
-
-:root{
-  --bg-deep:#08090c;
-  --glass:rgba(255,255,255,0.06);
-  --glass-strong:rgba(255,255,255,0.10);
-  --glass-border:rgba(255,255,255,0.12);
-
-  --text-main:#f2f2f4;
-  --text-sub:#9a9aa2;
-  --text-dim:#6c6c74;
-}
-
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,
-body{
-  margin:0;
-  padding:0;
-  min-height:100%;
-
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "SF Pro Display",
-    "SF Pro Text",
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
-
-  color:var(--text-main);
-  background:var(--bg-deep);
-}
-
-body{
-  background:
-
-    radial-gradient(
-      circle at 20% 0%,
-      rgba(90,80,180,0.25) 0%,
-      transparent 45%
-    ),
-
-    radial-gradient(
-      circle at 85% 10%,
-      rgba(200,60,140,0.18) 0%,
-      transparent 45%
-    ),
-
-    radial-gradient(
-      circle at 30% 90%,
-      rgba(30,140,160,0.18) 0%,
-      transparent 50%
-    ),
-
-    radial-gradient(
-      circle at 90% 90%,
-      rgba(120,90,40,0.14) 0%,
-      transparent 50%
-    ),
-
-    linear-gradient(
-      180deg,
-      #0a0a0d 0%,
-      #060608 100%
-    );
-
-  background-attachment:fixed;
-
-  min-height:100vh;
-
-  padding-bottom:60px;
-
-  animation:fadeInPage 0.6s ease;
-}
-
-@keyframes fadeInPage{
-  from{
-    opacity:0;
+  :root{
+    --bg-deep: #08090c;
+    --glass: rgba(255,255,255,0.06);
+    --glass-strong: rgba(255,255,255,0.10);
+    --glass-border: rgba(255,255,255,0.12);
+    --text-main: #f2f2f4;
+    --text-sub: #9a9aa2;
+    --text-dim: #6c6c74;
   }
 
-  to{
-    opacity:1;
-  }
-}
-
-.page{
-  width:100%;
-  max-width:620px;
-
-  margin:0 auto;
-
-  padding:22px 14px 0;
-}
-
-
-/* =========================
-   PROFILE
-========================= */
-
-.profile-card{
-  background:var(--glass);
-
-  backdrop-filter:
-    blur(26px)
-    saturate(160%);
-
-  -webkit-backdrop-filter:
-    blur(26px)
-    saturate(160%);
-
-  border:
-    1px solid
-    var(--glass-border);
-
-  border-radius:28px;
-
-  box-shadow:
-
-    0 10px 34px
-    rgba(0,0,0,0.4),
-
-    inset 0 1px 0
-    rgba(255,255,255,0.06);
-
-  padding:
-    22px
-    20px
-    18px;
-
-  position:relative;
-
-  overflow:hidden;
-}
-
-.profile-card::before{
-  content:"";
-
-  position:absolute;
-
-  top:0;
-  left:0;
-  right:0;
-
-  height:90px;
-
-  background:
-
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,0.08),
-      rgba(255,255,255,0)
-    );
-
-  pointer-events:none;
-}
-
-.avatar-row{
-  display:flex;
-
-  align-items:flex-end;
-
-  justify-content:space-between;
-
-  margin-bottom:14px;
-}
-
-.avatar{
-  width:84px;
-  height:84px;
-
-  border-radius:50%;
-
-  object-fit:cover;
-
-  border:
-    3px solid
-    rgba(255,255,255,0.15);
-
-  box-shadow:
-    0 6px 18px
-    rgba(0,0,0,0.5);
-
-  background:#222;
-}
-
-.header-actions{
-  display:flex;
-
-  gap:10px;
-}
-
-.pill-btn{
-  padding:
-    9px
-    18px;
-
-  border-radius:999px;
-
-  background:
-    var(--glass-strong);
-
-  border:
-    1px solid
-    var(--glass-border);
-
-  color:
-    var(--text-main);
-
-  font-size:13.5px;
-
-  font-weight:700;
-
-  cursor:pointer;
-
-  box-shadow:
-    inset 0 1px 0
-    rgba(255,255,255,0.1);
-
-  transition:
-    transform 0.15s ease,
-    background 0.2s ease;
-}
-
-.pill-btn:hover{
-  background:
-    rgba(255,255,255,0.16);
-}
-
-.pill-btn:active{
-  transform:
-    scale(0.96);
-}
-
-.pill-btn.primary{
-  background:
-
-    linear-gradient(
-      160deg,
-      #f2f2f4,
-      #cfcfd4
-    );
-
-  color:#0a0a0c;
-
-  border:none;
-}
-
-.name-row{
-  display:flex;
-
-  align-items:center;
-
-  gap:6px;
-}
-
-.name-row h1{
-  margin:0;
-
-  font-size:22px;
-
-  font-weight:800;
-}
-
-.lock-icon{
-  width:15px;
-  height:15px;
-
-  opacity:0.7;
-
-  flex-shrink:0;
-}
-
-.handle{
-  margin:
-    2px
-    0
-    10px;
-
-  font-size:14.5px;
-
-  color:
-    var(--text-sub);
-
-  font-weight:600;
-}
-
-.bio{
-  margin:
-    0
-    0
-    12px;
-
-  font-size:14.5px;
-
-  line-height:1.5;
-
-  color:
-    var(--text-main);
-}
-
-.meta-row{
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:14px;
-
-  font-size:13px;
-
-  color:
-    var(--text-dim);
-
-  margin-bottom:12px;
-}
-
-.counts-row{
-  display:flex;
-
-  gap:18px;
-
-  font-size:13.5px;
-
-  color:
-    var(--text-sub);
-}
-
-.counts-row b{
-  color:
-    var(--text-main);
-
-  font-weight:800;
-}
-
-
-/* =========================
-   TABS
-========================= */
-
-.tab-bar{
-  display:flex;
-
-  gap:6px;
-
-  margin:
-    18px
-    0
-    16px;
-
-  background:
-    var(--glass);
-
-  backdrop-filter:
-    blur(20px);
-
-  -webkit-backdrop-filter:
-    blur(20px);
-
-  border:
-    1px solid
-    var(--glass-border);
-
-  border-radius:20px;
-
-  padding:5px;
-}
-
-.tab{
-  flex:1;
-
-  text-align:center;
-
-  padding:
-    10px
-    12px;
-
-  border-radius:15px;
-
-  font-size:13.5px;
-
-  font-weight:700;
-
-  color:
-    var(--text-sub);
-}
-
-.tab.active{
-  background:
-    var(--glass-strong);
-
-  color:
-    var(--text-main);
-
-  box-shadow:
-
-    inset 0 1px 0
-    rgba(255,255,255,0.12),
-
-    0 2px 10px
-    rgba(0,0,0,0.3);
-}
-
-
-/* =========================
-   FEED
-========================= */
-
-.feed{
-  display:flex;
-
-  flex-direction:column;
-
-  gap:14px;
-}
-
-.post{
-  background:
-    var(--glass);
-
-  backdrop-filter:
-    blur(22px)
-    saturate(160%);
-
-  -webkit-backdrop-filter:
-    blur(22px)
-    saturate(160%);
-
-  border:
-    1px solid
-    var(--glass-border);
-
-  border-radius:24px;
-
-  padding:
-    16px
-    16px
-    14px;
-
-  box-shadow:
-
-    0 8px 26px
-    rgba(0,0,0,0.35),
-
-    inset 0 1px 0
-    rgba(255,255,255,0.05);
-
-  animation:
-    postIn
-    0.45s
-    ease
-    both;
-}
-
-@keyframes postIn{
-
-  from{
-    opacity:0;
-
-    transform:
-      translateY(10px);
+  *{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
   }
 
-  to{
-    opacity:1;
-
-    transform:
-      translateY(0);
+  html,
+  body{
+    margin:0;
+    padding:0;
+    min-height:100%;
+    font-family:
+      -apple-system,
+      BlinkMacSystemFont,
+      "SF Pro Display",
+      "SF Pro Text",
+      "Helvetica Neue",
+      Arial,
+      sans-serif;
+    color:var(--text-main);
+    background:var(--bg-deep);
   }
-}
 
-.post-head{
-  display:flex;
-
-  align-items:center;
-
-  gap:10px;
-
-  margin-bottom:10px;
-}
-
-.post-avatar{
-  width:40px;
-  height:40px;
-
-  border-radius:50%;
-
-  object-fit:cover;
-
-  flex-shrink:0;
-
-  border:
-    1px solid
-    rgba(255,255,255,0.15);
-
-  background:#222;
-}
-
-.post-names{
-  display:flex;
-
-  flex-direction:column;
-
-  line-height:1.25;
-
-  min-width:0;
-}
-
-.post-names .top-line{
-  display:flex;
-
-  align-items:center;
-
-  gap:6px;
-
-  font-size:14.5px;
-
-  font-weight:800;
-
-  white-space:nowrap;
-}
-
-.post-names .sub-line{
-  font-size:13px;
-
-  color:
-    var(--text-dim);
-
-  display:flex;
-
-  gap:6px;
-}
-
-.post-caption{
-  font-size:15px;
-
-  line-height:1.5;
-
-  color:
-    var(--text-main);
-
-  white-space:pre-wrap;
-
-  word-wrap:break-word;
-
-  margin-bottom:10px;
-}
-
-
-/* =========================
-   MEDIA
-========================= */
-
-.post-media{
-  margin-top:6px;
-
-  border-radius:18px;
-
-  overflow:hidden;
-
-  border:
-    1px solid
-    rgba(255,255,255,0.08);
-
-  background:#000;
-
-  position:relative;
-
-  min-height:80px;
-}
-
-.post-media img,
-.post-media video{
-  display:block;
-
-  width:100%;
-
-  height:auto;
-
-  max-height:620px;
-
-  object-fit:contain;
-
-  background:#000;
-
-  border-radius:18px;
-}
-
-.media-error{
-  padding:24px;
-
-  text-align:center;
-
-  color:
-    var(--text-sub);
-
-  font-size:13px;
-}
-
-
-/* =========================
-   STATES
-========================= */
-
-.state-box{
-  text-align:center;
-
-  padding:
-    50px
-    20px;
-
-  color:
-    var(--text-sub);
-
-  font-size:14.5px;
-
-  font-weight:600;
-}
-
-.spinner{
-  width:30px;
-  height:30px;
-
-  margin:
-    0
-    auto
-    14px;
-
-  border-radius:50%;
-
-  border:
-    3px solid
-    rgba(255,255,255,0.15);
-
-  border-top-color:
-    rgba(255,255,255,0.75);
-
-  animation:
-    spin
-    0.8s
-    linear
-    infinite;
-}
-
-@keyframes spin{
-  to{
-    transform:
-      rotate(360deg);
+  body{
+    background:
+      radial-gradient(circle at 20% 0%, rgba(90,80,180,0.25) 0%, transparent 45%),
+      radial-gradient(circle at 85% 10%, rgba(200,60,140,0.18) 0%, transparent 45%),
+      radial-gradient(circle at 30% 90%, rgba(30,140,160,0.18) 0%, transparent 50%),
+      radial-gradient(circle at 90% 90%, rgba(120,90,40,0.14) 0%, transparent 50%),
+      linear-gradient(180deg, #0a0a0d 0%, #060608 100%);
+
+    background-attachment:fixed;
+    min-height:100vh;
+    padding-bottom:60px;
+    animation:fadeInPage 0.6s ease;
   }
-}
 
-.retry-btn{
-  margin-top:14px;
+  @keyframes fadeInPage{
+    from{
+      opacity:0;
+    }
 
-  padding:
-    10px
-    22px;
+    to{
+      opacity:1;
+    }
+  }
 
-  border-radius:999px;
+  .page{
+    width:100%;
+    max-width:620px;
+    margin:0 auto;
+    padding:22px 14px 0;
+  }
 
-  background:
-    var(--glass-strong);
+  /* PROFILE */
 
-  border:
-    1px solid
-    var(--glass-border);
+  .profile-card{
+    position:relative;
+    overflow:hidden;
 
-  color:
-    var(--text-main);
+    background:var(--glass);
 
-  font-weight:700;
+    backdrop-filter:blur(26px) saturate(160%);
+    -webkit-backdrop-filter:blur(26px) saturate(160%);
 
-  cursor:pointer;
-}
+    border:1px solid var(--glass-border);
+    border-radius:28px;
 
+    box-shadow:
+      0 10px 34px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.06);
 
-/* =========================
-   MOBILE
-========================= */
+    padding:22px 20px 18px;
+  }
 
-@media (max-width:420px){
+  .profile-card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:90px;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255,255,255,0.08),
+        rgba(255,255,255,0)
+      );
+
+    pointer-events:none;
+  }
+
+  .avatar-row{
+    position:relative;
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    margin-bottom:14px;
+  }
 
   .avatar{
-    width:72px;
-    height:72px;
+    width:84px;
+    height:84px;
+
+    border-radius:50%;
+    object-fit:cover;
+
+    border:3px solid rgba(255,255,255,0.15);
+
+    box-shadow:
+      0 6px 18px rgba(0,0,0,0.5);
+
+    background:#222;
   }
 
-  .name-row h1{
-    font-size:19px;
+  .header-actions{
+    display:flex;
+    gap:10px;
   }
 
   .pill-btn{
-    padding:
-      8px
-      14px;
+    padding:9px 18px;
 
-    font-size:13px;
+    border-radius:999px;
+
+    background:var(--glass-strong);
+    border:1px solid var(--glass-border);
+
+    color:var(--text-main);
+
+    font-size:13.5px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.1);
+
+    transition:
+      transform 0.15s ease,
+      background 0.2s ease;
   }
 
-}
+  .pill-btn:hover{
+    background:rgba(255,255,255,0.16);
+  }
 
+  .pill-btn:active{
+    transform:scale(0.96);
+  }
+
+  .pill-btn.primary{
+    background:
+      linear-gradient(
+        160deg,
+        #f2f2f4,
+        #cfcfd4
+      );
+
+    color:#0a0a0c;
+    border:none;
+  }
+
+  .name-row{
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+
+  .name-row h1{
+    margin:0;
+    font-size:22px;
+    font-weight:800;
+  }
+
+  .lock-icon{
+    width:15px;
+    height:15px;
+
+    opacity:0.7;
+    flex-shrink:0;
+  }
+
+  .handle{
+    margin:2px 0 10px;
+
+    font-size:14.5px;
+    font-weight:600;
+
+    color:var(--text-sub);
+  }
+
+  .bio{
+    margin:0 0 12px;
+
+    font-size:14.5px;
+    line-height:1.5;
+
+    color:var(--text-main);
+  }
+
+  .meta-row{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:14px;
+
+    margin-bottom:12px;
+
+    font-size:13px;
+
+    color:var(--text-dim);
+  }
+
+  .meta-row span{
+    display:flex;
+    align-items:center;
+    gap:5px;
+  }
+
+  .counts-row{
+    display:flex;
+    gap:18px;
+
+    font-size:13.5px;
+
+    color:var(--text-sub);
+  }
+
+  .counts-row b{
+    color:var(--text-main);
+    font-weight:800;
+  }
+
+  /* TABS */
+
+  .tab-bar{
+    display:flex;
+    gap:6px;
+
+    margin:18px 0 16px;
+    padding:5px;
+
+    overflow-x:auto;
+
+    background:var(--glass);
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border:1px solid var(--glass-border);
+    border-radius:20px;
+  }
+
+  .tab{
+    flex:1;
+
+    padding:10px 12px;
+
+    text-align:center;
+
+    border-radius:15px;
+
+    font-size:13.5px;
+    font-weight:700;
+
+    color:var(--text-sub);
+
+    white-space:nowrap;
+  }
+
+  .tab.active{
+    background:var(--glass-strong);
+
+    color:var(--text-main);
+
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.12),
+      0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  /* FEED */
+
+  .feed{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  .post{
+    background:var(--glass);
+
+    backdrop-filter:
+      blur(22px)
+      saturate(160%);
+
+    -webkit-backdrop-filter:
+      blur(22px)
+      saturate(160%);
+
+    border:1px solid var(--glass-border);
+    border-radius:24px;
+
+    padding:16px 16px 14px;
+
+    box-shadow:
+      0 8px 26px rgba(0,0,0,0.35),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+
+    animation:postIn 0.45s ease both;
+  }
+
+  @keyframes postIn{
+    from{
+      opacity:0;
+      transform:translateY(10px);
+    }
+
+    to{
+      opacity:1;
+      transform:translateY(0);
+    }
+  }
+
+  .post-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    margin-bottom:10px;
+  }
+
+  .post-avatar{
+    width:40px;
+    height:40px;
+
+    flex-shrink:0;
+
+    border-radius:50%;
+    object-fit:cover;
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    background:#222;
+  }
+
+  .post-names{
+    display:flex;
+    flex-direction:column;
+
+    min-width:0;
+
+    line-height:1.25;
+  }
+
+  .post-names .top-line{
+    display:flex;
+    align-items:center;
+
+    gap:6px;
+
+    font-size:14.5px;
+    font-weight:800;
+
+    white-space:nowrap;
+  }
+
+  .post-names .sub-line{
+    display:flex;
+
+    gap:6px;
+
+    overflow:hidden;
+
+    font-size:13px;
+
+    color:var(--text-dim);
+
+    white-space:nowrap;
+    text-overflow:ellipsis;
+  }
+
+  .post-caption{
+    margin-bottom:10px;
+
+    font-size:15px;
+    line-height:1.5;
+
+    color:var(--text-main);
+
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+  }
+
+  /* MEDIA */
+
+  .post-media{
+    position:relative;
+
+    width:100%;
+
+    margin-top:6px;
+
+    overflow:hidden;
+
+    border-radius:18px;
+
+    background:#000;
+
+    border:1px solid rgba(255,255,255,0.08);
+  }
+
+  .post-media img,
+  .post-media video{
+    display:block;
+
+    width:100%;
+    height:auto;
+
+    max-height:620px;
+
+    object-fit:contain;
+
+    background:#000;
+  }
+
+  .post-media img{
+    min-height:80px;
+  }
+
+  /* STATES */
+
+  .state-box{
+    padding:50px 20px;
+
+    text-align:center;
+
+    color:var(--text-sub);
+
+    font-size:14.5px;
+    font-weight:600;
+  }
+
+  .spinner{
+    width:30px;
+    height:30px;
+
+    margin:0 auto 14px;
+
+    border-radius:50%;
+
+    border:3px solid rgba(255,255,255,0.15);
+    border-top-color:rgba(255,255,255,0.75);
+
+    animation:spin 0.8s linear infinite;
+  }
+
+  @keyframes spin{
+    to{
+      transform:rotate(360deg);
+    }
+  }
+
+  .retry-btn{
+    margin-top:14px;
+    padding:10px 22px;
+
+    border-radius:999px;
+
+    background:var(--glass-strong);
+
+    border:1px solid var(--glass-border);
+
+    color:var(--text-main);
+
+    font-weight:700;
+    font-size:13.5px;
+
+    cursor:pointer;
+  }
+
+  .retry-btn:active{
+    transform:scale(0.96);
+  }
+
+  @media (max-width:420px){
+
+    .avatar{
+      width:72px;
+      height:72px;
+    }
+
+    .name-row h1{
+      font-size:19px;
+    }
+
+    .pill-btn{
+      padding:8px 14px;
+      font-size:13px;
+    }
+  }
 </style>
 </head>
 
@@ -731,25 +537,15 @@ body{
       >
 
       <div class="header-actions">
-
-        <button class="pill-btn">
-          Share
-        </button>
-
-        <button class="pill-btn primary">
-          Edit profile
-        </button>
-
+        <button class="pill-btn">Share</button>
+        <button class="pill-btn primary">Edit profile</button>
       </div>
 
     </div>
 
-
     <div class="name-row">
 
-      <h1>
-        Adrian Kreidehüter
-      </h1>
+      <h1>Adrian Kreidehüter</h1>
 
       <svg
         class="lock-icon"
@@ -757,7 +553,6 @@ body{
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-
         <rect
           x="5"
           y="11"
@@ -773,84 +568,40 @@ body{
           stroke="currentColor"
           stroke-width="2"
         />
-
       </svg>
 
     </div>
 
+    <p class="handle">@kreidehuter</p>
 
-    <p class="handle">
-      @kreidehuter
-    </p>
-
-
-    <p class="bio">
-      infp t btw I want a friend
-    </p>
-
+    <p class="bio">infp t btw I want a friend</p>
 
     <div class="meta-row">
-
-      <span>
-        🎂 Born October 22, 2006
-      </span>
-
-      <span>
-        📅 Joined April 2026
-      </span>
-
+      <span>🎂 Born October 22, 2006</span>
+      <span>📅 Joined April 2026</span>
     </div>
 
-
     <div class="counts-row">
-
-      <span>
-        <b>6</b>
-        Following
-      </span>
-
-      <span>
-        <b>0</b>
-        Followers
-      </span>
-
+      <span><b>6</b> Following</span>
+      <span><b>0</b> Followers</span>
     </div>
 
   </div>
 
 
   <div class="tab-bar">
-
-    <div class="tab active">
-      Posts
-    </div>
-
-    <div class="tab">
-      Replies
-    </div>
-
-    <div class="tab">
-      Media
-    </div>
-
-    <div class="tab">
-      Likes
-    </div>
-
+    <div class="tab active">Posts</div>
+    <div class="tab">Replies</div>
+    <div class="tab">Media</div>
+    <div class="tab">Likes</div>
   </div>
 
 
-  <div
-    class="feed"
-    id="feed"
-  >
+  <div class="feed" id="feed">
 
     <div class="state-box">
-
       <div class="spinner"></div>
-
       Loading posts...
-
     </div>
 
   </div>
@@ -865,12 +616,13 @@ body{
   const API_URL =
     "https://script.google.com/macros/s/AKfycbwj8X3sQJx2OTgsorUT_iObGiJ4eXlTIp2apSuKDIgP_9AXN8xGihetgaotxZe-0QKHPw/exec";
 
-
   const feedEl =
-    document.getElementById(
-      "feed"
-    );
+    document.getElementById("feed");
 
+
+  /* =========================
+     ESCAPE HTML
+  ========================= */
 
   function escapeHtml(str){
 
@@ -882,34 +634,17 @@ body{
     }
 
     return String(str)
-
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-
-      .replace(
-        /</g,
-        "&lt;"
-      )
-
-      .replace(
-        />/g,
-        "&gt;"
-      )
-
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
+
+  /* =========================
+     RELATIVE TIME
+  ========================= */
 
   function relativeTime(input){
 
@@ -920,24 +655,21 @@ body{
     const date =
       new Date(input);
 
-
     if(
-      isNaN(
-        date.getTime()
-      )
+      isNaN(date.getTime())
     ){
       return "";
     }
 
-
-    const seconds =
+    let seconds =
       Math.floor(
-        (
-          Date.now() -
-          date.getTime()
-        ) / 1000
+        (Date.now() - date.getTime())
+        / 1000
       );
 
+    if(seconds < 0){
+      seconds = 0;
+    }
 
     if(seconds < 5){
       return "now";
@@ -947,226 +679,325 @@ body{
       return seconds + "s";
     }
 
-
     const minutes =
-      Math.floor(
-        seconds / 60
-      );
-
+      Math.floor(seconds / 60);
 
     if(minutes < 60){
       return minutes + "m";
     }
 
-
     const hours =
-      Math.floor(
-        minutes / 60
-      );
-
+      Math.floor(minutes / 60);
 
     if(hours < 24){
       return hours + "h";
     }
 
-
     const days =
-      Math.floor(
-        hours / 24
-      );
-
+      Math.floor(hours / 24);
 
     if(days < 7){
       return days + "d";
     }
 
-
     const weeks =
-      Math.floor(
-        days / 7
-      );
-
+      Math.floor(days / 7);
 
     if(weeks < 5){
       return weeks + "w";
     }
 
-
     const months =
-      Math.floor(
-        days / 30
-      );
-
+      Math.floor(days / 30);
 
     if(months < 12){
       return months + "mo";
     }
 
-
     const years =
-      Math.floor(
-        days / 365
-      );
-
+      Math.floor(days / 365);
 
     return years + "y";
-
   }
 
 
-  /*
-    Detect media type.
+  /* =========================
+     GET DRIVE FILE ID
+  ========================= */
 
-    Your Apps Script returns:
+  function getDriveFileId(url){
 
-    mediaType
-
-    which is either:
-
-    image
-    video
-  */
-
-  function getMediaType(post){
-
-    const type =
-      String(
-        post.mediaType ||
-        post.mediatype ||
-        ""
-      )
-      .toLowerCase();
-
-
-    if(
-      type === "image"
-    ){
-      return "image";
+    if(!url){
+      return null;
     }
 
+    url =
+      String(url);
 
-    if(
-      type === "video"
-    ){
-      return "video";
-    }
+    /*
+      Normal Drive URL:
 
+      https://drive.google.com/file/d/FILE_ID/view
+    */
 
-    return null;
-
-  }
-
-
-  /*
-    This is important.
-
-    We use FileID directly
-    instead of trusting only
-    MediaURL stored in Sheets.
-  */
-
-  function getDriveUrls(post){
-
-    const fileId =
-      post.fileId ||
-      post.fileID ||
-      post.FileID ||
-      "";
-
-
-    const urls = [];
-
-
-    if(fileId){
-
-      /*
-        First attempt.
-      */
-
-      urls.push(
-        "https://drive.usercontent.google.com/download?id=" +
-        encodeURIComponent(fileId) +
-        "&export=view&confirm=t"
+    let match =
+      url.match(
+        /\/file\/d\/([^\/?]+)/
       );
 
-
-      /*
-        Second attempt.
-      */
-
-      urls.push(
-        "https://drive.google.com/uc?export=view&id=" +
-        encodeURIComponent(fileId)
-      );
-
-
-      /*
-        Third fallback.
-      */
-
-      urls.push(
-        "https://lh3.googleusercontent.com/d/" +
-        encodeURIComponent(fileId)
-      );
-
+    if(match){
+      return match[1];
     }
 
 
     /*
-      Old stored MediaURL fallback.
+      Drive open URL:
+
+      https://drive.google.com/open?id=FILE_ID
     */
 
-    if(
-      post.mediaUrl
-    ){
-
-      urls.push(
-        post.mediaUrl
+    match =
+      url.match(
+        /[?&]id=([^&]+)/i
       );
 
+    if(match){
+      return match[1];
     }
 
 
-    return urls;
+    /*
+      uc?export=download&id=FILE_ID
+    */
 
+    match =
+      url.match(
+        /[?&]id=([^&]+)/i
+      );
+
+    if(match){
+      return match[1];
+    }
+
+
+    return null;
   }
 
+
+  /* =========================
+     NORMALIZE MEDIA URL
+  ========================= */
+
+  function normalizeMediaUrl(url, type){
+
+    if(!url){
+      return null;
+    }
+
+    url =
+      String(url).trim();
+
+    const driveId =
+      getDriveFileId(url);
+
+    /*
+      For images, thumbnail URL works
+      much better inside <img>.
+    */
+
+    if(
+      driveId &&
+      type === "image"
+    ){
+
+      return (
+        "https://drive.google.com/thumbnail?id="
+        + encodeURIComponent(driveId)
+        + "&sz=w2000"
+      );
+    }
+
+
+    /*
+      For videos use download endpoint.
+    */
+
+    if(
+      driveId &&
+      type === "video"
+    ){
+
+      return (
+        "https://drive.usercontent.google.com/download?id="
+        + encodeURIComponent(driveId)
+        + "&export=download&confirm=t"
+      );
+    }
+
+
+    return url;
+  }
+
+
+  /* =========================
+     GET MEDIA URL
+  ========================= */
+
+  function getMediaUrl(post){
+
+    return (
+      post.fileUrl ||
+      post.fileURL ||
+      post.mediaUrl ||
+      post.mediaURL ||
+      post.url ||
+      post.imageUrl ||
+      post.imageURL ||
+      post.videoUrl ||
+      post.videoURL ||
+      post.media ||
+      post.file ||
+      null
+    );
+  }
+
+
+  /* =========================
+     GET CAPTION
+  ========================= */
 
   function getCaption(post){
 
     return (
       post.caption ||
+      post.text ||
+      post.content ||
+      post.message ||
+      post.body ||
       ""
     );
-
   }
 
+
+  /* =========================
+     GET TIMESTAMP
+  ========================= */
 
   function getTimestamp(post){
 
     return (
-      post.date ||
       post.timestamp ||
       post.createdAt ||
+      post.created_at ||
+      post.date ||
+      post.time ||
+      post.created ||
       null
     );
-
   }
 
+
+  /* =========================
+     GUESS MEDIA TYPE
+  ========================= */
+
+  function guessMediaType(post){
+
+    const mime =
+      String(
+        post.mimeType ||
+        post.mimetype ||
+        post.mime ||
+        post.type ||
+        post.mediaType ||
+        ""
+      ).toLowerCase();
+
+
+    if(
+      mime.startsWith("video/")
+    ){
+      return "video";
+    }
+
+
+    if(
+      mime.startsWith("image/")
+    ){
+      return "image";
+    }
+
+
+    /*
+      Explicit media type
+    */
+
+    if(
+      mime === "video"
+    ){
+      return "video";
+    }
+
+    if(
+      mime === "image"
+    ){
+      return "image";
+    }
+
+
+    const url =
+      String(
+        getMediaUrl(post) || ""
+      ).toLowerCase();
+
+
+    if(
+      /\.(mp4|mov|webm|m4v|ogg)(\?|$)/i.test(url)
+    ){
+      return "video";
+    }
+
+
+    if(
+      /\.(jpg|jpeg|png|gif|webp|heic)(\?|$)/i.test(url)
+    ){
+      return "image";
+    }
+
+
+    /*
+      Default unknown media to image.
+
+      This is useful because Google Drive
+      URLs don't always contain extensions.
+    */
+
+    return "image";
+  }
+
+
+  /* =========================
+     RENDER POST
+  ========================= */
 
   function renderPost(post){
 
     const caption =
       getCaption(post);
 
+    const rawMediaUrl =
+      getMediaUrl(post);
 
     const mediaType =
-      getMediaType(post);
+      rawMediaUrl
+        ? guessMediaType(post)
+        : null;
 
-
-    const driveUrls =
-      getDriveUrls(post);
-
+    const mediaUrl =
+      normalizeMediaUrl(
+        rawMediaUrl,
+        mediaType
+      );
 
     const timeLabel =
       relativeTime(
@@ -1174,73 +1005,50 @@ body{
       );
 
 
-    let mediaHtml =
-      "";
+    let mediaHtml = "";
 
 
     if(
-      driveUrls.length > 0 &&
-      mediaType === "image"
+      mediaUrl &&
+      mediaType === "video"
     ){
 
-      const urlsJson =
-        escapeHtml(
-          JSON.stringify(
-            driveUrls
-          )
-        );
-
-
-      mediaHtml =
-
-        `<div class="post-media">
-
-          <img
-            class="post-image"
-            src="${escapeHtml(driveUrls[0])}"
-            data-drive-urls="${urlsJson}"
-            data-drive-index="0"
-            alt="Post attachment"
-            loading="lazy"
-          >
-
-        </div>`;
+      mediaHtml = `
+        <div class="post-media">
+          <video
+            controls
+            preload="metadata"
+            playsinline
+            src="${escapeHtml(mediaUrl)}"
+          ></video>
+        </div>
+      `;
 
     }
 
 
-    else if(
-      driveUrls.length > 0 &&
-      mediaType === "video"
-    ){
+    else if(mediaUrl){
 
-      mediaHtml =
-
-        `<div class="post-media">
-
-          <video
-            controls
-            preload="metadata"
+      mediaHtml = `
+        <div class="post-media">
+          <img
+            src="${escapeHtml(mediaUrl)}"
+            alt="Post attachment"
+            loading="lazy"
           >
-
-            <source
-              src="${escapeHtml(driveUrls[0])}"
-            >
-
-          </video>
-
-        </div>`;
+        </div>
+      `;
 
     }
 
 
     const captionHtml =
       caption
-
-        ? `<div class="post-caption">
+        ? `
+          <div class="post-caption">
             ${escapeHtml(caption)}
-          </div>`
-
+          </div>
+        `
         : "";
 
 
@@ -1256,13 +1064,11 @@ body{
             alt="Adrian Kreidehüter"
           >
 
-
           <div class="post-names">
 
             <div class="top-line">
               Adrian Kreidehüter
             </div>
-
 
             <div class="sub-line">
 
@@ -1272,11 +1078,7 @@ body{
 
               ${
                 timeLabel
-
-                  ? `<span>
-                      · ${escapeHtml(timeLabel)}
-                    </span>`
-
+                  ? `<span>· ${escapeHtml(timeLabel)}</span>`
                   : ""
               }
 
@@ -1286,127 +1088,103 @@ body{
 
         </div>
 
-
         ${captionHtml}
-
 
         ${mediaHtml}
 
       </article>
-
     `;
-
   }
 
 
-  /*
-    If one Google Drive URL fails,
-    automatically try the next.
-  */
+  /* =========================
+     REMOVE FAILED MEDIA
+  ========================= */
 
-  function activateMediaFallbacks(){
+  function attachMediaErrorHandlers(){
 
     const images =
-      document.querySelectorAll(
-        ".post-image"
+      feedEl.querySelectorAll(
+        ".post-media img"
       );
 
 
-    images.forEach(
-      function(img){
+    images.forEach(function(img){
 
-        img.addEventListener(
-          "error",
-          function(){
+      img.addEventListener(
+        "error",
+        function(){
 
-            let urls;
+          const mediaBox =
+            img.closest(
+              ".post-media"
+            );
 
+          if(mediaBox){
 
-            try{
-
-              urls =
-                JSON.parse(
-                  img.dataset.driveUrls
-                );
-
-            }catch(error){
-
-              return;
-
-            }
-
-
-            let index =
-              Number(
-                img.dataset.driveIndex || 0
-              );
-
-
-            index++;
-
-
-            if(
-              index < urls.length
-            ){
-
-              img.dataset.driveIndex =
-                String(index);
-
-
-              img.src =
-                urls[index];
-
-
-            }else{
-
-              const media =
-                img.closest(
-                  ".post-media"
-                );
-
-
-              if(media){
-
-                media.innerHTML =
-
-                  `<div class="media-error">
-
-                    Unable to load this attachment.
-
-                  </div>`;
-
-              }
-
-            }
+            mediaBox.remove();
 
           }
-        );
 
-      }
-    );
+        }
+      );
+
+    });
+
+
+    const videos =
+      feedEl.querySelectorAll(
+        ".post-media video"
+      );
+
+
+    videos.forEach(function(video){
+
+      video.addEventListener(
+        "error",
+        function(){
+
+          const mediaBox =
+            video.closest(
+              ".post-media"
+            );
+
+          if(mediaBox){
+
+            mediaBox.remove();
+
+          }
+
+        }
+      );
+
+    });
 
   }
 
+
+  /* =========================
+     STATES
+  ========================= */
 
   function showState(html){
 
     feedEl.innerHTML =
-
-      `<div class="state-box">
-        ${html}
-      </div>`;
-
+      `
+        <div class="state-box">
+          ${html}
+        </div>
+      `;
   }
 
 
   function showLoading(){
 
     showState(
-
-      `<div class="spinner"></div>
-
-      Loading posts...`
-
+      `
+        <div class="spinner"></div>
+        Loading posts...
+      `
     );
 
   }
@@ -1424,20 +1202,19 @@ body{
   function showError(){
 
     showState(
+      `
+        Couldn't load posts.
+        Please check your connection.
 
-      `Couldn't load posts.
-
-      <div>
-
-        <button
-          class="retry-btn"
-          id="retryBtn"
-        >
-          Retry
-        </button>
-
-      </div>`
-
+        <div>
+          <button
+            class="retry-btn"
+            id="retryBtn"
+          >
+            Retry
+          </button>
+        </div>
+      `
     );
 
 
@@ -1459,32 +1236,40 @@ body{
   }
 
 
+  /* =========================
+     SORT POSTS
+  ========================= */
+
   function sortPostsNewestFirst(posts){
 
-    return posts.slice().sort(
-      function(a,b){
+    return posts
+      .slice()
+      .sort(
+        function(a, b){
 
-        const ta =
-          new Date(
-            getTimestamp(a) || 0
-          )
-          .getTime();
-
-
-        const tb =
-          new Date(
-            getTimestamp(b) || 0
-          )
-          .getTime();
+          const ta =
+            new Date(
+              getTimestamp(a) || 0
+            ).getTime();
 
 
-        return tb - ta;
+          const tb =
+            new Date(
+              getTimestamp(b) || 0
+            ).getTime();
 
-      }
-    );
+
+          return tb - ta;
+
+        }
+      );
 
   }
 
+
+  /* =========================
+     LOAD POSTS
+  ========================= */
 
   async function loadPosts(){
 
@@ -1503,12 +1288,12 @@ body{
         );
 
 
-      if(!response.ok){
-
+      if(
+        !response.ok
+      ){
         throw new Error(
           "Bad response"
         );
-
       }
 
 
@@ -1530,6 +1315,8 @@ body{
 
       let posts =
         data.posts ||
+        data.data ||
+        data.items ||
         [];
 
 
@@ -1537,8 +1324,7 @@ body{
         !Array.isArray(posts)
       ){
 
-        posts =
-          [];
+        posts = [];
 
       }
 
@@ -1562,21 +1348,20 @@ body{
 
       feedEl.innerHTML =
         posts
-          .map(
-            renderPost
-          )
+          .map(renderPost)
           .join("");
 
 
-      activateMediaFallbacks();
+      attachMediaErrorHandlers();
 
 
-    }catch(error){
+    }
+    catch(err){
 
       console.error(
-        error
+        "Failed to load posts:",
+        err
       );
-
 
       showError();
 
