@@ -473,17 +473,17 @@ body{
   padding:0;
 
   border:0;
-
-  background:transparent;
 }
 
-.post-media video{
+.post-media iframe{
   display:block;
 
   width:100%;
   max-width:100%;
 
-  height:auto;
+  aspect-ratio:16 / 9;
+
+  min-height:220px;
 
   margin:0;
   padding:0;
@@ -491,38 +491,6 @@ body{
   border:0;
 
   background:#000;
-}
-
-.video-loading{
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  min-height:180px;
-
-  padding:20px;
-
-  color:var(--text-sub);
-
-  font-size:14px;
-}
-
-.video-error{
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  min-height:180px;
-
-  padding:20px;
-
-  text-align:center;
-
-  color:var(--text-sub);
-
-  font-size:14px;
 }
 
 /* STATES */
@@ -796,7 +764,7 @@ body{
     }
 
     url =
-      String(url);
+      String(url).trim();
 
     let match =
       url.match(
@@ -807,61 +775,16 @@ body{
       return match[1];
     }
 
-
     match =
       url.match(
-        /[?&]id=([^&]+)/i
+        /[?&]id=([^&#]+)/i
       );
 
     if(match){
       return match[1];
     }
 
-
     return null;
-  }
-
-
-  function normalizeMediaUrl(url, type){
-
-    if(!url){
-      return null;
-    }
-
-    url =
-      String(url).trim();
-
-    const driveId =
-      getDriveFileId(url);
-
-
-    if(
-      driveId &&
-      type === "image"
-    ){
-
-      return (
-        "https://drive.google.com/thumbnail?id="
-        + encodeURIComponent(driveId)
-        + "&sz=w2000"
-      );
-    }
-
-
-    if(
-      driveId &&
-      type === "video"
-    ){
-
-      return (
-        "https://drive.usercontent.google.com/download?id="
-        + encodeURIComponent(driveId)
-        + "&export=download&confirm=t"
-      );
-    }
-
-
-    return url;
   }
 
 
@@ -923,13 +846,11 @@ body{
         ""
       ).toLowerCase();
 
-
     if(
       mime.startsWith("video/")
     ){
       return "video";
     }
-
 
     if(
       mime.startsWith("image/")
@@ -937,13 +858,11 @@ body{
       return "image";
     }
 
-
     if(
       mime === "video"
     ){
       return "video";
     }
-
 
     if(
       mime === "image"
@@ -959,7 +878,7 @@ body{
 
 
     if(
-      /\.(mp4|mov|webm|m4v|ogg)(\?|$)/i.test(url)
+      /\.(mp4|mov|webm|m4v|ogg|ogv)(\?|$)/i.test(url)
     ){
       return "video";
     }
@@ -972,7 +891,58 @@ body{
     }
 
 
+    /*
+      Google Drive links do not normally
+      contain the file extension.
+
+      Check common video fields.
+    */
+
+    if(
+      post.videoUrl ||
+      post.videoURL
+    ){
+      return "video";
+    }
+
+
     return "image";
+  }
+
+
+  function createDrivePreviewUrl(fileId){
+
+    return (
+      "https://drive.google.com/file/d/"
+      + encodeURIComponent(fileId)
+      + "/preview"
+    );
+  }
+
+
+  function normalizeImageUrl(url){
+
+    if(!url){
+      return null;
+    }
+
+    url =
+      String(url).trim();
+
+    const driveId =
+      getDriveFileId(url);
+
+    if(driveId){
+
+      return (
+        "https://drive.google.com/thumbnail?id="
+        + encodeURIComponent(driveId)
+        + "&sz=w2000"
+      );
+
+    }
+
+    return url;
   }
 
 
@@ -989,66 +959,107 @@ body{
         ? guessMediaType(post)
         : null;
 
-    const mediaUrl =
-      normalizeMediaUrl(
-        rawMediaUrl,
-        mediaType
-      );
+    const driveId =
+      rawMediaUrl
+        ? getDriveFileId(rawMediaUrl)
+        : null;
 
     const timeLabel =
       relativeTime(
         getTimestamp(post)
       );
 
+    let mediaHtml =
+      "";
 
-    let mediaHtml = "";
 
+    /*
+      VIDEO
+    */
 
     if(
-      mediaUrl &&
+      rawMediaUrl &&
       mediaType === "video"
     ){
 
-      mediaHtml =
-        `<div class="post-media video-media">
-          <div class="video-loading">
-            Loading video...
-          </div>
+      /*
+        Google Drive video:
+        use Drive's preview player.
 
-          <video
-            controls
-            preload="metadata"
-            playsinline
-            src="${escapeHtml(mediaUrl)}"
-          ></video>
-        </div>`;
+        This is much more reliable than
+        trying to force a download URL
+        into an HTML video element.
+      */
 
-    }
+      if(driveId){
 
+        const previewUrl =
+          createDrivePreviewUrl(
+            driveId
+          );
 
-    else if(mediaUrl){
+        mediaHtml =
+          `<div class="post-media video-media">
 
-      mediaHtml =
-        `<div class="post-media">
-          <img
-            src="${escapeHtml(mediaUrl)}"
-            alt="Post attachment"
-            loading="lazy"
-          >
-        </div>`;
+            <iframe
+              src="${escapeHtml(previewUrl)}"
+              title="Post video"
+              allow="autoplay"
+              allowfullscreen
+              loading="lazy"
+            ></iframe>
+
+          </div>`;
+
+      }
+
+      /*
+        Normal direct video URL
+      */
+
+      else{
+
+        mediaHtml =
+          `<div class="post-media video-media">
+
+            <video
+              controls
+              preload="metadata"
+              playsinline
+              src="${escapeHtml(rawMediaUrl)}"
+            ></video>
+
+          </div>`;
+
+      }
 
     }
 
 
     /*
-      IMPORTANT:
-      The caption must remain on one continuous line
-      inside the template.
-
-      Because white-space:pre-wrap preserves whitespace,
-      putting indentation around the caption would create
-      visible spaces before the actual text.
+      IMAGE
     */
+
+    else if(rawMediaUrl){
+
+      const imageUrl =
+        normalizeImageUrl(
+          rawMediaUrl
+        );
+
+      mediaHtml =
+        `<div class="post-media">
+
+          <img
+            src="${escapeHtml(imageUrl)}"
+            alt="Post attachment"
+            loading="lazy"
+          >
+
+        </div>`;
+
+    }
+
 
     const captionHtml =
       caption
@@ -1076,7 +1087,9 @@ body{
 
             <div class="sub-line">
 
-              <span>@kreidehuter</span>
+              <span>
+                @kreidehuter
+              </span>
 
               ${
                 timeLabel
@@ -1105,7 +1118,6 @@ body{
       feedEl.querySelectorAll(
         ".post-media img"
       );
-
 
     images.forEach(function(img){
 
@@ -1138,60 +1150,18 @@ body{
         ".post-media video"
       );
 
-
     videos.forEach(function(video){
-
-      const mediaBox =
-        video.closest(
-          ".post-media"
-        );
-
-      const loading =
-        mediaBox
-          ? mediaBox.querySelector(
-              ".video-loading"
-            )
-          : null;
-
-
-      video.addEventListener(
-        "loadedmetadata",
-        function(){
-
-          if(loading){
-            loading.remove();
-          }
-
-        }
-      );
-
-
-      video.addEventListener(
-        "canplay",
-        function(){
-
-          if(loading){
-            loading.remove();
-          }
-
-        }
-      );
-
 
       video.addEventListener(
         "error",
         function(){
 
-          console.error(
-            "Video failed to load:",
-            video.currentSrc ||
-            video.src
-          );
+          const mediaBox =
+            video.closest(
+              ".post-media"
+            );
 
-          if(
-            mediaBox &&
-            mediaBox.parentNode
-          ){
+          if(mediaBox){
 
             mediaBox.innerHTML =
               `<div class="video-error">
@@ -1258,12 +1228,10 @@ body{
       `
     );
 
-
     const retryBtn =
       document.getElementById(
         "retryBtn"
       );
-
 
     if(retryBtn){
 
@@ -1289,12 +1257,10 @@ body{
               getTimestamp(a) || 0
             ).getTime();
 
-
           const tb =
             new Date(
               getTimestamp(b) || 0
             ).getTime();
-
 
           return tb - ta;
 
@@ -1308,7 +1274,6 @@ body{
 
     showLoading();
 
-
     try{
 
       const response =
@@ -1320,7 +1285,6 @@ body{
           }
         );
 
-
       if(
         !response.ok
       ){
@@ -1329,10 +1293,8 @@ body{
         );
       }
 
-
       const data =
         await response.json();
-
 
       if(
         !data ||
@@ -1340,11 +1302,9 @@ body{
       ){
 
         showError();
-
         return;
 
       }
-
 
       let posts =
         data.posts ||
@@ -1352,41 +1312,32 @@ body{
         data.items ||
         [];
 
-
       if(
         !Array.isArray(posts)
       ){
-
         posts = [];
-
       }
-
 
       if(
         posts.length === 0
       ){
 
         showEmpty();
-
         return;
 
       }
-
 
       posts =
         sortPostsNewestFirst(
           posts
         );
 
-
       feedEl.innerHTML =
         posts
           .map(renderPost)
           .join("");
 
-
       attachMediaErrorHandlers();
-
 
     }
     catch(err){
