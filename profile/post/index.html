@@ -2,21 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+>
 <title>Adrian Kreidehüter (@kreidehuter)</title>
 
 <style>
   :root{
-    --bg-deep: #08090c;
-    --glass: rgba(255,255,255,0.06);
-    --glass-strong: rgba(255,255,255,0.10);
-    --glass-border: rgba(255,255,255,0.12);
-    --text-main: #f2f2f4;
-    --text-sub: #9a9aa2;
-    --text-dim: #6c6c74;
+    --bg-deep:#08090c;
+    --glass:rgba(255,255,255,0.06);
+    --glass-strong:rgba(255,255,255,0.10);
+    --glass-border:rgba(255,255,255,0.12);
+    --text-main:#f2f2f4;
+    --text-sub:#9a9aa2;
+    --text-dim:#6c6c74;
   }
 
-  *{
+  *,
+  *::before,
+  *::after{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
   }
@@ -25,7 +30,10 @@
   body{
     margin:0;
     padding:0;
+    width:100%;
     min-height:100%;
+    overflow-x:hidden;
+
     font-family:
       -apple-system,
       BlinkMacSystemFont,
@@ -34,6 +42,7 @@
       "Helvetica Neue",
       Arial,
       sans-serif;
+
     color:var(--text-main);
     background:var(--bg-deep);
   }
@@ -305,9 +314,15 @@
     display:flex;
     flex-direction:column;
     gap:14px;
+
+    width:100%;
+    min-width:0;
   }
 
   .post{
+    width:100%;
+    min-width:0;
+
     background:var(--glass);
 
     backdrop-filter:
@@ -418,6 +433,7 @@
     position:relative;
 
     width:100%;
+    max-width:100%;
 
     margin-top:6px;
 
@@ -425,7 +441,7 @@
 
     border-radius:18px;
 
-    background:#000;
+    background:transparent;
 
     border:1px solid rgba(255,255,255,0.08);
   }
@@ -435,17 +451,19 @@
     display:block;
 
     width:100%;
+    max-width:100%;
+
     height:auto;
+    min-height:0;
+    max-height:none;
 
-    max-height:620px;
+    margin:0;
 
-    object-fit:contain;
+    border:0;
 
-    background:#000;
-  }
+    object-fit:initial;
 
-  .post-media img{
-    min-height:80px;
+    background:transparent;
   }
 
   /* STATES */
@@ -620,10 +638,6 @@
     document.getElementById("feed");
 
 
-  /* =========================
-     ESCAPE HTML
-  ========================= */
-
   function escapeHtml(str){
 
     if(
@@ -641,10 +655,6 @@
       .replace(/'/g, "&#039;");
   }
 
-
-  /* =========================
-     RELATIVE TIME
-  ========================= */
 
   function relativeTime(input){
 
@@ -721,10 +731,6 @@
   }
 
 
-  /* =========================
-     GET DRIVE FILE ID
-  ========================= */
-
   function getDriveFileId(url){
 
     if(!url){
@@ -733,12 +739,6 @@
 
     url =
       String(url);
-
-    /*
-      Normal Drive URL:
-
-      https://drive.google.com/file/d/FILE_ID/view
-    */
 
     let match =
       url.match(
@@ -749,26 +749,6 @@
       return match[1];
     }
 
-
-    /*
-      Drive open URL:
-
-      https://drive.google.com/open?id=FILE_ID
-    */
-
-    match =
-      url.match(
-        /[?&]id=([^&]+)/i
-      );
-
-    if(match){
-      return match[1];
-    }
-
-
-    /*
-      uc?export=download&id=FILE_ID
-    */
 
     match =
       url.match(
@@ -784,10 +764,6 @@
   }
 
 
-  /* =========================
-     NORMALIZE MEDIA URL
-  ========================= */
-
   function normalizeMediaUrl(url, type){
 
     if(!url){
@@ -800,10 +776,6 @@
     const driveId =
       getDriveFileId(url);
 
-    /*
-      For images, thumbnail URL works
-      much better inside <img>.
-    */
 
     if(
       driveId &&
@@ -817,10 +789,6 @@
       );
     }
 
-
-    /*
-      For videos use download endpoint.
-    */
 
     if(
       driveId &&
@@ -838,10 +806,6 @@
     return url;
   }
 
-
-  /* =========================
-     GET MEDIA URL
-  ========================= */
 
   function getMediaUrl(post){
 
@@ -862,10 +826,6 @@
   }
 
 
-  /* =========================
-     GET CAPTION
-  ========================= */
-
   function getCaption(post){
 
     return (
@@ -878,10 +838,6 @@
     );
   }
 
-
-  /* =========================
-     GET TIMESTAMP
-  ========================= */
 
   function getTimestamp(post){
 
@@ -896,10 +852,6 @@
     );
   }
 
-
-  /* =========================
-     GUESS MEDIA TYPE
-  ========================= */
 
   function guessMediaType(post){
 
@@ -927,10 +879,6 @@
       return "image";
     }
 
-
-    /*
-      Explicit media type
-    */
 
     if(
       mime === "video"
@@ -965,20 +913,9 @@
     }
 
 
-    /*
-      Default unknown media to image.
-
-      This is useful because Google Drive
-      URLs don't always contain extensions.
-    */
-
     return "image";
   }
 
-
-  /* =========================
-     RENDER POST
-  ========================= */
 
   function renderPost(post){
 
@@ -1097,10 +1034,6 @@
   }
 
 
-  /* =========================
-     REMOVE FAILED MEDIA
-  ========================= */
-
   function attachMediaErrorHandlers(){
 
     const images =
@@ -1162,10 +1095,6 @@
 
   }
 
-
-  /* =========================
-     STATES
-  ========================= */
 
   function showState(html){
 
@@ -1236,10 +1165,6 @@
   }
 
 
-  /* =========================
-     SORT POSTS
-  ========================= */
-
   function sortPostsNewestFirst(posts){
 
     return posts
@@ -1266,10 +1191,6 @@
 
   }
 
-
-  /* =========================
-     LOAD POSTS
-  ========================= */
 
   async function loadPosts(){
 
