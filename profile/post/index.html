@@ -475,23 +475,27 @@ body{
   border:0;
 }
 
-/* CUSTOM VIDEO */
+/* CUSTOM VIDEO PLAYER */
 
 .video-media{
   position:relative;
 
-  width:100%;
-
   background:#000;
+
+  overflow:hidden;
+
+  cursor:pointer;
 
   -webkit-user-select:none;
   user-select:none;
 }
 
-.custom-video{
+.video-media video.custom-video{
   display:block;
 
   width:100%;
+  max-width:100%;
+
   height:auto;
 
   margin:0;
@@ -500,119 +504,168 @@ body{
 
   background:#000;
 
-  cursor:pointer;
+  -webkit-appearance:none;
+  appearance:none;
 }
 
-/* Large center play button */
-
-.video-center-button{
-  position:absolute;
-
-  top:50%;
-  left:50%;
-
-  transform:
-    translate(-50%, -50%);
-
-  width:60px;
-  height:60px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  padding:0;
-
-  border:1px solid rgba(255,255,255,0.22);
-  border-radius:50%;
-
-  background:rgba(8,9,12,0.55);
-
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-
-  color:#fff;
-
-  cursor:pointer;
-
-  transition:
-    opacity 0.2s ease,
-    transform 0.15s ease,
-    background 0.2s ease;
-
-  z-index:3;
+.video-media video.custom-video::-webkit-media-controls{
+  display:none !important;
 }
 
-.video-center-button:hover{
-  background:rgba(30,30,35,0.7);
+.video-media video.custom-video::-webkit-media-controls-panel{
+  display:none !important;
 }
 
-.video-center-button:active{
-  transform:
-    translate(-50%, -50%)
-    scale(0.92);
+.video-media video.custom-video::-webkit-media-controls-enclosure{
+  display:none !important;
 }
 
-.video-center-button svg{
-  width:24px;
-  height:24px;
-
-  fill:currentColor;
+.video-media video.custom-video::-webkit-media-controls-play-button{
+  display:none !important;
 }
 
-.video-media.is-playing
-.video-center-button{
-  opacity:0;
-  pointer-events:none;
+.video-media video.custom-video::-webkit-media-controls-start-playback-button{
+  display:none !important;
 }
 
-.video-media.show-controls.is-playing
-.video-center-button{
-  opacity:1;
-  pointer-events:auto;
+.video-media video.custom-video::-webkit-media-controls-timeline{
+  display:none !important;
 }
 
-/* Bottom dark gradient */
+.video-media video.custom-video::-webkit-media-controls-current-time-display{
+  display:none !important;
+}
 
-.video-bottom-gradient{
+.video-media video.custom-video::-webkit-media-controls-time-remaining-display{
+  display:none !important;
+}
+
+.video-media video.custom-video::-webkit-media-controls-mute-button{
+  display:none !important;
+}
+
+.video-media video.custom-video::-webkit-media-controls-volume-slider{
+  display:none !important;
+}
+
+.video-media video.custom-video::-webkit-media-controls-fullscreen-button{
+  display:none !important;
+}
+
+.video-overlay-gradient{
   position:absolute;
 
   left:0;
   right:0;
   bottom:0;
 
-  height:120px;
+  height:110px;
 
   background:
     linear-gradient(
-      to top,
-      rgba(0,0,0,0.72),
-      rgba(0,0,0,0)
+      180deg,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0.72) 100%
     );
 
   pointer-events:none;
 
+  opacity:0;
+
+  transition:opacity 0.25s ease;
+}
+
+.video-media.controls-visible .video-overlay-gradient,
+.video-media:not(.is-playing) .video-overlay-gradient{
   opacity:1;
+}
+
+.video-center-play{
+  position:absolute;
+
+  top:50%;
+  left:50%;
+
+  transform:
+    translate(-50%,-50%);
+
+  width:58px;
+  height:58px;
+
+  border-radius:50%;
+
+  background:
+    rgba(10,10,12,0.55);
+
+  backdrop-filter:
+    blur(10px);
+
+  -webkit-backdrop-filter:
+    blur(10px);
+
+  border:
+    1px solid rgba(255,255,255,0.22);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  padding:0;
+
+  opacity:0;
+
+  pointer-events:none;
 
   transition:
-    opacity 0.25s ease;
-
-  z-index:1;
+    opacity 0.2s ease,
+    transform 0.15s ease,
+    background 0.2s ease;
 }
 
-.video-media.is-playing
-.video-bottom-gradient{
-  opacity:0;
-}
-
-.video-media.show-controls
-.video-bottom-gradient{
+.video-media:not(.is-playing) .video-center-play{
   opacity:1;
+  pointer-events:auto;
 }
 
-/* Controls */
+.video-media.is-playing.controls-visible .video-center-play{
+  opacity:1;
+  pointer-events:auto;
+}
 
-.video-controls{
+.video-center-play:active{
+  transform:
+    translate(-50%,-50%)
+    scale(0.92);
+}
+
+.video-center-play svg{
+  width:22px;
+  height:22px;
+
+  fill:#f2f2f4;
+}
+
+.video-center-play svg.icon-play{
+  margin-left:3px;
+}
+
+.video-center-play svg.icon-pause{
+  display:none;
+}
+
+.video-media.is-playing .video-center-play svg.icon-play{
+  display:none;
+}
+
+.video-media.is-playing .video-center-play svg.icon-pause{
+  display:block;
+}
+
+/* CONTROLS */
+
+.video-controls-bar{
   position:absolute;
 
   left:0;
@@ -620,45 +673,37 @@ body{
   bottom:0;
 
   padding:
-    12px
+    8px
     12px
     10px;
 
-  z-index:4;
+  opacity:0;
 
-  opacity:1;
+  transform:
+    translateY(8px);
+
+  pointer-events:none;
 
   transition:
     opacity 0.25s ease,
     transform 0.25s ease;
-
-  transform:
-    translateY(0);
 }
 
-.video-media.is-playing
-.video-controls{
-  opacity:0;
-  pointer-events:none;
-
-  transform:
-    translateY(8px);
-}
-
-.video-media.show-controls
-.video-controls{
+.video-media.controls-visible .video-controls-bar,
+.video-media:not(.is-playing) .video-controls-bar{
   opacity:1;
-  pointer-events:auto;
 
   transform:
     translateY(0);
+
+  pointer-events:auto;
 }
 
-/* Progress bar */
+.video-progress-container{
+  position:relative;
 
-.video-progress-hitbox{
   width:100%;
-  height:18px;
+  height:16px;
 
   display:flex;
   align-items:center;
@@ -672,9 +717,9 @@ body{
   width:100%;
   height:4px;
 
-  border-radius:999px;
-
   overflow:hidden;
+
+  border-radius:999px;
 
   background:
     rgba(255,255,255,0.28);
@@ -683,19 +728,17 @@ body{
 .video-progress-fill{
   position:absolute;
 
-  top:0;
   left:0;
+  top:0;
   bottom:0;
 
   width:0%;
 
-  border-radius:inherit;
+  border-radius:999px;
 
   background:
-    rgba(255,255,255,0.95);
+    rgba(255,255,255,0.92);
 }
-
-/* Bottom row */
 
 .video-controls-row{
   display:flex;
@@ -706,33 +749,33 @@ body{
   margin-top:2px;
 }
 
-.video-control-button{
+.video-icon-btn{
   width:28px;
   height:28px;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
   flex-shrink:0;
-
-  margin:0;
-  padding:0;
 
   border:none;
 
   background:transparent;
 
-  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
   cursor:pointer;
+
+  padding:0;
+
+  color:#f2f2f4;
 }
 
-.video-control-button:active{
-  transform:scale(0.9);
+.video-icon-btn:active{
+  transform:
+    scale(0.9);
 }
 
-.video-control-button svg{
+.video-icon-btn svg{
   width:18px;
   height:18px;
 
@@ -744,15 +787,15 @@ body{
   font-weight:700;
 
   color:
-    rgba(255,255,255,0.92);
+    rgba(242,242,244,0.95);
+
+  white-space:nowrap;
 
   font-variant-numeric:
     tabular-nums;
-
-  white-space:nowrap;
 }
 
-.video-controls-spacer{
+.video-spacer{
   flex:1;
 }
 
@@ -795,8 +838,7 @@ body{
   border-radius:50%;
 
   border:
-    3px solid
-    rgba(255,255,255,0.15);
+    3px solid rgba(255,255,255,0.15);
 
   border-top-color:
     rgba(255,255,255,0.75);
@@ -813,18 +855,18 @@ body{
 
 .retry-btn{
   margin-top:14px;
-
   padding:10px 22px;
 
   border-radius:999px;
 
-  background:var(--glass-strong);
+  background:
+    var(--glass-strong);
 
   border:
-    1px solid
-    var(--glass-border);
+    1px solid var(--glass-border);
 
-  color:var(--text-main);
+  color:
+    var(--text-main);
 
   font-weight:700;
   font-size:13.5px;
@@ -872,22 +914,15 @@ body{
       >
 
       <div class="header-actions">
-        <button class="pill-btn">
-          Share
-        </button>
-
-        <button class="pill-btn primary">
-          Edit profile
-        </button>
+        <button class="pill-btn">Share</button>
+        <button class="pill-btn primary">Edit profile</button>
       </div>
 
     </div>
 
     <div class="name-row">
 
-      <h1>
-        Adrian Kreidehüter
-      </h1>
+      <h1>Adrian Kreidehüter</h1>
 
       <svg
         class="lock-icon"
@@ -910,56 +945,34 @@ body{
           stroke="currentColor"
           stroke-width="2"
         />
+
       </svg>
 
     </div>
 
-    <p class="handle">
-      @kreidehuter
-    </p>
+    <p class="handle">@kreidehuter</p>
 
     <p class="bio">
       infp t btw I want a friend
     </p>
 
     <div class="meta-row">
-      <span>
-        🎂 Born October 22, 2006
-      </span>
-
-      <span>
-        📅 Joined April 2026
-      </span>
+      <span>🎂 Born October 22, 2006</span>
+      <span>📅 Joined April 2026</span>
     </div>
 
     <div class="counts-row">
-      <span>
-        <b>6</b> Following
-      </span>
-
-      <span>
-        <b>0</b> Followers
-      </span>
+      <span><b>6</b> Following</span>
+      <span><b>0</b> Followers</span>
     </div>
 
   </div>
 
   <div class="tab-bar">
-    <div class="tab active">
-      Posts
-    </div>
-
-    <div class="tab">
-      Replies
-    </div>
-
-    <div class="tab">
-      Media
-    </div>
-
-    <div class="tab">
-      Likes
-    </div>
+    <div class="tab active">Posts</div>
+    <div class="tab">Replies</div>
+    <div class="tab">Media</div>
+    <div class="tab">Likes</div>
   </div>
 
   <div
@@ -968,8 +981,11 @@ body{
   >
 
     <div class="state-box">
+
       <div class="spinner"></div>
+
       Loading posts...
+
     </div>
 
   </div>
@@ -1004,7 +1020,6 @@ body{
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
-
   }
 
 
@@ -1018,19 +1033,15 @@ body{
       new Date(input);
 
     if(
-      isNaN(
-        date.getTime()
-      )
+      isNaN(date.getTime())
     ){
       return "";
     }
 
     let seconds =
       Math.floor(
-        (
-          Date.now() -
-          date.getTime()
-        ) / 1000
+        (Date.now() - date.getTime())
+        / 1000
       );
 
     if(seconds < 0){
@@ -1096,7 +1107,6 @@ body{
       );
 
     return years + "y";
-
   }
 
 
@@ -1128,67 +1138,6 @@ body{
     }
 
     return null;
-
-  }
-
-
-  function normalizeMediaUrl(
-    url,
-    type
-  ){
-
-    if(!url){
-      return null;
-    }
-
-    url =
-      String(url).trim();
-
-    const driveId =
-      getDriveFileId(url);
-
-
-    if(
-      driveId &&
-      type === "image"
-    ){
-
-      return (
-        "https://drive.google.com/thumbnail?id="
-        + encodeURIComponent(driveId)
-        + "&sz=w2000"
-      );
-
-    }
-
-
-    /*
-      IMPORTANT:
-
-      Keep the same direct Google Drive
-      video method from your ORIGINAL
-      working code.
-
-      No iframe.
-      No /preview player.
-      No Google Drive UI.
-    */
-
-    if(
-      driveId &&
-      type === "video"
-    ){
-
-      return (
-        "https://drive.usercontent.google.com/download?id="
-        + encodeURIComponent(driveId)
-        + "&export=download&confirm=t"
-      );
-
-    }
-
-    return url;
-
   }
 
 
@@ -1208,7 +1157,6 @@ body{
       post.file ||
       null
     );
-
   }
 
 
@@ -1222,7 +1170,6 @@ body{
       post.body ||
       ""
     );
-
   }
 
 
@@ -1237,7 +1184,6 @@ body{
       post.created ||
       null
     );
-
   }
 
 
@@ -1255,14 +1201,18 @@ body{
 
 
     if(
-      mime.startsWith("video/")
+      mime.startsWith(
+        "video/"
+      )
     ){
       return "video";
     }
 
 
     if(
-      mime.startsWith("image/")
+      mime.startsWith(
+        "image/"
+      )
     ){
       return "image";
     }
@@ -1306,11 +1256,6 @@ body{
     }
 
 
-    /*
-      Google Drive URLs normally have
-      no visible extension.
-    */
-
     if(
       post.videoUrl ||
       post.videoURL
@@ -1320,147 +1265,164 @@ body{
 
 
     return "image";
-
   }
 
 
-  function renderVideoPlayer(url){
+  function normalizeImageUrl(url){
+
+    if(!url){
+      return null;
+    }
+
+    url =
+      String(url).trim();
+
+    const driveId =
+      getDriveFileId(url);
+
+
+    if(driveId){
+
+      return (
+        "https://drive.google.com/thumbnail?id="
+        + encodeURIComponent(
+            driveId
+          )
+        + "&sz=w2000"
+      );
+
+    }
+
+
+    return url;
+  }
+
+
+  /*
+    CUSTOM VIDEO PLAYER
+    Uses the original URL directly.
+  */
+
+  function renderCustomVideoMarkup(url){
 
     return `
 
+      <video
+        class="custom-video"
+        preload="metadata"
+        playsinline
+        webkit-playsinline
+        src="${escapeHtml(url)}"
+      ></video>
+
       <div
-        class="post-media video-media"
+        class="video-overlay-gradient"
+      ></div>
+
+      <button
+        class="video-center-play"
+        type="button"
+        aria-label="Play or pause video"
       >
 
-        <video
-          class="custom-video"
-          preload="metadata"
-          playsinline
-          webkit-playsinline
-          src="${escapeHtml(url)}"
-        ></video>
-
-
-        <button
-          class="video-center-button"
-          type="button"
-          aria-label="Play or pause"
+        <svg
+          class="icon-play"
+          viewBox="0 0 24 24"
         >
+          <path d="M8 5v14l11-7z"/>
+        </svg>
 
-          <svg
-            class="play-icon"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M8 5v14l11-7z"
-            />
-          </svg>
+        <svg
+          class="icon-pause"
+          viewBox="0 0 24 24"
+        >
+          <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
+        </svg>
 
-        </button>
+      </button>
 
-
-        <div
-          class="video-bottom-gradient"
-        ></div>
-
+      <div
+        class="video-controls-bar"
+      >
 
         <div
-          class="video-controls"
+          class="video-progress-container"
         >
 
           <div
-            class="video-progress-hitbox"
+            class="video-progress-track"
           >
 
             <div
-              class="video-progress-track"
-            >
-
-              <div
-                class="video-progress-fill"
-              ></div>
-
-            </div>
-
-          </div>
-
-
-          <div
-            class="video-controls-row"
-          >
-
-            <button
-              class="video-control-button video-play-button"
-              type="button"
-              aria-label="Play or pause"
-            >
-
-              <svg
-                class="play-icon"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M8 5v14l11-7z"
-                />
-              </svg>
-
-            </button>
-
-
-            <button
-              class="video-control-button video-mute-button"
-              type="button"
-              aria-label="Mute or unmute"
-            >
-
-              <svg
-                class="volume-icon"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M3 10v4h4l5 5V5L7 10H3zm11 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"
-                />
-              </svg>
-
-            </button>
-
-
-            <span
-              class="video-time"
-            >
-              0:00 / 0:00
-            </span>
-
-
-            <div
-              class="video-controls-spacer"
+              class="video-progress-fill"
             ></div>
 
-
-            <button
-              class="video-control-button video-fullscreen-button"
-              type="button"
-              aria-label="Fullscreen"
-            >
-
-              <svg
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
-                />
-              </svg>
-
-            </button>
-
           </div>
+
+        </div>
+
+        <div
+          class="video-controls-row"
+        >
+
+          <button
+            class="video-icon-btn video-mute-btn"
+            type="button"
+            aria-label="Mute or unmute video"
+          >
+
+            <svg
+              class="icon-vol-on"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3 10v4h4l5 5V5L7 10H3zm13.5 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"
+              />
+            </svg>
+
+            <svg
+              class="icon-vol-off"
+              viewBox="0 0 24 24"
+              style="display:none"
+            >
+              <path
+                d="M3 10v4h4l5 5V5L7 10H3zm13.6-3.1l-1.42 1.42L16.6 10l-1.42 1.42 1.42 1.42L18 11.42l1.4 1.42 1.42-1.42L19.4 10l1.42-1.42L19.4 7.16 18 8.58z"
+              />
+            </svg>
+
+          </button>
+
+          <span
+            class="video-time"
+          >
+            0:00 / 0:00
+          </span>
+
+          <div
+            class="video-spacer"
+          ></div>
+
+          <button
+            class="video-icon-btn video-fullscreen-btn"
+            type="button"
+            aria-label="Fullscreen"
+          >
+
+            <svg
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
+              />
+            </svg>
+
+          </button>
 
         </div>
 
       </div>
 
     `;
-
   }
 
 
@@ -1477,50 +1439,59 @@ body{
         ? guessMediaType(post)
         : null;
 
-    const mediaUrl =
-      normalizeMediaUrl(
-        rawMediaUrl,
-        mediaType
-      );
-
     const timeLabel =
       relativeTime(
         getTimestamp(post)
       );
 
-
     let mediaHtml =
       "";
 
 
+    /*
+      VIDEO
+    */
+
     if(
-      mediaUrl &&
+      rawMediaUrl &&
       mediaType === "video"
     ){
 
       mediaHtml =
-        renderVideoPlayer(
-          mediaUrl
-        );
+        `<div class="post-media video-media">
+
+          ${renderCustomVideoMarkup(
+            rawMediaUrl
+          )}
+
+        </div>`;
 
     }
 
 
-    else if(mediaUrl){
+    /*
+      IMAGE
+    */
+
+    else if(rawMediaUrl){
+
+      const imageUrl =
+        normalizeImageUrl(
+          rawMediaUrl
+        );
 
       mediaHtml =
-        `
-          <div class="post-media">
+        `<div class="post-media">
 
-            <img
-              src="${escapeHtml(mediaUrl)}"
-              alt="Post attachment"
-              loading="lazy"
-            >
+          <img
+            src="${escapeHtml(
+              imageUrl
+            )}"
+            alt="Post attachment"
+            loading="lazy"
+          >
 
-          </div>
-        `;
-
+        </div>`;
     }
 
 
@@ -1532,13 +1503,9 @@ body{
 
     return `
 
-      <article
-        class="post"
-      >
+      <article class="post">
 
-        <div
-          class="post-head"
-        >
+        <div class="post-head">
 
           <img
             class="post-avatar"
@@ -1546,21 +1513,13 @@ body{
             alt="Adrian Kreidehüter"
           >
 
+          <div class="post-names">
 
-          <div
-            class="post-names"
-          >
-
-            <div
-              class="top-line"
-            >
+            <div class="top-line">
               Adrian Kreidehüter
             </div>
 
-
-            <div
-              class="sub-line"
-            >
+            <div class="sub-line">
 
               <span>
                 @kreidehuter
@@ -1578,564 +1537,12 @@ body{
 
         </div>
 
-
         ${captionHtml}
-
 
         ${mediaHtml}
 
       </article>
-
     `;
-
-  }
-
-
-  function formatTime(seconds){
-
-    if(
-      !isFinite(seconds) ||
-      isNaN(seconds) ||
-      seconds < 0
-    ){
-      return "0:00";
-    }
-
-    seconds =
-      Math.floor(seconds);
-
-    const minutes =
-      Math.floor(
-        seconds / 60
-      );
-
-    const secs =
-      seconds % 60;
-
-    return (
-      minutes +
-      ":" +
-      (
-        secs < 10
-          ? "0" + secs
-          : secs
-      )
-    );
-
-  }
-
-
-  function initCustomPlayers(){
-
-    const players =
-      feedEl.querySelectorAll(
-        ".video-media"
-      );
-
-
-    players.forEach(
-      function(player){
-
-        if(
-          player.dataset.initialized
-        ){
-          return;
-        }
-
-
-        player.dataset.initialized =
-          "true";
-
-
-        const video =
-          player.querySelector(
-            ".custom-video"
-          );
-
-        const centerButton =
-          player.querySelector(
-            ".video-center-button"
-          );
-
-        const playButton =
-          player.querySelector(
-            ".video-play-button"
-          );
-
-        const muteButton =
-          player.querySelector(
-            ".video-mute-button"
-          );
-
-        const fullscreenButton =
-          player.querySelector(
-            ".video-fullscreen-button"
-          );
-
-        const progressHitbox =
-          player.querySelector(
-            ".video-progress-hitbox"
-          );
-
-        const progressFill =
-          player.querySelector(
-            ".video-progress-fill"
-          );
-
-        const timeLabel =
-          player.querySelector(
-            ".video-time"
-          );
-
-
-        let controlsTimer =
-          null;
-
-
-        function showControls(){
-
-          player.classList.add(
-            "show-controls"
-          );
-
-
-          if(controlsTimer){
-
-            clearTimeout(
-              controlsTimer
-            );
-
-          }
-
-
-          if(
-            !video.paused
-          ){
-
-            controlsTimer =
-              setTimeout(
-                function(){
-
-                  player.classList.remove(
-                    "show-controls"
-                  );
-
-                },
-                2500
-              );
-
-          }
-
-        }
-
-
-        function togglePlayback(){
-
-          if(
-            video.paused
-          ){
-
-            video.play()
-              .catch(
-                function(err){
-
-                  console.error(
-                    "Video play failed:",
-                    err
-                  );
-
-                }
-              );
-
-          }
-
-          else{
-
-            video.pause();
-
-          }
-
-        }
-
-
-        function updatePlayButtons(){
-
-          if(
-            video.paused
-          ){
-
-            player.classList.remove(
-              "is-playing"
-            );
-
-            centerButton.innerHTML =
-              `
-                <svg
-                  class="play-icon"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M8 5v14l11-7z"
-                  />
-                </svg>
-              `;
-
-            playButton.innerHTML =
-              `
-                <svg
-                  class="play-icon"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M8 5v14l11-7z"
-                  />
-                </svg>
-              `;
-
-          }
-
-          else{
-
-            player.classList.add(
-              "is-playing"
-            );
-
-            centerButton.innerHTML =
-              `
-                <svg
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M6 5h4v14H6zM14 5h4v14h-4z"
-                  />
-                </svg>
-              `;
-
-            playButton.innerHTML =
-              `
-                <svg
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M6 5h4v14H6zM14 5h4v14h-4z"
-                  />
-                </svg>
-              `;
-
-          }
-
-        }
-
-
-        video.addEventListener(
-          "play",
-          function(){
-
-            updatePlayButtons();
-            showControls();
-
-          }
-        );
-
-
-        video.addEventListener(
-          "pause",
-          function(){
-
-            updatePlayButtons();
-
-            player.classList.add(
-              "show-controls"
-            );
-
-
-            if(controlsTimer){
-
-              clearTimeout(
-                controlsTimer
-              );
-
-            }
-
-          }
-        );
-
-
-        video.addEventListener(
-          "ended",
-          function(){
-
-            updatePlayButtons();
-
-            player.classList.add(
-              "show-controls"
-            );
-
-          }
-        );
-
-
-        video.addEventListener(
-          "loadedmetadata",
-          function(){
-
-            if(timeLabel){
-
-              timeLabel.textContent =
-                formatTime(
-                  video.currentTime
-                ) +
-                " / " +
-                formatTime(
-                  video.duration
-                );
-
-            }
-
-          }
-        );
-
-
-        video.addEventListener(
-          "timeupdate",
-          function(){
-
-            if(
-              !video.duration ||
-              !isFinite(
-                video.duration
-              )
-            ){
-              return;
-            }
-
-
-            const percent =
-              (
-                video.currentTime /
-                video.duration
-              ) * 100;
-
-
-            progressFill.style.width =
-              percent + "%";
-
-
-            timeLabel.textContent =
-              formatTime(
-                video.currentTime
-              ) +
-              " / " +
-              formatTime(
-                video.duration
-              );
-
-          }
-        );
-
-
-        video.addEventListener(
-          "error",
-          function(){
-
-            console.error(
-              "Video failed:",
-              video.currentSrc ||
-              video.src
-            );
-
-
-            player.innerHTML =
-              `
-                <div class="video-error">
-                  This video couldn't be loaded.
-                </div>
-              `;
-
-          }
-        );
-
-
-        video.addEventListener(
-          "click",
-          function(){
-
-            togglePlayback();
-            showControls();
-
-          }
-        );
-
-
-        centerButton.addEventListener(
-          "click",
-          function(e){
-
-            e.stopPropagation();
-
-            togglePlayback();
-            showControls();
-
-          }
-        );
-
-
-        playButton.addEventListener(
-          "click",
-          function(e){
-
-            e.stopPropagation();
-
-            togglePlayback();
-            showControls();
-
-          }
-        );
-
-
-        muteButton.addEventListener(
-          "click",
-          function(e){
-
-            e.stopPropagation();
-
-            video.muted =
-              !video.muted;
-
-            muteButton.innerHTML =
-              video.muted
-                ? `
-                    <svg
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M3 10v4h4l5 5V5L7 10H3zm13.5-2.5L15.1 8.9 18.2 12l-3.1 3.1 1.4 1.4 3.1-3.1 3.1 3.1 1.4-1.4-3.1-3.1 3.1-3.1-1.4-1.4-3.1 3.1-3.1-3.1z"
-                      />
-                    </svg>
-                  `
-                : `
-                    <svg
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M3 10v4h4l5 5V5L7 10H3zm11 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"
-                      />
-                    </svg>
-                  `;
-
-            showControls();
-
-          }
-        );
-
-
-        progressHitbox.addEventListener(
-          "click",
-          function(e){
-
-            e.stopPropagation();
-
-
-            if(
-              !video.duration ||
-              !isFinite(
-                video.duration
-              )
-            ){
-              return;
-            }
-
-
-            const rect =
-              progressHitbox.getBoundingClientRect();
-
-
-            let percent =
-              (
-                e.clientX -
-                rect.left
-              ) / rect.width;
-
-
-            percent =
-              Math.max(
-                0,
-                Math.min(
-                  1,
-                  percent
-                )
-              );
-
-
-            video.currentTime =
-              percent *
-              video.duration;
-
-
-            showControls();
-
-          }
-        );
-
-
-        fullscreenButton.addEventListener(
-          "click",
-          function(e){
-
-            e.stopPropagation();
-
-
-            if(
-              player.requestFullscreen
-            ){
-
-              player.requestFullscreen();
-
-            }
-
-            else if(
-              player.webkitRequestFullscreen
-            ){
-
-              player.webkitRequestFullscreen();
-
-            }
-
-            else if(
-              video.webkitEnterFullscreen
-            ){
-
-              video.webkitEnterFullscreen();
-
-            }
-
-
-            showControls();
-
-          }
-        );
-
-
-        player.addEventListener(
-          "mousemove",
-          showControls
-        );
-
-
-        player.addEventListener(
-          "touchstart",
-          showControls,
-          {
-            passive:true
-          }
-        );
-
-
-        updatePlayButtons();
-
-      }
-    );
-
   }
 
 
@@ -2159,17 +1566,523 @@ body{
                 ".post-media"
               );
 
+            if(mediaBox){
+
+              mediaBox.innerHTML =
+                `<div class="video-error">
+                  Couldn't load image.
+                </div>`;
+
+            }
+
+          }
+        );
+
+      }
+    );
+  }
+
+
+  function initCustomVideoPlayers(){
+
+    const players =
+      feedEl.querySelectorAll(
+        ".video-media"
+      );
+
+
+    players.forEach(
+      function(wrap){
+
+        if(
+          wrap.dataset.videoInit
+        ){
+          return;
+        }
+
+
+        const video =
+          wrap.querySelector(
+            ".custom-video"
+          );
+
+
+        if(!video){
+          return;
+        }
+
+
+        wrap.dataset.videoInit =
+          "true";
+
+
+        const centerBtn =
+          wrap.querySelector(
+            ".video-center-play"
+          );
+
+        const progressContainer =
+          wrap.querySelector(
+            ".video-progress-container"
+          );
+
+        const progressFill =
+          wrap.querySelector(
+            ".video-progress-fill"
+          );
+
+        const timeLabel =
+          wrap.querySelector(
+            ".video-time"
+          );
+
+        const muteBtn =
+          wrap.querySelector(
+            ".video-mute-btn"
+          );
+
+        const volOnIcon =
+          wrap.querySelector(
+            ".icon-vol-on"
+          );
+
+        const volOffIcon =
+          wrap.querySelector(
+            ".icon-vol-off"
+          );
+
+        const fullscreenBtn =
+          wrap.querySelector(
+            ".video-fullscreen-btn"
+          );
+
+
+        let hideControlsTimeout =
+          null;
+
+
+        function formatTime(sec){
+
+          if(
+            !isFinite(sec) ||
+            isNaN(sec) ||
+            sec < 0
+          ){
+            return "0:00";
+          }
+
+
+          sec =
+            Math.floor(sec);
+
+
+          const m =
+            Math.floor(
+              sec / 60
+            );
+
+          const s =
+            sec % 60;
+
+
+          return (
+            m +
+            ":" +
+            (
+              s < 10
+                ? "0" + s
+                : s
+            )
+          );
+        }
+
+
+        function showControls(){
+
+          wrap.classList.add(
+            "controls-visible"
+          );
+
+
+          if(
+            hideControlsTimeout
+          ){
+            clearTimeout(
+              hideControlsTimeout
+            );
+          }
+
+
+          if(
+            !video.paused
+          ){
+
+            hideControlsTimeout =
+              setTimeout(
+                function(){
+
+                  wrap.classList.remove(
+                    "controls-visible"
+                  );
+
+                },
+                2800
+              );
+
+          }
+
+        }
+
+
+        function togglePlay(){
+
+          if(
+            video.paused
+          ){
+
+            video.play()
+              .catch(
+                function(err){
+
+                  console.error(
+                    "Video playback failed:",
+                    err
+                  );
+
+                }
+              );
+
+          }
+          else{
+
+            video.pause();
+
+          }
+
+        }
+
+
+        video.addEventListener(
+          "play",
+          function(){
+
+            wrap.classList.add(
+              "is-playing"
+            );
+
+            showControls();
+
+          }
+        );
+
+
+        video.addEventListener(
+          "pause",
+          function(){
+
+            wrap.classList.remove(
+              "is-playing"
+            );
+
+            wrap.classList.add(
+              "controls-visible"
+            );
+
+
+            if(
+              hideControlsTimeout
+            ){
+              clearTimeout(
+                hideControlsTimeout
+              );
+            }
+
+          }
+        );
+
+
+        video.addEventListener(
+          "ended",
+          function(){
+
+            wrap.classList.remove(
+              "is-playing"
+            );
+
+            wrap.classList.add(
+              "controls-visible"
+            );
+
+          }
+        );
+
+
+        video.addEventListener(
+          "loadedmetadata",
+          function(){
+
+            if(timeLabel){
+
+              timeLabel.textContent =
+                formatTime(0)
+                +
+                " / "
+                +
+                formatTime(
+                  video.duration
+                );
+
+            }
+
+          }
+        );
+
+
+        video.addEventListener(
+          "timeupdate",
+          function(){
+
+            if(
+              !video.duration ||
+              isNaN(
+                video.duration
+              )
+            ){
+              return;
+            }
+
+
+            const pct =
+              (
+                video.currentTime /
+                video.duration
+              )
+              *
+              100;
+
+
+            if(progressFill){
+
+              progressFill.style.width =
+                pct
+                +
+                "%";
+
+            }
+
+
+            if(timeLabel){
+
+              timeLabel.textContent =
+                formatTime(
+                  video.currentTime
+                )
+                +
+                " / "
+                +
+                formatTime(
+                  video.duration
+                );
+
+            }
+
+          }
+        );
+
+
+        video.addEventListener(
+          "error",
+          function(){
+
+            const mediaBox =
+              video.closest(
+                ".post-media"
+              );
+
 
             if(mediaBox){
 
               mediaBox.innerHTML =
-                `
-                  <div class="video-error">
-                    Couldn't load image.
-                  </div>
-                `;
+                `<div class="video-error">
+                  This video couldn't be loaded.
+                </div>`;
 
             }
+
+          }
+        );
+
+
+        video.addEventListener(
+          "click",
+          function(e){
+
+            e.stopPropagation();
+
+            togglePlay();
+
+            showControls();
+
+          }
+        );
+
+
+        if(centerBtn){
+
+          centerBtn.addEventListener(
+            "click",
+            function(e){
+
+              e.stopPropagation();
+
+              togglePlay();
+
+              showControls();
+
+            }
+          );
+
+        }
+
+
+        if(progressContainer){
+
+          progressContainer.addEventListener(
+            "click",
+            function(e){
+
+              e.stopPropagation();
+
+
+              if(
+                !video.duration ||
+                isNaN(
+                  video.duration
+                )
+              ){
+                return;
+              }
+
+
+              const rect =
+                progressContainer
+                  .getBoundingClientRect();
+
+
+              const ratio =
+                (
+                  e.clientX -
+                  rect.left
+                )
+                /
+                rect.width;
+
+
+              video.currentTime =
+                Math.max(
+                  0,
+                  Math.min(
+                    1,
+                    ratio
+                  )
+                )
+                *
+                video.duration;
+
+
+              showControls();
+
+            }
+          );
+
+        }
+
+
+        if(muteBtn){
+
+          muteBtn.addEventListener(
+            "click",
+            function(e){
+
+              e.stopPropagation();
+
+              video.muted =
+                !video.muted;
+
+
+              if(
+                volOnIcon &&
+                volOffIcon
+              ){
+
+                volOnIcon.style.display =
+                  video.muted
+                    ? "none"
+                    : "block";
+
+                volOffIcon.style.display =
+                  video.muted
+                    ? "block"
+                    : "none";
+
+              }
+
+
+              showControls();
+
+            }
+          );
+
+        }
+
+
+        if(fullscreenBtn){
+
+          fullscreenBtn.addEventListener(
+            "click",
+            function(e){
+
+              e.stopPropagation();
+
+
+              if(
+                wrap.requestFullscreen
+              ){
+
+                wrap.requestFullscreen();
+
+              }
+
+              else if(
+                wrap.webkitRequestFullscreen
+              ){
+
+                wrap.webkitRequestFullscreen();
+
+              }
+
+              else if(
+                video.webkitEnterFullscreen
+              ){
+
+                video.webkitEnterFullscreen();
+
+              }
+
+
+              showControls();
+
+            }
+          );
+
+        }
+
+
+        wrap.addEventListener(
+          "click",
+          function(){
+
+            showControls();
 
           }
         );
@@ -2188,7 +2101,6 @@ body{
           ${html}
         </div>
       `;
-
   }
 
 
@@ -2221,12 +2133,14 @@ body{
         Please check your connection.
 
         <div>
+
           <button
             class="retry-btn"
             id="retryBtn"
           >
             Retry
           </button>
+
         </div>
       `
     );
@@ -2257,21 +2171,18 @@ body{
       .sort(
         function(a, b){
 
-          const timeA =
+          const ta =
             new Date(
               getTimestamp(a) || 0
             ).getTime();
 
-          const timeB =
+          const tb =
             new Date(
               getTimestamp(b) || 0
             ).getTime();
 
 
-          return (
-            timeB -
-            timeA
-          );
+          return tb - ta;
 
         }
       );
@@ -2299,11 +2210,9 @@ body{
       if(
         !response.ok
       ){
-
         throw new Error(
           "Bad response"
         );
-
       }
 
 
@@ -2331,7 +2240,9 @@ body{
 
 
       if(
-        !Array.isArray(posts)
+        !Array.isArray(
+          posts
+        )
       ){
 
         posts = [];
@@ -2361,13 +2272,14 @@ body{
           .map(
             renderPost
           )
-          .join("");
+          .join(
+            ""
+          );
 
 
       attachMediaErrorHandlers();
 
-      initCustomPlayers();
-
+      initCustomVideoPlayers();
 
     }
     catch(err){
