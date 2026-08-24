@@ -421,8 +421,6 @@ body{
   text-overflow:ellipsis;
 }
 
-/* CAPTION */
-
 .post-caption{
   display:block;
 
@@ -475,7 +473,7 @@ body{
   border:0;
 }
 
-/* CUSTOM VIDEO PLAYER */
+/* VIDEO */
 
 .video-media{
   position:relative;
@@ -498,57 +496,16 @@ body{
 
   height:auto;
 
-  margin:0;
-  padding:0;
-  border:0;
-
   background:#000;
-
-  -webkit-appearance:none;
-  appearance:none;
 }
+
+/* Hide native controls */
 
 .video-media video.custom-video::-webkit-media-controls{
   display:none !important;
 }
 
 .video-media video.custom-video::-webkit-media-controls-panel{
-  display:none !important;
-}
-
-.video-media video.custom-video::-webkit-media-controls-enclosure{
-  display:none !important;
-}
-
-.video-media video.custom-video::-webkit-media-controls-play-button{
-  display:none !important;
-}
-
-.video-media video.custom-video::-webkit-media-controls-start-playback-button{
-  display:none !important;
-}
-
-.video-media video.custom-video::-webkit-media-controls-timeline{
-  display:none !important;
-}
-
-.video-media video.custom-video::-webkit-media-controls-current-time-display{
-  display:none !important;
-}
-
-.video-media video.custom-video::-webkit-media-controls-time-remaining-display{
-  display:none !important;
-}
-
-.video-media video.custom-video::-webkit-media-controls-mute-button{
-  display:none !important;
-}
-
-.video-media video.custom-video::-webkit-media-controls-volume-slider{
-  display:none !important;
-}
-
-.video-media video.custom-video::-webkit-media-controls-fullscreen-button{
   display:none !important;
 }
 
@@ -564,8 +521,8 @@ body{
   background:
     linear-gradient(
       180deg,
-      rgba(0,0,0,0) 0%,
-      rgba(0,0,0,0.72) 100%
+      rgba(0,0,0,0),
+      rgba(0,0,0,0.72)
     );
 
   pointer-events:none;
@@ -600,9 +557,6 @@ body{
   backdrop-filter:
     blur(10px);
 
-  -webkit-backdrop-filter:
-    blur(10px);
-
   border:
     1px solid rgba(255,255,255,0.22);
 
@@ -620,8 +574,7 @@ body{
 
   transition:
     opacity 0.2s ease,
-    transform 0.15s ease,
-    background 0.2s ease;
+    transform 0.15s ease;
 }
 
 .video-media:not(.is-playing) .video-center-play{
@@ -662,8 +615,6 @@ body{
 .video-media.is-playing .video-center-play svg.icon-pause{
   display:block;
 }
-
-/* CONTROLS */
 
 .video-controls-bar{
   position:absolute;
@@ -770,11 +721,6 @@ body{
   color:#f2f2f4;
 }
 
-.video-icon-btn:active{
-  transform:
-    scale(0.9);
-}
-
 .video-icon-btn svg{
   width:18px;
   height:18px;
@@ -802,6 +748,8 @@ body{
 .video-error{
   display:flex;
 
+  flex-direction:column;
+
   align-items:center;
   justify-content:center;
 
@@ -814,6 +762,16 @@ body{
   color:var(--text-sub);
 
   font-size:14px;
+}
+
+.video-error a{
+  margin-top:10px;
+
+  color:#f2f2f4;
+
+  text-decoration:none;
+
+  font-weight:700;
 }
 
 /* STATES */
@@ -872,10 +830,6 @@ body{
   font-size:13.5px;
 
   cursor:pointer;
-}
-
-.retry-btn:active{
-  transform:scale(0.96);
 }
 
 @media (max-width:420px){
@@ -975,17 +929,11 @@ body{
     <div class="tab">Likes</div>
   </div>
 
-  <div
-    class="feed"
-    id="feed"
-  >
+  <div class="feed" id="feed">
 
     <div class="state-box">
-
       <div class="spinner"></div>
-
       Loading posts...
-
     </div>
 
   </div>
@@ -1000,9 +948,7 @@ body{
     "https://script.google.com/macros/s/AKfycbwj8X3sQJx2OTgsorUT_iObGiJ4eXlTIp2apSuKDIgP_9AXN8xGihetgaotxZe-0QKHPw/exec";
 
   const feedEl =
-    document.getElementById(
-      "feed"
-    );
+    document.getElementById("feed");
 
 
   function escapeHtml(str){
@@ -1029,12 +975,16 @@ body{
       return "";
     }
 
-    const date =
-      new Date(input);
+    const normalized =
+      String(input).replace(
+        " ",
+        "T"
+      );
 
-    if(
-      isNaN(date.getTime())
-    ){
+    const date =
+      new Date(normalized);
+
+    if(isNaN(date.getTime())){
       return "";
     }
 
@@ -1057,104 +1007,55 @@ body{
     }
 
     const minutes =
-      Math.floor(
-        seconds / 60
-      );
+      Math.floor(seconds / 60);
 
     if(minutes < 60){
       return minutes + "m";
     }
 
     const hours =
-      Math.floor(
-        minutes / 60
-      );
+      Math.floor(minutes / 60);
 
     if(hours < 24){
       return hours + "h";
     }
 
     const days =
-      Math.floor(
-        hours / 24
-      );
+      Math.floor(hours / 24);
 
     if(days < 7){
       return days + "d";
     }
 
     const weeks =
-      Math.floor(
-        days / 7
-      );
+      Math.floor(days / 7);
 
     if(weeks < 5){
       return weeks + "w";
     }
 
     const months =
-      Math.floor(
-        days / 30
-      );
+      Math.floor(days / 30);
 
     if(months < 12){
       return months + "mo";
     }
 
-    const years =
-      Math.floor(
-        days / 365
-      );
-
-    return years + "y";
-  }
-
-
-  function getDriveFileId(url){
-
-    if(!url){
-      return null;
-    }
-
-    url =
-      String(url).trim();
-
-    let match =
-      url.match(
-        /\/file\/d\/([^\/?]+)/
-      );
-
-    if(match){
-      return match[1];
-    }
-
-    match =
-      url.match(
-        /[?&]id=([^&#]+)/i
-      );
-
-    if(match){
-      return match[1];
-    }
-
-    return null;
+    return (
+      Math.floor(days / 365)
+      + "y"
+    );
   }
 
 
   function getMediaUrl(post){
 
     return (
-      post.fileUrl ||
-      post.fileURL ||
       post.mediaUrl ||
       post.mediaURL ||
+      post.fileUrl ||
+      post.fileURL ||
       post.url ||
-      post.imageUrl ||
-      post.imageURL ||
-      post.videoUrl ||
-      post.videoURL ||
-      post.media ||
-      post.file ||
       null
     );
   }
@@ -1166,8 +1067,6 @@ body{
       post.caption ||
       post.text ||
       post.content ||
-      post.message ||
-      post.body ||
       ""
     );
   }
@@ -1176,91 +1075,64 @@ body{
   function getTimestamp(post){
 
     return (
+      post.date ||
       post.timestamp ||
       post.createdAt ||
-      post.created_at ||
-      post.date ||
-      post.time ||
-      post.created ||
       null
     );
   }
 
 
+  function getFileId(post){
+
+    if(post.fileId){
+      return String(post.fileId).trim();
+    }
+
+    const url =
+      getMediaUrl(post);
+
+    if(!url){
+      return null;
+    }
+
+    const match =
+      String(url).match(
+        /[?&]id=([^&#]+)/
+      );
+
+    if(match){
+      return match[1];
+    }
+
+    return null;
+  }
+
+
   function guessMediaType(post){
 
-    const mime =
+    const type =
       String(
-        post.mimeType ||
-        post.mimetype ||
-        post.mime ||
-        post.type ||
         post.mediaType ||
+        post.mimeType ||
+        post.type ||
         ""
       ).toLowerCase();
 
 
     if(
-      mime.startsWith(
-        "video/"
-      )
+      type === "video" ||
+      type.startsWith("video/")
     ){
       return "video";
     }
 
 
     if(
-      mime.startsWith(
-        "image/"
-      )
+      type === "image" ||
+      type.startsWith("image/")
     ){
       return "image";
-    }
-
-
-    if(
-      mime === "video"
-    ){
-      return "video";
-    }
-
-
-    if(
-      mime === "image"
-    ){
-      return "image";
-    }
-
-
-    const url =
-      String(
-        getMediaUrl(post) || ""
-      ).toLowerCase();
-
-
-    if(
-      /\.(mp4|mov|webm|m4v|ogg|ogv)(\?|$)/i.test(
-        url
-      )
-    ){
-      return "video";
-    }
-
-
-    if(
-      /\.(jpg|jpeg|png|gif|webp|heic)(\?|$)/i.test(
-        url
-      )
-    ){
-      return "image";
-    }
-
-
-    if(
-      post.videoUrl ||
-      post.videoURL
-    ){
-      return "video";
     }
 
 
@@ -1268,161 +1140,57 @@ body{
   }
 
 
-  function normalizeImageUrl(url){
+  function getDriveImageUrl(fileId){
 
-    if(!url){
-      return null;
-    }
-
-    url =
-      String(url).trim();
-
-    const driveId =
-      getDriveFileId(url);
-
-
-    if(driveId){
-
-      return (
-        "https://drive.google.com/thumbnail?id="
-        + encodeURIComponent(
-            driveId
-          )
-        + "&sz=w2000"
-      );
-
-    }
-
-
-    return url;
+    return (
+      "https://drive.google.com/thumbnail?id="
+      + encodeURIComponent(fileId)
+      + "&sz=w2000"
+    );
   }
 
 
-  /*
-    CUSTOM VIDEO PLAYER
-    Uses the original URL directly.
-  */
+  function getDriveVideoUrls(fileId){
 
-  function renderCustomVideoMarkup(url){
+    return [
+      "https://drive.google.com/uc?export=download&id="
+      + encodeURIComponent(fileId),
 
-    return `
+      "https://drive.usercontent.google.com/download?id="
+      + encodeURIComponent(fileId)
+      + "&export=download&confirm=t"
+    ];
+  }
 
-      <video
-        class="custom-video"
-        preload="metadata"
-        playsinline
-        webkit-playsinline
-        src="${escapeHtml(url)}"
-      ></video>
 
-      <div
-        class="video-overlay-gradient"
-      ></div>
+  function formatTime(sec){
 
-      <button
-        class="video-center-play"
-        type="button"
-        aria-label="Play or pause video"
-      >
+    if(
+      !isFinite(sec) ||
+      isNaN(sec) ||
+      sec < 0
+    ){
+      return "0:00";
+    }
 
-        <svg
-          class="icon-play"
-          viewBox="0 0 24 24"
-        >
-          <path d="M8 5v14l11-7z"/>
-        </svg>
+    sec =
+      Math.floor(sec);
 
-        <svg
-          class="icon-pause"
-          viewBox="0 0 24 24"
-        >
-          <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
-        </svg>
+    const minutes =
+      Math.floor(sec / 60);
 
-      </button>
+    const seconds =
+      sec % 60;
 
-      <div
-        class="video-controls-bar"
-      >
-
-        <div
-          class="video-progress-container"
-        >
-
-          <div
-            class="video-progress-track"
-          >
-
-            <div
-              class="video-progress-fill"
-            ></div>
-
-          </div>
-
-        </div>
-
-        <div
-          class="video-controls-row"
-        >
-
-          <button
-            class="video-icon-btn video-mute-btn"
-            type="button"
-            aria-label="Mute or unmute video"
-          >
-
-            <svg
-              class="icon-vol-on"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M3 10v4h4l5 5V5L7 10H3zm13.5 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"
-              />
-            </svg>
-
-            <svg
-              class="icon-vol-off"
-              viewBox="0 0 24 24"
-              style="display:none"
-            >
-              <path
-                d="M3 10v4h4l5 5V5L7 10H3zm13.6-3.1l-1.42 1.42L16.6 10l-1.42 1.42 1.42 1.42L18 11.42l1.4 1.42 1.42-1.42L19.4 10l1.42-1.42L19.4 7.16 18 8.58z"
-              />
-            </svg>
-
-          </button>
-
-          <span
-            class="video-time"
-          >
-            0:00 / 0:00
-          </span>
-
-          <div
-            class="video-spacer"
-          ></div>
-
-          <button
-            class="video-icon-btn video-fullscreen-btn"
-            type="button"
-            aria-label="Fullscreen"
-          >
-
-            <svg
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
-              />
-            </svg>
-
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
+    return (
+      minutes
+      + ":"
+      + (
+        seconds < 10
+          ? "0" + seconds
+          : seconds
+      )
+    );
   }
 
 
@@ -1431,62 +1199,181 @@ body{
     const caption =
       getCaption(post);
 
-    const rawMediaUrl =
+    const fileId =
+      getFileId(post);
+
+    const mediaUrl =
       getMediaUrl(post);
 
     const mediaType =
-      rawMediaUrl
-        ? guessMediaType(post)
-        : null;
+      guessMediaType(post);
 
     const timeLabel =
       relativeTime(
         getTimestamp(post)
       );
 
+
     let mediaHtml =
       "";
 
 
-    /*
-      VIDEO
-    */
-
     if(
-      rawMediaUrl &&
+      fileId &&
       mediaType === "video"
     ){
 
-      mediaHtml =
-        `<div class="post-media video-media">
+      const sources =
+        getDriveVideoUrls(fileId);
 
-          ${renderCustomVideoMarkup(
-            rawMediaUrl
-          )}
+
+      mediaHtml =
+        `<div
+          class="post-media video-media"
+          data-file-id="${escapeHtml(fileId)}"
+        >
+
+          <video
+            class="custom-video"
+            preload="metadata"
+            playsinline
+            webkit-playsinline
+            crossorigin="anonymous"
+          >
+
+            <source
+              src="${escapeHtml(sources[0])}"
+              type="video/mp4"
+            >
+
+            <source
+              src="${escapeHtml(sources[1])}"
+              type="video/mp4"
+            >
+
+          </video>
+
+          <div class="video-overlay-gradient"></div>
+
+          <button
+            class="video-center-play"
+            type="button"
+          >
+
+            <svg
+              class="icon-play"
+              viewBox="0 0 24 24"
+            >
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+
+            <svg
+              class="icon-pause"
+              viewBox="0 0 24 24"
+            >
+              <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
+            </svg>
+
+          </button>
+
+          <div class="video-controls-bar">
+
+            <div class="video-progress-container">
+
+              <div class="video-progress-track">
+
+                <div
+                  class="video-progress-fill"
+                ></div>
+
+              </div>
+
+            </div>
+
+            <div class="video-controls-row">
+
+              <button
+                class="video-icon-btn video-mute-btn"
+                type="button"
+              >
+
+                <svg
+                  class="icon-vol-on"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M3 10v4h4l5 5V5L7 10H3zm13.5 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"
+                  />
+                </svg>
+
+                <svg
+                  class="icon-vol-off"
+                  viewBox="0 0 24 24"
+                  style="display:none"
+                >
+                  <path
+                    d="M3 10v4h4l5 5V5L7 10H3zm12.5 2 4-4 1.5 1.5-4 4 4 4-1.5 1.5-4-4-4 4L7 17.5l4-4-4-4L8.5 8z"
+                  />
+                </svg>
+
+              </button>
+
+              <span class="video-time">
+                0:00 / 0:00
+              </span>
+
+              <div class="video-spacer"></div>
+
+              <button
+                class="video-icon-btn video-fullscreen-btn"
+                type="button"
+              >
+
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
+                  />
+                </svg>
+
+              </button>
+
+            </div>
+
+          </div>
 
         </div>`;
 
     }
 
 
-    /*
-      IMAGE
-    */
-
-    else if(rawMediaUrl){
+    else if(
+      fileId
+    ){
 
       const imageUrl =
-        normalizeImageUrl(
-          rawMediaUrl
-        );
+        getDriveImageUrl(fileId);
+
 
       mediaHtml =
         `<div class="post-media">
 
           <img
-            src="${escapeHtml(
-              imageUrl
-            )}"
+            src="${escapeHtml(imageUrl)}"
+            alt="Post attachment"
+            loading="lazy"
+          >
+
+        </div>`;
+    }
+
+
+    else if(mediaUrl){
+
+      mediaHtml =
+        `<div class="post-media">
+
+          <img
+            src="${escapeHtml(mediaUrl)}"
             alt="Post attachment"
             loading="lazy"
           >
@@ -1521,9 +1408,7 @@ body{
 
             <div class="sub-line">
 
-              <span>
-                @kreidehuter
-              </span>
+              <span>@kreidehuter</span>
 
               ${
                 timeLabel
@@ -1546,75 +1431,21 @@ body{
   }
 
 
-  function attachMediaErrorHandlers(){
+  function initVideos(){
 
-    const images =
-      feedEl.querySelectorAll(
-        ".post-media img"
-      );
-
-
-    images.forEach(
-      function(img){
-
-        img.addEventListener(
-          "error",
-          function(){
-
-            const mediaBox =
-              img.closest(
-                ".post-media"
-              );
-
-            if(mediaBox){
-
-              mediaBox.innerHTML =
-                `<div class="video-error">
-                  Couldn't load image.
-                </div>`;
-
-            }
-
-          }
-        );
-
-      }
-    );
-  }
-
-
-  function initCustomVideoPlayers(){
-
-    const players =
+    const wrappers =
       feedEl.querySelectorAll(
         ".video-media"
       );
 
 
-    players.forEach(
+    wrappers.forEach(
       function(wrap){
-
-        if(
-          wrap.dataset.videoInit
-        ){
-          return;
-        }
-
 
         const video =
           wrap.querySelector(
             ".custom-video"
           );
-
-
-        if(!video){
-          return;
-        }
-
-
-        wrap.dataset.videoInit =
-          "true";
-
 
         const centerBtn =
           wrap.querySelector(
@@ -1641,60 +1472,24 @@ body{
             ".video-mute-btn"
           );
 
-        const volOnIcon =
-          wrap.querySelector(
-            ".icon-vol-on"
-          );
-
-        const volOffIcon =
-          wrap.querySelector(
-            ".icon-vol-off"
-          );
-
         const fullscreenBtn =
           wrap.querySelector(
             ".video-fullscreen-btn"
           );
 
-
-        let hideControlsTimeout =
-          null;
-
-
-        function formatTime(sec){
-
-          if(
-            !isFinite(sec) ||
-            isNaN(sec) ||
-            sec < 0
-          ){
-            return "0:00";
-          }
-
-
-          sec =
-            Math.floor(sec);
-
-
-          const m =
-            Math.floor(
-              sec / 60
-            );
-
-          const s =
-            sec % 60;
-
-
-          return (
-            m +
-            ":" +
-            (
-              s < 10
-                ? "0" + s
-                : s
-            )
+        const volOn =
+          wrap.querySelector(
+            ".icon-vol-on"
           );
-        }
+
+        const volOff =
+          wrap.querySelector(
+            ".icon-vol-off"
+          );
+
+
+        let controlsTimer =
+          null;
 
 
         function showControls(){
@@ -1704,20 +1499,14 @@ body{
           );
 
 
-          if(
-            hideControlsTimeout
-          ){
-            clearTimeout(
-              hideControlsTimeout
-            );
-          }
+          clearTimeout(
+            controlsTimer
+          );
 
 
-          if(
-            !video.paused
-          ){
+          if(!video.paused){
 
-            hideControlsTimeout =
+            controlsTimer =
               setTimeout(
                 function(){
 
@@ -1726,7 +1515,7 @@ body{
                   );
 
                 },
-                2800
+                2500
               );
 
           }
@@ -1734,20 +1523,33 @@ body{
         }
 
 
-        function togglePlay(){
+        function toggleVideo(){
 
-          if(
-            video.paused
-          ){
+          if(video.paused){
 
             video.play()
+              .then(
+                function(){
+                  showControls();
+                }
+              )
               .catch(
-                function(err){
+                function(){
 
-                  console.error(
-                    "Video playback failed:",
-                    err
-                  );
+                  const fileId =
+                    wrap.dataset.fileId;
+
+
+                  if(fileId){
+
+                    window.open(
+                      "https://drive.google.com/file/d/"
+                      + fileId
+                      + "/view",
+                      "_blank"
+                    );
+
+                  }
 
                 }
               );
@@ -1760,6 +1562,23 @@ body{
           }
 
         }
+
+
+        video.addEventListener(
+          "loadedmetadata",
+          function(){
+
+            if(timeLabel){
+
+              timeLabel.textContent =
+                formatTime(0)
+                + " / "
+                + formatTime(video.duration);
+
+            }
+
+          }
+        );
 
 
         video.addEventListener(
@@ -1788,15 +1607,6 @@ body{
               "controls-visible"
             );
 
-
-            if(
-              hideControlsTimeout
-            ){
-              clearTimeout(
-                hideControlsTimeout
-              );
-            }
-
           }
         );
 
@@ -1818,73 +1628,33 @@ body{
 
 
         video.addEventListener(
-          "loadedmetadata",
-          function(){
-
-            if(timeLabel){
-
-              timeLabel.textContent =
-                formatTime(0)
-                +
-                " / "
-                +
-                formatTime(
-                  video.duration
-                );
-
-            }
-
-          }
-        );
-
-
-        video.addEventListener(
           "timeupdate",
           function(){
 
             if(
               !video.duration ||
-              isNaN(
-                video.duration
-              )
+              isNaN(video.duration)
             ){
               return;
             }
 
 
-            const pct =
+            const progress =
               (
                 video.currentTime /
                 video.duration
               )
-              *
-              100;
+              * 100;
 
 
-            if(progressFill){
-
-              progressFill.style.width =
-                pct
-                +
-                "%";
-
-            }
+            progressFill.style.width =
+              progress + "%";
 
 
-            if(timeLabel){
-
-              timeLabel.textContent =
-                formatTime(
-                  video.currentTime
-                )
-                +
-                " / "
-                +
-                formatTime(
-                  video.duration
-                );
-
-            }
+            timeLabel.textContent =
+              formatTime(video.currentTime)
+              + " / "
+              + formatTime(video.duration);
 
           }
         );
@@ -1894,20 +1664,36 @@ body{
           "error",
           function(){
 
-            const mediaBox =
-              video.closest(
-                ".post-media"
-              );
+            const fileId =
+              wrap.dataset.fileId;
 
 
-            if(mediaBox){
+            wrap.innerHTML =
+              `<div class="video-error">
 
-              mediaBox.innerHTML =
-                `<div class="video-error">
-                  This video couldn't be loaded.
-                </div>`;
+                This video couldn't be played here.
 
-            }
+                <a
+                  href="https://drive.google.com/file/d/${escapeHtml(fileId)}/view"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Open video
+                </a>
+
+              </div>`;
+
+          }
+        );
+
+
+        centerBtn.addEventListener(
+          "click",
+          function(e){
+
+            e.stopPropagation();
+
+            toggleVideo();
 
           }
         );
@@ -1919,163 +1705,10 @@ body{
 
             e.stopPropagation();
 
-            togglePlay();
-
-            showControls();
+            toggleVideo();
 
           }
         );
-
-
-        if(centerBtn){
-
-          centerBtn.addEventListener(
-            "click",
-            function(e){
-
-              e.stopPropagation();
-
-              togglePlay();
-
-              showControls();
-
-            }
-          );
-
-        }
-
-
-        if(progressContainer){
-
-          progressContainer.addEventListener(
-            "click",
-            function(e){
-
-              e.stopPropagation();
-
-
-              if(
-                !video.duration ||
-                isNaN(
-                  video.duration
-                )
-              ){
-                return;
-              }
-
-
-              const rect =
-                progressContainer
-                  .getBoundingClientRect();
-
-
-              const ratio =
-                (
-                  e.clientX -
-                  rect.left
-                )
-                /
-                rect.width;
-
-
-              video.currentTime =
-                Math.max(
-                  0,
-                  Math.min(
-                    1,
-                    ratio
-                  )
-                )
-                *
-                video.duration;
-
-
-              showControls();
-
-            }
-          );
-
-        }
-
-
-        if(muteBtn){
-
-          muteBtn.addEventListener(
-            "click",
-            function(e){
-
-              e.stopPropagation();
-
-              video.muted =
-                !video.muted;
-
-
-              if(
-                volOnIcon &&
-                volOffIcon
-              ){
-
-                volOnIcon.style.display =
-                  video.muted
-                    ? "none"
-                    : "block";
-
-                volOffIcon.style.display =
-                  video.muted
-                    ? "block"
-                    : "none";
-
-              }
-
-
-              showControls();
-
-            }
-          );
-
-        }
-
-
-        if(fullscreenBtn){
-
-          fullscreenBtn.addEventListener(
-            "click",
-            function(e){
-
-              e.stopPropagation();
-
-
-              if(
-                wrap.requestFullscreen
-              ){
-
-                wrap.requestFullscreen();
-
-              }
-
-              else if(
-                wrap.webkitRequestFullscreen
-              ){
-
-                wrap.webkitRequestFullscreen();
-
-              }
-
-              else if(
-                video.webkitEnterFullscreen
-              ){
-
-                video.webkitEnterFullscreen();
-
-              }
-
-
-              showControls();
-
-            }
-          );
-
-        }
 
 
         wrap.addEventListener(
@@ -2087,50 +1720,191 @@ body{
           }
         );
 
+
+        progressContainer.addEventListener(
+          "click",
+          function(e){
+
+            e.stopPropagation();
+
+
+            if(
+              !video.duration ||
+              isNaN(video.duration)
+            ){
+              return;
+            }
+
+
+            const rect =
+              progressContainer
+                .getBoundingClientRect();
+
+
+            const percent =
+              (
+                e.clientX -
+                rect.left
+              )
+              /
+              rect.width;
+
+
+            video.currentTime =
+              Math.max(
+                0,
+                Math.min(1, percent)
+              )
+              * video.duration;
+
+
+            showControls();
+
+          }
+        );
+
+
+        muteBtn.addEventListener(
+          "click",
+          function(e){
+
+            e.stopPropagation();
+
+            video.muted =
+              !video.muted;
+
+
+            if(video.muted){
+
+              volOn.style.display =
+                "none";
+
+              volOff.style.display =
+                "block";
+
+            }
+            else{
+
+              volOn.style.display =
+                "block";
+
+              volOff.style.display =
+                "none";
+
+            }
+
+
+            showControls();
+
+          }
+        );
+
+
+        fullscreenBtn.addEventListener(
+          "click",
+          function(e){
+
+            e.stopPropagation();
+
+
+            if(wrap.requestFullscreen){
+
+              wrap.requestFullscreen();
+
+            }
+            else if(
+              wrap.webkitRequestFullscreen
+            ){
+
+              wrap.webkitRequestFullscreen();
+
+            }
+            else if(
+              video.webkitEnterFullscreen
+            ){
+
+              video.webkitEnterFullscreen();
+
+            }
+
+          }
+        );
+
       }
     );
 
   }
 
 
-  function showState(html){
+  function attachImageErrors(){
 
-    feedEl.innerHTML =
-      `
-        <div class="state-box">
-          ${html}
-        </div>
-      `;
+    const images =
+      feedEl.querySelectorAll(
+        ".post-media img"
+      );
+
+
+    images.forEach(
+      function(img){
+
+        img.addEventListener(
+          "error",
+          function(){
+
+            const box =
+              img.closest(
+                ".post-media"
+              );
+
+
+            if(box){
+
+              box.innerHTML =
+                `<div class="video-error">
+                  Couldn't load image.
+                </div>`;
+
+            }
+
+          }
+        );
+
+      }
+    );
+
   }
 
 
   function showLoading(){
 
-    showState(
-      `
+    feedEl.innerHTML =
+      `<div class="state-box">
+
         <div class="spinner"></div>
+
         Loading posts...
-      `
-    );
+
+      </div>`;
 
   }
 
 
   function showEmpty(){
 
-    showState(
-      "No posts yet."
-    );
+    feedEl.innerHTML =
+      `<div class="state-box">
+        No posts yet.
+      </div>`;
 
   }
 
 
   function showError(){
 
-    showState(
-      `
+    feedEl.innerHTML =
+      `<div class="state-box">
+
         Couldn't load posts.
-        Please check your connection.
 
         <div>
 
@@ -2142,47 +1916,52 @@ body{
           </button>
 
         </div>
-      `
-    );
+
+      </div>`;
 
 
-    const retryBtn =
-      document.getElementById(
-        "retryBtn"
-      );
-
-
-    if(retryBtn){
-
-      retryBtn.addEventListener(
+    document
+      .getElementById("retryBtn")
+      .addEventListener(
         "click",
         loadPosts
       );
 
-    }
-
   }
 
 
-  function sortPostsNewestFirst(posts){
+  function sortPosts(posts){
 
     return posts
       .slice()
       .sort(
         function(a, b){
 
-          const ta =
+          const dateA =
             new Date(
-              getTimestamp(a) || 0
-            ).getTime();
+              String(
+                getTimestamp(a) || ""
+              ).replace(
+                " ",
+                "T"
+              )
+            ).getTime()
+            || 0;
 
-          const tb =
+
+          const dateB =
             new Date(
-              getTimestamp(b) || 0
-            ).getTime();
+              String(
+                getTimestamp(b) || ""
+              ).replace(
+                " ",
+                "T"
+              )
+            ).getTime()
+            || 0;
 
 
-          return tb - ta;
+          return dateB - dateA;
 
         }
       );
@@ -2199,7 +1978,9 @@ body{
 
       const response =
         await fetch(
-          API_URL,
+          API_URL
+          + "?t="
+          + Date.now(),
           {
             method:"GET",
             cache:"no-store"
@@ -2207,12 +1988,12 @@ body{
         );
 
 
-      if(
-        !response.ok
-      ){
+      if(!response.ok){
+
         throw new Error(
-          "Bad response"
+          "API error"
         );
+
       }
 
 
@@ -2220,29 +2001,14 @@ body{
         await response.json();
 
 
-      if(
-        !data ||
-        data.success === false
-      ){
-
-        showError();
-
-        return;
-
-      }
-
-
       let posts =
         data.posts ||
         data.data ||
-        data.items ||
         [];
 
 
       if(
-        !Array.isArray(
-          posts
-        )
+        !Array.isArray(posts)
       ){
 
         posts = [];
@@ -2262,32 +2028,23 @@ body{
 
 
       posts =
-        sortPostsNewestFirst(
-          posts
-        );
+        sortPosts(posts);
 
 
       feedEl.innerHTML =
         posts
-          .map(
-            renderPost
-          )
-          .join(
-            ""
-          );
+          .map(renderPost)
+          .join("");
 
 
-      attachMediaErrorHandlers();
+      attachImageErrors();
 
-      initCustomVideoPlayers();
+      initVideos();
 
     }
-    catch(err){
+    catch(error){
 
-      console.error(
-        "Failed to load posts:",
-        err
-      );
+      console.error(error);
 
       showError();
 
