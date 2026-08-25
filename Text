@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Adrian Kreidehüter (@kreidehuter)</title>
+
+<style>
+
+:root{
+  --bg-deep:#08090c;
+  --glass:rgba(255,255,255,0.06);
+  --glass-strong:rgba(255,255,255,0.10);
+  --glass-border:rgba(255,255,255,0.12);
+  --text-main:#f2f2f4;
+  --text-sub:#9a9aa2;
+  --text-dim:#6c6c74;
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    Arial,
+    sans-serif;
+
+  background:#08090c;
+  color:var(--text-main);
+}
+
+body{
+  background:
+    radial-gradient(circle at 20% 0%, rgba(90,80,180,0.25), transparent 45%),
+    radial-gradient(circle at 85% 10%, rgba(200,60,140,0.18), transparent 45%),
+    linear-gradient(180deg,#0a0a0d,#060608);
+
+  min-height:100vh;
+  padding-bottom:60px;
+}
+
+.page{
+  width:100%;
+  max-width:620px;
+  margin:auto;
+  padding:22px 14px;
+}
+
+.profile-card{
+  background:var(--glass);
+  backdrop-filter:blur(26px);
+  -webkit-backdrop-filter:blur(26px);
+
+  border:1px solid var(--glass-border);
+  border-radius:28px;
+
+  padding:22px 20px 18px;
+
+  box-shadow:
+    0 10px 34px rgba(0,0,0,.4);
+}
+
+.avatar-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+
+  margin-bottom:14px;
+}
+
+.avatar{
+  width:84px;
+  height:84px;
+
+  border-radius:50%;
+  object-fit:cover;
+
+  border:3px solid rgba(255,255,255,.15);
+}
+
+.header-actions{
+  display:flex;
+  gap:10px;
+}
+
+.pill-btn{
+  padding:9px 18px;
+
+  border:none;
+  border-radius:999px;
+
+  background:var(--glass-strong);
+  color:var(--text-main);
+
+  font-size:13px;
+  font-weight:700;
+}
+
+.pill-btn.primary{
+  background:#f2f2f4;
+  color:#0a0a0c;
+}
+
+.name-row{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.name-row h1{
+  margin:0;
+  font-size:22px;
+}
+
+.lock-icon{
+  width:15px;
+  opacity:.7;
+}
+
+.handle{
+  margin:2px 0 10px;
+  color:var(--text-sub);
+}
+
+.bio{
+  margin-bottom:12px;
+}
+
+.meta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+
+  margin-bottom:12px;
+
+  color:var(--text-dim);
+  font-size:13px;
+}
+
+.counts-row{
+  display:flex;
+  gap:18px;
+  color:var(--text-sub);
+  font-size:13px;
+}
+
+.counts-row b{
+  color:var(--text-main);
+}
+
+.tab-bar{
+  display:flex;
+  gap:6px;
+
+  margin:18px 0 16px;
+  padding:5px;
+
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:20px;
+}
+
+.tab{
+  flex:1;
+  text-align:center;
+
+  padding:10px;
+
+  border-radius:15px;
+
+  color:var(--text-sub);
+  font-size:13px;
+  font-weight:700;
+}
+
+.tab.active{
+  background:var(--glass-strong);
+  color:var(--text-main);
+}
+
+.feed{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.post{
+  background:var(--glass);
+
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+
+  border:1px solid var(--glass-border);
+  border-radius:24px;
+
+  padding:16px;
+
+  box-shadow:
+    0 8px 26px rgba(0,0,0,.35);
+}
+
+.post-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  margin-bottom:10px;
+}
+
+.post-avatar{
+  width:40px;
+  height:40px;
+
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.post-names{
+  line-height:1.3;
+}
+
+.top-line{
+  font-size:14px;
+  font-weight:800;
+}
+
+.sub-line{
+  font-size:13px;
+  color:var(--text-dim);
+}
+
+.post-caption{
+  margin-bottom:10px;
+
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+
+  line-height:1.5;
+  font-size:15px;
+}
+
+.post-media{
+  width:100%;
+
+  overflow:hidden;
+
+  border-radius:18px;
+
+  background:#000;
+}
+
+.post-media img{
+  display:block;
+
+  width:100%;
+  height:auto;
+}
+
+/* PLAIN NORMAL VIDEO PLAYER */
+
+.post-media video{
+  display:block;
+
+  width:100%;
+  max-height:80vh;
+
+  background:#000;
+}
+
+.state-box{
+  padding:50px 20px;
+  text-align:center;
+  color:var(--text-sub);
+}
+
+.spinner{
+  width:30px;
+  height:30px;
+
+  margin:0 auto 14px;
+
+  border-radius:50%;
+
+  border:3px solid rgba(255,255,255,.15);
+  border-top-color:#fff;
+
+  animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+.retry-btn{
+  margin-top:14px;
+  padding:10px 22px;
+
+  border:1px solid var(--glass-border);
+  border-radius:999px;
+
+  background:var(--glass-strong);
+  color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <div class="profile-card">
+
+    <div class="avatar-row">
+
+      <img
+        class="avatar"
+        src="../profile.jpg"
+        alt="Adrian Kreidehüter"
+      >
+
+      <div class="header-actions">
+        <button class="pill-btn">Share</button>
+        <button class="pill-btn primary">Edit profile</button>
+      </div>
+
+    </div>
+
+    <div class="name-row">
+
+      <h1>Adrian Kreidehüter</h1>
+
+      <svg
+        class="lock-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <rect
+          x="5"
+          y="11"
+          width="14"
+          height="10"
+          rx="2"
+          stroke="currentColor"
+          stroke-width="2"
+        />
+
+        <path
+          d="M8 11V7a4 4 0 018 0v4"
+          stroke="currentColor"
+          stroke-width="2"
+        />
+
+      </svg>
+
+    </div>
+
+    <p class="handle">@kreidehuter</p>
+
+    <p class="bio">
+      infp t btw I want a friend
+    </p>
+
+    <div class="meta-row">
+      <span>🎂 Born October 22, 2006</span>
+      <span>📅 Joined April 2026</span>
+    </div>
+
+    <div class="counts-row">
+      <span><b>6</b> Following</span>
+      <span><b>0</b> Followers</span>
+    </div>
+
+  </div>
+
+
+  <div class="tab-bar">
+    <div class="tab active">Posts</div>
+    <div class="tab">Replies</div>
+    <div class="tab">Media</div>
+    <div class="tab">Likes</div>
+  </div>
+
+
+  <div
+    class="feed"
+    id="feed"
+  >
+
+    <div class="state-box">
+
+      <div class="spinner"></div>
+
+      Loading posts...
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+(function(){
+
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbwj8X3sQJx2OTgsorUT_iObGiJ4eXlTIp2apSuKDIgP_9AXN8xGihetgaotxZe-0QKHPw/exec";
+
+
+  const feedEl =
+    document.getElementById("feed");
+
+
+  function escapeHtml(value){
+
+    if(
+      value === null ||
+      value === undefined
+    ){
+      return "";
+    }
+
+    return String(value)
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+  }
+
+
+  function getFileId(post){
+
+    if(post.fileId){
+      return String(post.fileId);
+    }
+
+    const url =
+      post.mediaUrl ||
+      "";
+
+    const match =
+      url.match(
+        /[?&]id=([^&#]+)/
+      );
+
+    return match
+      ? match[1]
+      : null;
+  }
+
+
+  function relativeTime(value){
+
+    if(!value){
+      return "";
+    }
+
+    const date =
+      new Date(
+        String(value).replace(" ","T")
+      );
+
+    if(isNaN(date)){
+      return "";
+    }
+
+    const seconds =
+      Math.max(
+        0,
+        Math.floor(
+          (Date.now() - date.getTime())
+          / 1000
+        )
+      );
+
+    if(seconds < 60){
+      return seconds + "s";
+    }
+
+    const minutes =
+      Math.floor(seconds / 60);
+
+    if(minutes < 60){
+      return minutes + "m";
+    }
+
+    const hours =
+      Math.floor(minutes / 60);
+
+    if(hours < 24){
+      return hours + "h";
+    }
+
+    const days =
+      Math.floor(hours / 24);
+
+    if(days < 7){
+      return days + "d";
+    }
+
+    return Math.floor(days / 7) + "w";
+  }
+
+
+  function renderPost(post){
+
+    const caption =
+      post.caption ||
+      "";
+
+    const fileId =
+      getFileId(post);
+
+    const mediaType =
+      String(
+        post.mediaType ||
+        "image"
+      ).toLowerCase();
+
+    const time =
+      relativeTime(post.date);
+
+
+    let mediaHtml =
+      "";
+
+
+    if(
+      fileId &&
+      mediaType === "video"
+    ){
+
+      /*
+        Plain native video player.
+        No custom controls.
+        No JavaScript playback.
+      */
+
+      const videoUrl =
+        "https://drive.google.com/uc?export=download&id="
+        + encodeURIComponent(fileId);
+
+
+      mediaHtml =
+        `
+        <div class="post-media">
+
+          <video
+            controls
+            playsinline
+            preload="metadata"
+            src="${escapeHtml(videoUrl)}"
+          >
+            Your browser does not support video.
+          </video>
+
+        </div>
+        `;
+
+    }
+
+
+    else if(fileId){
+
+      const imageUrl =
+        "https://drive.google.com/thumbnail?id="
+        + encodeURIComponent(fileId)
+        + "&sz=w2000";
+
+
+      mediaHtml =
+        `
+        <div class="post-media">
+
+          <img
+            src="${escapeHtml(imageUrl)}"
+            alt="Post media"
+            loading="lazy"
+          >
+
+        </div>
+        `;
+
+    }
+
+
+    return `
+
+      <article class="post">
+
+        <div class="post-head">
+
+          <img
+            class="post-avatar"
+            src="../profile.jpg"
+            alt="Adrian Kreidehüter"
+          >
+
+          <div class="post-names">
+
+            <div class="top-line">
+              Adrian Kreidehüter
+            </div>
+
+            <div class="sub-line">
+
+              @kreidehuter
+
+              ${
+                time
+                  ? " · " + escapeHtml(time)
+                  : ""
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        ${
+          caption
+            ? `
+              <div class="post-caption">
+                ${escapeHtml(caption)}
+              </div>
+              `
+            : ""
+        }
+
+
+        ${mediaHtml}
+
+      </article>
+
+    `;
+  }
+
+
+  function showLoading(){
+
+    feedEl.innerHTML =
+      `
+      <div class="state-box">
+
+        <div class="spinner"></div>
+
+        Loading posts...
+
+      </div>
+      `;
+  }
+
+
+  function showError(){
+
+    feedEl.innerHTML =
+      `
+      <div class="state-box">
+
+        Couldn't load posts.
+
+        <br>
+
+        <button
+          class="retry-btn"
+          id="retryBtn"
+        >
+          Retry
+        </button>
+
+      </div>
+      `;
+
+
+    document
+      .getElementById("retryBtn")
+      .onclick =
+        loadPosts;
+  }
+
+
+  function sortPosts(posts){
+
+    return posts
+      .slice()
+      .sort(
+        function(a,b){
+
+          const aDate =
+            new Date(
+              String(a.date || "")
+              .replace(" ","T")
+            ).getTime()
+            || 0;
+
+          const bDate =
+            new Date(
+              String(b.date || "")
+              .replace(" ","T")
+            ).getTime()
+            || 0;
+
+          return bDate - aDate;
+
+        }
+      );
+  }
+
+
+  async function loadPosts(){
+
+    showLoading();
+
+    try{
+
+      const response =
+        await fetch(
+          API_URL
+          + "?t="
+          + Date.now()
+        );
+
+
+      if(!response.ok){
+        throw new Error();
+      }
+
+
+      const data =
+        await response.json();
+
+
+      let posts =
+        data.posts ||
+        [];
+
+
+      if(
+        !Array.isArray(posts)
+      ){
+        posts = [];
+      }
+
+
+      if(
+        posts.length === 0
+      ){
+
+        feedEl.innerHTML =
+          `
+          <div class="state-box">
+            No posts yet.
+          </div>
+          `;
+
+        return;
+      }
+
+
+      posts =
+        sortPosts(posts);
+
+
+      feedEl.innerHTML =
+        posts
+          .map(renderPost)
+          .join("");
+
+    }
+    catch(error){
+
+      console.error(error);
+
+      showError();
+
+    }
+
+  }
+
+
+  loadPosts();
+
+})();
+
+</script>
+
+</body>
+</html>
