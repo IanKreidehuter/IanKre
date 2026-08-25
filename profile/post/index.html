@@ -5,7 +5,7 @@
 
 <meta
   name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+  content="width=device-width, initial-scale=1.0"
 >
 
 <title>Adrian Kreidehüter (@kreidehuter)</title>
@@ -22,9 +22,7 @@
   --text-dim:#6c6c74;
 }
 
-*,
-*::before,
-*::after{
+*{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
 }
@@ -32,103 +30,54 @@
 html,
 body{
   margin:0;
-  padding:0;
   width:100%;
   min-height:100%;
-  overflow-x:hidden;
-
   font-family:
     -apple-system,
     BlinkMacSystemFont,
     "SF Pro Display",
-    "SF Pro Text",
-    "Helvetica Neue",
     Arial,
     sans-serif;
 
+  background:#08090c;
   color:var(--text-main);
-  background:var(--bg-deep);
 }
 
 body{
   background:
-    radial-gradient(circle at 20% 0%, rgba(90,80,180,0.25) 0%, transparent 45%),
-    radial-gradient(circle at 85% 10%, rgba(200,60,140,0.18) 0%, transparent 45%),
-    radial-gradient(circle at 30% 90%, rgba(30,140,160,0.18) 0%, transparent 50%),
-    radial-gradient(circle at 90% 90%, rgba(120,90,40,0.14) 0%, transparent 50%),
-    linear-gradient(180deg, #0a0a0d 0%, #060608 100%);
+    radial-gradient(circle at 20% 0%, rgba(90,80,180,0.25), transparent 45%),
+    radial-gradient(circle at 85% 10%, rgba(200,60,140,0.18), transparent 45%),
+    linear-gradient(180deg,#0a0a0d,#060608);
 
-  background-attachment:fixed;
   min-height:100vh;
   padding-bottom:60px;
-
-  animation:fadeInPage 0.6s ease;
-}
-
-@keyframes fadeInPage{
-  from{
-    opacity:0;
-  }
-
-  to{
-    opacity:1;
-  }
 }
 
 .page{
   width:100%;
   max-width:620px;
-  margin:0 auto;
-  padding:22px 14px 0;
+  margin:auto;
+  padding:22px 14px;
 }
 
-/* PROFILE */
-
 .profile-card{
-  position:relative;
-  overflow:hidden;
-
   background:var(--glass);
-
-  backdrop-filter:blur(26px) saturate(160%);
-  -webkit-backdrop-filter:blur(26px) saturate(160%);
+  backdrop-filter:blur(26px);
+  -webkit-backdrop-filter:blur(26px);
 
   border:1px solid var(--glass-border);
   border-radius:28px;
 
-  box-shadow:
-    0 10px 34px rgba(0,0,0,0.4),
-    inset 0 1px 0 rgba(255,255,255,0.06);
-
   padding:22px 20px 18px;
-}
 
-.profile-card::before{
-  content:"";
-  position:absolute;
-
-  top:0;
-  left:0;
-  right:0;
-
-  height:90px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,0.08),
-      rgba(255,255,255,0)
-    );
-
-  pointer-events:none;
+  box-shadow:
+    0 10px 34px rgba(0,0,0,.4);
 }
 
 .avatar-row{
-  position:relative;
-
   display:flex;
-  align-items:flex-end;
   justify-content:space-between;
+  align-items:flex-end;
 
   margin-bottom:14px;
 }
@@ -140,12 +89,7 @@ body{
   border-radius:50%;
   object-fit:cover;
 
-  border:3px solid rgba(255,255,255,0.15);
-
-  box-shadow:
-    0 6px 18px rgba(0,0,0,0.5);
-
-  background:#222;
+  border:3px solid rgba(255,255,255,.15);
 }
 
 .header-actions{
@@ -156,44 +100,19 @@ body{
 .pill-btn{
   padding:9px 18px;
 
+  border:none;
   border-radius:999px;
 
   background:var(--glass-strong);
-  border:1px solid var(--glass-border);
-
   color:var(--text-main);
 
-  font-size:13.5px;
+  font-size:13px;
   font-weight:700;
-
-  cursor:pointer;
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.1);
-
-  transition:
-    transform 0.15s ease,
-    background 0.2s ease;
-}
-
-.pill-btn:hover{
-  background:rgba(255,255,255,0.16);
-}
-
-.pill-btn:active{
-  transform:scale(0.96);
 }
 
 .pill-btn.primary{
-  background:
-    linear-gradient(
-      160deg,
-      #f2f2f4,
-      #cfcfd4
-    );
-
+  background:#f2f2f4;
   color:#0a0a0c;
-  border:none;
 }
 
 .name-row{
@@ -204,71 +123,44 @@ body{
 
 .name-row h1{
   margin:0;
-
   font-size:22px;
-  font-weight:800;
 }
 
 .lock-icon{
   width:15px;
-  height:15px;
-
-  opacity:0.7;
-  flex-shrink:0;
+  opacity:.7;
 }
 
 .handle{
   margin:2px 0 10px;
-
-  font-size:14.5px;
-  font-weight:600;
-
   color:var(--text-sub);
 }
 
 .bio{
-  margin:0 0 12px;
-
-  font-size:14.5px;
-  line-height:1.5;
-
-  color:var(--text-main);
+  margin-bottom:12px;
 }
 
 .meta-row{
   display:flex;
   flex-wrap:wrap;
-
   gap:14px;
 
   margin-bottom:12px;
 
-  font-size:13px;
-
   color:var(--text-dim);
-}
-
-.meta-row span{
-  display:flex;
-  align-items:center;
-  gap:5px;
+  font-size:13px;
 }
 
 .counts-row{
   display:flex;
   gap:18px;
-
-  font-size:13.5px;
-
   color:var(--text-sub);
+  font-size:13px;
 }
 
 .counts-row b{
   color:var(--text-main);
-  font-weight:800;
 }
-
-/* TABS */
 
 .tab-bar{
   display:flex;
@@ -277,91 +169,48 @@ body{
   margin:18px 0 16px;
   padding:5px;
 
-  overflow-x:auto;
-
   background:var(--glass);
-
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-
   border:1px solid var(--glass-border);
   border-radius:20px;
 }
 
 .tab{
   flex:1;
-
-  padding:10px 12px;
-
   text-align:center;
+
+  padding:10px;
 
   border-radius:15px;
 
-  font-size:13.5px;
-  font-weight:700;
-
   color:var(--text-sub);
-
-  white-space:nowrap;
+  font-size:13px;
+  font-weight:700;
 }
 
 .tab.active{
   background:var(--glass-strong);
-
   color:var(--text-main);
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.12),
-    0 2px 10px rgba(0,0,0,0.3);
 }
-
-/* FEED */
 
 .feed{
   display:flex;
   flex-direction:column;
   gap:14px;
-
-  width:100%;
-  min-width:0;
 }
 
 .post{
-  width:100%;
-  min-width:0;
-
   background:var(--glass);
 
-  backdrop-filter:
-    blur(22px)
-    saturate(160%);
-
-  -webkit-backdrop-filter:
-    blur(22px)
-    saturate(160%);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
 
   border:1px solid var(--glass-border);
   border-radius:24px;
 
-  padding:16px 16px 14px;
+  padding:16px;
 
   box-shadow:
-    0 8px 26px rgba(0,0,0,0.35),
-    inset 0 1px 0 rgba(255,255,255,0.05);
-
-  animation:postIn 0.45s ease both;
-}
-
-@keyframes postIn{
-  from{
-    opacity:0;
-    transform:translateY(10px);
-  }
-
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+    0 8px 26px rgba(0,0,0,.35);
 }
 
 .post-head{
@@ -376,415 +225,66 @@ body{
   width:40px;
   height:40px;
 
-  flex-shrink:0;
-
   border-radius:50%;
   object-fit:cover;
-
-  border:1px solid rgba(255,255,255,0.15);
-
-  background:#222;
 }
 
 .post-names{
-  display:flex;
-  flex-direction:column;
-
-  min-width:0;
-
-  line-height:1.25;
+  line-height:1.3;
 }
 
-.post-names .top-line{
-  display:flex;
-  align-items:center;
-
-  gap:6px;
-
-  font-size:14.5px;
+.top-line{
+  font-size:14px;
   font-weight:800;
-
-  white-space:nowrap;
 }
 
-.post-names .sub-line{
-  display:flex;
-  gap:6px;
-
-  overflow:hidden;
-
+.sub-line{
   font-size:13px;
-
   color:var(--text-dim);
-
-  white-space:nowrap;
-  text-overflow:ellipsis;
 }
 
 .post-caption{
-  display:block;
-
-  width:100%;
-
-  margin:0 0 10px 0;
-  padding:0;
-
-  font-size:15px;
-  line-height:1.5;
-
-  color:var(--text-main);
+  margin-bottom:10px;
 
   white-space:pre-wrap;
-
   overflow-wrap:anywhere;
-  word-break:break-word;
+
+  line-height:1.5;
+  font-size:15px;
 }
 
-/* MEDIA */
-
 .post-media{
-  position:relative;
-
   width:100%;
-  max-width:100%;
-
-  margin-top:6px;
 
   overflow:hidden;
 
   border-radius:18px;
 
-  background:#050506;
-
-  border:1px solid rgba(255,255,255,0.08);
+  background:#000;
 }
 
 .post-media img{
   display:block;
 
   width:100%;
-  max-width:100%;
-
   height:auto;
-
-  margin:0;
-  padding:0;
-
-  border:0;
 }
 
-/* VIDEO */
+/* PLAIN NORMAL VIDEO PLAYER */
 
-.video-media{
-  position:relative;
-
-  background:#000;
-
-  overflow:hidden;
-
-  cursor:pointer;
-
-  -webkit-user-select:none;
-  user-select:none;
-}
-
-.video-media video.custom-video{
+.post-media video{
   display:block;
 
   width:100%;
-  max-width:100%;
-
-  height:auto;
+  max-height:80vh;
 
   background:#000;
 }
-
-/* Hide native controls */
-
-.video-media video.custom-video::-webkit-media-controls{
-  display:none !important;
-}
-
-.video-media video.custom-video::-webkit-media-controls-panel{
-  display:none !important;
-}
-
-.video-overlay-gradient{
-  position:absolute;
-
-  left:0;
-  right:0;
-  bottom:0;
-
-  height:110px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(0,0,0,0),
-      rgba(0,0,0,0.72)
-    );
-
-  pointer-events:none;
-
-  opacity:0;
-
-  transition:opacity 0.25s ease;
-}
-
-.video-media.controls-visible .video-overlay-gradient,
-.video-media:not(.is-playing) .video-overlay-gradient{
-  opacity:1;
-}
-
-.video-center-play{
-  position:absolute;
-
-  top:50%;
-  left:50%;
-
-  transform:
-    translate(-50%,-50%);
-
-  width:58px;
-  height:58px;
-
-  border-radius:50%;
-
-  background:
-    rgba(10,10,12,0.55);
-
-  backdrop-filter:
-    blur(10px);
-
-  border:
-    1px solid rgba(255,255,255,0.22);
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  cursor:pointer;
-
-  padding:0;
-
-  opacity:0;
-
-  pointer-events:none;
-
-  transition:
-    opacity 0.2s ease,
-    transform 0.15s ease;
-}
-
-.video-media:not(.is-playing) .video-center-play{
-  opacity:1;
-  pointer-events:auto;
-}
-
-.video-media.is-playing.controls-visible .video-center-play{
-  opacity:1;
-  pointer-events:auto;
-}
-
-.video-center-play:active{
-  transform:
-    translate(-50%,-50%)
-    scale(0.92);
-}
-
-.video-center-play svg{
-  width:22px;
-  height:22px;
-
-  fill:#f2f2f4;
-}
-
-.video-center-play svg.icon-play{
-  margin-left:3px;
-}
-
-.video-center-play svg.icon-pause{
-  display:none;
-}
-
-.video-media.is-playing .video-center-play svg.icon-play{
-  display:none;
-}
-
-.video-media.is-playing .video-center-play svg.icon-pause{
-  display:block;
-}
-
-.video-controls-bar{
-  position:absolute;
-
-  left:0;
-  right:0;
-  bottom:0;
-
-  padding:
-    8px
-    12px
-    10px;
-
-  opacity:0;
-
-  transform:
-    translateY(8px);
-
-  pointer-events:none;
-
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;
-}
-
-.video-media.controls-visible .video-controls-bar,
-.video-media:not(.is-playing) .video-controls-bar{
-  opacity:1;
-
-  transform:
-    translateY(0);
-
-  pointer-events:auto;
-}
-
-.video-progress-container{
-  position:relative;
-
-  width:100%;
-  height:16px;
-
-  display:flex;
-  align-items:center;
-
-  cursor:pointer;
-}
-
-.video-progress-track{
-  position:relative;
-
-  width:100%;
-  height:4px;
-
-  overflow:hidden;
-
-  border-radius:999px;
-
-  background:
-    rgba(255,255,255,0.28);
-}
-
-.video-progress-fill{
-  position:absolute;
-
-  left:0;
-  top:0;
-  bottom:0;
-
-  width:0%;
-
-  border-radius:999px;
-
-  background:
-    rgba(255,255,255,0.92);
-}
-
-.video-controls-row{
-  display:flex;
-  align-items:center;
-
-  gap:10px;
-
-  margin-top:2px;
-}
-
-.video-icon-btn{
-  width:28px;
-  height:28px;
-
-  flex-shrink:0;
-
-  border:none;
-
-  background:transparent;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  cursor:pointer;
-
-  padding:0;
-
-  color:#f2f2f4;
-}
-
-.video-icon-btn svg{
-  width:18px;
-  height:18px;
-
-  fill:currentColor;
-}
-
-.video-time{
-  font-size:12px;
-  font-weight:700;
-
-  color:
-    rgba(242,242,244,0.95);
-
-  white-space:nowrap;
-
-  font-variant-numeric:
-    tabular-nums;
-}
-
-.video-spacer{
-  flex:1;
-}
-
-.video-error{
-  display:flex;
-
-  flex-direction:column;
-
-  align-items:center;
-  justify-content:center;
-
-  min-height:180px;
-
-  padding:20px;
-
-  text-align:center;
-
-  color:var(--text-sub);
-
-  font-size:14px;
-}
-
-.video-error a{
-  margin-top:10px;
-
-  color:#f2f2f4;
-
-  text-decoration:none;
-
-  font-weight:700;
-}
-
-/* STATES */
 
 .state-box{
   padding:50px 20px;
-
   text-align:center;
-
   color:var(--text-sub);
-
-  font-size:14.5px;
-  font-weight:600;
 }
 
 .spinner{
@@ -795,14 +295,10 @@ body{
 
   border-radius:50%;
 
-  border:
-    3px solid rgba(255,255,255,0.15);
+  border:3px solid rgba(255,255,255,.15);
+  border-top-color:#fff;
 
-  border-top-color:
-    rgba(255,255,255,0.75);
-
-  animation:
-    spin 0.8s linear infinite;
+  animation:spin .8s linear infinite;
 }
 
 @keyframes spin{
@@ -815,39 +311,11 @@ body{
   margin-top:14px;
   padding:10px 22px;
 
+  border:1px solid var(--glass-border);
   border-radius:999px;
 
-  background:
-    var(--glass-strong);
-
-  border:
-    1px solid var(--glass-border);
-
-  color:
-    var(--text-main);
-
-  font-weight:700;
-  font-size:13.5px;
-
-  cursor:pointer;
-}
-
-@media (max-width:420px){
-
-  .avatar{
-    width:72px;
-    height:72px;
-  }
-
-  .name-row h1{
-    font-size:19px;
-  }
-
-  .pill-btn{
-    padding:8px 14px;
-    font-size:13px;
-  }
-
+  background:var(--glass-strong);
+  color:white;
 }
 
 </style>
@@ -882,7 +350,6 @@ body{
         class="lock-icon"
         viewBox="0 0 24 24"
         fill="none"
-        xmlns="http://www.w3.org/2000/svg"
       >
         <rect
           x="5"
@@ -922,6 +389,7 @@ body{
 
   </div>
 
+
   <div class="tab-bar">
     <div class="tab active">Posts</div>
     <div class="tab">Replies</div>
@@ -929,16 +397,24 @@ body{
     <div class="tab">Likes</div>
   </div>
 
-  <div class="feed" id="feed">
+
+  <div
+    class="feed"
+    id="feed"
+  >
 
     <div class="state-box">
+
       <div class="spinner"></div>
+
       Loading posts...
+
     </div>
 
   </div>
 
 </div>
+
 
 <script>
 
@@ -947,60 +423,73 @@ body{
   const API_URL =
     "https://script.google.com/macros/s/AKfycbwj8X3sQJx2OTgsorUT_iObGiJ4eXlTIp2apSuKDIgP_9AXN8xGihetgaotxZe-0QKHPw/exec";
 
+
   const feedEl =
     document.getElementById("feed");
 
 
-  function escapeHtml(str){
+  function escapeHtml(value){
 
     if(
-      str === undefined ||
-      str === null
+      value === null ||
+      value === undefined
     ){
       return "";
     }
 
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+    return String(value)
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
   }
 
 
-  function relativeTime(input){
+  function getFileId(post){
 
-    if(!input){
-      return "";
+    if(post.fileId){
+      return String(post.fileId);
     }
 
-    const normalized =
-      String(input).replace(
-        " ",
-        "T"
+    const url =
+      post.mediaUrl ||
+      "";
+
+    const match =
+      url.match(
+        /[?&]id=([^&#]+)/
       );
+
+    return match
+      ? match[1]
+      : null;
+  }
+
+
+  function relativeTime(value){
+
+    if(!value){
+      return "";
+    }
 
     const date =
-      new Date(normalized);
+      new Date(
+        String(value).replace(" ","T")
+      );
 
-    if(isNaN(date.getTime())){
+    if(isNaN(date)){
       return "";
     }
 
-    let seconds =
-      Math.floor(
-        (Date.now() - date.getTime())
-        / 1000
+    const seconds =
+      Math.max(
+        0,
+        Math.floor(
+          (Date.now() - date.getTime())
+          / 1000
+        )
       );
-
-    if(seconds < 0){
-      seconds = 0;
-    }
-
-    if(seconds < 5){
-      return "now";
-    }
 
     if(seconds < 60){
       return seconds + "s";
@@ -1027,191 +516,27 @@ body{
       return days + "d";
     }
 
-    const weeks =
-      Math.floor(days / 7);
-
-    if(weeks < 5){
-      return weeks + "w";
-    }
-
-    const months =
-      Math.floor(days / 30);
-
-    if(months < 12){
-      return months + "mo";
-    }
-
-    return (
-      Math.floor(days / 365)
-      + "y"
-    );
-  }
-
-
-  function getMediaUrl(post){
-
-    return (
-      post.mediaUrl ||
-      post.mediaURL ||
-      post.fileUrl ||
-      post.fileURL ||
-      post.url ||
-      null
-    );
-  }
-
-
-  function getCaption(post){
-
-    return (
-      post.caption ||
-      post.text ||
-      post.content ||
-      ""
-    );
-  }
-
-
-  function getTimestamp(post){
-
-    return (
-      post.date ||
-      post.timestamp ||
-      post.createdAt ||
-      null
-    );
-  }
-
-
-  function getFileId(post){
-
-    if(post.fileId){
-      return String(post.fileId).trim();
-    }
-
-    const url =
-      getMediaUrl(post);
-
-    if(!url){
-      return null;
-    }
-
-    const match =
-      String(url).match(
-        /[?&]id=([^&#]+)/
-      );
-
-    if(match){
-      return match[1];
-    }
-
-    return null;
-  }
-
-
-  function guessMediaType(post){
-
-    const type =
-      String(
-        post.mediaType ||
-        post.mimeType ||
-        post.type ||
-        ""
-      ).toLowerCase();
-
-
-    if(
-      type === "video" ||
-      type.startsWith("video/")
-    ){
-      return "video";
-    }
-
-
-    if(
-      type === "image" ||
-      type.startsWith("image/")
-    ){
-      return "image";
-    }
-
-
-    return "image";
-  }
-
-
-  function getDriveImageUrl(fileId){
-
-    return (
-      "https://drive.google.com/thumbnail?id="
-      + encodeURIComponent(fileId)
-      + "&sz=w2000"
-    );
-  }
-
-
-  function getDriveVideoUrls(fileId){
-
-    return [
-      "https://drive.google.com/uc?export=download&id="
-      + encodeURIComponent(fileId),
-
-      "https://drive.usercontent.google.com/download?id="
-      + encodeURIComponent(fileId)
-      + "&export=download&confirm=t"
-    ];
-  }
-
-
-  function formatTime(sec){
-
-    if(
-      !isFinite(sec) ||
-      isNaN(sec) ||
-      sec < 0
-    ){
-      return "0:00";
-    }
-
-    sec =
-      Math.floor(sec);
-
-    const minutes =
-      Math.floor(sec / 60);
-
-    const seconds =
-      sec % 60;
-
-    return (
-      minutes
-      + ":"
-      + (
-        seconds < 10
-          ? "0" + seconds
-          : seconds
-      )
-    );
+    return Math.floor(days / 7) + "w";
   }
 
 
   function renderPost(post){
 
     const caption =
-      getCaption(post);
+      post.caption ||
+      "";
 
     const fileId =
       getFileId(post);
 
-    const mediaUrl =
-      getMediaUrl(post);
-
     const mediaType =
-      guessMediaType(post);
+      String(
+        post.mediaType ||
+        "image"
+      ).toLowerCase();
 
-    const timeLabel =
-      relativeTime(
-        getTimestamp(post)
-      );
+    const time =
+      relativeTime(post.date);
 
 
     let mediaHtml =
@@ -1223,169 +548,58 @@ body{
       mediaType === "video"
     ){
 
-      const sources =
-        getDriveVideoUrls(fileId);
+      /*
+        Plain native video player.
+        No custom controls.
+        No JavaScript playback.
+      */
+
+      const videoUrl =
+        "https://drive.google.com/uc?export=download&id="
+        + encodeURIComponent(fileId);
 
 
       mediaHtml =
-        `<div
-          class="post-media video-media"
-          data-file-id="${escapeHtml(fileId)}"
-        >
+        `
+        <div class="post-media">
 
           <video
-            class="custom-video"
-            preload="metadata"
+            controls
             playsinline
-            webkit-playsinline
-            crossorigin="anonymous"
+            preload="metadata"
+            src="${escapeHtml(videoUrl)}"
           >
-
-            <source
-              src="${escapeHtml(sources[0])}"
-              type="video/mp4"
-            >
-
-            <source
-              src="${escapeHtml(sources[1])}"
-              type="video/mp4"
-            >
-
+            Your browser does not support video.
           </video>
 
-          <div class="video-overlay-gradient"></div>
-
-          <button
-            class="video-center-play"
-            type="button"
-          >
-
-            <svg
-              class="icon-play"
-              viewBox="0 0 24 24"
-            >
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-
-            <svg
-              class="icon-pause"
-              viewBox="0 0 24 24"
-            >
-              <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
-            </svg>
-
-          </button>
-
-          <div class="video-controls-bar">
-
-            <div class="video-progress-container">
-
-              <div class="video-progress-track">
-
-                <div
-                  class="video-progress-fill"
-                ></div>
-
-              </div>
-
-            </div>
-
-            <div class="video-controls-row">
-
-              <button
-                class="video-icon-btn video-mute-btn"
-                type="button"
-              >
-
-                <svg
-                  class="icon-vol-on"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M3 10v4h4l5 5V5L7 10H3zm13.5 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"
-                  />
-                </svg>
-
-                <svg
-                  class="icon-vol-off"
-                  viewBox="0 0 24 24"
-                  style="display:none"
-                >
-                  <path
-                    d="M3 10v4h4l5 5V5L7 10H3zm12.5 2 4-4 1.5 1.5-4 4 4 4-1.5 1.5-4-4-4 4L7 17.5l4-4-4-4L8.5 8z"
-                  />
-                </svg>
-
-              </button>
-
-              <span class="video-time">
-                0:00 / 0:00
-              </span>
-
-              <div class="video-spacer"></div>
-
-              <button
-                class="video-icon-btn video-fullscreen-btn"
-                type="button"
-              >
-
-                <svg viewBox="0 0 24 24">
-                  <path
-                    d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
-                  />
-                </svg>
-
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>`;
+        </div>
+        `;
 
     }
 
 
-    else if(
-      fileId
-    ){
+    else if(fileId){
 
       const imageUrl =
-        getDriveImageUrl(fileId);
+        "https://drive.google.com/thumbnail?id="
+        + encodeURIComponent(fileId)
+        + "&sz=w2000";
 
 
       mediaHtml =
-        `<div class="post-media">
+        `
+        <div class="post-media">
 
           <img
             src="${escapeHtml(imageUrl)}"
-            alt="Post attachment"
+            alt="Post media"
             loading="lazy"
           >
 
-        </div>`;
+        </div>
+        `;
+
     }
-
-
-    else if(mediaUrl){
-
-      mediaHtml =
-        `<div class="post-media">
-
-          <img
-            src="${escapeHtml(mediaUrl)}"
-            alt="Post attachment"
-            loading="lazy"
-          >
-
-        </div>`;
-    }
-
-
-    const captionHtml =
-      caption
-        ? `<div class="post-caption">${escapeHtml(caption)}</div>`
-        : "";
 
 
     return `
@@ -1408,11 +622,11 @@ body{
 
             <div class="sub-line">
 
-              <span>@kreidehuter</span>
+              @kreidehuter
 
               ${
-                timeLabel
-                  ? `<span>· ${escapeHtml(timeLabel)}</span>`
+                time
+                  ? " · " + escapeHtml(time)
                   : ""
               }
 
@@ -1422,511 +636,66 @@ body{
 
         </div>
 
-        ${captionHtml}
+
+        ${
+          caption
+            ? `
+              <div class="post-caption">
+                ${escapeHtml(caption)}
+              </div>
+              `
+            : ""
+        }
+
 
         ${mediaHtml}
 
       </article>
+
     `;
-  }
-
-
-  function initVideos(){
-
-    const wrappers =
-      feedEl.querySelectorAll(
-        ".video-media"
-      );
-
-
-    wrappers.forEach(
-      function(wrap){
-
-        const video =
-          wrap.querySelector(
-            ".custom-video"
-          );
-
-        const centerBtn =
-          wrap.querySelector(
-            ".video-center-play"
-          );
-
-        const progressContainer =
-          wrap.querySelector(
-            ".video-progress-container"
-          );
-
-        const progressFill =
-          wrap.querySelector(
-            ".video-progress-fill"
-          );
-
-        const timeLabel =
-          wrap.querySelector(
-            ".video-time"
-          );
-
-        const muteBtn =
-          wrap.querySelector(
-            ".video-mute-btn"
-          );
-
-        const fullscreenBtn =
-          wrap.querySelector(
-            ".video-fullscreen-btn"
-          );
-
-        const volOn =
-          wrap.querySelector(
-            ".icon-vol-on"
-          );
-
-        const volOff =
-          wrap.querySelector(
-            ".icon-vol-off"
-          );
-
-
-        let controlsTimer =
-          null;
-
-
-        function showControls(){
-
-          wrap.classList.add(
-            "controls-visible"
-          );
-
-
-          clearTimeout(
-            controlsTimer
-          );
-
-
-          if(!video.paused){
-
-            controlsTimer =
-              setTimeout(
-                function(){
-
-                  wrap.classList.remove(
-                    "controls-visible"
-                  );
-
-                },
-                2500
-              );
-
-          }
-
-        }
-
-
-        function toggleVideo(){
-
-          if(video.paused){
-
-            video.play()
-              .then(
-                function(){
-                  showControls();
-                }
-              )
-              .catch(
-                function(){
-
-                  const fileId =
-                    wrap.dataset.fileId;
-
-
-                  if(fileId){
-
-                    window.open(
-                      "https://drive.google.com/file/d/"
-                      + fileId
-                      + "/view",
-                      "_blank"
-                    );
-
-                  }
-
-                }
-              );
-
-          }
-          else{
-
-            video.pause();
-
-          }
-
-        }
-
-
-        video.addEventListener(
-          "loadedmetadata",
-          function(){
-
-            if(timeLabel){
-
-              timeLabel.textContent =
-                formatTime(0)
-                + " / "
-                + formatTime(video.duration);
-
-            }
-
-          }
-        );
-
-
-        video.addEventListener(
-          "play",
-          function(){
-
-            wrap.classList.add(
-              "is-playing"
-            );
-
-            showControls();
-
-          }
-        );
-
-
-        video.addEventListener(
-          "pause",
-          function(){
-
-            wrap.classList.remove(
-              "is-playing"
-            );
-
-            wrap.classList.add(
-              "controls-visible"
-            );
-
-          }
-        );
-
-
-        video.addEventListener(
-          "ended",
-          function(){
-
-            wrap.classList.remove(
-              "is-playing"
-            );
-
-            wrap.classList.add(
-              "controls-visible"
-            );
-
-          }
-        );
-
-
-        video.addEventListener(
-          "timeupdate",
-          function(){
-
-            if(
-              !video.duration ||
-              isNaN(video.duration)
-            ){
-              return;
-            }
-
-
-            const progress =
-              (
-                video.currentTime /
-                video.duration
-              )
-              * 100;
-
-
-            progressFill.style.width =
-              progress + "%";
-
-
-            timeLabel.textContent =
-              formatTime(video.currentTime)
-              + " / "
-              + formatTime(video.duration);
-
-          }
-        );
-
-
-        video.addEventListener(
-          "error",
-          function(){
-
-            const fileId =
-              wrap.dataset.fileId;
-
-
-            wrap.innerHTML =
-              `<div class="video-error">
-
-                This video couldn't be played here.
-
-                <a
-                  href="https://drive.google.com/file/d/${escapeHtml(fileId)}/view"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Open video
-                </a>
-
-              </div>`;
-
-          }
-        );
-
-
-        centerBtn.addEventListener(
-          "click",
-          function(e){
-
-            e.stopPropagation();
-
-            toggleVideo();
-
-          }
-        );
-
-
-        video.addEventListener(
-          "click",
-          function(e){
-
-            e.stopPropagation();
-
-            toggleVideo();
-
-          }
-        );
-
-
-        wrap.addEventListener(
-          "click",
-          function(){
-
-            showControls();
-
-          }
-        );
-
-
-        progressContainer.addEventListener(
-          "click",
-          function(e){
-
-            e.stopPropagation();
-
-
-            if(
-              !video.duration ||
-              isNaN(video.duration)
-            ){
-              return;
-            }
-
-
-            const rect =
-              progressContainer
-                .getBoundingClientRect();
-
-
-            const percent =
-              (
-                e.clientX -
-                rect.left
-              )
-              /
-              rect.width;
-
-
-            video.currentTime =
-              Math.max(
-                0,
-                Math.min(1, percent)
-              )
-              * video.duration;
-
-
-            showControls();
-
-          }
-        );
-
-
-        muteBtn.addEventListener(
-          "click",
-          function(e){
-
-            e.stopPropagation();
-
-            video.muted =
-              !video.muted;
-
-
-            if(video.muted){
-
-              volOn.style.display =
-                "none";
-
-              volOff.style.display =
-                "block";
-
-            }
-            else{
-
-              volOn.style.display =
-                "block";
-
-              volOff.style.display =
-                "none";
-
-            }
-
-
-            showControls();
-
-          }
-        );
-
-
-        fullscreenBtn.addEventListener(
-          "click",
-          function(e){
-
-            e.stopPropagation();
-
-
-            if(wrap.requestFullscreen){
-
-              wrap.requestFullscreen();
-
-            }
-            else if(
-              wrap.webkitRequestFullscreen
-            ){
-
-              wrap.webkitRequestFullscreen();
-
-            }
-            else if(
-              video.webkitEnterFullscreen
-            ){
-
-              video.webkitEnterFullscreen();
-
-            }
-
-          }
-        );
-
-      }
-    );
-
-  }
-
-
-  function attachImageErrors(){
-
-    const images =
-      feedEl.querySelectorAll(
-        ".post-media img"
-      );
-
-
-    images.forEach(
-      function(img){
-
-        img.addEventListener(
-          "error",
-          function(){
-
-            const box =
-              img.closest(
-                ".post-media"
-              );
-
-
-            if(box){
-
-              box.innerHTML =
-                `<div class="video-error">
-                  Couldn't load image.
-                </div>`;
-
-            }
-
-          }
-        );
-
-      }
-    );
-
   }
 
 
   function showLoading(){
 
     feedEl.innerHTML =
-      `<div class="state-box">
+      `
+      <div class="state-box">
 
         <div class="spinner"></div>
 
         Loading posts...
 
-      </div>`;
-
-  }
-
-
-  function showEmpty(){
-
-    feedEl.innerHTML =
-      `<div class="state-box">
-        No posts yet.
-      </div>`;
-
+      </div>
+      `;
   }
 
 
   function showError(){
 
     feedEl.innerHTML =
-      `<div class="state-box">
+      `
+      <div class="state-box">
 
         Couldn't load posts.
 
-        <div>
+        <br>
 
-          <button
-            class="retry-btn"
-            id="retryBtn"
-          >
-            Retry
-          </button>
+        <button
+          class="retry-btn"
+          id="retryBtn"
+        >
+          Retry
+        </button>
 
-        </div>
-
-      </div>`;
+      </div>
+      `;
 
 
     document
       .getElementById("retryBtn")
-      .addEventListener(
-        "click",
-        loadPosts
-      );
-
+      .onclick =
+        loadPosts;
   }
 
 
@@ -1935,37 +704,26 @@ body{
     return posts
       .slice()
       .sort(
-        function(a, b){
+        function(a,b){
 
-          const dateA =
+          const aDate =
             new Date(
-              String(
-                getTimestamp(a) || ""
-              ).replace(
-                " ",
-                "T"
-              )
+              String(a.date || "")
+              .replace(" ","T")
             ).getTime()
             || 0;
 
-
-          const dateB =
+          const bDate =
             new Date(
-              String(
-                getTimestamp(b) || ""
-              ).replace(
-                " ",
-                "T"
-              )
+              String(b.date || "")
+              .replace(" ","T")
             ).getTime()
             || 0;
 
-
-          return dateB - dateA;
+          return bDate - aDate;
 
         }
       );
-
   }
 
 
@@ -1973,27 +731,18 @@ body{
 
     showLoading();
 
-
     try{
 
       const response =
         await fetch(
           API_URL
           + "?t="
-          + Date.now(),
-          {
-            method:"GET",
-            cache:"no-store"
-          }
+          + Date.now()
         );
 
 
       if(!response.ok){
-
-        throw new Error(
-          "API error"
-        );
-
+        throw new Error();
       }
 
 
@@ -2003,16 +752,13 @@ body{
 
       let posts =
         data.posts ||
-        data.data ||
         [];
 
 
       if(
         !Array.isArray(posts)
       ){
-
         posts = [];
-
       }
 
 
@@ -2020,10 +766,14 @@ body{
         posts.length === 0
       ){
 
-        showEmpty();
+        feedEl.innerHTML =
+          `
+          <div class="state-box">
+            No posts yet.
+          </div>
+          `;
 
         return;
-
       }
 
 
@@ -2035,11 +785,6 @@ body{
         posts
           .map(renderPost)
           .join("");
-
-
-      attachImageErrors();
-
-      initVideos();
 
     }
     catch(error){
