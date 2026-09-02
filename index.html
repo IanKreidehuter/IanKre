@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liam — Personal Corner</title>
+<meta name="description" content="Liam's personal corner of the internet — websites, UI, games, experiments, and things I'm learning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#home">Skip to content</a>
+
+<header class="site-header">
+  <div class="nav-shell">
+    <nav class="glass nav-pill" aria-label="Primary">
+      <a href="#home" class="nav-mark">Liam</a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="mobile-menu glass" id="mobileMenu" hidden>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="home">
+
+  <section class="hero" id="home-section">
+    <div class="hero-copy">
+      <p class="eyebrow-pill glass">Just making things</p>
+      <h1>Hi, I'm Liam.</h1>
+      <p class="hero-role">Learning &amp; experimenting</p>
+      <p class="hero-intro">
+        I like making things on the internet — websites, UI, games, and random
+        experiments. I'm still learning, mostly by making things, breaking them,
+        fixing them, and trying again.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">See what I've made</a>
+        <a href="#contact" class="btn btn-ghost glass">Say hello</a>
+      </div>
+    </div>
+    <div class="hero-media">
+      <div class="hero-media-glow" aria-hidden="true"></div>
+      <div class="hero-image-frame glass">
+        <img src="assets/profile.webp" alt="Portrait of Liam" class="protected-img" draggable="false">
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="section-heading">
+      <h2>About</h2>
+    </div>
+    <div class="about-grid">
+      <p class="about-text">
+        I'm someone who likes making things on the internet. I experiment with
+        websites, UI, games, and other small creative projects. I'm still
+        figuring things out, so a lot of what I make is simply me trying
+        something, seeing what happens, and learning from it.
+        <br><br>
+        I learn best by actually making things — including the parts that
+        break, look weird, or need to be rebuilt.
+      </p>
+      <ul class="skills-list">
+        <li class="glass">HTML &amp; CSS</li>
+        <li class="glass">JavaScript</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="projects" id="projects">
+    <div class="section-heading">
+      <h2>Projects</h2>
+    </div>
+    <div class="project-grid">
+
+      <article class="project-card glass">
+        <div class="project-media">
+          <img src="assets/project-01.webp" alt="Preview of a personal project" class="protected-img" draggable="false">
+        </div>
+        <div class="project-body">
+          <h3>Website experiment</h3>
+          <p>A small website experiment. This is one of the things I've been making and learning from.</p>
+          <div class="project-actions">
+            <a href="#" class="btn btn-small btn-primary">Details</a>
+            <a href="#" class="btn btn-small btn-ghost">Code</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card glass">
+        <div class="project-media">
+          <img src="assets/project-02.webp" alt="Preview of a personal project" class="protected-img" draggable="false">
+        </div>
+        <div class="project-body">
+          <h3>UI experiment</h3>
+          <p>A UI experiment and work in progress. I'm keeping it here as part of the things I've tried.</p>
+          <div class="project-actions">
+            <a href="#" class="btn btn-small btn-primary">Details</a>
+            <a href="#" class="btn btn-small btn-ghost">Code</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card glass">
+        <div class="project-media">
+          <img src="assets/project-03.webp" alt="Preview of a personal project" class="protected-img" draggable="false">
+        </div>
+        <div class="project-body">
+          <h3>Creative experiment</h3>
+          <p>A personal experiment. It may still be changing, but I like keeping unfinished things around too.</p>
+          <div class="project-actions">
+            <a href="#" class="btn btn-small btn-primary">Details</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="contact-card glass">
+      <h2>Contact</h2>
+      <p>If you want to say hello, you can reach me through the links I've actually added here.
+        <br>
+        I'm not taking on freelance work through this site — it's just my little corner of the internet.</p>
+      <ul class="social-links">
+        <li>Links will go here when there's something worth sharing.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>© <span id="year"></span> Liam. Built from scratch.</p>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
