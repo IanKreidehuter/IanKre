@@ -1,496 +1,418 @@
-(function () {
-  "use strict";
+/* =========================================================
+   API
+   ========================================================= */
+
+var API_URL =
+  "https://script.google.com/macros/s/AKfycbzDkN67TjrkS1AnL-17PJtbIahL3U_EiOli7BOfevFNB_bcNKKvA_XNRMSS47pbw69Uzg/exec";
 
 
-  /* =========================================================
-     Footer year
-     ========================================================= */
+/* =========================================================
+   FOOTER YEAR
+   ========================================================= */
 
-  var yearEl = document.getElementById("year");
+var yearElement =
+  document.getElementById("year");
 
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
-  }
+if (yearElement) {
+  yearElement.textContent =
+    new Date().getFullYear();
+}
 
 
-  /* =========================================================
-     Mobile navigation
-     ========================================================= */
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
 
-  var navToggle = document.getElementById("navToggle");
-  var mobileMenu = document.getElementById("mobileMenu");
+var navToggle =
+  document.getElementById("navToggle");
 
-  function closeMenu() {
+var mobileMenu =
+  document.getElementById("mobileMenu");
 
-    if (!mobileMenu || !navToggle) {
-      return;
+if (navToggle && mobileMenu) {
+
+  navToggle.addEventListener(
+    "click",
+    function () {
+
+      var expanded =
+        navToggle.getAttribute(
+          "aria-expanded"
+        ) === "true";
+
+      navToggle.setAttribute(
+        "aria-expanded",
+        String(!expanded)
+      );
+
+      mobileMenu.hidden =
+        expanded;
+
     }
+  );
 
-    mobileMenu.hidden = true;
 
-    navToggle.setAttribute(
-      "aria-expanded",
-      "false"
-    );
+  mobileMenu
+    .querySelectorAll("a")
+    .forEach(function (link) {
 
-    navToggle.setAttribute(
-      "aria-label",
-      "メニューを開く"
-    );
-  }
+      link.addEventListener(
+        "click",
+        function () {
 
-  function openMenu() {
+          navToggle.setAttribute(
+            "aria-expanded",
+            "false"
+          );
 
-    if (!mobileMenu || !navToggle) {
-      return;
-    }
+          mobileMenu.hidden =
+            true;
 
-    mobileMenu.hidden = false;
-
-    navToggle.setAttribute(
-      "aria-expanded",
-      "true"
-    );
-
-    navToggle.setAttribute(
-      "aria-label",
-      "メニューを閉じる"
-    );
-  }
-
-  if (navToggle && mobileMenu) {
-
-    navToggle.addEventListener(
-      "click",
-      function () {
-
-        var isOpen =
-          navToggle.getAttribute(
-            "aria-expanded"
-          ) === "true";
-
-        if (isOpen) {
-          closeMenu();
-        } else {
-          openMenu();
         }
+      );
 
-      }
+    });
+
+}
+
+
+/* =========================================================
+   CONTENT PROTECTION
+   ========================================================= */
+
+document.addEventListener(
+  "contextmenu",
+  function (event) {
+    event.preventDefault();
+  }
+);
+
+document.addEventListener(
+  "copy",
+  function (event) {
+    event.preventDefault();
+  }
+);
+
+document.addEventListener(
+  "cut",
+  function (event) {
+    event.preventDefault();
+  }
+);
+
+document.addEventListener(
+  "dragstart",
+  function (event) {
+
+    if (
+      event.target &&
+      event.target.tagName === "IMG"
+    ) {
+      event.preventDefault();
+    }
+
+  }
+);
+
+document.addEventListener(
+  "selectstart",
+  function (event) {
+
+    var target =
+      event.target;
+
+    if (
+      target &&
+      (
+        target.tagName === "IMG" ||
+        target.closest(".protected-img")
+      )
+    ) {
+      event.preventDefault();
+    }
+
+  }
+);
+
+document.addEventListener(
+  "keydown",
+  function (event) {
+
+    var key =
+      String(event.key || "").toLowerCase();
+
+    if (
+      (event.ctrlKey || event.metaKey) &&
+      (
+        key === "u" ||
+        key === "s" ||
+        key === "c" ||
+        key === "x" ||
+        key === "a"
+      )
+    ) {
+      event.preventDefault();
+    }
+
+    if (
+      event.key === "F12"
+    ) {
+      event.preventDefault();
+    }
+
+    if (
+      event.ctrlKey &&
+      event.shiftKey &&
+      (
+        key === "i" ||
+        key === "j" ||
+        key === "c"
+      )
+    ) {
+      event.preventDefault();
+    }
+
+  }
+);
+
+
+/* =========================================================
+   PROJECT ELEMENTS
+   ========================================================= */
+
+var projectTrack =
+  document.getElementById(
+    "projectTrack"
+  );
+
+var projectSlider =
+  document.getElementById(
+    "projectSlider"
+  );
+
+var projectsLoading =
+  document.getElementById(
+    "projectsLoading"
+  );
+
+var projectControls =
+  document.getElementById(
+    "projectControls"
+  );
+
+var projectPrev =
+  document.getElementById(
+    "projectPrev"
+  );
+
+var projectNext =
+  document.getElementById(
+    "projectNext"
+  );
+
+
+/* =========================================================
+   PROJECT DATA
+   ========================================================= */
+
+var posts = [];
+
+var currentIndex = 0;
+
+var autoSlideTimer = null;
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+function escapeHTML(value) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+    return "";
+  }
+
+  return String(value)
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
     );
 
-    mobileMenu
-      .querySelectorAll("a")
-      .forEach(function (link) {
+}
 
-        link.addEventListener(
-          "click",
-          closeMenu
+
+/* =========================================================
+   VISIBLE CARD COUNT
+   ========================================================= */
+
+function getVisibleCount() {
+
+  var width =
+    window.innerWidth;
+
+  if (width <= 640) {
+    return 1;
+  }
+
+  if (width <= 960) {
+    return 2;
+  }
+
+  return 3;
+
+}
+
+
+/* =========================================================
+   MEDIA
+   ========================================================= */
+
+function getMedia(post) {
+
+  var imageUrl =
+    String(
+      post.image_url || ""
+    ).trim();
+
+  var videoUrl =
+    String(
+      post.video_url || ""
+    ).trim();
+
+
+  /* VIDEO */
+
+  if (videoUrl) {
+
+    return (
+      '<video ' +
+      'class="project-media-video" ' +
+      'controls ' +
+      'preload="metadata" ' +
+      'playsinline>' +
+
+        '<source src="' +
+        escapeHTML(videoUrl) +
+        '">' +
+
+      '</video>'
+    );
+
+  }
+
+
+  /* IMAGE */
+
+  if (imageUrl) {
+
+    /*
+     * Google Drive's uc?export=view URL
+     * can fail when used directly inside
+     * an <img> element.
+     *
+     * Convert the Drive file ID to the
+     * thumbnail endpoint instead.
+     */
+
+    var driveId = null;
+
+    var idMatch =
+      imageUrl.match(
+        /[?&]id=([^&#]+)/i
+      );
+
+    if (
+      idMatch &&
+      idMatch[1]
+    ) {
+
+      driveId =
+        decodeURIComponent(
+          idMatch[1]
         );
 
-      });
-
-    document.addEventListener(
-      "keydown",
-      function (e) {
-
-        if (e.key === "Escape") {
-          closeMenu();
-        }
-
-      }
-    );
-  }
-
-
-  /* =========================================================
-     Casual content-protection layer
-     ========================================================= */
-
-  var INTERACTIVE_SELECTOR =
-    "a, button, input, textarea, select, option, label, [role='button'], [contenteditable='true']";
-
-  function isInteractive(target) {
-
-    return !!(
-      target &&
-      target.closest &&
-      target.closest(
-        INTERACTIVE_SELECTOR
-      )
-    );
-
-  }
-
-
-  /* Disable context menu outside controls */
-
-  document.addEventListener(
-    "contextmenu",
-    function (e) {
-
-      if (!isInteractive(e.target)) {
-        e.preventDefault();
-      }
-
-    }
-  );
-
-
-  /* Block copy/cut outside controls */
-
-  ["copy", "cut"].forEach(
-    function (evt) {
-
-      document.addEventListener(
-        evt,
-        function (e) {
-
-          if (!isInteractive(e.target)) {
-            e.preventDefault();
-          }
-
-        }
-      );
-
-    }
-  );
-
-
-  /* Prevent selection outside form fields */
-
-  document.addEventListener(
-    "selectstart",
-    function (e) {
-
-      if (!isInteractive(e.target)) {
-        e.preventDefault();
-      }
-
-    }
-  );
-
-
-  /* Prevent image dragging */
-
-  document
-    .querySelectorAll("img")
-    .forEach(function (img) {
-
-      img.setAttribute(
-        "draggable",
-        "false"
-      );
-
-      img.addEventListener(
-        "dragstart",
-        function (e) {
-          e.preventDefault();
-        }
-      );
-
-    });
-
-
-  /* Block common casual shortcuts */
-
-  document.addEventListener(
-    "keydown",
-    function (e) {
-
-      var key =
-        (e.key || "").toLowerCase();
-
-      var ctrlOrCmd =
-        e.ctrlKey || e.metaKey;
-
-
-      if (key === "f12") {
-        e.preventDefault();
-        return;
-      }
-
-
-      if (!ctrlOrCmd) {
-        return;
-      }
-
-
-      var blockedPlain = [
-        "s",
-        "u"
-      ];
-
-      var blockedShift = [
-        "i",
-        "j",
-        "c"
-      ];
-
-
-      if (
-        e.shiftKey &&
-        blockedShift.indexOf(key) !== -1
-      ) {
-        e.preventDefault();
-        return;
-      }
-
-
-      if (
-        !e.shiftKey &&
-        blockedPlain.indexOf(key) !== -1
-      ) {
-        e.preventDefault();
-        return;
-      }
-
-
-      if (
-        !e.shiftKey &&
-        key === "c" &&
-        !isInteractive(e.target)
-      ) {
-        e.preventDefault();
-      }
-
-    }
-  );
-
-
-  /* Long press protection */
-
-  var pressTimer = null;
-  var longPressThreshold = 500;
-
-  document
-    .querySelectorAll("img")
-    .forEach(function (img) {
-
-      if (isInteractive(img)) {
-        return;
-      }
-
-      img.addEventListener(
-        "touchstart",
-        function () {
-
-          pressTimer =
-            setTimeout(
-              function () {
-                pressTimer = "fired";
-              },
-              longPressThreshold
-            );
-
-        },
-        {
-          passive: true
-        }
-      );
-
-
-      img.addEventListener(
-        "touchend",
-        function (e) {
-
-          if (pressTimer === "fired") {
-            e.preventDefault();
-          }
-
-          clearTimeout(pressTimer);
-          pressTimer = null;
-
-        }
-      );
-
-
-      img.addEventListener(
-        "touchmove",
-        function () {
-
-          clearTimeout(pressTimer);
-          pressTimer = null;
-
-        },
-        {
-          passive: true
-        }
-      );
-
-    });
-
-
-  /* =========================================================
-     Dynamic Projects / Posts
-     ========================================================= */
-
-  var API_URL =
-    "https://script.google.com/macros/s/AKfycbzDkN67TjrkS1AnL-17PJtbIahL3U_EiOli7BOfevFNB_bcNKKvA_XNRMSS47pbw69Uzg/exec";
-
-
-  var track =
-    document.getElementById(
-      "projectTrack"
-    );
-
-  var slider =
-    document.getElementById(
-      "projectSlider"
-    );
-
-  var loading =
-    document.getElementById(
-      "projectsLoading"
-    );
-
-  var controls =
-    document.getElementById(
-      "projectControls"
-    );
-
-  var prevButton =
-    document.getElementById(
-      "projectPrev"
-    );
-
-  var nextButton =
-    document.getElementById(
-      "projectNext"
-    );
-
-
-  if (!track || !slider) {
-    return;
-  }
-
-
-  var posts = [];
-
-  var currentIndex = 0;
-
-  var autoSlideTimer = null;
-
-
-  /* =========================================================
-     Helpers
-     ========================================================= */
-
-  function getVisibleCount() {
-
-    if (window.innerWidth <= 640) {
-      return 1;
-    }
-
-    if (window.innerWidth <= 960) {
-      return 2;
-    }
-
-    return 3;
-  }
-
-
-  function escapeHTML(value) {
-
-    return String(value || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-
-  }
-
-
-  function getMedia(post) {
-
-    var imageUrl =
-      String(
-        post.image_url || ""
-      ).trim();
-
-    var videoUrl =
-      String(
-        post.video_url || ""
-      ).trim();
-
-
-    if (videoUrl) {
-
-      return (
-        '<video ' +
-        'class="project-media-video" ' +
-        'controls ' +
-        'preload="metadata">' +
-
-          '<source src="' +
-          escapeHTML(videoUrl) +
-          '">' +
-
-        '</video>'
-      );
-
     }
 
 
-    if (imageUrl) {
+    if (driveId) {
 
-      return (
-        '<img ' +
-        'src="' +
-        escapeHTML(imageUrl) +
-        '" ' +
-        'alt="' +
-        escapeHTML(
-          post.title ||
-          "制作物"
+      imageUrl =
+        "https://drive.google.com/thumbnail?id=" +
+        encodeURIComponent(
+          driveId
         ) +
-        '" ' +
-        'class="protected-img" ' +
-        'draggable="false">'
-      );
+        "&sz=w1600";
 
     }
 
 
     return (
-      '<div class="project-media-empty">' +
-        'No media' +
-      '</div>'
+      '<img ' +
+      'src="' +
+      escapeHTML(imageUrl) +
+      '" ' +
+      'alt="' +
+      escapeHTML(
+        post.title ||
+        "制作物"
+      ) +
+      '" ' +
+      'class="protected-img" ' +
+      'draggable="false" ' +
+      'loading="lazy">'
     );
 
   }
 
 
-  /* =========================================================
-     Create project card
-     ========================================================= */
+  return (
+    '<div class="project-media-empty">' +
+      'No media' +
+    '</div>'
+  );
 
-  function createCard(post) {
-
-    var article =
-      document.createElement(
-        "article"
-      );
-
-    article.className =
-      "project-card glass";
+}
 
 
-    article.innerHTML =
+/* =========================================================
+   CREATE PROJECT CARD
+   ========================================================= */
+
+function createCard(post) {
+
+  return (
+    '<article class="project-card glass">' +
 
       '<div class="project-media">' +
-
         getMedia(post) +
-
       '</div>' +
-
 
       '<div class="project-body">' +
 
         '<h3>' +
           escapeHTML(
             post.title ||
-            "無題"
+            "制作物"
           ) +
         '</h3>' +
 
@@ -505,604 +427,730 @@
 
           '<button ' +
           'type="button" ' +
-          'class="btn btn-small btn-primary project-detail-btn">' +
+          'class="btn btn-small btn-primary project-detail-button" ' +
+          'data-post-index="' +
+          posts.indexOf(post) +
+          '">' +
             '詳細' +
           '</button>' +
 
         '</div>' +
 
-      '</div>';
+      '</div>' +
+
+    '</article>'
+  );
+
+}
 
 
-    var detailButton =
-      article.querySelector(
-        ".project-detail-btn"
-      );
+/* =========================================================
+   DETAIL MODAL
+   ========================================================= */
 
+function ensureDetailModal() {
 
-    if (detailButton) {
+  var modal =
+    document.getElementById(
+      "projectDetailModal"
+    );
 
-      detailButton.addEventListener(
-        "click",
-        function () {
-          showPostDetail(post);
-        }
-      );
-
-    }
-
-
-    return article;
+  if (modal) {
+    return modal;
   }
 
 
-  /* =========================================================
-     Detail modal
-     ========================================================= */
+  modal =
+    document.createElement(
+      "div"
+    );
 
-  function showPostDetail(post) {
+  modal.id =
+    "projectDetailModal";
 
-    var oldModal =
-      document.getElementById(
-        "projectDetailModal"
-      );
+  modal.className =
+    "project-detail-modal";
 
+  modal.hidden =
+    true;
 
-    if (oldModal) {
-      oldModal.remove();
-    }
+  modal.innerHTML =
+    '<div class="project-detail-backdrop"></div>' +
 
+    '<div class="project-detail-dialog" role="dialog" aria-modal="true">' +
 
-    var modal =
-      document.createElement(
-        "div"
-      );
-
-    modal.id =
-      "projectDetailModal";
-
-    modal.className =
-      "project-detail-modal";
-
-
-    modal.innerHTML =
-
-      '<div class="project-detail-backdrop"></div>' +
+      '<button ' +
+      'type="button" ' +
+      'class="project-detail-close" ' +
+      'id="projectDetailClose" ' +
+      'aria-label="閉じる">' +
+        '×' +
+      '</button>' +
 
       '<div ' +
-      'class="project-detail-dialog glass" ' +
-      'role="dialog" ' +
-      'aria-modal="true">' +
+      'class="project-detail-media" ' +
+      'id="projectDetailMedia">' +
+      '</div>' +
 
-        '<button ' +
-        'type="button" ' +
-        'class="project-detail-close" ' +
-        'aria-label="閉じる">' +
-          '×' +
-        '</button>' +
+      '<div class="project-detail-content">' +
 
-        '<div class="project-detail-media">' +
-          getMedia(post) +
+        '<h2 id="projectDetailTitle"></h2>' +
+
+        '<p ' +
+        'id="projectDetailCaption" ' +
+        'class="project-detail-caption">' +
+        '</p>' +
+
+        '<div ' +
+        'id="projectDetailText" ' +
+        'class="project-detail-text">' +
         '</div>' +
 
-        '<div class="project-detail-content">' +
+      '</div>' +
 
-          '<h2>' +
-            escapeHTML(
-              post.title ||
-              "無題"
-            ) +
-          '</h2>' +
+    '</div>';
 
-          '<p class="project-detail-caption">' +
-            escapeHTML(
-              post.caption ||
-              ""
-            ) +
-          '</p>' +
-
-          '<div class="project-detail-text">' +
-            escapeHTML(
-              post.content ||
-              ""
-            ).replace(
-              /\n/g,
-              "<br>"
-            ) +
-          '</div>' +
-
-        '</div>' +
-
-      '</div>';
+  document.body.appendChild(
+    modal
+  );
 
 
-    document.body.appendChild(
-      modal
+  var closeButton =
+    document.getElementById(
+      "projectDetailClose"
+    );
+
+  var backdrop =
+    modal.querySelector(
+      ".project-detail-backdrop"
     );
 
 
-    var closeButton =
-      modal.querySelector(
-        ".project-detail-close"
-      );
-
-    var backdrop =
-      modal.querySelector(
-        ".project-detail-backdrop"
-      );
-
-
-    function closeModal() {
-
-      modal.remove();
-
-      document.removeEventListener(
-        "keydown",
-        escapeHandler
-      );
-
-    }
-
-
-    function escapeHandler(e) {
-
-      if (e.key === "Escape") {
-        closeModal();
-      }
-
-    }
-
+  if (closeButton) {
 
     closeButton.addEventListener(
       "click",
-      closeModal
+      closeDetailModal
     );
+
+  }
+
+
+  if (backdrop) {
 
     backdrop.addEventListener(
       "click",
-      closeModal
-    );
-
-
-    document.addEventListener(
-      "keydown",
-      escapeHandler
+      closeDetailModal
     );
 
   }
 
 
-  /* =========================================================
-     Slider
-     ========================================================= */
+  return modal;
 
-  function updateSlider(animate) {
-
-    var visible =
-      getVisibleCount();
+}
 
 
-    if (!posts.length) {
-      return;
-    }
+function openDetailModal(post) {
+
+  var modal =
+    ensureDetailModal();
+
+  var title =
+    document.getElementById(
+      "projectDetailTitle"
+    );
+
+  var caption =
+    document.getElementById(
+      "projectDetailCaption"
+    );
+
+  var text =
+    document.getElementById(
+      "projectDetailText"
+    );
+
+  var media =
+    document.getElementById(
+      "projectDetailMedia"
+    );
 
 
-    if (animate === false) {
-
-      track.style.transition =
-        "none";
-
-    } else {
-
-      track.style.transition =
-        "transform 0.65s cubic-bezier(.22,.61,.36,1)";
-
-    }
+  if (!modal) {
+    return;
+  }
 
 
-    var cardWidth =
-      100 / visible;
+  if (title) {
+
+    title.textContent =
+      post.title ||
+      "制作物";
+
+  }
 
 
-    var gapPercentage =
-      (
-        1.5 /
-        slider.clientWidth
-      ) * 100;
+  if (caption) {
+
+    caption.textContent =
+      post.caption ||
+      "";
+
+  }
 
 
-    var offset =
-      currentIndex *
-      (
-        cardWidth +
-        gapPercentage
-      );
+  if (text) {
+
+    text.textContent =
+      post.content ||
+      "";
+
+  }
 
 
-    track.style.transform =
-      "translateX(-" +
-      offset +
-      "%)";
+  if (media) {
+
+    media.innerHTML =
+      getMedia(post);
+
+  }
 
 
-    if (animate === false) {
+  modal.hidden =
+    false;
 
-      requestAnimationFrame(
-        function () {
+  document.body.style.overflow =
+    "hidden";
 
-          requestAnimationFrame(
-            function () {
+}
 
-              track.style.transition =
-                "transform 0.65s cubic-bezier(.22,.61,.36,1)";
 
+function closeDetailModal() {
+
+  var modal =
+    document.getElementById(
+      "projectDetailModal"
+    );
+
+  if (!modal) {
+    return;
+  }
+
+  modal.hidden =
+    true;
+
+  document.body.style.overflow =
+    "";
+
+}
+
+
+/* =========================================================
+   DETAIL BUTTONS
+   ========================================================= */
+
+function attachDetailButtons() {
+
+  if (!projectTrack) {
+    return;
+  }
+
+  projectTrack
+    .querySelectorAll(
+      ".project-detail-button"
+    )
+    .forEach(
+      function (button) {
+
+        button.addEventListener(
+          "click",
+          function () {
+
+            var index =
+              Number(
+                button.getAttribute(
+                  "data-post-index"
+                )
+              );
+
+            var post =
+              posts[index];
+
+            if (post) {
+              openDetailModal(post);
             }
-          );
 
-        }
-      );
-
-    }
-
-  }
-
-
-  function nextSlide() {
-
-    var visible =
-      getVisibleCount();
-
-
-    if (
-      posts.length <= visible
-    ) {
-      return;
-    }
-
-
-    currentIndex++;
-
-
-    if (
-      currentIndex >
-      posts.length - visible
-    ) {
-
-      currentIndex = 0;
-
-      updateSlider(false);
-
-      return;
-    }
-
-
-    updateSlider(true);
-
-  }
-
-
-  function previousSlide() {
-
-    var visible =
-      getVisibleCount();
-
-
-    if (
-      posts.length <= visible
-    ) {
-      return;
-    }
-
-
-    currentIndex--;
-
-
-    if (currentIndex < 0) {
-
-      currentIndex =
-        posts.length -
-        visible;
-
-    }
-
-
-    updateSlider(true);
-
-  }
-
-
-  function startAutoSlide() {
-
-    clearInterval(
-      autoSlideTimer
-    );
-
-
-    if (
-      posts.length <=
-      getVisibleCount()
-    ) {
-      return;
-    }
-
-
-    autoSlideTimer =
-      setInterval(
-        nextSlide,
-        5000
-      );
-
-  }
-
-
-  /* =========================================================
-     Render posts
-     ========================================================= */
-
-  function renderPosts() {
-
-    track.innerHTML = "";
-
-
-    if (!posts.length) {
-
-      loading.textContent =
-        "まだ公開されている制作物はありません。";
-
-      loading.hidden = false;
-
-      controls.hidden = true;
-
-      return;
-    }
-
-
-    loading.hidden = true;
-
-
-    posts.forEach(
-      function (post) {
-
-        track.appendChild(
-          createCard(post)
+          }
         );
 
       }
     );
 
-
-    currentIndex = 0;
-
-
-    controls.hidden =
-      posts.length <=
-      getVisibleCount();
+}
 
 
-    updateSlider(false);
+/* =========================================================
+   SLIDER POSITION
+   ========================================================= */
 
-    startAutoSlide();
+function updateSlider() {
 
+  if (!projectTrack) {
+    return;
+  }
+
+  var visibleCount =
+    getVisibleCount();
+
+  var total =
+    posts.length;
+
+  if (!total) {
+    return;
+  }
+
+
+  /*
+   * Each card occupies an equal
+   * percentage of the track.
+   */
+
+  var cardWidth =
+    100 / visibleCount;
+
+  var offset =
+    currentIndex *
+    cardWidth;
+
+
+  projectTrack.style.transform =
+    "translateX(-" +
+    offset +
+    "%)";
+
+
+  /*
+   * Hide controls when there
+   * is nothing to slide.
+   */
+
+  if (projectControls) {
+
+    projectControls.hidden =
+      total <= visibleCount;
+
+  }
+
+}
+
+
+/* =========================================================
+   NEXT SLIDE
+   ========================================================= */
+
+function nextSlide() {
+
+  if (
+    !posts.length
+  ) {
+    return;
+  }
+
+  var visibleCount =
+    getVisibleCount();
+
+  var maxIndex =
+    Math.max(
+      0,
+      posts.length -
+      visibleCount
+    );
+
+
+  if (
+    currentIndex <
+    maxIndex
+  ) {
+
+    currentIndex++;
+
+  } else {
 
     /*
-     * Apply image protection to
-     * dynamically-created images.
+     * Return to the first card.
      */
 
-    document
-      .querySelectorAll(
-        "#projectTrack img.protected-img"
-      )
-      .forEach(
-        function (img) {
-
-          img.setAttribute(
-            "draggable",
-            "false"
-          );
-
-
-          img.addEventListener(
-            "dragstart",
-            function (e) {
-              e.preventDefault();
-            }
-          );
-
-        }
-      );
+    currentIndex =
+      0;
 
   }
 
 
-  /* =========================================================
-     Load posts from Google Apps Script
-     ========================================================= */
+  updateSlider();
 
-  function loadPosts() {
-
-    fetch(
-      API_URL +
-      "?action=list",
-      {
-        method: "GET",
-        cache: "no-store"
-      }
-    )
-
-      .then(
-        function (response) {
-
-          if (!response.ok) {
-
-            throw new Error(
-              "HTTP " +
-              response.status
-            );
-
-          }
-
-          return response.json();
-
-        }
-      )
-
-      .then(
-        function (data) {
-
-          if (
-            !data ||
-            data.success === false
-          ) {
-
-            throw new Error(
-              data &&
-              data.error
-                ? data.error
-                : "投稿データを取得できませんでした。"
-            );
-
-          }
+}
 
 
-          var receivedPosts =
-            Array.isArray(
-              data.posts
-            )
-              ? data.posts
-              : [];
+/* =========================================================
+   PREVIOUS SLIDE
+   ========================================================= */
+
+function previousSlide() {
+
+  if (
+    !posts.length
+  ) {
+    return;
+  }
+
+  var visibleCount =
+    getVisibleCount();
+
+  var maxIndex =
+    Math.max(
+      0,
+      posts.length -
+      visibleCount
+    );
 
 
-          /*
-           * Only published posts
-           * appear on the public site.
-           */
+  if (
+    currentIndex > 0
+  ) {
 
-          posts =
-            receivedPosts.filter(
-              function (post) {
+    currentIndex--;
 
-                return String(
-                  post.status ||
-                  ""
-                ).toLowerCase() ===
-                  "published";
+  } else {
 
-              }
-            );
-
-
-          /*
-           * Google Apps Script already
-           * returns newest rows first.
-           *
-           * Reverse them so the oldest
-           * card starts on the left and
-           * newer posts enter from the
-           * right as the slider moves.
-           */
-
-          posts.reverse();
-
-
-          renderPosts();
-
-        }
-      )
-
-      .catch(
-        function (error) {
-
-          console.error(
-            "Projects loading failed:",
-            error
-          );
-
-
-          loading.textContent =
-            "制作物を読み込めませんでした。";
-
-          loading.hidden = false;
-
-        }
-      );
+    currentIndex =
+      maxIndex;
 
   }
 
 
-  /* =========================================================
-     Slider buttons
-     ========================================================= */
+  updateSlider();
 
-  if (nextButton) {
+}
 
-    nextButton.addEventListener(
-      "click",
+
+/* =========================================================
+   AUTO SLIDE
+   ========================================================= */
+
+function startAutoSlide() {
+
+  stopAutoSlide();
+
+
+  if (
+    posts.length <=
+    getVisibleCount()
+  ) {
+    return;
+  }
+
+
+  autoSlideTimer =
+    setInterval(
       function () {
 
         nextSlide();
 
-        startAutoSlide();
+      },
+      5000
+    );
+
+}
+
+
+function stopAutoSlide() {
+
+  if (
+    autoSlideTimer
+  ) {
+
+    clearInterval(
+      autoSlideTimer
+    );
+
+    autoSlideTimer =
+      null;
+
+  }
+
+}
+
+
+/* =========================================================
+   RENDER POSTS
+   ========================================================= */
+
+function renderPosts() {
+
+  if (!projectTrack) {
+    return;
+  }
+
+
+  projectTrack.innerHTML =
+    posts
+      .map(
+        createCard
+      )
+      .join("");
+
+
+  currentIndex =
+    0;
+
+
+  attachDetailButtons();
+
+  updateSlider();
+
+  startAutoSlide();
+
+
+  /*
+   * Apply image drag protection
+   * to newly created images.
+   */
+
+  projectTrack
+    .querySelectorAll(
+      "img"
+    )
+    .forEach(
+      function (image) {
+
+        image.addEventListener(
+          "dragstart",
+          function (event) {
+            event.preventDefault();
+          }
+        );
 
       }
     );
 
+}
+
+
+/* =========================================================
+   LOAD POSTS
+   ========================================================= */
+
+async function loadPosts() {
+
+  if (
+    projectsLoading
+  ) {
+
+    projectsLoading.hidden =
+      false;
+
   }
 
 
-  if (prevButton) {
+  try {
 
-    prevButton.addEventListener(
-      "click",
-      function () {
+    var response =
+      await fetch(
+        API_URL +
+        "?action=list",
+        {
+          method: "GET",
+          cache: "no-store"
+        }
+      );
 
-        previousSlide();
 
-        startAutoSlide();
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+        "Failed to connect to the backend."
+      );
+
+    }
+
+
+    var data =
+      await response.json();
+
+
+    if (
+      !data.success
+    ) {
+
+      throw new Error(
+        data.error ||
+        "Failed to load posts."
+      );
+
+    }
+
+
+    posts =
+      Array.isArray(
+        data.posts
+      )
+        ? data.posts
+        : [];
+
+
+    /*
+     * Only published posts
+     * are visible publicly.
+     */
+
+    posts =
+      posts.filter(
+        function (post) {
+
+          return (
+            String(
+              post.status ||
+              ""
+            ).toLowerCase() ===
+            "published"
+          );
+
+        }
+      );
+
+
+    /*
+     * Backend returns the newest
+     * rows first.
+     *
+     * Reverse them so the oldest
+     * card starts on the left and
+     * newer cards enter from the
+     * right as the slider moves left.
+     */
+
+    posts.reverse();
+
+
+    if (
+      projectsLoading
+    ) {
+
+      projectsLoading.hidden =
+        true;
+
+    }
+
+
+    if (
+      !posts.length
+    ) {
+
+      if (projectTrack) {
+
+        projectTrack.innerHTML =
+          '<div class="project-media-empty">' +
+            'No published posts yet.' +
+          '</div>';
 
       }
+
+      if (projectControls) {
+
+        projectControls.hidden =
+          true;
+
+      }
+
+      return;
+
+    }
+
+
+    renderPosts();
+
+  }
+  catch (error) {
+
+    console.error(
+      "Project loading error:",
+      error
     );
+
+
+    if (
+      projectsLoading
+    ) {
+
+      projectsLoading.textContent =
+        "読み込みに失敗しました。";
+
+      projectsLoading.hidden =
+        false;
+
+    }
 
   }
 
+}
 
-  /* =========================================================
-     Resize
-     ========================================================= */
 
-  window.addEventListener(
-    "resize",
+/* =========================================================
+   SLIDER BUTTONS
+   ========================================================= */
+
+if (projectPrev) {
+
+  projectPrev.addEventListener(
+    "click",
     function () {
 
-      updateSlider(false);
-
-      controls.hidden =
-        posts.length <=
-        getVisibleCount();
+      previousSlide();
 
       startAutoSlide();
 
     }
   );
 
+}
 
-  /* =========================================================
-     Pause while hovering
-     ========================================================= */
 
-  slider.addEventListener(
+if (projectNext) {
+
+  projectNext.addEventListener(
+    "click",
+    function () {
+
+      nextSlide();
+
+      startAutoSlide();
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   PAUSE AUTO SLIDE WHILE HOVERING
+   ========================================================= */
+
+if (projectSlider) {
+
+  projectSlider.addEventListener(
     "mouseenter",
     function () {
 
-      clearInterval(
-        autoSlideTimer
-      );
+      stopAutoSlide();
 
     }
   );
 
 
-  slider.addEventListener(
+  projectSlider.addEventListener(
     "mouseleave",
     function () {
 
@@ -1111,11 +1159,92 @@
     }
   );
 
+}
 
-  /* =========================================================
-     Start
-     ========================================================= */
 
-  loadPosts();
+/* =========================================================
+   RESIZE
+   ========================================================= */
 
-})();
+var resizeTimer = null;
+
+window.addEventListener(
+  "resize",
+  function () {
+
+    clearTimeout(
+      resizeTimer
+    );
+
+    resizeTimer =
+      setTimeout(
+        function () {
+
+          var visibleCount =
+            getVisibleCount();
+
+          var maxIndex =
+            Math.max(
+              0,
+              posts.length -
+              visibleCount
+            );
+
+
+          if (
+            currentIndex >
+            maxIndex
+          ) {
+
+            currentIndex =
+              maxIndex;
+
+          }
+
+
+          updateSlider();
+
+          startAutoSlide();
+
+        },
+        150
+      );
+
+  }
+);
+
+
+/* =========================================================
+   ESC CLOSE MODAL
+   ========================================================= */
+
+document.addEventListener(
+  "keydown",
+  function (event) {
+
+    if (
+      event.key === "Escape"
+    ) {
+
+      closeDetailModal();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+
+    ensureDetailModal();
+
+    loadPosts();
+
+  }
+);
