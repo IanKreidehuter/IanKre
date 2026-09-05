@@ -597,8 +597,6 @@ button{
 </main>
 
 
-<!-- POST MODAL -->
-
 <div
   id="postModal"
   class="modal-backdrop">
@@ -607,9 +605,7 @@ button{
 
     <div class="modal-header">
 
-      <h2 id="modalTitle">
-        New Post
-      </h2>
+      <h2 id="modalTitle">New Post</h2>
 
       <button
         class="close-button"
@@ -669,13 +665,8 @@ button{
 
           <select id="status">
 
-            <option value="draft">
-              Draft
-            </option>
-
-            <option value="published">
-              Published
-            </option>
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
 
           </select>
 
@@ -693,8 +684,6 @@ button{
 
       </div>
 
-
-      <!-- IMAGE -->
 
       <div class="media-options">
 
@@ -743,9 +732,7 @@ button{
           class="field"
           style="margin-top:12px">
 
-          <label>
-            Or use an image URL
-          </label>
+          <label>Or use an image URL</label>
 
           <input
             id="imageUrl"
@@ -756,8 +743,6 @@ button{
 
       </div>
 
-
-      <!-- VIDEO -->
 
       <div class="media-options">
 
@@ -808,9 +793,7 @@ button{
           class="field"
           style="margin-top:12px">
 
-          <label>
-            Or use a video URL
-          </label>
+          <label>Or use a video URL</label>
 
           <input
             id="videoUrl"
@@ -824,9 +807,7 @@ button{
 
       <div class="field">
 
-        <label>
-          Slug
-        </label>
+        <label>Slug</label>
 
         <input
           id="slug"
@@ -861,17 +842,13 @@ button{
 </div>
 
 
-<!-- DELETE MODAL -->
-
 <div
   id="deleteModal"
   class="modal-backdrop">
 
   <div class="delete-box">
 
-    <h2>
-      Delete post?
-    </h2>
+    <h2>Delete post?</h2>
 
     <p>
       This will permanently remove the post
@@ -912,12 +889,8 @@ button{
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzDkN67TjrkS1AnL-17PJtbIahL3U_EiOli7BOfevFNB_bcNKKvA_XNRMSS47pbw69Uzg/exec";
 
-
 let posts = [];
 let postToDelete = null;
-
-
-/* ELEMENTS */
 
 const postsContainer =
 document.getElementById("postsContainer");
@@ -938,7 +911,9 @@ const toast =
 document.getElementById("toast");
 
 
-/* LOAD */
+/* =========================================================
+   LOAD POSTS
+   ========================================================= */
 
 document.addEventListener(
   "DOMContentLoaded",
@@ -970,17 +945,11 @@ async function loadPosts(){
     const text =
     await response.text();
 
-    let data;
-
-    try{
-      data = JSON.parse(text);
-    }catch(error){
-      throw new Error(
-        "Backend returned an invalid response."
-      );
-    }
+    const data =
+    JSON.parse(text);
 
     if(!data.success){
+
       throw new Error(
         data.error ||
         "Failed to load posts."
@@ -1008,7 +977,9 @@ async function loadPosts(){
 }
 
 
-/* RENDER */
+/* =========================================================
+   RENDER POSTS
+   ========================================================= */
 
 function renderPosts(){
 
@@ -1024,7 +995,6 @@ function renderPosts(){
     .getElementById("statusFilter")
     .value;
 
-
   const filtered =
   posts.filter(post => {
 
@@ -1036,22 +1006,18 @@ function renderPosts(){
     String(post.slug || "")
       .toLowerCase();
 
-    return (
-      (
-        !search ||
-        title.includes(search) ||
-        slug.includes(search)
-      )
-      &&
-      (
-        filter === "all" ||
-        String(post.status || "draft")
-          .toLowerCase() === filter
-      )
-    );
+    const matchesSearch =
+      !search ||
+      title.includes(search) ||
+      slug.includes(search);
 
+    const matchesFilter =
+      filter === "all" ||
+      String(post.status || "draft")
+        .toLowerCase() === filter;
+
+    return matchesSearch && matchesFilter;
   });
-
 
   if(!filtered.length){
 
@@ -1080,7 +1046,6 @@ function renderPosts(){
     return;
   }
 
-
   postsContainer.innerHTML =
   filtered
     .map(createPostCard)
@@ -1088,7 +1053,9 @@ function renderPosts(){
 }
 
 
-/* CARD */
+/* =========================================================
+   POST CARD
+   ========================================================= */
 
 function createPostCard(post){
 
@@ -1097,7 +1064,6 @@ function createPostCard(post){
       No media
     </div>
   `;
-
 
   if(post.image_url){
 
@@ -1119,11 +1085,9 @@ function createPostCard(post){
     `;
   }
 
-
   const status =
   String(post.status || "draft")
     .toLowerCase();
-
 
   return `
     <article class="post-card">
@@ -1183,7 +1147,9 @@ function createPostCard(post){
 }
 
 
-/* NEW */
+/* =========================================================
+   NEW POST
+   ========================================================= */
 
 document
   .getElementById("newPostButton")
@@ -1205,7 +1171,9 @@ document
   );
 
 
-/* EDIT */
+/* =========================================================
+   EDIT POST
+   ========================================================= */
 
 window.editPost =
 function(id){
@@ -1219,54 +1187,45 @@ function(id){
     return;
   }
 
-
   document
     .getElementById("postId")
     .value =
     post.id || "";
-
 
   document
     .getElementById("title")
     .value =
     post.title || "";
 
-
   document
     .getElementById("caption")
     .value =
     post.caption || "";
-
 
   document
     .getElementById("content")
     .value =
     post.content || "";
 
-
   document
     .getElementById("imageUrl")
     .value =
     post.image_url || "";
-
 
   document
     .getElementById("videoUrl")
     .value =
     post.video_url || "";
 
-
   document
     .getElementById("status")
     .value =
     post.status || "draft";
 
-
   document
     .getElementById("slug")
     .value =
     post.slug || "";
-
 
   document
     .getElementById("postDate")
@@ -1275,15 +1234,12 @@ function(id){
       post.post_date
     );
 
-
   document
     .getElementById("modalTitle")
     .textContent =
     "Edit Post";
 
-
   clearSelectedFiles();
-
 
   postModal
     .classList
@@ -1291,7 +1247,9 @@ function(id){
 };
 
 
-/* SAVE */
+/* =========================================================
+   SAVE POST
+   ========================================================= */
 
 postForm.addEventListener(
   "submit",
@@ -1299,17 +1257,12 @@ postForm.addEventListener(
 
     event.preventDefault();
 
-
     if(saveButton.disabled){
       return;
     }
 
-
     saveButton.disabled = true;
-
-    saveButton.textContent =
-      "Working...";
-
+    saveButton.textContent = "Working...";
 
     try{
 
@@ -1318,7 +1271,6 @@ postForm.addEventListener(
         .getElementById("imageUrl")
         .value
         .trim();
-
 
       let videoUrl =
       document
@@ -1333,7 +1285,6 @@ postForm.addEventListener(
       document
         .getElementById("imageFile")
         .files[0];
-
 
       if(imageFile){
 
@@ -1353,7 +1304,6 @@ postForm.addEventListener(
         .getElementById("videoFile")
         .files[0];
 
-
       if(videoFile){
 
         videoUrl =
@@ -1371,20 +1321,17 @@ postForm.addEventListener(
         .value
         .trim();
 
-
       const title =
       document
         .getElementById("title")
         .value
         .trim();
 
-
       let slug =
       document
         .getElementById("slug")
         .value
         .trim();
-
 
       if(!slug){
         slug = createSlug(title);
@@ -1394,40 +1341,45 @@ postForm.addEventListener(
       const data = {
 
         action:
-        id
-          ? "update"
-          : "create",
+          id
+            ? "update"
+            : "create",
 
-        id:id,
+        id:
+          id,
 
-        title:title,
+        title:
+          title,
 
         caption:
-        document
-          .getElementById("caption")
-          .value
-          .trim(),
+          document
+            .getElementById("caption")
+            .value
+            .trim(),
 
         content:
-        document
-          .getElementById("content")
-          .value,
+          document
+            .getElementById("content")
+            .value,
 
-        image_url:imageUrl,
+        image_url:
+          imageUrl,
 
-        video_url:videoUrl,
+        video_url:
+          videoUrl,
 
         status:
-        document
-          .getElementById("status")
-          .value,
+          document
+            .getElementById("status")
+            .value,
 
         post_date:
-        document
-          .getElementById("postDate")
-          .value,
+          document
+            .getElementById("postDate")
+            .value,
 
-        slug:slug
+        slug:
+          slug
       };
 
 
@@ -1451,6 +1403,11 @@ postForm.addEventListener(
 
       const responseText =
       await response.text();
+
+      console.log(
+        "Save response:",
+        responseText
+      );
 
 
       let result;
@@ -1484,13 +1441,11 @@ postForm.addEventListener(
 
       closePostModal();
 
-
       showToast(
         id
           ? "Post updated."
           : "Post created."
       );
-
 
       await loadPosts();
 
@@ -1505,14 +1460,10 @@ postForm.addEventListener(
         true
       );
 
-
     }finally{
 
-      saveButton.disabled =
-        false;
-
-      saveButton.textContent =
-        "Save Post";
+      saveButton.disabled = false;
+      saveButton.textContent = "Save Post";
     }
 
   }
@@ -1520,7 +1471,22 @@ postForm.addEventListener(
 
 
 /* =========================================================
-   DIRECT MEDIA UPLOAD
+   DIRECT DRIVE UPLOAD
+   =========================================================
+
+   IMPORTANT:
+
+   There is deliberately NO:
+
+   - XMLHttpRequest
+   - xhr.upload
+   - upload_id
+   - polling
+   - CacheService
+   - uploadStatus requests
+   - custom HTTP headers
+
+   The browser sends one normal text/plain POST.
    ========================================================= */
 
 async function uploadFile(
@@ -1537,35 +1503,25 @@ async function uploadFile(
 
   if(mediaType === "image"){
 
-    if(
-      !file.type.startsWith("image/")
-    ){
+    if(!file.type.startsWith("image/")){
 
       throw new Error(
         "Please choose an image file."
       );
     }
 
-  }
+  }else if(mediaType === "video"){
 
-
-  if(mediaType === "video"){
-
-    if(
-      !file.type.startsWith("video/")
-    ){
+    if(!file.type.startsWith("video/")){
 
       throw new Error(
         "Please choose a video file."
       );
     }
-
   }
 
 
-  status.classList.add(
-    "active"
-  );
+  status.classList.add("active");
 
   status.classList.remove(
     "success",
@@ -1581,10 +1537,6 @@ async function uploadFile(
 
   try{
 
-    /*
-     * Read the file completely.
-     */
-
     const base64 =
     await fileToBase64(file);
 
@@ -1596,29 +1548,33 @@ async function uploadFile(
 
 
     /*
-     * IMPORTANT:
+     * THIS IS THE IMPORTANT PART.
      *
-     * This matches Code.gs exactly.
+     * The backend expects:
      *
-     * action = upload
-     * file   = base64 data
+     * action: "upload"
+     * file: base64
+     *
+     * The previous version accidentally sent
+     * fileData without an action.
      */
 
     const payload = {
 
-      action:"upload",
+      action:
+        "upload",
 
-      file:base64,
+      file:
+        base64,
 
       fileName:
-      file.name,
+        file.name,
 
       mimeType:
-      file.type,
+        file.type,
 
       mediaType:
-      mediaType
-
+        mediaType
     };
 
 
@@ -1627,12 +1583,6 @@ async function uploadFile(
       API_URL,
       {
         method:"POST",
-
-        /*
-         * text/plain avoids a CORS preflight.
-         *
-         * Do NOT change this to application/json.
-         */
 
         headers:{
           "Content-Type":
@@ -1652,7 +1602,7 @@ async function uploadFile(
 
 
     console.log(
-      "Media upload response:",
+      "Upload response:",
       responseText
     );
 
@@ -1667,7 +1617,7 @@ async function uploadFile(
     }catch(error){
 
       console.error(
-        "Invalid media upload response:",
+        "Invalid upload response:",
         responseText
       );
 
@@ -1692,20 +1642,20 @@ async function uploadFile(
               result.error ||
               result.message
             )
-          : "Media upload failed."
+          : "Upload failed."
       );
     }
 
 
     const uploadedUrl =
-    result.url ||
-    (
-      result.file &&
+      result.url ||
       (
-        result.file.url ||
-        result.file.mediaUrl
-      )
-    );
+        result.file &&
+        (
+          result.file.url ||
+          result.file.mediaUrl
+        )
+      );
 
 
     if(!uploadedUrl){
@@ -1728,10 +1678,7 @@ async function uploadFile(
 
   }catch(error){
 
-    status.classList.add(
-      "error"
-    );
-
+    status.classList.add("error");
 
     setUploadMessage(
       status,
@@ -1739,13 +1686,14 @@ async function uploadFile(
       "Upload failed."
     );
 
-
     throw error;
   }
 }
 
 
-/* FILE → BASE64 */
+/* =========================================================
+   FILE TO BASE64
+   ========================================================= */
 
 function fileToBase64(file){
 
@@ -1765,7 +1713,6 @@ function fileToBase64(file){
           String(
             reader.result
           );
-
 
           const commaIndex =
           result.indexOf(",");
@@ -1803,7 +1750,6 @@ function fileToBase64(file){
 
           resolve(base64);
 
-
         }catch(error){
 
           reject(error);
@@ -1831,7 +1777,9 @@ function fileToBase64(file){
 }
 
 
-/* UPLOAD MESSAGE */
+/* =========================================================
+   UPLOAD MESSAGE
+   ========================================================= */
 
 function setUploadMessage(
   status,
@@ -1849,7 +1797,9 @@ function setUploadMessage(
 }
 
 
-/* IMAGE PREVIEW */
+/* =========================================================
+   IMAGE PREVIEW
+   ========================================================= */
 
 document
   .getElementById("imageFile")
@@ -1889,9 +1839,7 @@ document
       }
 
 
-      if(
-        !file.type.startsWith("image/")
-      ){
+      if(!file.type.startsWith("image/")){
 
         showToast(
           "Please choose an image file.",
@@ -1932,7 +1880,9 @@ document
   );
 
 
-/* VIDEO PREVIEW */
+/* =========================================================
+   VIDEO PREVIEW
+   ========================================================= */
 
 document
   .getElementById("videoFile")
@@ -1972,9 +1922,7 @@ document
       }
 
 
-      if(
-        !file.type.startsWith("video/")
-      ){
+      if(!file.type.startsWith("video/")){
 
         showToast(
           "Please choose a video file.",
@@ -2015,7 +1963,9 @@ document
   );
 
 
-/* DELETE */
+/* =========================================================
+   DELETE
+   ========================================================= */
 
 window.askDelete =
 function(id){
@@ -2046,11 +1996,8 @@ document
       );
 
 
-      button.disabled =
-        true;
-
-      button.textContent =
-        "Deleting...";
+      button.disabled = true;
+      button.textContent = "Deleting...";
 
 
       try{
@@ -2106,11 +2053,9 @@ document
 
         closeDeleteModal();
 
-
         showToast(
           "Post deleted."
         );
-
 
         await loadPosts();
 
@@ -2125,21 +2070,19 @@ document
           true
         );
 
-
       }finally{
 
-        button.disabled =
-          false;
-
-        button.textContent =
-          "Delete";
+        button.disabled = false;
+        button.textContent = "Delete";
       }
 
     }
   );
 
 
-/* SEARCH */
+/* =========================================================
+   SEARCH
+   ========================================================= */
 
 document
   .getElementById("searchInput")
@@ -2149,7 +2092,9 @@ document
   );
 
 
-/* FILTER */
+/* =========================================================
+   FILTER
+   ========================================================= */
 
 document
   .getElementById("statusFilter")
@@ -2159,7 +2104,9 @@ document
   );
 
 
-/* MODALS */
+/* =========================================================
+   MODALS
+   ========================================================= */
 
 document
   .getElementById("closeModal")
@@ -2204,35 +2151,34 @@ function closeDeleteModal(){
 }
 
 
-/* RESET */
+/* =========================================================
+   RESET FORM
+   ========================================================= */
 
 function resetForm(){
 
   postForm.reset();
 
-
   document
     .getElementById("postId")
     .value = "";
 
-
   document
     .getElementById("status")
-    .value =
-    "draft";
-
+    .value = "draft";
 
   document
     .getElementById("postDate")
     .value =
     getCurrentDateTimeLocal();
 
-
   clearSelectedFiles();
 }
 
 
-/* CLEAR FILE INPUTS */
+/* =========================================================
+   CLEAR FILE INPUTS
+   ========================================================= */
 
 function clearSelectedFiles(){
 
@@ -2240,29 +2186,24 @@ function clearSelectedFiles(){
     .getElementById("imageFile")
     .value = "";
 
-
   document
     .getElementById("videoFile")
     .value = "";
-
 
   document
     .getElementById("imageFileName")
     .textContent =
     "No file selected";
 
-
   document
     .getElementById("videoFileName")
     .textContent =
     "No file selected";
 
-
   document
     .getElementById("imagePreview")
     .classList
     .remove("active");
-
 
   document
     .getElementById("videoPreview")
@@ -2281,8 +2222,7 @@ function clearSelectedFiles(){
     "error"
   );
 
-  imageStatus.textContent =
-    "";
+  imageStatus.textContent = "";
 
 
   const videoStatus =
@@ -2296,12 +2236,13 @@ function clearSelectedFiles(){
     "error"
   );
 
-  videoStatus.textContent =
-    "";
+  videoStatus.textContent = "";
 }
 
 
-/* SLUG */
+/* =========================================================
+   SLUG
+   ========================================================= */
 
 function createSlug(title){
 
@@ -2332,7 +2273,9 @@ function createSlug(title){
 }
 
 
-/* DATE */
+/* =========================================================
+   DATE
+   ========================================================= */
 
 function getCurrentDateTimeLocal(){
 
@@ -2389,13 +2332,11 @@ function toDateTimeLocal(value){
   const offset =
   date.getTimezoneOffset();
 
-
   const local =
   new Date(
     date.getTime() -
     offset * 60000
   );
-
 
   return local
     .toISOString()
@@ -2435,7 +2376,9 @@ function formatDate(value){
 }
 
 
-/* TOAST */
+/* =========================================================
+   TOAST
+   ========================================================= */
 
 let toastTimer;
 
@@ -2449,21 +2392,17 @@ function showToast(
     toastTimer
   );
 
-
   toast.textContent =
-  message;
-
+    message;
 
   toast.classList.toggle(
     "error",
     error
   );
 
-
   toast.classList.add(
     "show"
   );
-
 
   toastTimer =
   setTimeout(
@@ -2479,7 +2418,9 @@ function showToast(
 }
 
 
-/* ESCAPE */
+/* =========================================================
+   ESCAPE
+   ========================================================= */
 
 function escapeHtml(value){
 
