@@ -39,3 +39,2355 @@ button,input,textarea,select{
 button{
   cursor:pointer;
 }
+
+.app{
+  width:min(1180px,calc(100% - 40px));
+  margin:auto;
+  padding:40px 0 80px;
+}
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:32px;
+}
+
+.brand h1{
+  font-size:30px;
+  letter-spacing:-.04em;
+}
+
+.brand p{
+  color:var(--muted);
+  font-size:14px;
+  margin-top:5px;
+}
+
+.new-post-button{
+  border:0;
+  border-radius:14px;
+  padding:12px 18px;
+  background:#111;
+  color:#fff;
+  font-weight:600;
+}
+
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:22px;
+}
+
+.search{
+  width:100%;
+  max-width:430px;
+}
+
+.search input,
+.filter{
+  width:100%;
+  height:46px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:0 15px;
+  outline:none;
+  background:rgba(255,255,255,.7);
+}
+
+.filter{
+  width:auto;
+}
+
+.posts{
+  display:grid;
+  gap:14px;
+}
+
+.post-card{
+  display:grid;
+  grid-template-columns:110px 1fr auto;
+  align-items:center;
+  gap:20px;
+  padding:16px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:var(--panel);
+  backdrop-filter:blur(18px);
+  box-shadow:0 18px 50px rgba(0,0,0,.08);
+}
+
+.post-media{
+  width:110px;
+  height:80px;
+  border-radius:15px;
+  overflow:hidden;
+  background:#e9e9e7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.post-media img,
+.post-media video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.no-media{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.post-info{
+  min-width:0;
+}
+
+.post-title{
+  font-size:17px;
+  font-weight:650;
+  margin-bottom:5px;
+}
+
+.post-caption{
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:9px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.post-meta{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.status{
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:600;
+  text-transform:uppercase;
+}
+
+.status.published{
+  background:#e4f3e7;
+  color:#246331;
+}
+
+.status.draft{
+  background:#eee;
+  color:#666;
+}
+
+.post-actions{
+  display:flex;
+  gap:8px;
+}
+
+.action-button{
+  height:38px;
+  padding:0 13px;
+  border-radius:11px;
+  border:1px solid var(--border);
+  background:white;
+  font-size:13px;
+  font-weight:600;
+}
+
+.action-button.delete{
+  color:var(--danger);
+}
+
+.state{
+  padding:70px 20px;
+  text-align:center;
+  border:1px dashed rgba(0,0,0,.14);
+  border-radius:var(--radius);
+  color:var(--muted);
+}
+
+.state strong{
+  display:block;
+  color:#111;
+  margin-bottom:7px;
+}
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.38);
+  backdrop-filter:blur(8px);
+  z-index:1000;
+}
+
+.modal-backdrop.active{
+  display:flex;
+}
+
+.modal{
+  width:min(720px,100%);
+  max-height:calc(100vh - 40px);
+  overflow-y:auto;
+  border-radius:24px;
+  background:rgba(255,255,255,.96);
+  box-shadow:0 30px 100px rgba(0,0,0,.2);
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:22px 24px;
+  border-bottom:1px solid var(--border);
+}
+
+.close-button{
+  width:36px;
+  height:36px;
+  border:0;
+  border-radius:50%;
+  background:#eee;
+  font-size:20px;
+}
+
+.form{
+  padding:24px;
+  display:grid;
+  gap:18px;
+}
+
+.field{
+  display:grid;
+  gap:7px;
+}
+
+.field label{
+  font-size:13px;
+  font-weight:650;
+}
+
+.field input,
+.field textarea,
+.field select{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:#fafafa;
+  padding:12px 13px;
+  outline:none;
+}
+
+.field input,
+.field select{
+  height:45px;
+}
+
+.field textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+.two-columns{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.media-options{
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:15px;
+  background:#fafafa;
+}
+
+.media-options-title{
+  font-size:13px;
+  font-weight:650;
+  margin-bottom:10px;
+}
+
+.file-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.file-input{
+  display:none;
+}
+
+.choose-file{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:0 14px;
+  border-radius:12px;
+  background:#111;
+  color:white;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.file-name{
+  color:var(--muted);
+  font-size:12px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.media-preview{
+  display:none;
+  margin-top:12px;
+  border-radius:13px;
+  overflow:hidden;
+  background:#eee;
+  max-height:230px;
+}
+
+.media-preview.active{
+  display:block;
+}
+
+.media-preview img,
+.media-preview video{
+  display:block;
+  width:100%;
+  max-height:230px;
+  object-fit:contain;
+}
+
+.upload-status{
+  display:none;
+  margin-top:9px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.upload-status.active{
+  display:block;
+}
+
+.upload-status-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:6px;
+}
+
+.upload-message{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.upload-percent{
+  flex:0 0 auto;
+  font-weight:650;
+  color:#111;
+}
+
+.upload-progress{
+  width:100%;
+  height:6px;
+  overflow:hidden;
+  border-radius:999px;
+  background:#e7e7e5;
+}
+
+.upload-progress-bar{
+  height:100%;
+  width:0;
+  border-radius:inherit;
+  background:#111;
+  transition:width .15s ease;
+}
+
+.form-footer{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  padding-top:5px;
+}
+
+.secondary-button,
+.primary-button{
+  min-height:44px;
+  padding:0 17px;
+  border-radius:13px;
+  border:1px solid var(--border);
+  font-weight:600;
+}
+
+.secondary-button{
+  background:#eee;
+}
+
+.primary-button{
+  background:#111;
+  color:#fff;
+  border-color:#111;
+}
+
+.primary-button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+.delete-box{
+  width:min(430px,100%);
+  padding:25px;
+  border-radius:22px;
+  background:white;
+  box-shadow:0 30px 100px rgba(0,0,0,.2);
+}
+
+.delete-box p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.5;
+  margin:10px 0 22px;
+}
+
+.delete-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+}
+
+.danger-button{
+  min-height:42px;
+  padding:0 15px;
+  border:0;
+  border-radius:12px;
+  background:var(--danger);
+  color:white;
+  font-weight:600;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  padding:12px 17px;
+  border-radius:12px;
+  background:#111;
+  color:white;
+  font-size:13px;
+  z-index:2000;
+  transition:.25s;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+.toast.error{
+  background:#b42318;
+}
+
+@media(max-width:760px){
+
+  .app{
+    width:calc(100% - 24px);
+    padding-top:24px;
+  }
+
+  .header{
+    align-items:flex-start;
+  }
+
+  .toolbar{
+    flex-direction:column;
+  }
+
+  .search{
+    max-width:none;
+  }
+
+  .filter{
+    width:100%;
+  }
+
+  .post-card{
+    grid-template-columns:78px 1fr;
+    gap:13px;
+  }
+
+  .post-media{
+    width:78px;
+    height:70px;
+  }
+
+  .post-actions{
+    grid-column:2;
+  }
+
+  .action-button{
+    flex:1;
+  }
+
+  .two-columns{
+    grid-template-columns:1fr;
+  }
+
+  .form{
+    padding:18px;
+  }
+}
+
+@media(max-width:480px){
+
+  .header{
+    flex-direction:column;
+  }
+
+  .new-post-button{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+<header class="header">
+  <div class="brand">
+    <h1>Post Admin</h1>
+    <p>Manage your website posts.</p>
+  </div>
+
+  <button
+    class="new-post-button"
+    id="newPostButton">
+    + New Post
+  </button>
+</header>
+
+<section class="toolbar">
+
+  <div class="search">
+    <input
+      id="searchInput"
+      type="search"
+      placeholder="Search by title or slug...">
+  </div>
+
+  <select
+    id="statusFilter"
+    class="filter">
+
+    <option value="all">
+      All posts
+    </option>
+
+    <option value="published">
+      Published
+    </option>
+
+    <option value="draft">
+      Drafts
+    </option>
+
+  </select>
+
+</section>
+
+<section
+  id="postsContainer"
+  class="posts">
+
+  <div class="state">
+    <strong>Loading posts...</strong>
+    <p>Connecting to the backend.</p>
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- POST MODAL -->
+
+<div
+  id="postModal"
+  class="modal-backdrop">
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h2 id="modalTitle">
+        New Post
+      </h2>
+
+      <button
+        class="close-button"
+        id="closeModal">
+        ×
+      </button>
+
+    </div>
+
+
+    <form
+      id="postForm"
+      class="form">
+
+      <input
+        id="postId"
+        type="hidden">
+
+
+      <div class="field">
+
+        <label>
+          Title
+        </label>
+
+        <input
+          id="title"
+          type="text"
+          placeholder="Post title"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Caption / Excerpt
+        </label>
+
+        <input
+          id="caption"
+          type="text"
+          placeholder="Short description">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Content
+        </label>
+
+        <textarea
+          id="content"
+          placeholder="Write your post content here..."></textarea>
+
+      </div>
+
+
+      <div class="two-columns">
+
+        <div class="field">
+
+          <label>
+            Status
+          </label>
+
+          <select id="status">
+
+            <option value="draft">
+              Draft
+            </option>
+
+            <option value="published">
+              Published
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Post date
+          </label>
+
+          <input
+            id="postDate"
+            type="datetime-local">
+
+        </div>
+
+      </div>
+
+
+      <!-- IMAGE -->
+
+      <div class="media-options">
+
+        <div class="media-options-title">
+          Image
+        </div>
+
+        <div class="file-row">
+
+          <label class="choose-file">
+
+            Choose Image
+
+            <input
+              id="imageFile"
+              class="file-input"
+              type="file"
+              accept="image/*">
+
+          </label>
+
+          <span
+            id="imageFileName"
+            class="file-name">
+            No file selected
+          </span>
+
+        </div>
+
+
+        <div
+          id="imageUploadStatus"
+          class="upload-status">
+        </div>
+
+
+        <div
+          id="imagePreview"
+          class="media-preview">
+
+          <img
+            id="imagePreviewImg"
+            alt="Image preview">
+
+        </div>
+
+
+        <div class="field" style="margin-top:12px">
+
+          <label>
+            Or use an image URL
+          </label>
+
+          <input
+            id="imageUrl"
+            type="url"
+            placeholder="https://...">
+
+        </div>
+
+      </div>
+
+
+      <!-- VIDEO -->
+
+      <div class="media-options">
+
+        <div class="media-options-title">
+          Video
+        </div>
+
+        <div class="file-row">
+
+          <label class="choose-file">
+
+            Choose Video
+
+            <input
+              id="videoFile"
+              class="file-input"
+              type="file"
+              accept="video/*">
+
+          </label>
+
+          <span
+            id="videoFileName"
+            class="file-name">
+            No file selected
+          </span>
+
+        </div>
+
+
+        <div
+          id="videoUploadStatus"
+          class="upload-status">
+        </div>
+
+
+        <div
+          id="videoPreview"
+          class="media-preview">
+
+          <video
+            id="videoPreviewVideo"
+            controls>
+          </video>
+
+        </div>
+
+
+        <div class="field" style="margin-top:12px">
+
+          <label>
+            Or use a video URL
+          </label>
+
+          <input
+            id="videoUrl"
+            type="url"
+            placeholder="https://...">
+
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Slug
+        </label>
+
+        <input
+          id="slug"
+          type="text"
+          placeholder="my-post-title">
+
+      </div>
+
+
+      <div class="form-footer">
+
+        <button
+          type="button"
+          class="secondary-button"
+          id="cancelButton">
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="primary-button"
+          id="saveButton">
+          Save Post
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- DELETE MODAL -->
+
+<div
+  id="deleteModal"
+  class="modal-backdrop">
+
+  <div class="delete-box">
+
+    <h2>Delete post?</h2>
+
+    <p>
+      This will permanently remove the post
+      from the Google Sheet.
+    </p>
+
+    <div class="delete-actions">
+
+      <button
+        class="secondary-button"
+        id="cancelDelete">
+        Cancel
+      </button>
+
+      <button
+        class="danger-button"
+        id="confirmDelete">
+        Delete
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div
+  id="toast"
+  class="toast">
+</div>
+
+
+<script>
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbzDkN67TjrkS1AnL-17PJtbIahL3U_EiOli7BOfevFNB_bcNKKvA_XNRMSS47pbw69Uzg/exec";
+
+
+let posts = [];
+let postToDelete = null;
+
+
+/* ELEMENTS */
+
+const postsContainer =
+document.getElementById("postsContainer");
+
+const postModal =
+document.getElementById("postModal");
+
+const deleteModal =
+document.getElementById("deleteModal");
+
+const postForm =
+document.getElementById("postForm");
+
+const saveButton =
+document.getElementById("saveButton");
+
+const toast =
+document.getElementById("toast");
+
+
+/* LOAD */
+
+document.addEventListener(
+"DOMContentLoaded",
+loadPosts
+);
+
+
+async function loadPosts(){
+
+  postsContainer.innerHTML = `
+    <div class="state">
+      <strong>Loading posts...</strong>
+      <p>Connecting to the backend.</p>
+    </div>
+  `;
+
+  try{
+
+    const response =
+    await fetch(
+      API_URL + "?action=list",
+      {
+        cache:"no-store"
+      }
+    );
+
+    const data =
+    await response.json();
+
+    if(!data.success){
+      throw new Error(
+        data.error || "Failed to load posts."
+      );
+    }
+
+    posts =
+    Array.isArray(data.posts)
+    ? data.posts
+    : [];
+
+    renderPosts();
+
+  }catch(error){
+
+    console.error(error);
+
+    postsContainer.innerHTML = `
+      <div class="state">
+        <strong>Could not load posts</strong>
+        <p>${escapeHtml(error.message)}</p>
+      </div>
+    `;
+  }
+}
+
+
+/* RENDER */
+
+function renderPosts(){
+
+  const search =
+  document.getElementById("searchInput")
+  .value
+  .trim()
+  .toLowerCase();
+
+  const filter =
+  document.getElementById("statusFilter")
+  .value;
+
+
+  const filtered =
+  posts.filter(post => {
+
+    const title =
+    String(post.title || "")
+    .toLowerCase();
+
+    const slug =
+    String(post.slug || "")
+    .toLowerCase();
+
+    return (
+      (!search ||
+       title.includes(search) ||
+       slug.includes(search))
+      &&
+      (
+        filter === "all" ||
+        String(post.status || "draft")
+        .toLowerCase() === filter
+      )
+    );
+  });
+
+
+  if(!filtered.length){
+
+    postsContainer.innerHTML = `
+      <div class="state">
+        <strong>
+          ${posts.length
+            ? "No matching posts"
+            : "No posts yet"}
+        </strong>
+
+        <p>
+          ${posts.length
+            ? "Try another search or filter."
+            : "Create your first post."}
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+
+  postsContainer.innerHTML =
+  filtered
+  .map(createPostCard)
+  .join("");
+}
+
+
+/* CARD */
+
+function createPostCard(post){
+
+  let media = `
+    <div class="no-media">
+      No media
+    </div>
+  `;
+
+
+  if(post.image_url){
+
+    media = `
+      <img
+        src="${escapeAttribute(post.image_url)}"
+        alt=""
+        loading="lazy">
+    `;
+
+  }else if(post.video_url){
+
+    media = `
+      <video
+        src="${escapeAttribute(post.video_url)}"
+        muted
+        preload="metadata">
+      </video>
+    `;
+  }
+
+
+  const status =
+  String(post.status || "draft")
+  .toLowerCase();
+
+
+  return `
+    <article class="post-card">
+
+      <div class="post-media">
+        ${media}
+      </div>
+
+      <div class="post-info">
+
+        <div class="post-title">
+          ${escapeHtml(
+            post.title || "Untitled"
+          )}
+        </div>
+
+        <div class="post-caption">
+          ${escapeHtml(
+            post.caption || "No caption"
+          )}
+        </div>
+
+        <div class="post-meta">
+
+          <span class="status ${status}">
+            ${escapeHtml(status)}
+          </span>
+
+          <span>
+            ${formatDate(post.post_date)}
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="post-actions">
+
+        <button
+          class="action-button"
+          onclick="editPost('${escapeAttribute(post.id)}')">
+          Edit
+        </button>
+
+        <button
+          class="action-button delete"
+          onclick="askDelete('${escapeAttribute(post.id)}')">
+          Delete
+        </button>
+
+      </div>
+
+    </article>
+  `;
+}
+
+
+/* NEW */
+
+document
+.getElementById("newPostButton")
+.addEventListener(
+"click",
+()=>{
+
+  resetForm();
+
+  document
+  .getElementById("modalTitle")
+  .textContent =
+  "New Post";
+
+  postModal
+  .classList
+  .add("active");
+}
+);
+
+
+/* EDIT */
+
+window.editPost =
+function(id){
+
+  const post =
+  posts.find(
+    p => String(p.id) === String(id)
+  );
+
+  if(!post) return;
+
+
+  document.getElementById("postId").value =
+  post.id || "";
+
+  document.getElementById("title").value =
+  post.title || "";
+
+  document.getElementById("caption").value =
+  post.caption || "";
+
+  document.getElementById("content").value =
+  post.content || "";
+
+  document.getElementById("imageUrl").value =
+  post.image_url || "";
+
+  document.getElementById("videoUrl").value =
+  post.video_url || "";
+
+  document.getElementById("status").value =
+  post.status || "draft";
+
+  document.getElementById("slug").value =
+  post.slug || "";
+
+  document.getElementById("postDate").value =
+  toDateTimeLocal(post.post_date);
+
+
+  document
+  .getElementById("modalTitle")
+  .textContent =
+  "Edit Post";
+
+
+  clearSelectedFiles();
+
+  postModal
+  .classList
+  .add("active");
+};
+
+
+/* SAVE */
+
+postForm.addEventListener(
+"submit",
+async event => {
+
+  event.preventDefault();
+
+  saveButton.disabled = true;
+  saveButton.textContent =
+  "Working...";
+
+
+  try{
+
+    let imageUrl =
+    document.getElementById("imageUrl")
+    .value
+    .trim();
+
+    let videoUrl =
+    document.getElementById("videoUrl")
+    .value
+    .trim();
+
+
+    /* IMAGE UPLOAD */
+
+    const imageFile =
+    document.getElementById("imageFile")
+    .files[0];
+
+
+    if(imageFile){
+
+      imageUrl =
+      await uploadFile(
+        imageFile,
+        "imageUploadStatus"
+      );
+    }
+
+
+    /* VIDEO UPLOAD */
+
+    const videoFile =
+    document.getElementById("videoFile")
+    .files[0];
+
+
+    if(videoFile){
+
+      videoUrl =
+      await uploadFile(
+        videoFile,
+        "videoUploadStatus"
+      );
+    }
+
+
+    const id =
+    document.getElementById("postId")
+    .value
+    .trim();
+
+
+    const title =
+    document.getElementById("title")
+    .value
+    .trim();
+
+
+    let slug =
+    document.getElementById("slug")
+    .value
+    .trim();
+
+
+    if(!slug){
+      slug =
+      createSlug(title);
+    }
+
+
+    const data = {
+
+      action:
+      id ? "update" : "create",
+
+      id,
+
+      title,
+
+      caption:
+      document
+      .getElementById("caption")
+      .value
+      .trim(),
+
+      content:
+      document
+      .getElementById("content")
+      .value,
+
+      image_url:
+      imageUrl,
+
+      video_url:
+      videoUrl,
+
+      status:
+      document
+      .getElementById("status")
+      .value,
+
+      post_date:
+      document
+      .getElementById("postDate")
+      .value,
+
+      slug
+    };
+
+
+    const response =
+    await fetch(
+      API_URL,
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":
+          "text/plain;charset=utf-8"
+        },
+        body:
+        JSON.stringify(data)
+      }
+    );
+
+
+    const result =
+    await response.json();
+
+
+    if(!result.success){
+      throw new Error(
+        result.error ||
+        "Could not save post."
+      );
+    }
+
+
+    closePostModal();
+
+    showToast(
+      id
+      ? "Post updated."
+      : "Post created."
+    );
+
+
+    await loadPosts();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      error.message,
+      true
+    );
+
+  }finally{
+
+    saveButton.disabled = false;
+
+    saveButton.textContent =
+    "Save Post";
+  }
+
+});
+
+
+/* UPLOAD */
+
+async function uploadFile(
+  file,
+  statusId
+){
+
+  const status =
+    document.getElementById(statusId);
+
+  status.classList.add("active");
+
+  setUploadStatus(
+    status,
+    "Preparing " + file.name + "...",
+    0
+  );
+
+  const base64 =
+    await fileToBase64WithProgress(
+      file,
+      status
+    );
+
+  const uploadId =
+    (window.crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : "upload-" +
+        Date.now() +
+        "-" +
+        Math.random()
+          .toString(36)
+          .slice(2);
+
+  const data = {
+    action:"upload",
+    upload_id:uploadId,
+    file_name:file.name,
+    mime_type:file.type,
+    file_data:base64
+  };
+
+  /*
+    Apps Script ContentService POST responses are
+    redirected. We therefore do not depend on the
+    POST response itself. The backend stores the
+    result under upload_id and the browser polls
+    that result through GET.
+  */
+  return await sendUploadAndWait(
+    data,
+    file,
+    status
+  );
+}
+
+
+function setUploadStatus(
+  status,
+  message,
+  percent
+){
+
+  const safePercent =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        Number(percent) || 0
+      )
+    );
+
+  status.innerHTML = `
+    <div class="upload-status-row">
+      <span class="upload-message">
+        ${escapeHtml(message)}
+      </span>
+      <span class="upload-percent">
+        ${Math.round(safePercent)}%
+      </span>
+    </div>
+
+    <div class="upload-progress">
+      <div
+        class="upload-progress-bar"
+        style="width:${safePercent}%">
+      </div>
+    </div>
+  `;
+}
+
+
+function sendUploadAndWait(
+  data,
+  file,
+  status
+){
+
+  return new Promise(
+    (resolve, reject) => {
+
+      const xhr =
+        new XMLHttpRequest();
+
+      let pollingStarted = false;
+
+      const startPolling =
+        () => {
+
+          if(pollingStarted) return;
+
+          pollingStarted = true;
+
+          pollUploadStatus(
+            data.upload_id,
+            file,
+            status,
+            180000
+          )
+          .then(result => {
+
+            setUploadStatus(
+              status,
+              "Uploaded successfully.",
+              100
+            );
+
+            resolve(result.url);
+
+          })
+          .catch(reject);
+        };
+
+
+      xhr.open(
+        "POST",
+        API_URL,
+        true
+      );
+
+      xhr.setRequestHeader(
+        "Content-Type",
+        "text/plain;charset=utf-8"
+      );
+
+      xhr.timeout = 120000;
+
+
+      xhr.upload.onprogress =
+        event => {
+
+          if(!event.lengthComputable){
+
+            setUploadStatus(
+              status,
+              "Uploading " +
+                file.name +
+                "...",
+              70
+            );
+
+            return;
+          }
+
+          /*
+            0–10% = preparation
+            10–90% = browser POST upload
+            90–100% = Drive/server processing
+          */
+          const percent =
+            10 +
+            (event.loaded / event.total) * 80;
+
+          setUploadStatus(
+            status,
+            "Uploading " +
+              file.name +
+              "...",
+            percent
+          );
+        };
+
+
+      xhr.upload.onload =
+        () => {
+
+          setUploadStatus(
+            status,
+            "File sent. Waiting for Google Drive...",
+            90
+          );
+        };
+
+
+      xhr.onload =
+        () => {
+
+          /*
+            Apps Script may return a redirect/HTML
+            response that the browser cannot expose
+            to JavaScript. The upload itself may still
+            have completed, so poll the backend.
+          */
+          startPolling();
+        };
+
+
+      xhr.onerror =
+        () => {
+
+          setUploadStatus(
+            status,
+            "Checking upload with Google Drive...",
+            90
+          );
+
+          startPolling();
+        };
+
+
+      xhr.ontimeout =
+        () => {
+
+          setUploadStatus(
+            status,
+            "Request timed out. Checking upload...",
+            90
+          );
+
+          startPolling();
+        };
+
+
+      try{
+
+        setUploadStatus(
+          status,
+          "Sending " +
+            file.name +
+            "...",
+          10
+        );
+
+        xhr.send(
+          JSON.stringify(data)
+        );
+
+      }catch(error){
+
+        startPolling();
+      }
+
+    }
+  );
+}
+
+
+function pollUploadStatus(
+  uploadId,
+  file,
+  status,
+  timeoutMs
+){
+
+  return new Promise(
+    (resolve, reject) => {
+
+      const started =
+        Date.now();
+
+
+      async function check(){
+
+        if(
+          Date.now() - started >
+          timeoutMs
+        ){
+
+          reject(
+            new Error(
+              "Upload is taking too long. Check Google Drive before trying again."
+            )
+          );
+
+          return;
+        }
+
+
+        try{
+
+          setUploadStatus(
+            status,
+            "Waiting for Google Drive...",
+            90
+          );
+
+
+          const response =
+            await fetch(
+              API_URL +
+              "?action=uploadStatus&id=" +
+              encodeURIComponent(uploadId) +
+              "&t=" +
+              Date.now(),
+              {
+                method:"GET",
+                cache:"no-store",
+                redirect:"follow"
+              }
+            );
+
+
+          const result =
+            await response.json();
+
+
+          if(result.success){
+
+            resolve(result);
+
+            return;
+          }
+
+
+          if(result.pending){
+
+            setTimeout(
+              check,
+              1500
+            );
+
+            return;
+          }
+
+
+          reject(
+            new Error(
+              result.error ||
+              "Upload failed."
+            )
+          );
+
+        }catch(error){
+
+          /*
+            Temporary GET failures are retried.
+          */
+          setTimeout(
+            check,
+            2000
+          );
+        }
+
+      }
+
+
+      check();
+
+    }
+  );
+}
+
+
+
+/* FILE → BASE64 */
+
+function fileToBase64WithProgress(
+  file,
+  status
+){
+
+  return new Promise(
+    (resolve,reject) => {
+
+      const reader =
+        new FileReader();
+
+
+      reader.onprogress =
+        event => {
+
+          if(!event.lengthComputable)
+            return;
+
+          /*
+            File reading occupies 0–10% so the user
+            can see that the browser is actually doing
+            work before the network upload begins.
+          */
+          const percent =
+            (event.loaded / event.total) * 10;
+
+          setUploadStatus(
+            status,
+            "Preparing " +
+              file.name +
+              "...",
+            percent
+          );
+        };
+
+
+      reader.onload =
+        () => {
+
+          try{
+
+            const result =
+              reader.result;
+
+            const base64 =
+              result
+                .split(",")[1];
+
+            if(!base64){
+
+              reject(
+                new Error(
+                  "Could not read the selected file."
+                )
+              );
+
+              return;
+            }
+
+            setUploadStatus(
+              status,
+              "File prepared. Starting upload...",
+              10
+            );
+
+            resolve(base64);
+
+          }catch(error){
+
+            reject(error);
+          }
+        };
+
+
+      reader.onerror =
+        () => {
+
+          reject(
+            new Error(
+              "Could not read " +
+              file.name +
+              "."
+            )
+          );
+        };
+
+
+      reader.readAsDataURL(file);
+
+    }
+  );
+}
+
+
+
+/* IMAGE PREVIEW */
+
+document
+.getElementById("imageFile")
+.addEventListener(
+"change",
+function(){
+
+  const file =
+  this.files[0];
+
+  const name =
+  document.getElementById(
+    "imageFileName"
+  );
+
+  const preview =
+  document.getElementById(
+    "imagePreview"
+  );
+
+  const img =
+  document.getElementById(
+    "imagePreviewImg"
+  );
+
+
+  if(!file){
+
+    name.textContent =
+    "No file selected";
+
+    preview.classList.remove(
+      "active"
+    );
+
+    return;
+  }
+
+
+  name.textContent =
+  file.name;
+
+
+  img.src =
+  URL.createObjectURL(file);
+
+
+  preview.classList.add(
+    "active"
+  );
+});
+
+
+/* VIDEO PREVIEW */
+
+document
+.getElementById("videoFile")
+.addEventListener(
+"change",
+function(){
+
+  const file =
+  this.files[0];
+
+  const name =
+  document.getElementById(
+    "videoFileName"
+  );
+
+  const preview =
+  document.getElementById(
+    "videoPreview"
+  );
+
+  const video =
+  document.getElementById(
+    "videoPreviewVideo"
+  );
+
+
+  if(!file){
+
+    name.textContent =
+    "No file selected";
+
+    preview.classList.remove(
+      "active"
+    );
+
+    return;
+  }
+
+
+  name.textContent =
+  file.name;
+
+
+  video.src =
+  URL.createObjectURL(file);
+
+
+  preview.classList.add(
+    "active"
+  );
+});
+
+
+/* DELETE */
+
+window.askDelete =
+function(id){
+
+  postToDelete =
+  id;
+
+  deleteModal
+  .classList
+  .add("active");
+};
+
+
+document
+.getElementById("confirmDelete")
+.addEventListener(
+"click",
+async ()=>{
+
+  if(!postToDelete) return;
+
+
+  const button =
+  document.getElementById(
+    "confirmDelete"
+  );
+
+  button.disabled = true;
+
+  button.textContent =
+  "Deleting...";
+
+
+  try{
+
+    const response =
+    await fetch(
+      API_URL,
+      {
+        method:"POST",
+        redirect:"follow",
+        headers:{
+          "Content-Type":
+          "text/plain;charset=utf-8"
+        },
+        body:
+        JSON.stringify({
+          action:"delete",
+          id:postToDelete
+        })
+      }
+    );
+
+
+    const result =
+    await response.json();
+
+
+    if(!result.success){
+      throw new Error(
+        result.error ||
+        "Delete failed."
+      );
+    }
+
+
+    closeDeleteModal();
+
+    showToast(
+      "Post deleted."
+    );
+
+    await loadPosts();
+
+
+  }catch(error){
+
+    showToast(
+      error.message,
+      true
+    );
+
+  }finally{
+
+    button.disabled = false;
+    button.textContent =
+    "Delete";
+  }
+});
+
+
+/* SEARCH */
+
+document
+.getElementById("searchInput")
+.addEventListener(
+"input",
+renderPosts
+);
+
+
+document
+.getElementById("statusFilter")
+.addEventListener(
+"change",
+renderPosts
+);
+
+
+/* MODALS */
+
+document
+.getElementById("closeModal")
+.addEventListener(
+"click",
+closePostModal
+);
+
+
+document
+.getElementById("cancelButton")
+.addEventListener(
+"click",
+closePostModal
+);
+
+
+document
+.getElementById("cancelDelete")
+.addEventListener(
+"click",
+closeDeleteModal
+);
+
+
+function closePostModal(){
+
+  postModal
+  .classList
+  .remove("active");
+}
+
+
+function closeDeleteModal(){
+
+  deleteModal
+  .classList
+  .remove("active");
+
+  postToDelete =
+  null;
+}
+
+
+/* RESET */
+
+function resetForm(){
+
+  postForm.reset();
+
+  document.getElementById("postId").value =
+  "";
+
+  document.getElementById("status").value =
+  "draft";
+
+  document.getElementById("postDate").value =
+  getCurrentDateTimeLocal();
+
+  clearSelectedFiles();
+}
+
+
+function clearSelectedFiles(){
+
+  document.getElementById("imageFile").value =
+  "";
+
+  document.getElementById("videoFile").value =
+  "";
+
+  document.getElementById("imageFileName")
+  .textContent =
+  "No file selected";
+
+  document.getElementById("videoFileName")
+  .textContent =
+  "No file selected";
+
+  document.getElementById("imagePreview")
+  .classList
+  .remove("active");
+
+  document.getElementById("videoPreview")
+  .classList
+  .remove("active");
+
+  document.getElementById("imageUploadStatus")
+  .classList
+  .remove("active");
+
+  document.getElementById("videoUploadStatus")
+  .classList
+  .remove("active");
+}
+
+
+/* SLUG */
+
+function createSlug(title){
+
+  return String(title)
+  .toLowerCase()
+  .trim()
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,"")
+  .replace(/[^a-z0-9\s-]/g,"")
+  .replace(/\s+/g,"-")
+  .replace(/-+/g,"-");
+}
+
+
+/* DATE */
+
+function getCurrentDateTimeLocal(){
+
+  const now =
+  new Date();
+
+  const offset =
+  now.getTimezoneOffset();
+
+  const local =
+  new Date(
+    now.getTime() -
+    offset * 60000
+  );
+
+  return local
+  .toISOString()
+  .slice(0,16);
+}
+
+
+function toDateTimeLocal(value){
+
+  if(!value) return "";
+
+  const date =
+  new Date(value);
+
+  if(isNaN(date.getTime())){
+
+    if(
+      typeof value === "string" &&
+      value.length >= 16
+    ){
+      return value.slice(0,16);
+    }
+
+    return "";
+  }
+
+
+  const offset =
+  date.getTimezoneOffset();
+
+  const local =
+  new Date(
+    date.getTime() -
+    offset * 60000
+  );
+
+  return local
+  .toISOString()
+  .slice(0,16);
+}
+
+
+function formatDate(value){
+
+  if(!value) return "No date";
+
+  const date =
+  new Date(value);
+
+  if(isNaN(date.getTime()))
+    return String(value);
+
+  return new Intl.DateTimeFormat(
+    undefined,
+    {
+      year:"numeric",
+      month:"short",
+      day:"numeric"
+    }
+  ).format(date);
+}
+
+
+/* TOAST */
+
+let toastTimer;
+
+function showToast(
+  message,
+  error=false
+){
+
+  clearTimeout(
+    toastTimer
+  );
+
+  toast.textContent =
+  message;
+
+  toast.classList.toggle(
+    "error",
+    error
+  );
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  toastTimer =
+  setTimeout(
+    ()=>{
+      toast.classList.remove(
+        "show"
+      );
+    },
+    3000
+  );
+}
+
+
+/* ESCAPE */
+
+function escapeHtml(value){
+
+  return String(value)
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+}
+
+
+function escapeAttribute(value){
+
+  return escapeHtml(value);
+}
+
+</script>
+
+</body>
+</html>
