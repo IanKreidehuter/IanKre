@@ -43,18 +43,22 @@
   /* ---------------------------------------------------------
      API helpers — CORS-free by design
      -----------------------------------------------------------
-     Apps Script web apps never send Access-Control-Allow-Origin,
-     so a fetch() that tries to READ a cross-origin response is
-     always blocked, regardless of headers used on the request.
-     Instead:
-       - Reads (list) go through JSONP via a <script> tag — not
-         subject to CORS at all.
-       - Writes (create/update/delete/uploadImage) are submitted
-         as a hidden form POST to a hidden iframe — form submissions
-         are never blocked by CORS either. The result comes back via
-         window.postMessage from the page Apps Script renders inside
-         that iframe, matched by a per-request id.
+     Apps Script web apps never send Access-Control-Allow-Origin, so
+     a fetch() that tries to READ a cross-origin response is always
+     blocked, regardless of headers used on the request. So:
+       - Reads (list, uploadstatus) go through JSONP via a <script>
+         tag — not subject to CORS at all, and fully readable.
+       - Writes (create/update/delete/uploadImage) are sent as a
+         no-cors fetch() POST with a CORS-safelisted content type
+         (application/x-www-form-urlencoded). This never triggers a
+         preflight and is never blocked — but the response is opaque
+         by design, so we never attempt to read it. The client just
+         waits briefly, then re-fetches the real state via JSONP.
      --------------------------------------------------------- */
+
+  function delay(ms) {
+    return new Promise(function (resolve) { setTimeout(resolve, ms); });
+  }
 
   function jsonp(url) {
     return new Promise(function (resolve, reject) {
@@ -91,102 +95,53 @@
     return jsonp(API_URL + "?action=list");
   }
 
-  var pendingRequests = {};
-  var bridgeIframe = null;
-
-  function ensureBridgeIframe() {
-    if (bridgeIframe) return bridgeIframe;
-    bridgeIframe = document.createElement("iframe");
-    bridgeIframe.name = "apiBridgeFrame";
-    bridgeIframe.style.display = "none";
-    document.body.appendChild(bridgeIframe);
-    return bridgeIframe;
-  }
-
-  // Apps Script serves the postMessage bridge page from script.google.com
-  // or a *.googleusercontent.com sandbox domain, depending on deployment.
-  // NOTE: that page is frequently blocked from rendering inside our
-  // hidden iframe by X-Frame-Options: sameorigin, which means its
-  // postMessage often never fires. We still listen for it as an optional
-  // fast path, but apiPostForm() below does NOT wait on it — see there
-  // for the actual completion logic.
-  function isTrustedOrigin(origin) {
-    return /^https:\/\/([a-z0-9-]+\.)*(script\.google\.com|googleusercontent\.com)$/.test(origin);
-  }
-
-  window.addEventListener("message", function (event) {
-    if (!isTrustedOrigin(event.origin)) return;
-
-    var data = event.data;
-    if (typeof data !== "string") return;
-    var parsed;
-    try { parsed = JSON.parse(data); } catch (err) { return; }
-    if (!parsed || !parsed.requestId) return;
-
-    var pending = pendingRequests[parsed.requestId];
-    if (!pending) return; // not one of ours, or already settled by the fallback timer
-    pending.settle(parsed);
-  });
-
-  // Submits a hidden form (action/create/update/delete/uploadImage) to
-  // the hidden iframe. We do NOT wait indefinitely for Apps Script's
-  // postMessage reply: because its response page is commonly blocked
-  // from rendering inside this iframe by X-Frame-Options, that message
-  // can simply never arrive. Instead, once the form submission has had
-  // time to reach the server, we resolve on our own — the caller is
-  // expected to re-fetch the real state via apiGetList() (JSONP)
-  // afterwards, which is the actual source of truth.
+  // Apps Script needs a brief moment after the POST lands to finish
+  // writing to the Sheet/Drive before a follow-up JSONP read is
+  // guaranteed to reflect it.
   var POST_SETTLE_DELAY_MS = 1200;
 
-  function apiPostForm(fields) {
-    return new Promise(function (resolve) {
-      ensureBridgeIframe();
-
-      var requestId = "r" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
-      var settled = false;
-
-      function settle(result) {
-        if (settled) return;
-        settled = true;
-        delete pendingRequests[requestId];
-        resolve(result);
-      }
-
-      pendingRequests[requestId] = { settle: settle };
-
-      // Fallback: always resolves, so the UI can never get stuck on
-      // "Saving…" even if the postMessage bridge is blocked outright.
-      setTimeout(function () {
-        settle({ ok: true, assumed: true, requestId: requestId });
-      }, POST_SETTLE_DELAY_MS);
-
-      var form = document.createElement("form");
-      form.method = "POST";
-      form.action = API_URL;
-      form.target = "apiBridgeFrame";
-      form.style.display = "none";
-
-      var allFields = Object.assign({}, fields, {
-        requestId: requestId,
-        origin: window.location.origin
-      });
-
-      Object.keys(allFields).forEach(function (key) {
-        var value = allFields[key];
-        if (value === undefined || value === null) return;
-        var input = document.createElement("input");
-        input.type = "hidden";
-        input.name = key;
-        input.value = String(value);
-        form.appendChild(input);
-      });
-
-      document.body.appendChild(form);
-      form.submit();
-      setTimeout(function () {
-        if (form.parentNode) form.parentNode.removeChild(form);
-      }, 1500);
+  // Fire-and-forget write. Resolves once the request has been sent
+  // and given time to be processed; rejects only on an actual network
+  // failure (e.g. offline) — never on the (unreadable) response itself.
+  function apiPost(payload) {
+    var body = new URLSearchParams();
+    Object.keys(payload).forEach(function (key) {
+      var value = payload[key];
+      if (value === undefined || value === null) return;
+      body.append(key, String(value));
     });
+
+    return fetch(API_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+      body: body.toString()
+    }).then(function () {
+      return delay(POST_SETTLE_DELAY_MS);
+    });
+  }
+
+  // Image upload result can't come back through the opaque no-cors
+  // response, so uploadImage() on the server caches it (keyed by
+  // uploadId) and we poll for it here via the readable JSONP channel.
+  function pollUploadStatus(uploadId) {
+    var maxAttempts = 10;
+    var intervalMs = 1000;
+
+    function attempt(n) {
+      return jsonp(API_URL + "?action=uploadstatus&uploadId=" + encodeURIComponent(uploadId))
+        .then(function (res) {
+          if (res && res.ready) return res;
+          if (n >= maxAttempts) {
+            return { ok: false, error: "Upload is taking longer than expected. Please try again." };
+          }
+          return delay(intervalMs).then(function () { return attempt(n + 1); });
+        });
+    }
+
+    return attempt(1);
   }
 
   /* ---------------------------------------------------------
@@ -377,18 +332,26 @@
     els.uploadStatus.textContent = "Uploading…";
     els.saveBtn.disabled = true;
 
+    var uploadId = "u" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
+
     fileToBase64(file)
       .then(function (base64) {
-        return apiPostForm({
+        return apiPost({
           action: "uploadImage",
+          uploadId: uploadId,
           filename: file.name,
           mimeType: file.type || "image/jpeg",
           data: base64
         });
       })
+      .then(function () {
+        return pollUploadStatus(uploadId);
+      })
       .then(function (res) {
         els.saveBtn.disabled = false;
-        if (!res.ok) throw new Error(res.error || "Upload failed");
+        if (!res || !res.ok || !res.image_url) {
+          throw new Error((res && res.error) || "Upload failed");
+        }
         els.imageUrlInput.value = res.image_url;
         els.imagePreview.src = res.image_url;
         els.imagePreviewWrap.hidden = false;
@@ -434,12 +397,12 @@
     els.saveBtn.disabled = true;
     els.saveBtn.textContent = "Saving…";
 
-    apiPostForm(payload)
-      .then(function (res) {
-        if (!res.ok) throw new Error(res.error || "Save failed");
-        closeForm();
-        showBanner(id ? "Post updated." : "Post created.", "success");
+    apiPost(payload)
+      .then(function () {
         loadPosts();
+        closeForm();
+        resetForm();
+        showBanner(id ? "Post updated." : "Post created.", "success");
       })
       .catch(function (err) {
         showBanner("Couldn't save post: " + err.message, "error");
@@ -456,11 +419,10 @@
 
   function toggleStatus(post) {
     var newStatus = post.status === "published" ? "draft" : "published";
-    apiPostForm({ action: "update", id: post.id, status: newStatus })
-      .then(function (res) {
-        if (!res.ok) throw new Error(res.error || "Update failed");
-        showBanner("Marked as " + newStatus + ".", "success");
+    apiPost({ action: "update", id: post.id, status: newStatus })
+      .then(function () {
         loadPosts();
+        showBanner("Marked as " + newStatus + ".", "success");
       })
       .catch(function (err) {
         showBanner("Couldn't update status: " + err.message, "error");
@@ -471,11 +433,10 @@
     var ok = window.confirm('Delete "' + (post.title || "this post") + '"? This can\'t be undone.');
     if (!ok) return;
 
-    apiPostForm({ action: "delete", id: post.id })
-      .then(function (res) {
-        if (!res.ok) throw new Error(res.error || "Delete failed");
-        showBanner("Post deleted.", "success");
+    apiPost({ action: "delete", id: post.id })
+      .then(function () {
         loadPosts();
+        showBanner("Post deleted.", "success");
       })
       .catch(function (err) {
         showBanner("Couldn't delete post: " + err.message, "error");
