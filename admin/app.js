@@ -41,23 +41,123 @@
   var slugManuallyEdited = false;
 
   /* ---------------------------------------------------------
-     API helpers
+     API helpers — CORS-free by design
+     -----------------------------------------------------------
+     Apps Script web apps never send Access-Control-Allow-Origin,
+     so a fetch() that tries to READ a cross-origin response is
+     always blocked, regardless of headers used on the request.
+     Instead:
+       - Reads (list) go through JSONP via a <script> tag — not
+         subject to CORS at all.
+       - Writes (create/update/delete/uploadImage) are submitted
+         as a hidden form POST to a hidden iframe — form submissions
+         are never blocked by CORS either. The result comes back via
+         window.postMessage from the page Apps Script renders inside
+         that iframe, matched by a per-request id.
      --------------------------------------------------------- */
 
-  function apiGet(action) {
-    return fetch(API_URL + "?action=" + encodeURIComponent(action))
-      .then(function (r) { return r.json(); });
+  function jsonp(url) {
+    return new Promise(function (resolve, reject) {
+      var callbackName = "jsonp_cb_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
+      var script = document.createElement("script");
+
+      var timer = setTimeout(function () {
+        cleanup();
+        reject(new Error("Request timed out"));
+      }, 20000);
+
+      function cleanup() {
+        delete window[callbackName];
+        if (script.parentNode) script.parentNode.removeChild(script);
+        clearTimeout(timer);
+      }
+
+      window[callbackName] = function (data) {
+        cleanup();
+        resolve(data);
+      };
+
+      script.onerror = function () {
+        cleanup();
+        reject(new Error("Network error loading posts"));
+      };
+
+      script.src = url + (url.indexOf("?") === -1 ? "?" : "&") + "callback=" + encodeURIComponent(callbackName);
+      document.body.appendChild(script);
+    });
   }
 
-  // Sent as text/plain to avoid a CORS preflight request, which
-  // Apps Script web apps don't handle. The server still parses it
-  // as JSON via e.postData.contents.
-  function apiPost(payload) {
-    return fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload)
-    }).then(function (r) { return r.json(); });
+  function apiGetList() {
+    return jsonp(API_URL + "?action=list");
+  }
+
+  var pendingRequests = {};
+  var bridgeIframe = null;
+
+  function ensureBridgeIframe() {
+    if (bridgeIframe) return bridgeIframe;
+    bridgeIframe = document.createElement("iframe");
+    bridgeIframe.name = "apiBridgeFrame";
+    bridgeIframe.style.display = "none";
+    document.body.appendChild(bridgeIframe);
+    return bridgeIframe;
+  }
+
+  window.addEventListener("message", function (event) {
+    var data = event.data;
+    if (typeof data !== "string") return;
+    var parsed;
+    try { parsed = JSON.parse(data); } catch (err) { return; }
+    if (!parsed || !parsed.requestId) return;
+
+    var pending = pendingRequests[parsed.requestId];
+    if (!pending) return; // not one of ours (or already handled)
+
+    clearTimeout(pending.timer);
+    delete pendingRequests[parsed.requestId];
+
+    if (parsed.ok) pending.resolve(parsed);
+    else pending.reject(new Error(parsed.error || "Request failed"));
+  });
+
+  function apiPostForm(fields) {
+    return new Promise(function (resolve, reject) {
+      ensureBridgeIframe();
+
+      var requestId = "r" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
+      var timer = setTimeout(function () {
+        delete pendingRequests[requestId];
+        reject(new Error("Request timed out"));
+      }, 30000);
+      pendingRequests[requestId] = { resolve: resolve, reject: reject, timer: timer };
+
+      var form = document.createElement("form");
+      form.method = "POST";
+      form.action = API_URL;
+      form.target = "apiBridgeFrame";
+      form.style.display = "none";
+
+      var allFields = Object.assign({}, fields, {
+        requestId: requestId,
+        origin: window.location.origin
+      });
+
+      Object.keys(allFields).forEach(function (key) {
+        var value = allFields[key];
+        if (value === undefined || value === null) return;
+        var input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = String(value);
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
+      setTimeout(function () {
+        if (form.parentNode) form.parentNode.removeChild(form);
+      }, 1000);
+    });
   }
 
   /* ---------------------------------------------------------
@@ -136,7 +236,7 @@
     els.errorState.hidden = true;
     els.emptyState.hidden = true;
 
-    apiGet("list")
+    apiGetList()
       .then(function (res) {
         els.loadingState.hidden = true;
         if (!res.ok) throw new Error(res.error || "Failed to load posts");
@@ -250,7 +350,7 @@
 
     fileToBase64(file)
       .then(function (base64) {
-        return apiPost({
+        return apiPostForm({
           action: "uploadImage",
           filename: file.name,
           mimeType: file.type || "image/jpeg",
@@ -305,7 +405,7 @@
     els.saveBtn.disabled = true;
     els.saveBtn.textContent = "Saving…";
 
-    apiPost(payload)
+    apiPostForm(payload)
       .then(function (res) {
         if (!res.ok) throw new Error(res.error || "Save failed");
         closeForm();
@@ -327,7 +427,7 @@
 
   function toggleStatus(post) {
     var newStatus = post.status === "published" ? "draft" : "published";
-    apiPost({ action: "update", id: post.id, status: newStatus })
+    apiPostForm({ action: "update", id: post.id, status: newStatus })
       .then(function (res) {
         if (!res.ok) throw new Error(res.error || "Update failed");
         showBanner("Marked as " + newStatus + ".", "success");
@@ -342,7 +442,7 @@
     var ok = window.confirm('Delete "' + (post.title || "this post") + '"? This can\'t be undone.');
     if (!ok) return;
 
-    apiPost({ action: "delete", id: post.id })
+    apiPostForm({ action: "delete", id: post.id })
       .then(function (res) {
         if (!res.ok) throw new Error(res.error || "Delete failed");
         showBanner("Post deleted.", "success");
