@@ -104,8 +104,12 @@
   }
 
   // Apps Script serves the postMessage bridge page from script.google.com
-  // or a *.googleusercontent.com sandbox domain, depending on deployment —
-  // accept either, and nothing else.
+  // or a *.googleusercontent.com sandbox domain, depending on deployment.
+  // NOTE: that page is frequently blocked from rendering inside our
+  // hidden iframe by X-Frame-Options: sameorigin, which means its
+  // postMessage often never fires. We still listen for it as an optional
+  // fast path, but apiPostForm() below does NOT wait on it — see there
+  // for the actual completion logic.
   function isTrustedOrigin(origin) {
     return /^https:\/\/([a-z0-9-]+\.)*(script\.google\.com|googleusercontent\.com)$/.test(origin);
   }
@@ -120,25 +124,41 @@
     if (!parsed || !parsed.requestId) return;
 
     var pending = pendingRequests[parsed.requestId];
-    if (!pending) return; // not one of ours (or already handled)
-
-    clearTimeout(pending.timer);
-    delete pendingRequests[parsed.requestId];
-
-    if (parsed.ok) pending.resolve(parsed);
-    else pending.reject(new Error(parsed.error || "Request failed"));
+    if (!pending) return; // not one of ours, or already settled by the fallback timer
+    pending.settle(parsed);
   });
 
+  // Submits a hidden form (action/create/update/delete/uploadImage) to
+  // the hidden iframe. We do NOT wait indefinitely for Apps Script's
+  // postMessage reply: because its response page is commonly blocked
+  // from rendering inside this iframe by X-Frame-Options, that message
+  // can simply never arrive. Instead, once the form submission has had
+  // time to reach the server, we resolve on our own — the caller is
+  // expected to re-fetch the real state via apiGetList() (JSONP)
+  // afterwards, which is the actual source of truth.
+  var POST_SETTLE_DELAY_MS = 1200;
+
   function apiPostForm(fields) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
       ensureBridgeIframe();
 
       var requestId = "r" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
-      var timer = setTimeout(function () {
+      var settled = false;
+
+      function settle(result) {
+        if (settled) return;
+        settled = true;
         delete pendingRequests[requestId];
-        reject(new Error("Request timed out"));
-      }, 30000);
-      pendingRequests[requestId] = { resolve: resolve, reject: reject, timer: timer };
+        resolve(result);
+      }
+
+      pendingRequests[requestId] = { settle: settle };
+
+      // Fallback: always resolves, so the UI can never get stuck on
+      // "Saving…" even if the postMessage bridge is blocked outright.
+      setTimeout(function () {
+        settle({ ok: true, assumed: true, requestId: requestId });
+      }, POST_SETTLE_DELAY_MS);
 
       var form = document.createElement("form");
       form.method = "POST";
@@ -165,7 +185,7 @@
       form.submit();
       setTimeout(function () {
         if (form.parentNode) form.parentNode.removeChild(form);
-      }, 1000);
+      }, 1500);
     });
   }
 
