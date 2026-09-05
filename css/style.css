@@ -584,6 +584,21 @@ section {
   margin-bottom: 1.75rem;
 }
 
+.contact-email {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.15rem;
+  color: var(--accent);
+  margin-bottom: 2rem;
+  word-break: break-all;
+  transition: color 0.2s ease;
+}
+
+.contact-email:hover {
+  color: var(--ink);
+}
+
 .social-links {
   display: flex;
   justify-content: center;
