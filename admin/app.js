@@ -4,7 +4,7 @@
   // Your deployed Apps Script Web App. If you ever create a NEW
   // deployment (rather than updating the existing one), paste the
   // new /exec URL here.
-  var API_URL = "https://script.google.com/macros/s/AKfycbzgePBEBV-gauWuRHDS9N0rUkF0kiVUwn1zddjvOW4HrHNnPz0hsuXEMVMHQGhVgX_iw/exec";
+  var API_URL = "https://script.google.com/macros/s/AKfycbzgePBzEBV-gauWuRHDS9N0rUkF0kiVUwn1zddjvOW4HrHNnPz0hsuXEMVMhQGhVgX_iw/exec";
 
   var els = {
     banner: document.getElementById("banner"),
@@ -103,7 +103,16 @@
     return bridgeIframe;
   }
 
+  // Apps Script serves the postMessage bridge page from script.google.com
+  // or a *.googleusercontent.com sandbox domain, depending on deployment —
+  // accept either, and nothing else.
+  function isTrustedOrigin(origin) {
+    return /^https:\/\/([a-z0-9-]+\.)*(script\.google\.com|googleusercontent\.com)$/.test(origin);
+  }
+
   window.addEventListener("message", function (event) {
+    if (!isTrustedOrigin(event.origin)) return;
+
     var data = event.data;
     if (typeof data !== "string") return;
     var parsed;
