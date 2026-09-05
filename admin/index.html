@@ -575,17 +575,9 @@ button{
     id="statusFilter"
     class="filter">
 
-    <option value="all">
-      All posts
-    </option>
-
-    <option value="published">
-      Published
-    </option>
-
-    <option value="draft">
-      Drafts
-    </option>
+    <option value="all">All posts</option>
+    <option value="published">Published</option>
+    <option value="draft">Drafts</option>
 
   </select>
 
@@ -628,7 +620,6 @@ button{
 
     </div>
 
-
     <form
       id="postForm"
       class="form">
@@ -637,12 +628,9 @@ button{
         id="postId"
         type="hidden">
 
-
       <div class="field">
 
-        <label>
-          Title
-        </label>
+        <label>Title</label>
 
         <input
           id="title"
@@ -652,12 +640,9 @@ button{
 
       </div>
 
-
       <div class="field">
 
-        <label>
-          Caption / Excerpt
-        </label>
+        <label>Caption / Excerpt</label>
 
         <input
           id="caption"
@@ -666,12 +651,9 @@ button{
 
       </div>
 
-
       <div class="field">
 
-        <label>
-          Content
-        </label>
+        <label>Content</label>
 
         <textarea
           id="content"
@@ -679,14 +661,11 @@ button{
 
       </div>
 
-
       <div class="two-columns">
 
         <div class="field">
 
-          <label>
-            Status
-          </label>
+          <label>Status</label>
 
           <select id="status">
 
@@ -702,12 +681,9 @@ button{
 
         </div>
 
-
         <div class="field">
 
-          <label>
-            Post date
-          </label>
+          <label>Post date</label>
 
           <input
             id="postDate"
@@ -748,12 +724,10 @@ button{
 
         </div>
 
-
         <div
           id="imageUploadStatus"
           class="upload-status">
         </div>
-
 
         <div
           id="imagePreview"
@@ -764,7 +738,6 @@ button{
             alt="Image preview">
 
         </div>
-
 
         <div
           class="field"
@@ -814,12 +787,10 @@ button{
 
         </div>
 
-
         <div
           id="videoUploadStatus"
           class="upload-status">
         </div>
-
 
         <div
           id="videoPreview"
@@ -832,7 +803,6 @@ button{
           </video>
 
         </div>
-
 
         <div
           class="field"
@@ -1003,8 +973,7 @@ async function loadPosts(){
     let data;
 
     try{
-      data =
-      JSON.parse(text);
+      data = JSON.parse(text);
     }catch(error){
       throw new Error(
         "Backend returned an invalid response."
@@ -1316,11 +1285,6 @@ function(id){
   clearSelectedFiles();
 
 
-  /*
-   * Existing saved URLs remain untouched.
-   * Only newly selected files are cleared.
-   */
-
   postModal
     .classList
     .add("active");
@@ -1363,12 +1327,7 @@ postForm.addEventListener(
         .trim();
 
 
-      /*
-       * IMAGE FILE
-       *
-       * This is now the old working
-       * direct Base64 upload system.
-       */
+      /* IMAGE FILE */
 
       const imageFile =
       document
@@ -1381,14 +1340,13 @@ postForm.addEventListener(
         imageUrl =
         await uploadFile(
           imageFile,
-          "imageUploadStatus"
+          "imageUploadStatus",
+          "image"
         );
       }
 
 
-      /*
-       * VIDEO FILE
-       */
+      /* VIDEO FILE */
 
       const videoFile =
       document
@@ -1401,7 +1359,8 @@ postForm.addEventListener(
         videoUrl =
         await uploadFile(
           videoFile,
-          "videoUploadStatus"
+          "videoUploadStatus",
+          "video"
         );
       }
 
@@ -1428,9 +1387,7 @@ postForm.addEventListener(
 
 
       if(!slug){
-
-        slug =
-        createSlug(title);
+        slug = createSlug(title);
       }
 
 
@@ -1441,50 +1398,36 @@ postForm.addEventListener(
           ? "update"
           : "create",
 
-        id:
+        id:id,
 
-        id,
-
-        title:
-
-        title,
+        title:title,
 
         caption:
-
         document
           .getElementById("caption")
           .value
           .trim(),
 
         content:
-
         document
           .getElementById("content")
           .value,
 
-        image_url:
+        image_url:imageUrl,
 
-        imageUrl,
-
-        video_url:
-
-        videoUrl,
+        video_url:videoUrl,
 
         status:
-
         document
           .getElementById("status")
           .value,
 
         post_date:
-
         document
           .getElementById("postDate")
           .value,
 
-        slug:
-
-        slug
+        slug:slug
       };
 
 
@@ -1515,9 +1458,7 @@ postForm.addEventListener(
       try{
 
         result =
-        JSON.parse(
-          responseText
-        );
+        JSON.parse(responseText);
 
       }catch(error){
 
@@ -1580,22 +1521,12 @@ postForm.addEventListener(
 
 /* =========================================================
    DIRECT MEDIA UPLOAD
-   =========================================================
-
-   This intentionally follows the old working project.
-
-   No:
-   - XMLHttpRequest
-   - xhr.upload
-   - uploadStatus polling
-   - CacheService
-   - upload_id
-   - OPTIONS handling
    ========================================================= */
 
 async function uploadFile(
   file,
-  statusId
+  statusId,
+  mediaType
 ){
 
   const status =
@@ -1604,14 +1535,31 @@ async function uploadFile(
   );
 
 
-  if(
-    !file.type.startsWith("image/") &&
-    !file.type.startsWith("video/")
-  ){
+  if(mediaType === "image"){
 
-    throw new Error(
-      "Only images and videos are allowed."
-    );
+    if(
+      !file.type.startsWith("image/")
+    ){
+
+      throw new Error(
+        "Please choose an image file."
+      );
+    }
+
+  }
+
+
+  if(mediaType === "video"){
+
+    if(
+      !file.type.startsWith("video/")
+    ){
+
+      throw new Error(
+        "Please choose a video file."
+      );
+    }
+
   }
 
 
@@ -1627,51 +1575,49 @@ async function uploadFile(
 
   setUploadMessage(
     status,
-    "Reading " +
-    file.name +
-    "..."
+    "Reading " + file.name + "..."
   );
 
 
   try{
 
     /*
-     * Same basic process as the old
-     * working project:
-     *
-     * FileReader
-     * ↓
-     * Base64
-     * ↓
-     * fetch POST
-     * ↓
-     * Apps Script
+     * Read the file completely.
      */
 
     const base64 =
-    await fileToBase64(
-      file
-    );
+    await fileToBase64(file);
 
 
     setUploadMessage(
       status,
-      "Uploading " +
-      file.name +
-      "..."
+      "Uploading " + file.name + "..."
     );
 
 
+    /*
+     * IMPORTANT:
+     *
+     * This matches Code.gs exactly.
+     *
+     * action = upload
+     * file   = base64 data
+     */
+
     const payload = {
 
-      fileData:
-        base64,
+      action:"upload",
+
+      file:base64,
 
       fileName:
-        file.name,
+      file.name,
 
       mimeType:
-        file.type
+      file.type,
+
+      mediaType:
+      mediaType
 
     };
 
@@ -1682,15 +1628,21 @@ async function uploadFile(
       {
         method:"POST",
 
+        /*
+         * text/plain avoids a CORS preflight.
+         *
+         * Do NOT change this to application/json.
+         */
+
         headers:{
           "Content-Type":
             "text/plain;charset=utf-8"
         },
 
         body:
-        JSON.stringify(
-          payload
-        )
+        JSON.stringify(payload),
+
+        redirect:"follow"
       }
     );
 
@@ -1700,7 +1652,7 @@ async function uploadFile(
 
 
     console.log(
-      "Upload response:",
+      "Media upload response:",
       responseText
     );
 
@@ -1710,19 +1662,17 @@ async function uploadFile(
     try{
 
       result =
-      JSON.parse(
-        responseText
-      );
+      JSON.parse(responseText);
 
     }catch(error){
 
       console.error(
-        "Invalid upload response:",
+        "Invalid media upload response:",
         responseText
       );
 
       throw new Error(
-        "Google Apps Script returned an invalid response."
+        "Google Apps Script returned an invalid upload response."
       );
     }
 
@@ -1742,7 +1692,7 @@ async function uploadFile(
               result.error ||
               result.message
             )
-          : "Upload failed."
+          : "Media upload failed."
       );
     }
 
@@ -1761,7 +1711,7 @@ async function uploadFile(
     if(!uploadedUrl){
 
       throw new Error(
-        "Upload succeeded but no media URL was returned."
+        "Upload succeeded, but Google Drive did not return a media URL."
       );
     }
 
@@ -1797,9 +1747,7 @@ async function uploadFile(
 
 /* FILE → BASE64 */
 
-function fileToBase64(
-  file
-){
+function fileToBase64(file){
 
   return new Promise(
     function(resolve,reject){
@@ -1823,9 +1771,7 @@ function fileToBase64(
           result.indexOf(",");
 
 
-          if(
-            commaIndex === -1
-          ){
+          if(commaIndex === -1){
 
             reject(
               new Error(
@@ -1855,9 +1801,7 @@ function fileToBase64(
           }
 
 
-          resolve(
-            base64
-          );
+          resolve(base64);
 
 
         }catch(error){
@@ -1880,9 +1824,7 @@ function fileToBase64(
       };
 
 
-      reader.readAsDataURL(
-        file
-      );
+      reader.readAsDataURL(file);
 
     }
   );
@@ -1948,9 +1890,7 @@ document
 
 
       if(
-        !file.type.startsWith(
-          "image/"
-        )
+        !file.type.startsWith("image/")
       ){
 
         showToast(
@@ -1976,9 +1916,7 @@ document
 
 
       img.src =
-        URL.createObjectURL(
-          file
-        );
+        URL.createObjectURL(file);
 
 
       preview
@@ -1987,9 +1925,7 @@ document
 
 
       document
-        .getElementById(
-          "imageUrl"
-        )
+        .getElementById("imageUrl")
         .value = "";
 
     }
@@ -2037,9 +1973,7 @@ document
 
 
       if(
-        !file.type.startsWith(
-          "video/"
-        )
+        !file.type.startsWith("video/")
       ){
 
         showToast(
@@ -2065,9 +1999,7 @@ document
 
 
       video.src =
-        URL.createObjectURL(
-          file
-        );
+        URL.createObjectURL(file);
 
 
       preview
@@ -2076,9 +2008,7 @@ document
 
 
       document
-        .getElementById(
-          "videoUrl"
-        )
+        .getElementById("videoUrl")
         .value = "";
 
     }
@@ -2373,9 +2303,7 @@ function clearSelectedFiles(){
 
 /* SLUG */
 
-function createSlug(
-  title
-){
+function createSlug(title){
 
   return String(title || "")
     .toLowerCase()
@@ -2411,10 +2339,8 @@ function getCurrentDateTimeLocal(){
   const now =
   new Date();
 
-
   const offset =
   now.getTimezoneOffset();
-
 
   const local =
   new Date(
@@ -2422,16 +2348,13 @@ function getCurrentDateTimeLocal(){
     offset * 60000
   );
 
-
   return local
     .toISOString()
     .slice(0,16);
 }
 
 
-function toDateTimeLocal(
-  value
-){
+function toDateTimeLocal(value){
 
   if(!value){
     return "";
@@ -2480,9 +2403,7 @@ function toDateTimeLocal(
 }
 
 
-function formatDate(
-  value
-){
+function formatDate(value){
 
   if(!value){
     return "No date";
@@ -2530,7 +2451,7 @@ function showToast(
 
 
   toast.textContent =
-    message;
+  message;
 
 
   toast.classList.toggle(
@@ -2560,9 +2481,7 @@ function showToast(
 
 /* ESCAPE */
 
-function escapeHtml(
-  value
-){
+function escapeHtml(value){
 
   return String(value)
     .replace(
@@ -2588,13 +2507,9 @@ function escapeHtml(
 }
 
 
-function escapeAttribute(
-  value
-){
+function escapeAttribute(value){
 
-  return escapeHtml(
-    value
-  );
+  return escapeHtml(value);
 }
 
 </script>
