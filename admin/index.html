@@ -1601,10 +1601,12 @@ function sendUploadAndWait(
         true
       );
 
-      xhr.setRequestHeader(
-        "Content-Type",
-        "text/plain;charset=utf-8"
-      );
+      /*
+        IMPORTANT: do not set a custom Content-Type here.
+        Sending a plain string without a custom header keeps this
+        cross-origin POST a CORS "simple request", so the browser
+        does not send an OPTIONS preflight to Apps Script.
+      */
 
       xhr.timeout = 120000;
 
@@ -1704,9 +1706,18 @@ function sendUploadAndWait(
           10
         );
 
-        xhr.send(
-          JSON.stringify(data)
-        );
+        /*
+          Uploads use application/x-www-form-urlencoded instead of
+          JSON. This is CORS-simple and still gives us real XHR
+          upload progress. Apps Script reads these values from e.parameter.
+        */
+        const form = new URLSearchParams();
+
+        Object.keys(data).forEach(key => {
+          form.append(key, data[key] == null ? "" : String(data[key]));
+        });
+
+        xhr.send(form.toString());
 
       }catch(error){
 
