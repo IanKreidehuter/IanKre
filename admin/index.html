@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Post Admin</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="admin-shell">
+
+  <header class="admin-header">
+    <h1>Post Admin</h1>
+    <button id="newPostBtn" class="btn btn-primary" type="button">+ New Post</button>
+  </header>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <!-- ===================== LIST VIEW ===================== -->
+  <section id="listView">
+    <div class="toolbar">
+      <input type="search" id="searchInput" placeholder="Search by title or slug…" aria-label="Search posts">
+      <span id="postCount" class="post-count"></span>
+    </div>
+
+    <div class="post-list-head">
+      <span>Title</span>
+      <span>Status</span>
+      <span>Updated</span>
+      <span>Actions</span>
+    </div>
+
+    <div id="postList" class="post-list"></div>
+
+    <p id="loadingState" class="state-message">Loading posts…</p>
+    <p id="emptyState" class="state-message" hidden>No posts yet. Click "New Post" to create one.</p>
+    <p id="errorState" class="state-message state-message-error" hidden></p>
+  </section>
+
+  <!-- ===================== FORM VIEW ===================== -->
+  <section id="formView" class="form-view" hidden>
+    <div class="form-card">
+      <div class="form-header">
+        <h2 id="formTitle">New Post</h2>
+        <button id="closeFormBtn" class="btn btn-icon" type="button" aria-label="Close">✕</button>
+      </div>
+
+      <form id="postForm" novalidate>
+        <input type="hidden" id="postId">
+
+        <label class="field">
+          <span>Title</span>
+          <input type="text" id="titleInput" required>
+        </label>
+
+        <label class="field">
+          <span>Slug</span>
+          <input type="text" id="slugInput" required pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="my-post-title">
+          <small>Auto-filled from the title — edit it if you want a different URL slug.</small>
+        </label>
+
+        <label class="field">
+          <span>Excerpt</span>
+          <textarea id="excerptInput" rows="2" placeholder="A short one- or two-sentence summary"></textarea>
+        </label>
+
+        <label class="field">
+          <span>Full content</span>
+          <textarea id="contentInput" rows="12" placeholder="Write the post here…"></textarea>
+        </label>
+
+        <div class="field">
+          <span>Image</span>
+          <div class="image-field">
+            <div id="imagePreviewWrap" class="image-preview-wrap" hidden>
+              <img id="imagePreview" alt="Post image preview">
+              <button type="button" id="removeImageBtn" class="btn btn-ghost btn-small">Remove image</button>
+            </div>
+            <input type="file" id="imageInput" accept="image/*">
+            <small id="uploadStatus"></small>
+          </div>
+          <input type="hidden" id="imageUrlInput">
+        </div>
+
+        <label class="field field-status">
+          <span>Status</span>
+          <select id="statusInput">
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+          </select>
+        </label>
+
+        <div class="form-actions">
+          <button type="submit" id="saveBtn" class="btn btn-primary">Save Post</button>
+          <button type="button" id="cancelBtn" class="btn btn-ghost">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
