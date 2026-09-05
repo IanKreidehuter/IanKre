@@ -16,13 +16,13 @@
   function closeMenu() {
     mobileMenu.hidden = true;
     navToggle.setAttribute("aria-expanded", "false");
-    navToggle.setAttribute("aria-label", "Open menu");
+    navToggle.setAttribute("aria-label", "メニューを開く");
   }
 
   function openMenu() {
     mobileMenu.hidden = false;
     navToggle.setAttribute("aria-expanded", "true");
-    navToggle.setAttribute("aria-label", "Close menu");
+    navToggle.setAttribute("aria-label", "メニューを閉じる");
   }
 
   if (navToggle && mobileMenu) {
