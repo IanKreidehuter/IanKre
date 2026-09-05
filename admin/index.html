@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>LIAM — Admin</title>
 
 <style>
@@ -32,7 +33,10 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
-button,input,textarea,select{
+button,
+input,
+textarea,
+select{
   font:inherit;
 }
 
@@ -340,7 +344,6 @@ button{
   font-size:13px;
   font-weight:600;
   cursor:pointer;
-  flex-shrink:0;
 }
 
 .file-name{
@@ -374,7 +377,7 @@ button{
 
 .upload-status{
   display:none;
-  margin-top:10px;
+  margin-top:9px;
   font-size:12px;
   color:var(--muted);
 }
@@ -383,40 +386,12 @@ button{
   display:block;
 }
 
-.upload-status-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:7px;
+.upload-status.success{
+  color:#246331;
 }
 
-.upload-message{
-  min-width:0;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.upload-percent{
-  flex-shrink:0;
-  font-weight:600;
-  color:#111;
-}
-
-.upload-progress{
-  width:100%;
-  height:5px;
-  border-radius:999px;
-  background:#e5e5e5;
-  overflow:hidden;
-}
-
-.upload-progress-bar{
-  height:100%;
-  width:0;
-  border-radius:999px;
-  background:#111;
-  transition:width .25s ease;
+.upload-status.error{
+  color:#b42318;
 }
 
 .form-footer{
@@ -581,7 +556,8 @@ button{
 
   <button
     class="new-post-button"
-    id="newPostButton">
+    id="newPostButton"
+    type="button">
     + New Post
   </button>
 </header>
@@ -599,9 +575,17 @@ button{
     id="statusFilter"
     class="filter">
 
-    <option value="all">All posts</option>
-    <option value="published">Published</option>
-    <option value="draft">Drafts</option>
+    <option value="all">
+      All posts
+    </option>
+
+    <option value="published">
+      Published
+    </option>
+
+    <option value="draft">
+      Drafts
+    </option>
 
   </select>
 
@@ -656,7 +640,9 @@ button{
 
       <div class="field">
 
-        <label>Title</label>
+        <label>
+          Title
+        </label>
 
         <input
           id="title"
@@ -669,7 +655,9 @@ button{
 
       <div class="field">
 
-        <label>Caption / Excerpt</label>
+        <label>
+          Caption / Excerpt
+        </label>
 
         <input
           id="caption"
@@ -681,7 +669,9 @@ button{
 
       <div class="field">
 
-        <label>Content</label>
+        <label>
+          Content
+        </label>
 
         <textarea
           id="content"
@@ -694,7 +684,9 @@ button{
 
         <div class="field">
 
-          <label>Status</label>
+          <label>
+            Status
+          </label>
 
           <select id="status">
 
@@ -713,7 +705,9 @@ button{
 
         <div class="field">
 
-          <label>Post date</label>
+          <label>
+            Post date
+          </label>
 
           <input
             id="postDate"
@@ -732,7 +726,6 @@ button{
           Image
         </div>
 
-
         <div class="file-row">
 
           <label class="choose-file">
@@ -747,13 +740,10 @@ button{
 
           </label>
 
-
           <span
             id="imageFileName"
             class="file-name">
-
             No file selected
-
           </span>
 
         </div>
@@ -802,7 +792,6 @@ button{
           Video
         </div>
 
-
         <div class="file-row">
 
           <label class="choose-file">
@@ -817,13 +806,10 @@ button{
 
           </label>
 
-
           <span
             id="videoFileName"
             class="file-name">
-
             No file selected
-
           </span>
 
         </div>
@@ -841,7 +827,8 @@ button{
 
           <video
             id="videoPreviewVideo"
-            controls>
+            controls
+            playsinline>
           </video>
 
         </div>
@@ -867,7 +854,9 @@ button{
 
       <div class="field">
 
-        <label>Slug</label>
+        <label>
+          Slug
+        </label>
 
         <input
           id="slug"
@@ -883,19 +872,14 @@ button{
           type="button"
           class="secondary-button"
           id="cancelButton">
-
           Cancel
-
         </button>
-
 
         <button
           type="submit"
           class="primary-button"
           id="saveButton">
-
           Save Post
-
         </button>
 
       </div>
@@ -915,7 +899,9 @@ button{
 
   <div class="delete-box">
 
-    <h2>Delete post?</h2>
+    <h2>
+      Delete post?
+    </h2>
 
     <p>
       This will permanently remove the post
@@ -928,18 +914,14 @@ button{
         class="secondary-button"
         id="cancelDelete"
         type="button">
-
         Cancel
-
       </button>
 
       <button
         class="danger-button"
         id="confirmDelete"
         type="button">
-
         Delete
-
       </button>
 
     </div>
@@ -1015,16 +997,25 @@ async function loadPosts(){
       }
     );
 
-    const data =
-    await response.json();
+    const text =
+    await response.text();
+
+    let data;
+
+    try{
+      data =
+      JSON.parse(text);
+    }catch(error){
+      throw new Error(
+        "Backend returned an invalid response."
+      );
+    }
 
     if(!data.success){
-
       throw new Error(
         data.error ||
         "Failed to load posts."
       );
-
     }
 
     posts =
@@ -1044,9 +1035,7 @@ async function loadPosts(){
         <p>${escapeHtml(error.message)}</p>
       </div>
     `;
-
   }
-
 }
 
 
@@ -1078,24 +1067,18 @@ function renderPosts(){
     String(post.slug || "")
       .toLowerCase();
 
-
     return (
-
       (
         !search ||
         title.includes(search) ||
         slug.includes(search)
       )
-
       &&
-
       (
         filter === "all" ||
-        String(
-          post.status || "draft"
-        ).toLowerCase() === filter
+        String(post.status || "draft")
+          .toLowerCase() === filter
       )
-
     );
 
   });
@@ -1126,7 +1109,6 @@ function renderPosts(){
     `;
 
     return;
-
   }
 
 
@@ -1134,7 +1116,6 @@ function renderPosts(){
   filtered
     .map(createPostCard)
     .join("");
-
 }
 
 
@@ -1167,7 +1148,6 @@ function createPostCard(post){
         preload="metadata">
       </video>
     `;
-
   }
 
 
@@ -1177,13 +1157,11 @@ function createPostCard(post){
 
 
   return `
-
     <article class="post-card">
 
       <div class="post-media">
         ${media}
       </div>
-
 
       <div class="post-info">
 
@@ -1193,13 +1171,11 @@ function createPostCard(post){
           )}
         </div>
 
-
         <div class="post-caption">
           ${escapeHtml(
             post.caption || "No caption"
           )}
         </div>
-
 
         <div class="post-meta">
 
@@ -1215,56 +1191,49 @@ function createPostCard(post){
 
       </div>
 
-
       <div class="post-actions">
 
         <button
           class="action-button"
+          type="button"
           onclick="editPost('${escapeAttribute(post.id)}')">
-
           Edit
-
         </button>
-
 
         <button
           class="action-button delete"
+          type="button"
           onclick="askDelete('${escapeAttribute(post.id)}')">
-
           Delete
-
         </button>
 
       </div>
 
     </article>
-
   `;
-
 }
 
 
 /* NEW */
 
 document
-.getElementById("newPostButton")
-.addEventListener(
-  "click",
-  () => {
+  .getElementById("newPostButton")
+  .addEventListener(
+    "click",
+    () => {
 
-    resetForm();
+      resetForm();
 
-    document
-      .getElementById("modalTitle")
-      .textContent =
-      "New Post";
+      document
+        .getElementById("modalTitle")
+        .textContent =
+        "New Post";
 
-    postModal
-      .classList
-      .add("active");
-
-  }
-);
+      postModal
+        .classList
+        .add("active");
+    }
+  );
 
 
 /* EDIT */
@@ -1274,40 +1243,68 @@ function(id){
 
   const post =
   posts.find(
-    p =>
-    String(p.id) ===
-    String(id)
+    p => String(p.id) === String(id)
   );
 
-  if(!post) return;
+  if(!post){
+    return;
+  }
 
 
-  document.getElementById("postId").value =
-  post.id || "";
+  document
+    .getElementById("postId")
+    .value =
+    post.id || "";
 
-  document.getElementById("title").value =
-  post.title || "";
 
-  document.getElementById("caption").value =
-  post.caption || "";
+  document
+    .getElementById("title")
+    .value =
+    post.title || "";
 
-  document.getElementById("content").value =
-  post.content || "";
 
-  document.getElementById("imageUrl").value =
-  post.image_url || "";
+  document
+    .getElementById("caption")
+    .value =
+    post.caption || "";
 
-  document.getElementById("videoUrl").value =
-  post.video_url || "";
 
-  document.getElementById("status").value =
-  post.status || "draft";
+  document
+    .getElementById("content")
+    .value =
+    post.content || "";
 
-  document.getElementById("slug").value =
-  post.slug || "";
 
-  document.getElementById("postDate").value =
-  toDateTimeLocal(post.post_date);
+  document
+    .getElementById("imageUrl")
+    .value =
+    post.image_url || "";
+
+
+  document
+    .getElementById("videoUrl")
+    .value =
+    post.video_url || "";
+
+
+  document
+    .getElementById("status")
+    .value =
+    post.status || "draft";
+
+
+  document
+    .getElementById("slug")
+    .value =
+    post.slug || "";
+
+
+  document
+    .getElementById("postDate")
+    .value =
+    toDateTimeLocal(
+      post.post_date
+    );
 
 
   document
@@ -1319,10 +1316,14 @@ function(id){
   clearSelectedFiles();
 
 
+  /*
+   * Existing saved URLs remain untouched.
+   * Only newly selected files are cleared.
+   */
+
   postModal
     .classList
     .add("active");
-
 };
 
 
@@ -1335,7 +1336,13 @@ postForm.addEventListener(
     event.preventDefault();
 
 
+    if(saveButton.disabled){
+      return;
+    }
+
+
     saveButton.disabled = true;
+
     saveButton.textContent =
       "Working...";
 
@@ -1348,6 +1355,7 @@ postForm.addEventListener(
         .value
         .trim();
 
+
       let videoUrl =
       document
         .getElementById("videoUrl")
@@ -1355,7 +1363,12 @@ postForm.addEventListener(
         .trim();
 
 
-      /* IMAGE */
+      /*
+       * IMAGE FILE
+       *
+       * This is now the old working
+       * direct Base64 upload system.
+       */
 
       const imageFile =
       document
@@ -1370,11 +1383,12 @@ postForm.addEventListener(
           imageFile,
           "imageUploadStatus"
         );
-
       }
 
 
-      /* VIDEO */
+      /*
+       * VIDEO FILE
+       */
 
       const videoFile =
       document
@@ -1389,7 +1403,6 @@ postForm.addEventListener(
           videoFile,
           "videoUploadStatus"
         );
-
       }
 
 
@@ -1418,50 +1431,60 @@ postForm.addEventListener(
 
         slug =
         createSlug(title);
-
       }
 
 
       const data = {
 
         action:
-          id
-            ? "update"
-            : "create",
+        id
+          ? "update"
+          : "create",
+
+        id:
 
         id,
+
+        title:
 
         title,
 
         caption:
-          document
-            .getElementById("caption")
-            .value
-            .trim(),
+
+        document
+          .getElementById("caption")
+          .value
+          .trim(),
 
         content:
-          document
-            .getElementById("content")
-            .value,
+
+        document
+          .getElementById("content")
+          .value,
 
         image_url:
-          imageUrl,
+
+        imageUrl,
 
         video_url:
-          videoUrl,
+
+        videoUrl,
 
         status:
-          document
-            .getElementById("status")
-            .value,
+
+        document
+          .getElementById("status")
+          .value,
 
         post_date:
-          document
-            .getElementById("postDate")
-            .value,
+
+        document
+          .getElementById("postDate")
+          .value,
+
+        slug:
 
         slug
-
       };
 
 
@@ -1470,6 +1493,7 @@ postForm.addEventListener(
         API_URL,
         {
           method:"POST",
+          redirect:"follow",
 
           headers:{
             "Content-Type":
@@ -1477,16 +1501,35 @@ postForm.addEventListener(
           },
 
           body:
-            JSON.stringify(data),
-
-          redirect:
-            "follow"
+          JSON.stringify(data)
         }
       );
 
 
-      const result =
-      await response.json();
+      const responseText =
+      await response.text();
+
+
+      let result;
+
+      try{
+
+        result =
+        JSON.parse(
+          responseText
+        );
+
+      }catch(error){
+
+        console.error(
+          "Invalid save response:",
+          responseText
+        );
+
+        throw new Error(
+          "Backend returned an invalid response."
+        );
+      }
 
 
       if(!result.success){
@@ -1495,7 +1538,6 @@ postForm.addEventListener(
           result.error ||
           "Could not save post."
         );
-
       }
 
 
@@ -1522,13 +1564,14 @@ postForm.addEventListener(
         true
       );
 
+
     }finally{
 
-      saveButton.disabled = false;
+      saveButton.disabled =
+        false;
 
       saveButton.textContent =
         "Save Post";
-
     }
 
   }
@@ -1536,7 +1579,18 @@ postForm.addEventListener(
 
 
 /* =========================================================
-   FILE UPLOAD
+   DIRECT MEDIA UPLOAD
+   =========================================================
+
+   This intentionally follows the old working project.
+
+   No:
+   - XMLHttpRequest
+   - xhr.upload
+   - uploadStatus polling
+   - CacheService
+   - upload_id
+   - OPTIONS handling
    ========================================================= */
 
 async function uploadFile(
@@ -1550,484 +1604,208 @@ async function uploadFile(
   );
 
 
+  if(
+    !file.type.startsWith("image/") &&
+    !file.type.startsWith("video/")
+  ){
+
+    throw new Error(
+      "Only images and videos are allowed."
+    );
+  }
+
+
   status.classList.add(
     "active"
   );
 
+  status.classList.remove(
+    "success",
+    "error"
+  );
 
-  /*
-   * Step 1:
-   * Convert the local file to base64.
-   */
 
-  setUploadStatus(
+  setUploadMessage(
     status,
-    "Preparing " +
+    "Reading " +
+    file.name +
+    "..."
+  );
+
+
+  try{
+
+    /*
+     * Same basic process as the old
+     * working project:
+     *
+     * FileReader
+     * ↓
+     * Base64
+     * ↓
+     * fetch POST
+     * ↓
+     * Apps Script
+     */
+
+    const base64 =
+    await fileToBase64(
+      file
+    );
+
+
+    setUploadMessage(
+      status,
+      "Uploading " +
       file.name +
-      "...",
-    5
-  );
+      "..."
+    );
 
 
-  const base64 =
-  await fileToBase64WithProgress(
-    file,
-    status
-  );
+    const payload = {
+
+      fileData:
+        base64,
+
+      fileName:
+        file.name,
+
+      mimeType:
+        file.type
+
+    };
 
 
-  /*
-   * Create a unique ID.
-   */
+    const response =
+    await fetch(
+      API_URL,
+      {
+        method:"POST",
 
-  const uploadId =
-    (
-      window.crypto &&
-      typeof crypto.randomUUID ===
-        "function"
-    )
+        headers:{
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
 
-      ? crypto.randomUUID()
-
-      : "upload-" +
-        Date.now() +
-        "-" +
-        Math.random()
-          .toString(36)
-          .slice(2);
+        body:
+        JSON.stringify(
+          payload
+        )
+      }
+    );
 
 
-  /*
-   * Upload data.
-   */
-
-  const data = {
-
-    action:
-      "upload",
-
-    upload_id:
-      uploadId,
-
-    file_name:
-      file.name,
-
-    mime_type:
-      file.type ||
-      "application/octet-stream",
-
-    file_data:
-      base64
-
-  };
+    const responseText =
+    await response.text();
 
 
-  /*
-   * Send using XMLHttpRequest WITHOUT
-   * xhr.upload listeners.
-   *
-   * This is important because xhr.upload
-   * listeners can trigger a CORS preflight
-   * against Google Apps Script.
-   */
-
-  setUploadStatus(
-    status,
-    "Sending " +
-      file.name +
-      "...",
-    20
-  );
+    console.log(
+      "Upload response:",
+      responseText
+    );
 
 
-  await sendUploadRequest(
-    data,
-    status
-  );
+    let result;
 
+    try{
 
-  /*
-   * Now monitor Google Drive.
-   */
-
-  setUploadStatus(
-    status,
-    "File sent. Waiting for Google Drive...",
-    90
-  );
-
-
-  const result =
-  await pollUploadStatus(
-    uploadId,
-    status
-  );
-
-
-  setUploadStatus(
-    status,
-    "Uploaded successfully.",
-    100
-  );
-
-
-  return result.url;
-
-}
-
-
-/* =========================================================
-   SEND UPLOAD REQUEST
-   ========================================================= */
-
-function sendUploadRequest(
-  data,
-  status
-){
-
-  return new Promise(
-    (resolve, reject) => {
-
-      const xhr =
-      new XMLHttpRequest();
-
-
-      xhr.open(
-        "POST",
-        API_URL,
-        true
+      result =
+      JSON.parse(
+        responseText
       );
 
+    }catch(error){
 
-      /*
-       * NO xhr.upload.onprogress
-       *
-       * NO custom request headers.
-       *
-       * We intentionally send a plain URL-encoded
-       * string so the request remains simple.
-       */
+      console.error(
+        "Invalid upload response:",
+        responseText
+      );
 
-
-      xhr.timeout =
-        120000;
-
-
-      let settled = false;
-
-
-      function success(){
-
-        if(settled) return;
-
-        settled = true;
-
-        resolve();
-
-      }
-
-
-      function failure(){
-
-        if(settled) return;
-
-        settled = true;
-
-        reject(
-          new Error(
-            "The upload request could not be sent."
-          )
-        );
-
-      }
-
-
-      xhr.onload =
-      function(){
-
-        /*
-         * We don't need to read the response.
-         *
-         * Apps Script can redirect its response.
-         * The actual result will be checked using
-         * uploadStatus.
-         */
-
-        success();
-
-      };
-
-
-      xhr.onerror =
-      function(){
-
-        /*
-         * A cross-origin response error does not
-         * necessarily mean the server didn't receive
-         * the request.
-         *
-         * We therefore still continue to polling.
-         */
-
-        success();
-
-      };
-
-
-      xhr.ontimeout =
-      function(){
-
-        /*
-         * Same idea: allow the status checker to
-         * determine whether Apps Script received it.
-         */
-
-        success();
-
-      };
-
-
-      try{
-
-        const form =
-        new URLSearchParams();
-
-
-        Object.keys(data)
-          .forEach(
-            key => {
-
-              form.append(
-                key,
-                data[key] == null
-                  ? ""
-                  : String(data[key])
-              );
-
-            }
-          );
-
-
-        /*
-         * IMPORTANT:
-         *
-         * Don't call setRequestHeader().
-         *
-         * Don't touch xhr.upload.
-         */
-
-        xhr.send(
-          form.toString()
-        );
-
-
-      }catch(error){
-
-        failure();
-
-      }
-
+      throw new Error(
+        "Google Apps Script returned an invalid response."
+      );
     }
-  );
-
-}
 
 
-/* =========================================================
-   POLL UPLOAD STATUS
-   ========================================================= */
+    if(
+      !result ||
+      result.success !== true
+    ){
 
-function pollUploadStatus(
-  uploadId,
-  status
-){
-
-  return new Promise(
-    (resolve, reject) => {
-
-      const started =
-      Date.now();
-
-
-      const timeout =
-      180000;
-
-
-      async function check(){
-
-        if(
-          Date.now() -
-          started >
-          timeout
-        ){
-
-          reject(
-            new Error(
-              "Upload is taking too long. Check Google Drive before trying again."
+      throw new Error(
+        result &&
+        (
+          result.error ||
+          result.message
+        )
+          ? (
+              result.error ||
+              result.message
             )
-          );
-
-          return;
-
-        }
-
-
-        try{
-
-          setUploadStatus(
-            status,
-            "Waiting for Google Drive...",
-            90
-          );
-
-
-          const response =
-          await fetch(
-
-            API_URL +
-            "?action=uploadStatus" +
-            "&id=" +
-            encodeURIComponent(
-              uploadId
-            ) +
-            "&t=" +
-            Date.now(),
-
-            {
-              method:"GET",
-              cache:"no-store",
-              redirect:"follow"
-            }
-
-          );
-
-
-          const result =
-          await response.json();
-
-
-          /*
-           * SUCCESS
-           */
-
-          if(
-            result.success === true &&
-            result.url
-          ){
-
-            resolve(
-              result
-            );
-
-            return;
-
-          }
-
-
-          /*
-           * SERVER ERROR
-           */
-
-          if(
-            result.error &&
-            result.pending !== true
-          ){
-
-            reject(
-              new Error(
-                result.error
-              )
-            );
-
-            return;
-
-          }
-
-
-          /*
-           * STILL PROCESSING
-           */
-
-          setTimeout(
-            check,
-            1500
-          );
-
-
-        }catch(error){
-
-          /*
-           * Temporary GET failure.
-           * Try again instead of immediately
-           * destroying the upload state.
-           */
-
-          setTimeout(
-            check,
-            2000
-          );
-
-        }
-
-      }
-
-
-      check();
-
+          : "Upload failed."
+      );
     }
-  );
 
+
+    const uploadedUrl =
+    result.url ||
+    (
+      result.file &&
+      (
+        result.file.url ||
+        result.file.mediaUrl
+      )
+    );
+
+
+    if(!uploadedUrl){
+
+      throw new Error(
+        "Upload succeeded but no media URL was returned."
+      );
+    }
+
+
+    setUploadMessage(
+      status,
+      "Uploaded successfully.",
+      true
+    );
+
+
+    return uploadedUrl;
+
+
+  }catch(error){
+
+    status.classList.add(
+      "error"
+    );
+
+
+    setUploadMessage(
+      status,
+      error.message ||
+      "Upload failed."
+    );
+
+
+    throw error;
+  }
 }
 
 
-/* =========================================================
-   FILE TO BASE64
-   ========================================================= */
+/* FILE → BASE64 */
 
-function fileToBase64WithProgress(
-  file,
-  status
+function fileToBase64(
+  file
 ){
 
   return new Promise(
-    (resolve,reject) => {
+    function(resolve,reject){
 
       const reader =
       new FileReader();
-
-
-      reader.onprogress =
-      function(event){
-
-        if(
-          !event.lengthComputable
-        ){
-
-          return;
-
-        }
-
-
-        /*
-         * Preparation occupies 0–10%.
-         */
-
-        const percent =
-        (
-          event.loaded /
-          event.total
-        ) * 10;
-
-
-        setUploadStatus(
-          status,
-          "Preparing " +
-            file.name +
-            "...",
-          percent
-        );
-
-      };
 
 
       reader.onload =
@@ -2041,11 +1819,13 @@ function fileToBase64WithProgress(
           );
 
 
-          const comma =
+          const commaIndex =
           result.indexOf(",");
 
 
-          if(comma === -1){
+          if(
+            commaIndex === -1
+          ){
 
             reject(
               new Error(
@@ -2054,21 +1834,25 @@ function fileToBase64WithProgress(
             );
 
             return;
-
           }
 
 
           const base64 =
           result.substring(
-            comma + 1
+            commaIndex + 1
           );
 
 
-          setUploadStatus(
-            status,
-            "Preparing upload...",
-            10
-          );
+          if(!base64){
+
+            reject(
+              new Error(
+                "The selected file is empty."
+              )
+            );
+
+            return;
+          }
 
 
           resolve(
@@ -2079,9 +1863,7 @@ function fileToBase64WithProgress(
         }catch(error){
 
           reject(error);
-
         }
-
       };
 
 
@@ -2090,22 +1872,11 @@ function fileToBase64WithProgress(
 
         reject(
           new Error(
-            "Could not read the selected file."
+            "Failed to read " +
+            file.name +
+            "."
           )
         );
-
-      };
-
-
-      reader.onabort =
-      function(){
-
-        reject(
-          new Error(
-            "File reading was cancelled."
-          )
-        );
-
       };
 
 
@@ -2115,189 +1886,206 @@ function fileToBase64WithProgress(
 
     }
   );
-
 }
 
 
-/* =========================================================
-   UPLOAD STATUS UI
-   ========================================================= */
+/* UPLOAD MESSAGE */
 
-function setUploadStatus(
+function setUploadMessage(
   status,
   message,
-  percent
+  success=false
 ){
 
-  const safePercent =
-  Math.max(
-    0,
-    Math.min(
-      100,
-      Number(percent) || 0
-    )
+  status.textContent =
+    message;
+
+  status.classList.toggle(
+    "success",
+    success
+  );
+}
+
+
+/* IMAGE PREVIEW */
+
+document
+  .getElementById("imageFile")
+  .addEventListener(
+    "change",
+    function(){
+
+      const file =
+      this.files[0];
+
+      const name =
+      document.getElementById(
+        "imageFileName"
+      );
+
+      const preview =
+      document.getElementById(
+        "imagePreview"
+      );
+
+      const img =
+      document.getElementById(
+        "imagePreviewImg"
+      );
+
+
+      if(!file){
+
+        name.textContent =
+          "No file selected";
+
+        preview
+          .classList
+          .remove("active");
+
+        return;
+      }
+
+
+      if(
+        !file.type.startsWith(
+          "image/"
+        )
+      ){
+
+        showToast(
+          "Please choose an image file.",
+          true
+        );
+
+        this.value = "";
+
+        name.textContent =
+          "No file selected";
+
+        preview
+          .classList
+          .remove("active");
+
+        return;
+      }
+
+
+      name.textContent =
+        file.name;
+
+
+      img.src =
+        URL.createObjectURL(
+          file
+        );
+
+
+      preview
+        .classList
+        .add("active");
+
+
+      document
+        .getElementById(
+          "imageUrl"
+        )
+        .value = "";
+
+    }
   );
 
 
-  status.innerHTML = `
-
-    <div class="upload-status-row">
-
-      <span class="upload-message">
-        ${escapeHtml(message)}
-      </span>
-
-      <span class="upload-percent">
-        ${Math.round(safePercent)}%
-      </span>
-
-    </div>
-
-    <div class="upload-progress">
-
-      <div
-        class="upload-progress-bar"
-        style="width:${safePercent}%">
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   IMAGE PREVIEW
-   ========================================================= */
+/* VIDEO PREVIEW */
 
 document
-.getElementById("imageFile")
-.addEventListener(
-  "change",
-  function(){
+  .getElementById("videoFile")
+  .addEventListener(
+    "change",
+    function(){
 
-    const file =
-    this.files[0];
+      const file =
+      this.files[0];
 
+      const name =
+      document.getElementById(
+        "videoFileName"
+      );
 
-    const name =
-    document.getElementById(
-      "imageFileName"
-    );
+      const preview =
+      document.getElementById(
+        "videoPreview"
+      );
 
-
-    const preview =
-    document.getElementById(
-      "imagePreview"
-    );
-
-
-    const img =
-    document.getElementById(
-      "imagePreviewImg"
-    );
+      const video =
+      document.getElementById(
+        "videoPreviewVideo"
+      );
 
 
-    if(!file){
+      if(!file){
+
+        name.textContent =
+          "No file selected";
+
+        preview
+          .classList
+          .remove("active");
+
+        return;
+      }
+
+
+      if(
+        !file.type.startsWith(
+          "video/"
+        )
+      ){
+
+        showToast(
+          "Please choose a video file.",
+          true
+        );
+
+        this.value = "";
+
+        name.textContent =
+          "No file selected";
+
+        preview
+          .classList
+          .remove("active");
+
+        return;
+      }
+
 
       name.textContent =
-        "No file selected";
-
-      preview.classList.remove(
-        "active"
-      );
-
-      return;
-
-    }
+        file.name;
 
 
-    name.textContent =
-      file.name;
+      video.src =
+        URL.createObjectURL(
+          file
+        );
 
 
-    img.src =
-      URL.createObjectURL(
-        file
-      );
+      preview
+        .classList
+        .add("active");
 
 
-    preview.classList.add(
-      "active"
-    );
-
-  }
-);
-
-
-/* =========================================================
-   VIDEO PREVIEW
-   ========================================================= */
-
-document
-.getElementById("videoFile")
-.addEventListener(
-  "change",
-  function(){
-
-    const file =
-    this.files[0];
-
-
-    const name =
-    document.getElementById(
-      "videoFileName"
-    );
-
-
-    const preview =
-    document.getElementById(
-      "videoPreview"
-    );
-
-
-    const video =
-    document.getElementById(
-      "videoPreviewVideo"
-    );
-
-
-    if(!file){
-
-      name.textContent =
-        "No file selected";
-
-      preview.classList.remove(
-        "active"
-      );
-
-      return;
+      document
+        .getElementById(
+          "videoUrl"
+        )
+        .value = "";
 
     }
+  );
 
 
-    name.textContent =
-      file.name;
-
-
-    video.src =
-      URL.createObjectURL(
-        file
-      );
-
-
-    preview.classList.add(
-      "active"
-    );
-
-  }
-);
-
-
-/* =========================================================
-   DELETE
-   ========================================================= */
+/* DELETE */
 
 window.askDelete =
 function(id){
@@ -2305,157 +2093,166 @@ function(id){
   postToDelete =
     id;
 
-
   deleteModal
     .classList
     .add("active");
-
 };
 
 
 document
-.getElementById("confirmDelete")
-.addEventListener(
-  "click",
-  async () => {
+  .getElementById("confirmDelete")
+  .addEventListener(
+    "click",
+    async () => {
 
-    if(!postToDelete)
-      return;
-
-
-    const button =
-    document.getElementById(
-      "confirmDelete"
-    );
-
-
-    button.disabled =
-      true;
-
-    button.textContent =
-      "Deleting...";
-
-
-    try{
-
-      const response =
-      await fetch(
-        API_URL,
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "text/plain;charset=utf-8"
-          },
-
-          body:
-            JSON.stringify({
-              action:"delete",
-              id:postToDelete
-            }),
-
-          redirect:
-            "follow"
-        }
-      );
-
-
-      const result =
-      await response.json();
-
-
-      if(!result.success){
-
-        throw new Error(
-          result.error ||
-          "Delete failed."
-        );
-
+      if(!postToDelete){
+        return;
       }
 
 
-      closeDeleteModal();
-
-
-      showToast(
-        "Post deleted."
+      const button =
+      document.getElementById(
+        "confirmDelete"
       );
 
-
-      await loadPosts();
-
-
-    }catch(error){
-
-      console.error(error);
-
-      showToast(
-        error.message ||
-        "Delete failed.",
-        true
-      );
-
-    }finally{
 
       button.disabled =
-        false;
+        true;
 
       button.textContent =
-        "Delete";
+        "Deleting...";
+
+
+      try{
+
+        const response =
+        await fetch(
+          API_URL,
+          {
+            method:"POST",
+            redirect:"follow",
+
+            headers:{
+              "Content-Type":
+                "text/plain;charset=utf-8"
+            },
+
+            body:
+            JSON.stringify({
+              action:"delete",
+              id:postToDelete
+            })
+          }
+        );
+
+
+        const text =
+        await response.text();
+
+
+        let result;
+
+        try{
+
+          result =
+          JSON.parse(text);
+
+        }catch(error){
+
+          throw new Error(
+            "Backend returned an invalid response."
+          );
+        }
+
+
+        if(!result.success){
+
+          throw new Error(
+            result.error ||
+            "Delete failed."
+          );
+        }
+
+
+        closeDeleteModal();
+
+
+        showToast(
+          "Post deleted."
+        );
+
+
+        await loadPosts();
+
+
+      }catch(error){
+
+        console.error(error);
+
+        showToast(
+          error.message ||
+          "Delete failed.",
+          true
+        );
+
+
+      }finally{
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "Delete";
+      }
 
     }
-
-  }
-);
+  );
 
 
-/* =========================================================
-   SEARCH
-   ========================================================= */
+/* SEARCH */
 
 document
-.getElementById("searchInput")
-.addEventListener(
-  "input",
-  renderPosts
-);
+  .getElementById("searchInput")
+  .addEventListener(
+    "input",
+    renderPosts
+  );
 
 
-document
-.getElementById("statusFilter")
-.addEventListener(
-  "change",
-  renderPosts
-);
-
-
-/* =========================================================
-   MODALS
-   ========================================================= */
+/* FILTER */
 
 document
-.getElementById("closeModal")
-.addEventListener(
-  "click",
-  closePostModal
-);
+  .getElementById("statusFilter")
+  .addEventListener(
+    "change",
+    renderPosts
+  );
+
+
+/* MODALS */
+
+document
+  .getElementById("closeModal")
+  .addEventListener(
+    "click",
+    closePostModal
+  );
 
 
 document
-.getElementById("cancelButton")
-.addEventListener(
-  "click",
-  closePostModal
-);
+  .getElementById("cancelButton")
+  .addEventListener(
+    "click",
+    closePostModal
+  );
 
 
 document
-.getElementById("cancelDelete")
-.addEventListener(
-  "click",
-  closeDeleteModal
-);
+  .getElementById("cancelDelete")
+  .addEventListener(
+    "click",
+    closeDeleteModal
+  );
 
 
 function closePostModal(){
@@ -2463,7 +2260,6 @@ function closePostModal(){
   postModal
     .classList
     .remove("active");
-
 }
 
 
@@ -2475,13 +2271,10 @@ function closeDeleteModal(){
 
   postToDelete =
     null;
-
 }
 
 
-/* =========================================================
-   RESET
-   ========================================================= */
+/* RESET */
 
 function resetForm(){
 
@@ -2506,9 +2299,10 @@ function resetForm(){
 
 
   clearSelectedFiles();
-
 }
 
+
+/* CLEAR FILE INPUTS */
 
 function clearSelectedFiles(){
 
@@ -2546,27 +2340,44 @@ function clearSelectedFiles(){
     .remove("active");
 
 
-  document
-    .getElementById("imageUploadStatus")
-    .classList
-    .remove("active");
+  const imageStatus =
+  document.getElementById(
+    "imageUploadStatus"
+  );
+
+  imageStatus.classList.remove(
+    "active",
+    "success",
+    "error"
+  );
+
+  imageStatus.textContent =
+    "";
 
 
-  document
-    .getElementById("videoUploadStatus")
-    .classList
-    .remove("active");
+  const videoStatus =
+  document.getElementById(
+    "videoUploadStatus"
+  );
 
+  videoStatus.classList.remove(
+    "active",
+    "success",
+    "error"
+  );
+
+  videoStatus.textContent =
+    "";
 }
 
 
-/* =========================================================
-   SLUG
-   ========================================================= */
+/* SLUG */
 
-function createSlug(title){
+function createSlug(
+  title
+){
 
-  return String(title)
+  return String(title || "")
     .toLowerCase()
     .trim()
     .normalize("NFD")
@@ -2585,47 +2396,50 @@ function createSlug(title){
     .replace(
       /-+/g,
       "-"
+    )
+    .replace(
+      /^-|-$/g,
+      ""
     );
-
 }
 
 
-/* =========================================================
-   DATE
-   ========================================================= */
+/* DATE */
 
 function getCurrentDateTimeLocal(){
 
   const now =
-    new Date();
+  new Date();
 
 
   const offset =
-    now.getTimezoneOffset();
+  now.getTimezoneOffset();
 
 
   const local =
-    new Date(
-      now.getTime() -
-      offset * 60000
-    );
+  new Date(
+    now.getTime() -
+    offset * 60000
+  );
 
 
   return local
     .toISOString()
     .slice(0,16);
-
 }
 
 
-function toDateTimeLocal(value){
+function toDateTimeLocal(
+  value
+){
 
-  if(!value)
+  if(!value){
     return "";
+  }
 
 
   const date =
-    new Date(value);
+  new Date(value);
 
 
   if(
@@ -2643,40 +2457,40 @@ function toDateTimeLocal(value){
         0,
         16
       );
-
     }
 
     return "";
-
   }
 
 
   const offset =
-    date.getTimezoneOffset();
+  date.getTimezoneOffset();
 
 
   const local =
-    new Date(
-      date.getTime() -
-      offset * 60000
-    );
+  new Date(
+    date.getTime() -
+    offset * 60000
+  );
 
 
   return local
     .toISOString()
     .slice(0,16);
-
 }
 
 
-function formatDate(value){
+function formatDate(
+  value
+){
 
-  if(!value)
+  if(!value){
     return "No date";
+  }
 
 
   const date =
-    new Date(value);
+  new Date(value);
 
 
   if(
@@ -2686,7 +2500,6 @@ function formatDate(value){
   ){
 
     return String(value);
-
   }
 
 
@@ -2698,13 +2511,10 @@ function formatDate(value){
       day:"numeric"
     }
   ).format(date);
-
 }
 
 
-/* =========================================================
-   TOAST
-   ========================================================= */
+/* TOAST */
 
 let toastTimer;
 
@@ -2745,15 +2555,14 @@ function showToast(
     },
     3000
   );
-
 }
 
 
-/* =========================================================
-   ESCAPE
-   ========================================================= */
+/* ESCAPE */
 
-function escapeHtml(value){
+function escapeHtml(
+  value
+){
 
   return String(value)
     .replace(
@@ -2776,14 +2585,16 @@ function escapeHtml(value){
       /'/g,
       "&#039;"
     );
-
 }
 
 
-function escapeAttribute(value){
+function escapeAttribute(
+  value
+){
 
-  return escapeHtml(value);
-
+  return escapeHtml(
+    value
+  );
 }
 
 </script>
