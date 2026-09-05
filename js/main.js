@@ -1,292 +1,1121 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adrian — 個人サイト</title>
-<meta name="description" content="Adrianの個人サイト。ウェブサイトやUI、ゲームなど、いろいろ試しながら学んでいるものを置いています。">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-</head>
-
-<body>
-
-<a class="skip-link" href="#home">本文へスキップ</a>
-
-<header class="site-header">
-  <div class="nav-shell">
-    <nav class="glass nav-pill" aria-label="メインナビゲーション">
-
-      <a href="#home" class="nav-mark">Adrian</a>
-
-      <ul class="nav-links">
-        <li>
-          <a href="#home">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M4 11.5 12 4l8 7.5"/>
-              <path d="M6 10v9h12v-9"/>
-            </svg>
-            ホーム
-          </a>
-        </li>
-
-        <li>
-          <a href="#about">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="8" r="3.4"/>
-              <path d="M5 19c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4"/>
-            </svg>
-            自己紹介
-          </a>
-        </li>
-
-        <li>
-          <a href="#projects">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M4 7.5h5l1.6 2H20a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8.5a1 1 0 0 1 1-1Z"/>
-            </svg>
-            制作物
-          </a>
-        </li>
-
-        <li>
-          <a href="#contact">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="3.5" y="6" width="17" height="12" rx="2"/>
-              <path d="m4 7.5 8 6 8-6"/>
-            </svg>
-            お問い合わせ
-          </a>
-        </li>
-      </ul>
-
-      <button
-        class="nav-toggle"
-        id="navToggle"
-        aria-expanded="false"
-        aria-controls="mobileMenu"
-        aria-label="メニューを開く"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
-    </nav>
-  </div>
-
-  <div class="mobile-menu glass" id="mobileMenu" hidden>
-    <ul>
-      <li><a href="#home">ホーム</a></li>
-      <li><a href="#about">自己紹介</a></li>
-      <li><a href="#projects">制作物</a></li>
-      <li><a href="#contact">お問い合わせ</a></li>
-    </ul>
-  </div>
-</header>
-
-
-<main id="home">
-
-  <!-- HERO -->
-  <section class="hero" id="home-section">
-
-    <div class="hero-copy">
-
-      <p class="eyebrow-pill glass">
-        <span class="eyebrow-dot" aria-hidden="true"></span>
-        個人で気ままに制作中
-      </p>
+(function () {
+  "use strict";
 
-      <h1>
-        こんにちは、<br>
-        Adrianです。
-      </h1>
 
-      <p class="hero-role">
-        学びながら、つくっています
-      </p>
+  /* =========================================================
+     Footer year
+     ========================================================= */
 
-      <p class="hero-intro">
-        ウェブサイトやUI、ゲームなど、インターネット上でいろんなものを作るのが好きです。
-        まだ勉強中なので、作っては壊し、直してまた作る——そうやって学んでいます。
-      </p>
+  var yearEl = document.getElementById("year");
 
-      <ul class="hero-tags">
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+  }
 
-        <li class="glass">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="m9 8-4 4 4 4"/>
-            <path d="m15 8 4 4-4 4"/>
-          </svg>
-          HTML &amp; CSS
-        </li>
 
-        <li class="glass">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/>
-          </svg>
-          JavaScript
-        </li>
+  /* =========================================================
+     Mobile navigation
+     ========================================================= */
 
-      </ul>
-
-      <div class="hero-actions">
-        <a href="#projects" class="btn btn-primary">
-          作ったものを見る
-        </a>
-
-        <a href="#contact" class="btn btn-ghost glass">
-          挨拶する
-        </a>
-      </div>
+  var navToggle = document.getElementById("navToggle");
+  var mobileMenu = document.getElementById("mobileMenu");
 
-    </div>
+  function closeMenu() {
 
+    if (!mobileMenu || !navToggle) {
+      return;
+    }
 
-    <div class="hero-media">
+    mobileMenu.hidden = true;
 
-      <div class="hero-media-glow" aria-hidden="true"></div>
+    navToggle.setAttribute(
+      "aria-expanded",
+      "false"
+    );
 
-      <div class="hero-image-frame glass">
-        <img
-          src="assets/profile.webp"
-          alt="Adrianの写真"
-          class="protected-img"
-          draggable="false"
-        >
-      </div>
+    navToggle.setAttribute(
+      "aria-label",
+      "メニューを開く"
+    );
+  }
 
-    </div>
+  function openMenu() {
 
-  </section>
+    if (!mobileMenu || !navToggle) {
+      return;
+    }
 
-
-  <!-- ABOUT -->
-  <section class="about" id="about">
-
-    <div class="section-heading">
-      <h2>自己紹介</h2>
-    </div>
-
-    <div class="about-grid">
-
-      <p class="about-text">
-        インターネット上でものを作るのが好きな人間です。ウェブサイトやUI、ゲーム、
-        ちょっとした実験的な制作物をいろいろ試しています。まだまだ手探りなので、
-        作っているものの多くは「とりあえずやってみて、どうなるか見てみる」という
-        段階のものばかりです。
+    mobileMenu.hidden = false;
 
-        <br><br>
+    navToggle.setAttribute(
+      "aria-expanded",
+      "true"
+    );
 
-        実際に手を動かして作ることで一番学べるタイプなので、途中で壊れたり、
-        見た目が変になったり、作り直しが必要になったりする部分も、大事な過程だと思っています。
-      </p>
-
-      <ul class="skills-list">
-        <li class="glass">HTML &amp; CSS</li>
-        <li class="glass">JavaScript</li>
-      </ul>
+    navToggle.setAttribute(
+      "aria-label",
+      "メニューを閉じる"
+    );
+  }
 
-    </div>
+  if (navToggle && mobileMenu) {
 
-  </section>
+    navToggle.addEventListener(
+      "click",
+      function () {
 
+        var isOpen =
+          navToggle.getAttribute(
+            "aria-expanded"
+          ) === "true";
 
-  <!-- DYNAMIC PROJECTS -->
-  <section class="projects" id="projects">
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
 
-    <div class="section-heading">
-      <h2>制作物</h2>
-    </div>
+      }
+    );
 
-    <div class="project-slider" id="projectSlider">
-      <div class="project-track" id="projectTrack"></div>
-    </div>
+    mobileMenu
+      .querySelectorAll("a")
+      .forEach(function (link) {
 
-    <div
-      class="project-slider-controls"
-      id="projectControls"
-      hidden
-    >
-      <button
-        type="button"
-        class="project-slider-btn"
-        id="projectPrev"
-        aria-label="前の制作物"
-      >
-        ‹
-      </button>
+        link.addEventListener(
+          "click",
+          closeMenu
+        );
 
-      <button
-        type="button"
-        class="project-slider-btn"
-        id="projectNext"
-        aria-label="次の制作物"
-      >
-        ›
-      </button>
-    </div>
+      });
 
-    <p
-      class="projects-loading"
-      id="projectsLoading"
-    >
-      読み込み中…
-    </p>
+    document.addEventListener(
+      "keydown",
+      function (e) {
 
-  </section>
+        if (e.key === "Escape") {
+          closeMenu();
+        }
 
+      }
+    );
+  }
 
-  <!-- CONTACT -->
-  <section class="contact" id="contact">
 
-    <div class="contact-card glass">
+  /* =========================================================
+     Casual content-protection layer
+     ========================================================= */
 
-      <h2>お問い合わせ</h2>
+  var INTERACTIVE_SELECTOR =
+    "a, button, input, textarea, select, option, label, [role='button'], [contenteditable='true']";
 
-      <p>
-        挨拶したい方は、下のメールかInstagramからどうぞ。
-        <br>
-        このサイトでは制作依頼(フリーランス案件)は受け付けていません。ここはあくまで自分の小さな場所です。
-      </p>
+  function isInteractive(target) {
 
-      <a
-        class="contact-email"
-        href="mailto:yoshkiadityawork@hotmail.com"
-      >
-        yoshkiadityawork@hotmail.com
-      </a>
+    return !!(
+      target &&
+      target.closest &&
+      target.closest(
+        INTERACTIVE_SELECTOR
+      )
+    );
 
-      <ul class="social-links">
-        <li>
-          <a
-            href="https://www.instagram.com/kreidehuter"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            @kreidehuter
-          </a>
-        </li>
-      </ul>
+  }
 
-    </div>
 
-  </section>
+  /* Disable context menu outside controls */
 
-</main>
+  document.addEventListener(
+    "contextmenu",
+    function (e) {
 
+      if (!isInteractive(e.target)) {
+        e.preventDefault();
+      }
 
-<footer class="site-footer">
-  <p>
-    © <span id="year"></span> Adrian. すべて自分で作りました。
-  </p>
-</footer>
+    }
+  );
 
 
-<script src="js/main.js"></script>
+  /* Block copy/cut outside controls */
 
-</body>
-</html>
+  ["copy", "cut"].forEach(
+    function (evt) {
+
+      document.addEventListener(
+        evt,
+        function (e) {
+
+          if (!isInteractive(e.target)) {
+            e.preventDefault();
+          }
+
+        }
+      );
+
+    }
+  );
+
+
+  /* Prevent selection outside form fields */
+
+  document.addEventListener(
+    "selectstart",
+    function (e) {
+
+      if (!isInteractive(e.target)) {
+        e.preventDefault();
+      }
+
+    }
+  );
+
+
+  /* Prevent image dragging */
+
+  document
+    .querySelectorAll("img")
+    .forEach(function (img) {
+
+      img.setAttribute(
+        "draggable",
+        "false"
+      );
+
+      img.addEventListener(
+        "dragstart",
+        function (e) {
+          e.preventDefault();
+        }
+      );
+
+    });
+
+
+  /* Block common casual shortcuts */
+
+  document.addEventListener(
+    "keydown",
+    function (e) {
+
+      var key =
+        (e.key || "").toLowerCase();
+
+      var ctrlOrCmd =
+        e.ctrlKey || e.metaKey;
+
+
+      if (key === "f12") {
+        e.preventDefault();
+        return;
+      }
+
+
+      if (!ctrlOrCmd) {
+        return;
+      }
+
+
+      var blockedPlain = [
+        "s",
+        "u"
+      ];
+
+      var blockedShift = [
+        "i",
+        "j",
+        "c"
+      ];
+
+
+      if (
+        e.shiftKey &&
+        blockedShift.indexOf(key) !== -1
+      ) {
+        e.preventDefault();
+        return;
+      }
+
+
+      if (
+        !e.shiftKey &&
+        blockedPlain.indexOf(key) !== -1
+      ) {
+        e.preventDefault();
+        return;
+      }
+
+
+      if (
+        !e.shiftKey &&
+        key === "c" &&
+        !isInteractive(e.target)
+      ) {
+        e.preventDefault();
+      }
+
+    }
+  );
+
+
+  /* Long press protection */
+
+  var pressTimer = null;
+  var longPressThreshold = 500;
+
+  document
+    .querySelectorAll("img")
+    .forEach(function (img) {
+
+      if (isInteractive(img)) {
+        return;
+      }
+
+      img.addEventListener(
+        "touchstart",
+        function () {
+
+          pressTimer =
+            setTimeout(
+              function () {
+                pressTimer = "fired";
+              },
+              longPressThreshold
+            );
+
+        },
+        {
+          passive: true
+        }
+      );
+
+
+      img.addEventListener(
+        "touchend",
+        function (e) {
+
+          if (pressTimer === "fired") {
+            e.preventDefault();
+          }
+
+          clearTimeout(pressTimer);
+          pressTimer = null;
+
+        }
+      );
+
+
+      img.addEventListener(
+        "touchmove",
+        function () {
+
+          clearTimeout(pressTimer);
+          pressTimer = null;
+
+        },
+        {
+          passive: true
+        }
+      );
+
+    });
+
+
+  /* =========================================================
+     Dynamic Projects / Posts
+     ========================================================= */
+
+  var API_URL =
+    "https://script.google.com/macros/s/AKfycbzDkN67TjrkS1AnL-17PJtbIahL3U_EiOli7BOfevFNB_bcNKKvA_XNRMSS47pbw69Uzg/exec";
+
+
+  var track =
+    document.getElementById(
+      "projectTrack"
+    );
+
+  var slider =
+    document.getElementById(
+      "projectSlider"
+    );
+
+  var loading =
+    document.getElementById(
+      "projectsLoading"
+    );
+
+  var controls =
+    document.getElementById(
+      "projectControls"
+    );
+
+  var prevButton =
+    document.getElementById(
+      "projectPrev"
+    );
+
+  var nextButton =
+    document.getElementById(
+      "projectNext"
+    );
+
+
+  if (!track || !slider) {
+    return;
+  }
+
+
+  var posts = [];
+
+  var currentIndex = 0;
+
+  var autoSlideTimer = null;
+
+
+  /* =========================================================
+     Helpers
+     ========================================================= */
+
+  function getVisibleCount() {
+
+    if (window.innerWidth <= 640) {
+      return 1;
+    }
+
+    if (window.innerWidth <= 960) {
+      return 2;
+    }
+
+    return 3;
+  }
+
+
+  function escapeHTML(value) {
+
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  function getMedia(post) {
+
+    var imageUrl =
+      String(
+        post.image_url || ""
+      ).trim();
+
+    var videoUrl =
+      String(
+        post.video_url || ""
+      ).trim();
+
+
+    if (videoUrl) {
+
+      return (
+        '<video ' +
+        'class="project-media-video" ' +
+        'controls ' +
+        'preload="metadata">' +
+
+          '<source src="' +
+          escapeHTML(videoUrl) +
+          '">' +
+
+        '</video>'
+      );
+
+    }
+
+
+    if (imageUrl) {
+
+      return (
+        '<img ' +
+        'src="' +
+        escapeHTML(imageUrl) +
+        '" ' +
+        'alt="' +
+        escapeHTML(
+          post.title ||
+          "制作物"
+        ) +
+        '" ' +
+        'class="protected-img" ' +
+        'draggable="false">'
+      );
+
+    }
+
+
+    return (
+      '<div class="project-media-empty">' +
+        'No media' +
+      '</div>'
+    );
+
+  }
+
+
+  /* =========================================================
+     Create project card
+     ========================================================= */
+
+  function createCard(post) {
+
+    var article =
+      document.createElement(
+        "article"
+      );
+
+    article.className =
+      "project-card glass";
+
+
+    article.innerHTML =
+
+      '<div class="project-media">' +
+
+        getMedia(post) +
+
+      '</div>' +
+
+
+      '<div class="project-body">' +
+
+        '<h3>' +
+          escapeHTML(
+            post.title ||
+            "無題"
+          ) +
+        '</h3>' +
+
+        '<p>' +
+          escapeHTML(
+            post.caption ||
+            ""
+          ) +
+        '</p>' +
+
+        '<div class="project-actions">' +
+
+          '<button ' +
+          'type="button" ' +
+          'class="btn btn-small btn-primary project-detail-btn">' +
+            '詳細' +
+          '</button>' +
+
+        '</div>' +
+
+      '</div>';
+
+
+    var detailButton =
+      article.querySelector(
+        ".project-detail-btn"
+      );
+
+
+    if (detailButton) {
+
+      detailButton.addEventListener(
+        "click",
+        function () {
+          showPostDetail(post);
+        }
+      );
+
+    }
+
+
+    return article;
+  }
+
+
+  /* =========================================================
+     Detail modal
+     ========================================================= */
+
+  function showPostDetail(post) {
+
+    var oldModal =
+      document.getElementById(
+        "projectDetailModal"
+      );
+
+
+    if (oldModal) {
+      oldModal.remove();
+    }
+
+
+    var modal =
+      document.createElement(
+        "div"
+      );
+
+    modal.id =
+      "projectDetailModal";
+
+    modal.className =
+      "project-detail-modal";
+
+
+    modal.innerHTML =
+
+      '<div class="project-detail-backdrop"></div>' +
+
+      '<div ' +
+      'class="project-detail-dialog glass" ' +
+      'role="dialog" ' +
+      'aria-modal="true">' +
+
+        '<button ' +
+        'type="button" ' +
+        'class="project-detail-close" ' +
+        'aria-label="閉じる">' +
+          '×' +
+        '</button>' +
+
+        '<div class="project-detail-media">' +
+          getMedia(post) +
+        '</div>' +
+
+        '<div class="project-detail-content">' +
+
+          '<h2>' +
+            escapeHTML(
+              post.title ||
+              "無題"
+            ) +
+          '</h2>' +
+
+          '<p class="project-detail-caption">' +
+            escapeHTML(
+              post.caption ||
+              ""
+            ) +
+          '</p>' +
+
+          '<div class="project-detail-text">' +
+            escapeHTML(
+              post.content ||
+              ""
+            ).replace(
+              /\n/g,
+              "<br>"
+            ) +
+          '</div>' +
+
+        '</div>' +
+
+      '</div>';
+
+
+    document.body.appendChild(
+      modal
+    );
+
+
+    var closeButton =
+      modal.querySelector(
+        ".project-detail-close"
+      );
+
+    var backdrop =
+      modal.querySelector(
+        ".project-detail-backdrop"
+      );
+
+
+    function closeModal() {
+
+      modal.remove();
+
+      document.removeEventListener(
+        "keydown",
+        escapeHandler
+      );
+
+    }
+
+
+    function escapeHandler(e) {
+
+      if (e.key === "Escape") {
+        closeModal();
+      }
+
+    }
+
+
+    closeButton.addEventListener(
+      "click",
+      closeModal
+    );
+
+    backdrop.addEventListener(
+      "click",
+      closeModal
+    );
+
+
+    document.addEventListener(
+      "keydown",
+      escapeHandler
+    );
+
+  }
+
+
+  /* =========================================================
+     Slider
+     ========================================================= */
+
+  function updateSlider(animate) {
+
+    var visible =
+      getVisibleCount();
+
+
+    if (!posts.length) {
+      return;
+    }
+
+
+    if (animate === false) {
+
+      track.style.transition =
+        "none";
+
+    } else {
+
+      track.style.transition =
+        "transform 0.65s cubic-bezier(.22,.61,.36,1)";
+
+    }
+
+
+    var cardWidth =
+      100 / visible;
+
+
+    var gapPercentage =
+      (
+        1.5 /
+        slider.clientWidth
+      ) * 100;
+
+
+    var offset =
+      currentIndex *
+      (
+        cardWidth +
+        gapPercentage
+      );
+
+
+    track.style.transform =
+      "translateX(-" +
+      offset +
+      "%)";
+
+
+    if (animate === false) {
+
+      requestAnimationFrame(
+        function () {
+
+          requestAnimationFrame(
+            function () {
+
+              track.style.transition =
+                "transform 0.65s cubic-bezier(.22,.61,.36,1)";
+
+            }
+          );
+
+        }
+      );
+
+    }
+
+  }
+
+
+  function nextSlide() {
+
+    var visible =
+      getVisibleCount();
+
+
+    if (
+      posts.length <= visible
+    ) {
+      return;
+    }
+
+
+    currentIndex++;
+
+
+    if (
+      currentIndex >
+      posts.length - visible
+    ) {
+
+      currentIndex = 0;
+
+      updateSlider(false);
+
+      return;
+    }
+
+
+    updateSlider(true);
+
+  }
+
+
+  function previousSlide() {
+
+    var visible =
+      getVisibleCount();
+
+
+    if (
+      posts.length <= visible
+    ) {
+      return;
+    }
+
+
+    currentIndex--;
+
+
+    if (currentIndex < 0) {
+
+      currentIndex =
+        posts.length -
+        visible;
+
+    }
+
+
+    updateSlider(true);
+
+  }
+
+
+  function startAutoSlide() {
+
+    clearInterval(
+      autoSlideTimer
+    );
+
+
+    if (
+      posts.length <=
+      getVisibleCount()
+    ) {
+      return;
+    }
+
+
+    autoSlideTimer =
+      setInterval(
+        nextSlide,
+        5000
+      );
+
+  }
+
+
+  /* =========================================================
+     Render posts
+     ========================================================= */
+
+  function renderPosts() {
+
+    track.innerHTML = "";
+
+
+    if (!posts.length) {
+
+      loading.textContent =
+        "まだ公開されている制作物はありません。";
+
+      loading.hidden = false;
+
+      controls.hidden = true;
+
+      return;
+    }
+
+
+    loading.hidden = true;
+
+
+    posts.forEach(
+      function (post) {
+
+        track.appendChild(
+          createCard(post)
+        );
+
+      }
+    );
+
+
+    currentIndex = 0;
+
+
+    controls.hidden =
+      posts.length <=
+      getVisibleCount();
+
+
+    updateSlider(false);
+
+    startAutoSlide();
+
+
+    /*
+     * Apply image protection to
+     * dynamically-created images.
+     */
+
+    document
+      .querySelectorAll(
+        "#projectTrack img.protected-img"
+      )
+      .forEach(
+        function (img) {
+
+          img.setAttribute(
+            "draggable",
+            "false"
+          );
+
+
+          img.addEventListener(
+            "dragstart",
+            function (e) {
+              e.preventDefault();
+            }
+          );
+
+        }
+      );
+
+  }
+
+
+  /* =========================================================
+     Load posts from Google Apps Script
+     ========================================================= */
+
+  function loadPosts() {
+
+    fetch(
+      API_URL +
+      "?action=list",
+      {
+        method: "GET",
+        cache: "no-store"
+      }
+    )
+
+      .then(
+        function (response) {
+
+          if (!response.ok) {
+
+            throw new Error(
+              "HTTP " +
+              response.status
+            );
+
+          }
+
+          return response.json();
+
+        }
+      )
+
+      .then(
+        function (data) {
+
+          if (
+            !data ||
+            data.success === false
+          ) {
+
+            throw new Error(
+              data &&
+              data.error
+                ? data.error
+                : "投稿データを取得できませんでした。"
+            );
+
+          }
+
+
+          var receivedPosts =
+            Array.isArray(
+              data.posts
+            )
+              ? data.posts
+              : [];
+
+
+          /*
+           * Only published posts
+           * appear on the public site.
+           */
+
+          posts =
+            receivedPosts.filter(
+              function (post) {
+
+                return String(
+                  post.status ||
+                  ""
+                ).toLowerCase() ===
+                  "published";
+
+              }
+            );
+
+
+          /*
+           * Google Apps Script already
+           * returns newest rows first.
+           *
+           * Reverse them so the oldest
+           * card starts on the left and
+           * newer posts enter from the
+           * right as the slider moves.
+           */
+
+          posts.reverse();
+
+
+          renderPosts();
+
+        }
+      )
+
+      .catch(
+        function (error) {
+
+          console.error(
+            "Projects loading failed:",
+            error
+          );
+
+
+          loading.textContent =
+            "制作物を読み込めませんでした。";
+
+          loading.hidden = false;
+
+        }
+      );
+
+  }
+
+
+  /* =========================================================
+     Slider buttons
+     ========================================================= */
+
+  if (nextButton) {
+
+    nextButton.addEventListener(
+      "click",
+      function () {
+
+        nextSlide();
+
+        startAutoSlide();
+
+      }
+    );
+
+  }
+
+
+  if (prevButton) {
+
+    prevButton.addEventListener(
+      "click",
+      function () {
+
+        previousSlide();
+
+        startAutoSlide();
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     Resize
+     ========================================================= */
+
+  window.addEventListener(
+    "resize",
+    function () {
+
+      updateSlider(false);
+
+      controls.hidden =
+        posts.length <=
+        getVisibleCount();
+
+      startAutoSlide();
+
+    }
+  );
+
+
+  /* =========================================================
+     Pause while hovering
+     ========================================================= */
+
+  slider.addEventListener(
+    "mouseenter",
+    function () {
+
+      clearInterval(
+        autoSlideTimer
+      );
+
+    }
+  );
+
+
+  slider.addEventListener(
+    "mouseleave",
+    function () {
+
+      startAutoSlide();
+
+    }
+  );
+
+
+  /* =========================================================
+     Start
+     ========================================================= */
+
+  loadPosts();
+
+})();
