@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Boundaries</title>
+<meta name="theme-color" content="#A8D0EF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ===========================================
+   Aleksei Nikolayevich Tsaritsyn-Snezhnoy. — Liquid Glass Profile
+   Palette: E3F1FB / A8D0EF / C1E4F3 / FFF9E6 / 99C3E4
+=========================================== */
+
+:root{
+
+    --sky-1:#E3F1FB;
+    --sky-2:#C1E4F3;
+    --sky-3:#A8D0EF;
+    --sky-4:#99C3E4;
+    --cream:#FFF9E6;
+
+    --glass:rgba(255,255,255,.34);
+    --glass-soft:rgba(255,255,255,.20);
+    --glass-border:rgba(255,255,255,.55);
+
+    --text:#283A4C;
+    --muted:#5C7387;
+
+    --shadow:
+    0 24px 60px rgba(66,110,158,.28);
+
+    --radius:32px;
+
+}
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    min-height:100vh;
+
+    font-family:"Inter",sans-serif;
+
+    color:var(--text);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow-x:hidden;
+
+    background:linear-gradient(
+        -45deg,
+        var(--sky-1),
+        var(--sky-2),
+        var(--sky-3),
+        var(--cream),
+        var(--sky-4)
+    );
+
+    background-size:400% 400%;
+
+    animation:gradientMove 20s ease infinite;
+
+    padding:60px 20px;
+
+}
+
+@keyframes gradientMove{
+
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+
+}
+
+/* ===========================
+   Full-screen Cover Background
+   cover.jpg stays OUTSIDE the card
+=========================== */
+
+/* Full-screen cover image behind the card */
+.cover-background{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background-image:url("assets/cover.jpg");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+/* Subtle dark glass + blur over the cover */
+.cover-background::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(20,35,55,.18);
+    backdrop-filter:blur(4px);
+    -webkit-backdrop-filter:blur(4px);
+}
+
+/* ===========================
+   Background (page)
+=========================== */
+
+.background{
+
+    position:fixed;
+    inset:0;
+
+    overflow:hidden;
+
+    z-index:1;
+    pointer-events:none;
+
+}
+
+.blob{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    filter:blur(90px);
+
+    opacity:.5;
+
+    animation:float 18s ease-in-out infinite;
+
+}
+
+.blob1{ width:320px; height:320px; background:var(--sky-1); top:-80px; left:-60px; }
+.blob2{ width:260px; height:260px; background:var(--sky-3); right:-60px; bottom:60px; animation-delay:5s; }
+.blob3{ width:220px; height:220px; background:var(--cream); top:45%; left:45%; animation-delay:10s; }
+
+@keyframes float{
+
+    0%,100%{ transform:translateY(0) translateX(0); }
+    50%{ transform:translateY(-35px) translateX(20px); }
+
+}
+
+.noise{
+
+    position:absolute;
+    inset:0;
+
+    opacity:.05;
+
+    background-image:radial-gradient(circle,white 1px,transparent 1px);
+
+    background-size:16px 16px;
+
+}
+
+/* ===========================
+   Cursor Glow
+=========================== */
+
+.cursor-glow{
+
+    position:fixed;
+
+    width:240px;
+    height:240px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.22);
+
+    filter:blur(60px);
+
+    pointer-events:none;
+
+    z-index:999;
+
+    transform:translate(-50%,-50%);
+
+    transition:transform .08s linear;
+
+}
+
+/* ===========================
+   Main Card
+=========================== */
+
+.profile-card{
+
+    position:relative;
+
+    width:min(430px,100%);
+
+    border-radius:var(--radius);
+
+    overflow:hidden;
+    isolation:isolate;
+    z-index:2;
+
+    background: rgba(193,228,243,.22);
+
+    border:1px solid var(--glass-border);
+
+    box-shadow:var(--shadow);
+
+    animation:cardFloat 7s ease-in-out infinite;
+
+}
+
+/* cover.jpg stays strictly inside the profile card */
+
+@keyframes cardFloat{
+
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-8px); }
+
+}
+
+/* ===========================
+   Window Chrome
+=========================== */
+
+.window-bar{
+
+    position:relative;
+    z-index:3;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:16px 16px 0;
+
+}
+
+.window-pill{
+
+    flex:1;
+    min-width:0;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:11px 18px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.45);
+
+    border:1px solid var(--glass-border);
+
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+
+}
+
+.pulse-dot{
+
+    width:8px;
+    height:8px;
+    flex-shrink:0;
+
+    border-radius:50%;
+
+    background:var(--sky-4);
+
+    animation:pulse 2.4s ease-out infinite;
+
+}
+
+@keyframes pulse{
+
+    0%{ box-shadow:0 0 0 0 rgba(153,195,228,.55); }
+    70%{ box-shadow:0 0 0 9px rgba(153,195,228,0); }
+    100%{ box-shadow:0 0 0 0 rgba(153,195,228,0); }
+
+}
+
+.status-text{
+
+    font-size:.85rem;
+    font-weight:500;
+
+    color:var(--muted);
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+
+}
+
+.window-actions{
+
+    display:flex;
+    gap:8px;
+
+}
+
+.win-btn{
+
+    width:38px;
+    height:38px;
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:.9rem;
+
+    border:1px solid var(--glass-border);
+    border-radius:14px;
+
+    background:rgba(255,255,255,.45);
+
+    cursor:pointer;
+
+    transition:transform .25s ease, background .25s ease;
+
+}
+
+.win-btn:hover{ transform:translateY(-3px) scale(1.06); background:#fff; }
+.win-btn:active{ transform:translateY(0) scale(.94); }
+
+/* ===========================
+   Card Body Layout
+=========================== */
+
+.card-body{
+
+    position:relative;
+    z-index:1;
+
+    display:flex;
+    flex-direction:column;
+
+}
+
+/* ===========================
+   Identity Panel
+=========================== */
+
+.id-panel{
+
+    padding:26px 24px 8px;
+
+    text-align:center;
+
+}
+
+.avatar-wrapper{
+
+    display:flex;
+    justify-content:center;
+
+}
+
+.avatar{
+
+    width:120px;
+    height:120px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:5px solid rgba(255,255,255,.7);
+
+    background:white;
+
+    box-shadow:0 10px 28px rgba(66,110,158,.3);
+
+    animation:avatarFloat 5s ease-in-out infinite;
+
+}
+
+@keyframes avatarFloat{
+
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-5px); }
+
+}
+
+.id-panel h1{
+
+    margin-top:16px;
+
+    font-family:"Quicksand",sans-serif;
+
+    font-size:1.55rem;
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+.id-tag{
+
+    display:inline-block;
+
+    margin-top:8px;
+
+    padding:3px 14px;
+
+    border-radius:999px;
+
+    background:var(--cream);
+
+    color:#8A7530;
+
+    font-size:.72rem;
+    font-weight:600;
+
+    letter-spacing:.02em;
+
+}
+
+.description{
+
+    margin:14px auto 0;
+
+    max-width:320px;
+
+    font-size:.88rem;
+    line-height:1.7;
+
+    color:var(--muted);
+
+}
+
+/* ===========================================
+   Social Grid (original glass-btn rows)
+=========================================== */
+
+.social-grid{
+
+    display:grid;
+    grid-template-columns:1fr;
+
+    gap:12px;
+
+    margin-top:20px;
+
+}
+
+.glass-btn{
+
+    display:flex;
+    align-items:center;
+    gap:16px;
+
+    padding:14px 18px;
+
+    text-decoration:none;
+    text-align:left;
+
+    color:var(--text);
+
+    background:rgba(255,255,255,.4);
+
+    border:1px solid var(--glass-border);
+
+    border-radius:20px;
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    transition:transform .3s ease, background .3s ease, box-shadow .3s ease;
+
+}
+
+.glass-btn:hover{
+
+    transform:translateY(-5px) scale(1.02);
+
+    background:rgba(255,255,255,.55);
+
+    box-shadow:0 14px 30px rgba(66,110,158,.22);
+
+}
+
+.glass-btn .icon{
+
+    width:52px;
+    height:52px;
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:0;
+
+    background:transparent;
+
+    border:none;
+
+}
+
+.glass-btn .icon img{
+
+    width:32px;
+    height:32px;
+
+    object-fit:contain;
+
+}
+
+.glass-btn h3{
+
+    font-size:.92rem;
+    margin-bottom:2px;
+
+}
+
+.glass-btn p{
+
+    color:var(--muted);
+    font-size:.8rem;
+
+}
+
+/* ===========================================
+   Main Panel (nav + about + quote)
+=========================================== */
+
+.main-panel{
+
+    padding-top:8px;
+
+}
+
+.nav-stack{
+
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+
+    padding:14px 24px 4px;
+
+}
+
+.nav-pill{
+
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    padding:16px 20px;
+
+    border-radius:22px;
+
+    text-decoration:none;
+
+    color:var(--text);
+
+    font-family:"Quicksand",sans-serif;
+    font-weight:600;
+    font-size:1rem;
+
+    background:linear-gradient(
+        135deg,
+        rgba(255,255,255,.62),
+        rgba(255,255,255,.3)
+    );
+
+    border:1px solid var(--glass-border);
+
+    box-shadow:
+        0 12px 26px rgba(66,110,158,.22),
+        inset 0 1px 0 rgba(255,255,255,.7);
+
+    transition:transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease;
+
+}
+
+.nav-pill--home{ background:linear-gradient(135deg, rgba(227,241,251,.88), rgba(255,255,255,.32)); }
+.nav-pill--rules{ background:linear-gradient(135deg, rgba(193,228,243,.88), rgba(255,255,255,.32)); }
+.nav-pill--interests{ background:linear-gradient(135deg, rgba(255,249,230,.88), rgba(255,255,255,.32)); }
+
+.nav-icon{ font-size:1.15rem; }
+.nav-label{ flex:1; }
+
+.nav-arrow{
+
+    font-size:1.3rem;
+    font-weight:700;
+
+    color:var(--sky-4);
+
+    transition:transform .3s ease;
+
+}
+
+.nav-pill:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+        0 18px 34px rgba(66,110,158,.3),
+        inset 0 1px 0 rgba(255,255,255,.8);
+
+}
+
+.nav-pill:hover .nav-arrow{ transform:translateX(4px); }
+
+.nav-pill:active{
+
+    transform:translateY(-1px) scale(.98);
+
+    box-shadow:
+        0 8px 18px rgba(66,110,158,.22),
+        inset 0 1px 0 rgba(255,255,255,.7);
+
+}
+
+/* ===========================================
+   Glass Panels
+=========================================== */
+
+.glass-panel{
+
+    margin:14px 24px 0;
+
+    padding:20px;
+
+    border-radius:22px;
+
+    background:rgba(255,255,255,.32);
+
+    border:1px solid var(--glass-border);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    transition:transform .3s ease, background .3s ease;
+
+}
+
+.glass-panel:hover{
+
+    transform:translateY(-4px);
+
+    background:rgba(255,255,255,.42);
+
+}
+
+.glass-panel h2{
+
+    font-family:"Quicksand",sans-serif;
+
+    margin-bottom:10px;
+
+    font-size:1.05rem;
+
+    color:var(--text);
+
+}
+
+.glass-panel p{
+
+    line-height:1.75;
+
+    color:var(--muted);
+
+    font-size:.92rem;
+
+}
+
+.quote-panel{ background:rgba(255,249,230,.42); }
+
+.quote{
+
+    text-align:center;
+
+    font-style:italic;
+
+    font-size:.98rem;
+
+    color:#4A5A6B;
+
+}
+
+/* ===========================================
+   Footer
+=========================================== */
+
+footer{
+
+    position:relative;
+    z-index:1;
+
+    padding:20px 30px 26px;
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:.85rem;
+
+}
+
+/* ===========================================
+   Landscape layout for PC
+=========================================== */
+
+@media (min-width:860px){
+
+    body{ padding:40px 20px; }
+
+    .profile-card{
+
+        width:min(920px, 94vw);
+
+        border-radius:40px;
+
+    }
+
+    .card-body{
+
+        flex-direction:row;
+        align-items:stretch;
+
+    }
+
+    .id-panel{
+
+        flex:0 0 340px;
+
+        padding:34px 30px;
+
+        border-right:1px solid rgba(255,255,255,.4);
+
+    }
+
+    .main-panel{
+
+        flex:1;
+        min-width:0;
+
+        padding:24px 6px 6px;
+
+    }
+
+    .nav-stack{
+
+        flex-direction:row;
+        padding:10px 26px 4px;
+
+    }
+
+    .nav-pill{
+
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+
+        flex:1;
+
+    }
+
+    .nav-arrow{ align-self:flex-end; }
+
+    .glass-panel{ margin:16px 26px 0; }
+
+    footer{ padding:14px 30px 30px; }
+
+}
+
+/* ===========================================
+   Small Mobile
+=========================================== */
+
+@media (max-width:480px){
+
+    body{ padding:20px 12px; }
+
+    .profile-card{ border-radius:26px; }
+
+    .avatar{ width:100px; height:100px; }
+
+    .id-panel h1{ font-size:1.3rem; }
+
+    .win-btn{ width:34px; height:34px; }
+
+    .nav-pill{ padding:14px 16px; font-size:.92rem; }
+
+}
+
+/* ===========================================
+   Mobile Socials — tiny icons close to profile
+=========================================== */
+
+@media (max-width:640px){
+
+    .social-grid{
+
+        display:flex;
+        flex-direction:row;
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        gap:10px;
+
+        margin-top:16px;
+
+    }
+
+    .glass-btn{
+
+        flex:0 0 auto;
+
+        width:52px;
+        height:52px;
+
+        padding:0;
+
+        justify-content:center;
+
+        border-radius:14px;
+
+    }
+
+    .glass-btn .icon{
+
+        width:100%;
+        height:100%;
+
+        border:none;
+
+        background:transparent;
+
+        border-radius:0;
+
+    }
+
+    .glass-btn .icon img{
+
+        width:30px;
+        height:30px;
+
+    }
+
+    .glass-btn .btn-text{
+
+        display:none;
+
+    }
+
+}
+
+/* ===========================================
+   Motion & Accessibility
+=========================================== */
+
+a:focus-visible,
+button:focus-visible{
+
+    outline:2px solid var(--sky-4);
+    outline-offset:2px;
+
+}
+
+@media (prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation-duration:.001ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.001ms !important;
+
+    }
+
+}
+
+
+
+/* ===========================================
+   Boundaries Page
+=========================================== */
+.profile-card.boundaries-card{
+    width:min(920px,94vw);
+    max-height:calc(100vh - 80px);
+    overflow:hidden;
+    background:rgba(235,245,251,.22);
+}
+
+.boundaries-card .window-bar{
+    position:sticky;
+    top:0;
+    z-index:20;
+}
+
+.boundaries-content{
+    position:relative;
+    z-index:2;
+    overflow-y:auto;
+    max-height:calc(100vh - 155px);
+    padding:28px 34px 36px;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(40,58,76,.35) transparent;
+}
+
+.boundaries-hero{
+    text-align:center;
+    padding:14px 10px 30px;
+}
+
+.boundaries-hero h1{
+    font-family:"Quicksand",sans-serif;
+    font-size:clamp(2rem,5vw,3.2rem);
+    letter-spacing:.04em;
+    margin-bottom:12px;
+}
+
+.boundaries-hero .subtitle{
+    max-width:680px;
+    margin:auto;
+    color:var(--muted);
+    line-height:1.75;
+    font-size:.98rem;
+}
+
+.rule-list{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.rule-card{
+    padding:19px 21px;
+    border-radius:22px;
+    background:rgba(255,255,255,.30);
+    border:1px solid rgba(255,255,255,.48);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    box-shadow:0 10px 24px rgba(66,110,158,.12), inset 0 1px 0 rgba(255,255,255,.55);
+    opacity:0;
+    transform:translateY(12px);
+}
+
+.rule-card.visible{
+    animation:ruleIn .55s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+@keyframes ruleIn{
+    to{opacity:1;transform:translateY(0)}
+}
+
+.rule-number{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:38px;
+    height:28px;
+    padding:0 9px;
+    margin-bottom:9px;
+    border-radius:999px;
+    background:rgba(255,249,230,.72);
+    color:#8A7530;
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.06em;
+}
+
+.rule-card h2{
+    font-family:"Quicksand",sans-serif;
+    font-size:1.05rem;
+    margin-bottom:9px;
+}
+
+.rule-card p{
+    color:var(--muted);
+    line-height:1.72;
+    font-size:.92rem;
+    margin:4px 0;
+}
+
+.rule-card .emphasis{
+    color:var(--text);
+    font-style:italic;
+    margin-top:11px;
+}
+
+.final-rule{
+    margin-top:18px;
+    padding:28px 24px;
+    border-radius:26px;
+    background:rgba(255,249,230,.38);
+    border:1px solid rgba(255,255,255,.55);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    text-align:center;
+}
+
+.final-rule h2{
+    font-family:"Quicksand",sans-serif;
+    font-size:1.45rem;
+    margin-bottom:15px;
+}
+
+.final-rule p{
+    max-width:700px;
+    margin:7px auto;
+    color:#4A5A6B;
+    line-height:1.8;
+}
+
+.type-cursor::after{
+    content:"▋";
+    display:inline-block;
+    margin-left:3px;
+    animation:blink .75s step-end infinite;
+}
+
+@keyframes blink{50%{opacity:0}}
+
+.boundaries-footer{
+    text-align:center;
+    padding:20px 0 0;
+    color:var(--muted);
+    font-size:.78rem;
+}
+
+@media(max-width:640px){
+    .profile-card.boundaries-card{width:calc(100vw - 24px);max-height:calc(100vh - 40px)}
+    .boundaries-content{padding:22px 16px 28px;max-height:calc(100vh - 120px)}
+    .boundaries-hero{padding-top:4px}
+    .rule-card{padding:17px 16px;border-radius:19px}
+    .rule-card h2{font-size:.98rem}
+    .rule-card p{font-size:.87rem}
+}
+
+.cover-background{position:fixed;inset:0;background:linear-gradient(rgba(20,35,48,.38),rgba(20,35,48,.38)),url("assets/cover.jpg") center/cover no-repeat;filter:blur(3px);transform:scale(1.03);z-index:-3;}
+</style>
+</head>
+<body>
+<div class="background">
+    <div class="cover-background" aria-hidden="true"></div>
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+    <div class="noise"></div>
+</div>
+<div class="cursor-glow"></div>
+
+<main class="profile-card boundaries-card">
+    <div class="window-bar">
+        <div class="window-pill">
+            <span class="pulse-dot"></span>
+            <span class="status-text" id="statusText">my boundaries</span>
+        </div>
+        <div class="window-actions">
+            <a class="win-btn" href="https://iankreidehuter.space/" title="Home" aria-label="Go home" style="text-decoration:none;color:inherit">⌂</a>
+            <a class="win-btn" href="https://contact.iankreidehuter.space/" title="Contact" aria-label="Contact" style="text-decoration:none;color:inherit">✉</a>
+        </div>
+    </div>
+
+    <div class="boundaries-content">
+        <header class="boundaries-hero">
+            <h1 id="typedTitle" class="type-cursor"></h1>
+            <p id="typedSubtitle" class="subtitle"></p>
+        </header>
+
+        <section class="rule-list" id="rules"></section>
+
+        <section class="final-rule" id="finalRule" style="opacity:0">
+            <h2 id="finalTitle"></h2>
+            <div id="finalText"></div>
+        </section>
+
+        <div class="boundaries-footer">A boundary is something I protect with action, not just words.</div>
+    </div>
+</main>
+
+<script>
+const rules = [
+["01","I AM NOT RESPONSIBLE FOR OTHER PEOPLE'S FEELINGS",["I can care about how someone feels without taking responsibility for their emotions.","Their disappointment, anger, insecurity, uncertainty, or sadness does not automatically become my problem to solve."]],
+["02","I WILL OWN MY MISTAKES",["If I hurt someone, I will acknowledge it, apologize, and change my behavior.","But I will not apologize simply because someone dislikes my boundary, my answer, or my decision."]],
+["03","I WILL NOT OVER-EXPLAIN MYSELF",["I don't need to write an entire essay to prove that my intentions were good.","If I've explained myself clearly once, I am allowed to stop.","Being misunderstood does not mean I have to keep defending myself forever."]],
+["04","I WILL NOT CHASE CLARITY FROM PEOPLE WHO REFUSE TO COMMUNICATE",["I can ask.","I can listen.","I can give someone the opportunity to explain themselves.","But I will not investigate, chase, interrogate, or destroy my own peace trying to fill every empty space."],"\"I don't know\" is sometimes a complete answer."],
+["05","I WILL RESPECT PRIVACY",["If someone chooses not to tell me something, I will respect that.","Curiosity does not give me permission to search for information they chose not to share."]],
+["06","I WILL NOT MAKE SOMEONE MY ENTIRE WORLD",["I can love someone deeply without making their attention, replies, presence, or choices responsible for my emotional stability.","Someone being distant does not mean I have to collapse."]],
+["07","I WILL NOT BE AVAILABLE AT THE COST OF MYSELF",["I am allowed to be tired.","I am allowed to be busy.","I am allowed to need space.","I am allowed to say \"not right now.\"","I do not have to be available 24/7 to prove that I care."]],
+["08","I WILL NOT ACCEPT BEING KEPT IN LIMBO",["I won't keep standing at a closed door waiting for someone to decide whether they want me inside.","If someone is unsure, they are allowed to be unsure.","But I am also allowed to step away."]],
+["09","I WILL NOT LET SOMEONE'S UNCERTAINTY BECOME MY SUFFERING",["You are allowed to not know what you want.","You are not allowed to repeatedly pull me close and push me away while expecting me to remain emotionally available through all of it.","Your uncertainty is yours to handle.","My peace is mine to protect."]],
+["10","I WILL NOT BE USED AS EMOTIONAL SUPPORT WITHOUT RECIPROCITY",["I can listen.","I can comfort.","I can be there for someone.","But I am not someone's therapist, emotional dumping ground, backup plan, boredom cure, or temporary source of validation."]],
+["11","I WILL PAY ATTENTION TO ACTIONS",["I don't need to keep collecting evidence that someone cares about me.","Consistent actions matter more than occasional words.","I will stop trying to prove someone's feelings to myself."]],
+["12","I WILL NOT BE SOMEONE'S SECOND CHOICE AND CALL IT LOVE",["I don't need to compete for someone's attention.","I don't need to convince someone to choose me.","I don't need to become more useful, more patient, or more convenient to earn a place in someone's life.","If I have to constantly beg to be considered, I already have my answer."]],
+["13","I WILL NOT SACRIFICE MYSELF TO KEEP SOMEONE",["If keeping someone requires me to abandon my values, dignity, boundaries, or peace, then keeping them is too expensive.","I would rather lose someone than lose myself."]],
+["14","I CAN SAY NO WITHOUT FEELING GUILTY",["\"No\" does not require a courtroom defense.","\"No\" is enough.","I don't owe everyone access to me."]],
+["15","I WILL NOT PUNISH PEOPLE FOR NOT LOVING ME",["Someone not choosing me does not automatically make them evil.","Their choice can hurt me without becoming my responsibility to change.","I can accept rejection without turning it into hatred."]],
+["16","I WILL ALLOW PEOPLE TO LEAVE",["I cannot force someone to stay.","I cannot love someone into staying.","I cannot explain myself perfectly enough to guarantee that someone will never leave.","People have choices.","So do I."]],
+["17","I WILL NOT CONFUSE INTENSITY WITH INTIMACY",["Feeling deeply connected to someone does not automatically mean we have earned deep access to each other.","Trust is built through time, consistency, honesty, and mutual effort."]],
+["18","I WILL LET PEOPLE EARN CLOSENESS",["I don't have to give someone everything just because they made me feel understood for a short time.","Access to me is something built, not something automatically given."]],
+["19","I WILL PROTECT MY TIME AND ENERGY",["Not every argument needs my response.","Not every message needs an immediate reply.","Not every misunderstanding needs to become a three-hour conversation.","Sometimes the healthiest response is simply stepping away."]],
+["20","I WILL NOT KEEP REOPENING WOUNDS TO GET AN ANSWER",["Some questions may never receive the explanation I wanted.","I can want an answer without destroying myself searching for one."]],
+["21","I WILL NOT USE LOVE AS AN EXCUSE TO IGNORE HARM",["I can love someone and still recognize that they hurt me.","Love does not require unlimited access.","Forgiveness, if I ever choose it, does not mean returning to the same situation."]],
+["22","I WILL NOT MAKE MY WORTH DEPEND ON BEING USEFUL",["I don't have to constantly help, fix, understand, comfort, or provide something to deserve a place in someone's life.","I am a person before I am useful."]],
+["23","I WILL TAKE RESPONSIBILITY FOR MY SIDE — AND ONLY MY SIDE",["My words.","My actions.","My choices.","My boundaries.","Those belong to me.","Other people's reactions, decisions, emotions, and behavior belong to them."]],
+["24","I WILL NOT ABANDON MYSELF TO PROVE THAT I LOVE SOMEONE",["Love should not require me to disappear.","I can be soft without being defenseless.","I can care without carrying everything.","I can love without losing myself."]],
+["25","WHEN A BOUNDARY IS CROSSED, I WILL ACT",["A boundary without action is only a request.","If something repeatedly harms me after I've communicated it clearly, I will create distance, leave the conversation, reduce access, or walk away.","I don't need permission to protect myself."]]
+];
+
+const finalLines = [
+"I am not becoming cold.",
+"I am becoming responsible for myself.",
+"I will still love.",
+"I will still care.",
+"I will still listen.",
+"I will still forgive when I genuinely want to.",
+"But I will no longer confuse love with obligation, kindness with self-sacrifice, understanding with tolerating everything, or someone's feelings with my responsibility.",
+"I am allowed to protect my peace.",
+"I am allowed to leave.",
+"I am allowed to choose myself..."
+];
+
+const sleep = ms => new Promise(r => setTimeout(r,ms));
+async function typeText(el,text,speed=16){
+    for(const ch of text){ el.textContent += ch; await sleep(speed); }
+}
+
+async function start(){
+    const title=document.getElementById('typedTitle');
+    const subtitle=document.getElementById('typedSubtitle');
+    await typeText(title,'MY BOUNDARIES',65);
+    title.classList.remove('type-cursor');
+    await sleep(180);
+    await typeText(subtitle,'These are not rules for controlling other people. They are rules for protecting myself.',14);
+    subtitle.classList.add('type-cursor');
+
+    const container=document.getElementById('rules');
+    for(const [num,heading,paragraphs,emphasis] of rules){
+        const card=document.createElement('article');
+        card.className='rule-card';
+        card.innerHTML=`<div class="rule-number">${num}</div><h2>${heading}</h2>`+
+            paragraphs.map(p=>`<p>${p.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')}</p>`).join('')+
+            (emphasis?`<p class="emphasis">${emphasis}</p>`:'');
+        container.appendChild(card);
+        await sleep(35);
+        card.classList.add('visible');
+    }
+
+    await sleep(200);
+    const final=document.getElementById('finalRule');
+    final.style.opacity='1';
+    await typeText(document.getElementById('finalTitle'),'FINAL RULE',55);
+    const finalText=document.getElementById('finalText');
+    for(const line of finalLines){
+        const p=document.createElement('p');
+        finalText.appendChild(p);
+        await typeText(p,line,11);
+        await sleep(80);
+    }
+    document.getElementById('finalTitle').classList.remove('type-cursor');
+    subtitle.classList.remove('type-cursor');
+}
+
+const glow=document.querySelector('.cursor-glow');
+const card=document.querySelector('.profile-card');
+document.addEventListener('mousemove',e=>{
+    if(glow){glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px';}
+    if(window.innerWidth>=768 && card){
+        const r=card.getBoundingClientRect();
+        const x=e.clientX-r.left,y=e.clientY-r.top;
+        const ry=((x/r.width)-.5)*4, rx=((.5-y/r.height))*4;
+        card.style.transform=`perspective(1400px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+    }
+});
+if(card) card.addEventListener('mouseleave',()=>card.style.transform='');
+if('ontouchstart' in window && glow) glow.style.display='none';
+start();
+</script>
+</body>
+</html>
