@@ -121,6 +121,302 @@
 
 
   /* =========================================================
+     Theme selector
+     ========================================================= */
+
+  var themeToggle =
+    document.getElementById("themeToggle");
+
+  var themePanel =
+    document.getElementById("themePanel");
+
+  var themeChoices =
+    document.querySelectorAll(
+      "[data-theme-choice]"
+    );
+
+  var heroImage =
+    document.querySelector(
+      ".hero-image-frame img"
+    );
+
+  var THEME_STORAGE_KEY =
+    "adrian-theme";
+
+  var THEME_IMAGES = {
+    light: "assets/hikaru.png",
+    dark: "assets/profile2.png"
+  };
+
+
+  function closeThemePanel() {
+
+    if (!themeToggle || !themePanel) {
+      return;
+    }
+
+    themePanel.classList.remove(
+      "is-open"
+    );
+
+    themePanel.hidden = true;
+
+    themeToggle.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+  }
+
+
+  function openThemePanel() {
+
+    if (!themeToggle || !themePanel) {
+      return;
+    }
+
+    themePanel.hidden = false;
+
+    requestAnimationFrame(
+      function () {
+
+        themePanel.classList.add(
+          "is-open"
+        );
+
+      }
+    );
+
+    themeToggle.setAttribute(
+      "aria-expanded",
+      "true"
+    );
+
+  }
+
+
+  function applyTheme(theme) {
+
+    if (theme !== "dark") {
+      theme = "light";
+    }
+
+
+    document.documentElement.setAttribute(
+      "data-theme",
+      theme
+    );
+
+
+    /*
+     * Light:
+     * assets/hikaru.png
+     *
+     * Dark:
+     * assets/profile2.png
+     */
+
+    if (heroImage) {
+
+      heroImage.src =
+        THEME_IMAGES[theme];
+
+    }
+
+
+    /*
+     * Update selected button.
+     */
+
+    themeChoices.forEach(
+      function (choice) {
+
+        var selected =
+          choice.getAttribute(
+            "data-theme-choice"
+          ) === theme;
+
+        choice.setAttribute(
+          "aria-pressed",
+          selected
+            ? "true"
+            : "false"
+        );
+
+      }
+    );
+
+
+    /*
+     * Remember selected theme.
+     */
+
+    try {
+
+      localStorage.setItem(
+        THEME_STORAGE_KEY,
+        theme
+      );
+
+    } catch (error) {
+
+      /*
+       * Ignore localStorage errors.
+       */
+
+    }
+
+  }
+
+
+  function getSavedTheme() {
+
+    try {
+
+      var saved =
+        localStorage.getItem(
+          THEME_STORAGE_KEY
+        );
+
+
+      if (
+        saved === "dark" ||
+        saved === "light"
+      ) {
+
+        return saved;
+
+      }
+
+    } catch (error) {
+
+      /*
+       * Ignore localStorage errors.
+       */
+
+    }
+
+
+    return "light";
+
+  }
+
+
+  if (
+    themeToggle &&
+    themePanel
+  ) {
+
+    /*
+     * Apply saved theme when
+     * the page loads.
+     */
+
+    applyTheme(
+      getSavedTheme()
+    );
+
+
+    /*
+     * Theme button.
+     */
+
+    themeToggle.addEventListener(
+      "click",
+      function (event) {
+
+        event.stopPropagation();
+
+        var isOpen =
+          themeToggle.getAttribute(
+            "aria-expanded"
+          ) === "true";
+
+
+        if (isOpen) {
+
+          closeThemePanel();
+
+        } else {
+
+          openThemePanel();
+
+        }
+
+      }
+    );
+
+
+    /*
+     * Light / Dark buttons.
+     */
+
+    themeChoices.forEach(
+      function (choice) {
+
+        choice.addEventListener(
+          "click",
+          function () {
+
+            applyTheme(
+              choice.getAttribute(
+                "data-theme-choice"
+              )
+            );
+
+            closeThemePanel();
+
+          }
+        );
+
+      }
+    );
+
+
+    /*
+     * Close theme panel when
+     * clicking outside.
+     */
+
+    document.addEventListener(
+      "click",
+      function (event) {
+
+        if (
+          !event.target.closest(
+            ".theme-switcher"
+          )
+        ) {
+
+          closeThemePanel();
+
+        }
+
+      }
+    );
+
+
+    /*
+     * Escape closes theme panel.
+     */
+
+    document.addEventListener(
+      "keydown",
+      function (event) {
+
+        if (event.key === "Escape") {
+
+          closeThemePanel();
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
      Content protection
      ========================================================= */
 
@@ -146,7 +442,9 @@
     function (e) {
 
       if (!isInteractive(e.target)) {
+
         e.preventDefault();
+
       }
 
     }
@@ -161,7 +459,9 @@
         function (e) {
 
           if (!isInteractive(e.target)) {
+
             e.preventDefault();
+
           }
 
         }
@@ -176,7 +476,9 @@
     function (e) {
 
       if (!isInteractive(e.target)) {
+
         e.preventDefault();
+
       }
 
     }
@@ -192,10 +494,13 @@
         "false"
       );
 
+
       img.addEventListener(
         "dragstart",
         function (e) {
+
           e.preventDefault();
+
         }
       );
 
@@ -214,13 +519,18 @@
 
 
       if (key === "f12") {
+
         e.preventDefault();
+
         return;
+
       }
 
 
       if (!ctrlOrCmd) {
+
         return;
+
       }
 
 
@@ -237,6 +547,7 @@
       ) {
 
         e.preventDefault();
+
         return;
 
       }
@@ -248,6 +559,7 @@
       ) {
 
         e.preventDefault();
+
         return;
 
       }
@@ -277,7 +589,9 @@
     .forEach(function (img) {
 
       if (isInteractive(img)) {
+
         return;
+
       }
 
 
@@ -402,7 +716,9 @@
       value === null ||
       value === undefined
     ) {
+
       return "";
+
     }
 
 
@@ -442,12 +758,16 @@
 
 
     if (width <= 640) {
+
       return 1;
+
     }
 
 
     if (width <= 960) {
+
       return 2;
+
     }
 
 
@@ -511,8 +831,6 @@
        * into:
        *
        * https://drive.google.com/thumbnail?id=FILE_ID&sz=w1600
-       *
-       * This keeps the existing Sheet URL unchanged.
        */
 
       var driveId = null;
@@ -573,8 +891,8 @@
 
     return (
       '<div class="project-media-empty">' +
-        'No media' +
-      '</div>'
+        "No media" +
+      "</div>"
     );
 
   }
@@ -591,23 +909,23 @@
 
         '<div class="project-media">' +
           getMedia(post) +
-        '</div>' +
+        "</div>" +
 
         '<div class="project-body">' +
 
-          '<h3>' +
+          "<h3>" +
             escapeHTML(
               post.title ||
               "制作物"
             ) +
-          '</h3>' +
+          "</h3>" +
 
-          '<p>' +
+          "<p>" +
             escapeHTML(
               post.caption ||
               ""
             ) +
-          '</p>' +
+          "</p>" +
 
           '<div class="project-actions">' +
 
@@ -617,14 +935,14 @@
             'data-post-index="' +
             posts.indexOf(post) +
             '">' +
-              '詳細' +
-            '</button>' +
+              "詳細" +
+            "</button>" +
 
-          '</div>' +
+          "</div>" +
 
-        '</div>' +
+        "</div>" +
 
-      '</article>'
+      "</article>"
     );
 
   }
@@ -637,9 +955,8 @@
   function createDetailModal() {
 
     /*
-     * IMPORTANT:
-     * The modal is NOT created during page load.
-     * It is only created when "詳細" is clicked.
+     * The modal is only created
+     * when "詳細" is clicked.
      */
 
     var existing =
@@ -649,7 +966,9 @@
 
 
     if (existing) {
+
       return existing;
+
     }
 
 
@@ -675,13 +994,13 @@
         'type="button" ' +
         'class="project-detail-close" ' +
         'aria-label="閉じる">' +
-          '×' +
-        '</button>' +
+          "×" +
+        "</button>" +
 
         '<div ' +
         'class="project-detail-media" ' +
         'id="projectDetailMedia">' +
-        '</div>' +
+        "</div>" +
 
         '<div class="project-detail-content">' +
 
@@ -690,16 +1009,16 @@
           '<p ' +
           'id="projectDetailCaption" ' +
           'class="project-detail-caption">' +
-          '</p>' +
+          "</p>" +
 
           '<div ' +
           'id="projectDetailText" ' +
           'class="project-detail-text">' +
-          '</div>' +
+          "</div>" +
 
-        '</div>' +
+        "</div>" +
 
-      '</div>';
+      "</div>";
 
 
     document.body.appendChild(
@@ -825,7 +1144,9 @@
 
 
     if (!modal) {
+
       return;
+
     }
 
 
@@ -846,7 +1167,9 @@
   function attachDetailButtons() {
 
     if (!projectTrack) {
+
       return;
+
     }
 
 
@@ -874,7 +1197,11 @@
 
 
               if (post) {
-                openDetailModal(post);
+
+                openDetailModal(
+                  post
+                );
+
               }
 
             }
@@ -893,7 +1220,9 @@
   function updateSlider() {
 
     if (!projectTrack) {
+
       return;
+
     }
 
 
@@ -906,7 +1235,9 @@
 
 
     if (!total) {
+
       return;
+
     }
 
 
@@ -938,7 +1269,9 @@
   function nextSlide() {
 
     if (!posts.length) {
+
       return;
+
     }
 
 
@@ -977,7 +1310,9 @@
   function previousSlide() {
 
     if (!posts.length) {
+
       return;
+
     }
 
 
@@ -1041,7 +1376,9 @@
       posts.length <=
       getVisibleCount()
     ) {
+
       return;
+
     }
 
 
@@ -1065,7 +1402,9 @@
   function renderPosts() {
 
     if (!projectTrack) {
+
       return;
+
     }
 
 
@@ -1216,8 +1555,8 @@
 
           projectTrack.innerHTML =
             '<div class="project-media-empty">' +
-              'No published posts yet.' +
-            '</div>';
+              "No published posts yet." +
+            "</div>";
 
         }
 
@@ -1238,6 +1577,7 @@
       renderPosts();
 
     }
+
     catch (error) {
 
       console.error(
