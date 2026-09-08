@@ -195,12 +195,6 @@ html.theme-switching body {
   flex-shrink: 0;
 }
 
-@media (max-width: 640px) {
-  .theme-switcher {
-    display: none;
-  }
-}
-
 
 /* =========================================================
    Reset & base
