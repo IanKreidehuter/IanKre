@@ -3,29 +3,29 @@
    ========================================================= */
 
 :root {
-  --bg: #F0FFFA;
-  --bg-glow-a: rgba(159, 224, 211, 0.40);
-  --bg-glow-b: rgba(139, 184, 233, 0.35);
-  --grid-line: rgba(47, 58, 95, 0.05);
+  --bg: #DCEEFF;
+  --bg-glow-a: rgba(91, 169, 255, 0.28);
+  --bg-glow-b: rgba(128, 205, 255, 0.22);
+  --grid-line: rgba(37, 82, 130, 0);
 
-  --ink: #2F3A5F;
-  --ink-soft: #4C5C82;
-  --ink-faint: #7C8AAE;
+  --ink: #18324F;
+  --ink-soft: #466887;
+  --ink-faint: #7690A8;
 
-  --accent: #5E86C1;
-  --accent-soft: #8BB8E9;
-  --mint: #9FE0D3;
-  --mint-light: #CFF3E8;
+  --accent: #2B6FB0;
+  --accent-soft: #76A9D6;
+  --mint: #65B9E8;
+  --mint-light: rgba(101, 185, 232, 0.18);
 
-  --btn-primary-bg: #2F3A5F;
-  --btn-primary-ink: #F3FFFB;
+  --btn-primary-bg: #4F9ED4;
+  --btn-primary-ink: #FFFFFF;
 
-  --line: rgba(47, 58, 95, 0.12);
+  --line: rgba(24, 50, 79, 0.14);
 
-  --glass-bg: rgba(255, 255, 255, 0.55);
-  --glass-bg-strong: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.65);
-  --glass-shadow: 0 8px 30px rgba(94, 134, 193, 0.18);
+  --glass-bg: rgba(255, 255, 255, 0.34);
+  --glass-bg-strong: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.88);
+  --glass-shadow: 0 8px 30px rgba(58, 108, 158, 0.22);
   --glass-blur: blur(18px);
 
   --radius-lg: 28px;
@@ -43,34 +43,162 @@
    Dark mode
    ========================================================= */
 
-@media (prefers-color-scheme: dark) {
+html[data-theme="dark"] {
+  --bg: #080B14;
 
-  :root {
-    --bg: #141B2E;
-    --bg-glow-a: rgba(159, 224, 211, 0.16);
-    --bg-glow-b: rgba(139, 184, 233, 0.22);
-    --grid-line: rgba(240, 255, 250, 0.05);
+  /* Blood-red instead of pink */
+  --bg-glow-a: rgba(127, 16, 32, 0.22);
+  --bg-glow-b: rgba(61, 151, 255, 0.18);
 
-    --ink: #F0FFFA;
-    --ink-soft: #C3D0EA;
-    --ink-faint: #8996B8;
+  --grid-line: rgba(137, 206, 255, 0);
 
-    --accent: #8BB8E9;
-    --accent-soft: #5E86C1;
-    --mint: #9FE0D3;
-    --mint-light: rgba(159, 224, 211, 0.16);
+  --ink: #F4F7FF;
+  --ink-soft: #B5C3DD;
+  --ink-faint: #71809E;
 
-    --btn-primary-bg: #9FE0D3;
-    --btn-primary-ink: #16233B;
+  --accent: #73B8FF;
+  --accent-soft: #477DBA;
 
-    --line: rgba(240, 255, 250, 0.12);
+  --mint: #6B0F1A;
+  --mint-light: rgba(107, 15, 26, 0.18);
 
-    --glass-bg: rgba(35, 44, 71, 0.55);
-    --glass-bg-strong: rgba(35, 44, 71, 0.75);
-    --glass-border: rgba(240, 255, 250, 0.10);
-    --glass-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  --btn-primary-bg: #7f1020;
+  --btn-primary-ink: #f6f7fa;
+
+  --line: rgba(145, 190, 255, 0.16);
+
+  --glass-bg: rgba(16, 21, 38, 0.68);
+  --glass-bg-strong: rgba(18, 24, 43, 0.88);
+  --glass-border: rgba(115, 184, 255, 0.14);
+  --glass-shadow: 0 8px 30px rgba(0, 0, 0, 0.55);
+}
+
+html[data-theme="dark"] .project-detail-backdrop {
+  background: rgba(3, 5, 12, 0.72);
+}
+
+
+/* =========================================================
+   Theme switching fade
+   ========================================================= */
+
+html.theme-switching body {
+  animation: themeFade 0.45s ease;
+}
+
+@keyframes themeFade {
+  0% {
+    opacity: 0.55;
   }
 
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* =========================================================
+   Theme selector
+   ========================================================= */
+
+.theme-switcher {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--mint-light);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+}
+
+.theme-toggle svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.theme-panel {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  width: 150px;
+  padding: 0.4rem;
+  border-radius: var(--radius-md);
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease,
+    transform 0.2s ease;
+  z-index: 120;
+}
+
+.theme-panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.theme-panel button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 0.75rem;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 0.88rem;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.theme-panel button:hover,
+.theme-panel button[aria-pressed="true"] {
+  background: var(--mint-light);
+  color: var(--ink);
+}
+
+.theme-panel button svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .theme-switcher {
+    display: none;
+  }
 }
 
 
@@ -95,6 +223,9 @@ body {
   line-height: 1.85;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease;
 }
 
 body::before {
@@ -386,7 +517,7 @@ textarea,
 .btn-primary:hover {
   transform: translateY(-1px);
   box-shadow:
-    0 10px 24px rgba(47, 58, 95, 0.28);
+    0 10px 24px rgba(35, 85, 130, 0.22);
 }
 
 .btn-ghost {
@@ -544,6 +675,13 @@ section {
   height: 100%;
   object-fit: cover;
   border-radius: calc(var(--radius-lg) - 8px);
+
+  /*
+   * Smooth image transition when
+   * Light/Dark changes.
+   */
+  transition:
+    opacity 0.3s ease;
 }
 
 
@@ -720,7 +858,7 @@ section {
 .project-detail-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(20, 27, 46, 0.45);
+  background: rgba(17, 35, 58, 0.42);
   backdrop-filter: blur(8px);
 }
 
