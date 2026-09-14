@@ -65,6 +65,11 @@ html[data-theme="light"]{
 
 *{ box-sizing: border-box; }
 
+/* [hidden] must always win over class-based `display` rules of equal
+   specificity (e.g. .modal-overlay{display:flex}), or elements toggled via
+   the `hidden` property/attribute will render open regardless of state. */
+[hidden]{ display: none !important; }
+
 html, body{
   height: 100%;
 }
