@@ -189,26 +189,26 @@
       <div class="kcard-face kcard-face--front">
         <span class="kcard-level">${escapeHtml(k.level)}</span>
         <span class="kcard-glyph">${escapeHtml(k.kanji)}</span>
-        <p class="kcard-prompt">Do you remember this?</p>
+        <p class="kcard-prompt">Apakah kamu ingat ini?</p>
       </div>
       <div class="kcard-face kcard-face--back">
         <span class="kcard-back-glyph">${escapeHtml(k.kanji)}</span>
         <div class="kcard-section">
-          <div class="kcard-section-label"><span class="jp">意味</span> Meaning</div>
+          <div class="kcard-section-label"><span class="jp">意味</span> Arti</div>
           <div class="kcard-section-value">${escapeHtml(meanings)}</div>
         </div>
         <div class="kcard-section">
-          <div class="kcard-section-label"><span class="jp">音読み</span> On'yomi</div>
+          <div class="kcard-section-label"><span class="jp">音読み</span> Onyomi</div>
           <div class="kcard-section-value">${escapeHtml(onyomi)}</div>
         </div>
         <div class="kcard-section">
-          <div class="kcard-section-label"><span class="jp">訓読み</span> Kun'yomi</div>
+          <div class="kcard-section-label"><span class="jp">訓読み</span> Kunyomi</div>
           <div class="kcard-section-value">${escapeHtml(kunyomi)}</div>
         </div>
         ${
           examplesHtml
             ? `<div class="kcard-section">
-                 <div class="kcard-section-label"><span class="jp">例</span> Examples</div>
+                 <div class="kcard-section-label"><span class="jp">例</span> Contoh</div>
                </div>
                <div class="kcard-examples">${examplesHtml}</div>`
             : ""
@@ -216,15 +216,15 @@
       </div>
       <div class="swipe-flag swipe-flag--right" data-flag="right">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Remembered
+        Diingat
       </div>
       <div class="swipe-flag swipe-flag--left" data-flag="left">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-        Not yet
+        Belum
       </div>
       <div class="swipe-flag swipe-flag--up" data-flag="up">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M12 5l-5 5M12 5l5 5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Show answer
+        Lihat jawaban
       </div>
     `;
   }
@@ -266,17 +266,17 @@
   }
 
   function showEmptyState() {
-    let message = "You've gone through every card in this study mode.";
+    let message = "Kamu sudah melewati semua kartu di mode belajar ini.";
     if (settings.mode === "smart") {
-      message = "No new or not-yet Kanji left to study right now. Try Remembered mode to review, or reset progress to start over.";
+      message = "Tidak ada Kanji baru atau yang belum diingat untuk dipelajari sekarang. Coba mode Diingat untuk mengulang, atau atur ulang kemajuan untuk mulai dari awal.";
     } else if (settings.mode === "new") {
-      message = "No new Kanji left — everything has been seen at least once.";
+      message = "Tidak ada Kanji baru lagi — semua sudah pernah dilihat.";
     } else if (settings.mode === "not_yet") {
-      message = "Nothing marked \u201cnot yet\u201d right now. Nicely done.";
+      message = "Belum ada yang ditandai \u201cbelum\u201d saat ini. Kerja bagus!";
     } else if (settings.mode === "remembered") {
-      message = "Nothing marked \u201cremembered\u201d yet.";
+      message = "Belum ada yang ditandai \u201cdiingat\u201d.";
     } else if (settings.mode === "all") {
-      message = "That's every Kanji in this level.";
+      message = "Itu semua Kanji di level ini.";
     }
     el.emptyMessage.textContent = message;
     el.emptyState.hidden = false;
@@ -425,7 +425,7 @@
     if (history.length > MAX_HISTORY) history.shift();
 
     setStatus(data.kanji, status);
-    announce(`${data.kanji} marked ${status === "remembered" ? "remembered" : "not yet"}.`);
+    announce(`${data.kanji} ditandai ${status === "remembered" ? "diingat" : "belum diingat"}.`);
     showUndo();
 
     window.setTimeout(() => {
@@ -458,7 +458,7 @@
     saveProgress();
     queuePos = last.queuePos;
     renderStack();
-    announce(`Undid last answer for ${last.kanji}.`);
+    announce(`Jawaban terakhir untuk ${last.kanji} dibatalkan.`);
     if (history.length === 0) hideUndo();
   }
 
@@ -511,7 +511,7 @@
     closeSettingsPanel();
     buildQueue();
     renderStack();
-    announce("Progress has been reset.");
+    announce("Kemajuan telah diatur ulang.");
   }
 
   /* ---------------- Keyboard ---------------- */
