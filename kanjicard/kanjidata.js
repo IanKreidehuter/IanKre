@@ -1,11 +1,11 @@
-// JLPT N5 Kanji dataset
-// Structure kept modular so N4/N3/N2/N1 sets can be added later.
+// Dataset Kanji JLPT N5 (Bahasa Indonesia)
+// Struktur dibuat modular agar set N4/N3/N2/N1 dapat ditambahkan nanti.
 const KANJI_DATA_N5 = [
   {
     "kanji": "一",
     "level": "N5",
     "meanings": [
-      "one"
+      "satu"
     ],
     "onyomi": [
       "イチ",
@@ -19,12 +19,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "一つ",
         "reading": "ひとつ",
-        "meaning": "one (thing)"
+        "meaning": "satu (buah)"
       },
       {
         "word": "一月",
         "reading": "いちがつ",
-        "meaning": "January"
+        "meaning": "Januari"
       }
     ]
   },
@@ -32,7 +32,7 @@ const KANJI_DATA_N5 = [
     "kanji": "二",
     "level": "N5",
     "meanings": [
-      "two"
+      "dua"
     ],
     "onyomi": [
       "ニ"
@@ -45,12 +45,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "二つ",
         "reading": "ふたつ",
-        "meaning": "two (things)"
+        "meaning": "dua (buah)"
       },
       {
         "word": "二月",
         "reading": "にがつ",
-        "meaning": "February"
+        "meaning": "Februari"
       }
     ]
   },
@@ -58,7 +58,7 @@ const KANJI_DATA_N5 = [
     "kanji": "三",
     "level": "N5",
     "meanings": [
-      "three"
+      "tiga"
     ],
     "onyomi": [
       "サン"
@@ -72,12 +72,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "三つ",
         "reading": "みっつ",
-        "meaning": "three (things)"
+        "meaning": "tiga (buah)"
       },
       {
         "word": "三月",
         "reading": "さんがつ",
-        "meaning": "March"
+        "meaning": "Maret"
       }
     ]
   },
@@ -85,7 +85,7 @@ const KANJI_DATA_N5 = [
     "kanji": "四",
     "level": "N5",
     "meanings": [
-      "four"
+      "empat"
     ],
     "onyomi": [
       "シ"
@@ -100,7 +100,7 @@ const KANJI_DATA_N5 = [
       {
         "word": "四つ",
         "reading": "よっつ",
-        "meaning": "four (things)"
+        "meaning": "empat (buah)"
       },
       {
         "word": "四月",
@@ -113,7 +113,7 @@ const KANJI_DATA_N5 = [
     "kanji": "五",
     "level": "N5",
     "meanings": [
-      "five"
+      "lima"
     ],
     "onyomi": [
       "ゴ"
@@ -126,12 +126,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "五つ",
         "reading": "いつつ",
-        "meaning": "five (things)"
+        "meaning": "lima (buah)"
       },
       {
         "word": "五月",
         "reading": "ごがつ",
-        "meaning": "May"
+        "meaning": "Mei"
       }
     ]
   },
@@ -139,7 +139,7 @@ const KANJI_DATA_N5 = [
     "kanji": "六",
     "level": "N5",
     "meanings": [
-      "six"
+      "enam"
     ],
     "onyomi": [
       "ロク"
@@ -153,12 +153,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "六つ",
         "reading": "むっつ",
-        "meaning": "six (things)"
+        "meaning": "enam (buah)"
       },
       {
         "word": "六月",
         "reading": "ろくがつ",
-        "meaning": "June"
+        "meaning": "Juni"
       }
     ]
   },
@@ -166,7 +166,7 @@ const KANJI_DATA_N5 = [
     "kanji": "七",
     "level": "N5",
     "meanings": [
-      "seven"
+      "tujuh"
     ],
     "onyomi": [
       "シチ"
@@ -179,12 +179,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "七つ",
         "reading": "ななつ",
-        "meaning": "seven (things)"
+        "meaning": "tujuh (buah)"
       },
       {
         "word": "七月",
         "reading": "しちがつ",
-        "meaning": "July"
+        "meaning": "Juli"
       }
     ]
   },
@@ -192,7 +192,7 @@ const KANJI_DATA_N5 = [
     "kanji": "八",
     "level": "N5",
     "meanings": [
-      "eight"
+      "delapan"
     ],
     "onyomi": [
       "ハチ"
@@ -206,12 +206,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "八つ",
         "reading": "やっつ",
-        "meaning": "eight (things)"
+        "meaning": "delapan (buah)"
       },
       {
         "word": "八月",
         "reading": "はちがつ",
-        "meaning": "August"
+        "meaning": "Agustus"
       }
     ]
   },
@@ -219,7 +219,7 @@ const KANJI_DATA_N5 = [
     "kanji": "九",
     "level": "N5",
     "meanings": [
-      "nine"
+      "sembilan"
     ],
     "onyomi": [
       "キュウ",
@@ -233,7 +233,7 @@ const KANJI_DATA_N5 = [
       {
         "word": "九つ",
         "reading": "ここのつ",
-        "meaning": "nine (things)"
+        "meaning": "sembilan (buah)"
       },
       {
         "word": "九月",
@@ -246,7 +246,7 @@ const KANJI_DATA_N5 = [
     "kanji": "十",
     "level": "N5",
     "meanings": [
-      "ten"
+      "sepuluh"
     ],
     "onyomi": [
       "ジュウ"
@@ -259,12 +259,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "十",
         "reading": "じゅう",
-        "meaning": "ten"
+        "meaning": "sepuluh"
       },
       {
         "word": "十月",
         "reading": "じゅうがつ",
-        "meaning": "October"
+        "meaning": "Oktober"
       }
     ]
   },
@@ -272,7 +272,7 @@ const KANJI_DATA_N5 = [
     "kanji": "百",
     "level": "N5",
     "meanings": [
-      "hundred"
+      "ratus"
     ],
     "onyomi": [
       "ヒャク"
@@ -287,7 +287,7 @@ const KANJI_DATA_N5 = [
       {
         "word": "百",
         "reading": "ひゃく",
-        "meaning": "hundred"
+        "meaning": "seratus"
       }
     ]
   },
@@ -295,7 +295,7 @@ const KANJI_DATA_N5 = [
     "kanji": "千",
     "level": "N5",
     "meanings": [
-      "thousand"
+      "ribu"
     ],
     "onyomi": [
       "セン"
@@ -307,12 +307,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "千円",
         "reading": "せんえん",
-        "meaning": "1,000 yen"
+        "meaning": "1.000 yen"
       },
       {
         "word": "千",
         "reading": "せん",
-        "meaning": "thousand"
+        "meaning": "seribu"
       }
     ]
   },
@@ -320,8 +320,8 @@ const KANJI_DATA_N5 = [
     "kanji": "万",
     "level": "N5",
     "meanings": [
-      "ten thousand",
-      "myriad"
+      "puluhan ribu",
+      "sangat banyak"
     ],
     "onyomi": [
       "マン",
@@ -332,12 +332,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "一万円",
         "reading": "いちまんえん",
-        "meaning": "10,000 yen"
+        "meaning": "10.000 yen"
       },
       {
         "word": "一万",
         "reading": "いちまん",
-        "meaning": "ten thousand"
+        "meaning": "sepuluh ribu"
       }
     ]
   },
@@ -346,8 +346,8 @@ const KANJI_DATA_N5 = [
     "level": "N5",
     "meanings": [
       "yen",
-      "circle",
-      "round"
+      "lingkaran",
+      "bulat"
     ],
     "onyomi": [
       "エン"
@@ -372,8 +372,8 @@ const KANJI_DATA_N5 = [
     "kanji": "日",
     "level": "N5",
     "meanings": [
-      "day",
-      "sun"
+      "hari",
+      "matahari"
     ],
     "onyomi": [
       "ニチ",
@@ -387,17 +387,17 @@ const KANJI_DATA_N5 = [
       {
         "word": "日本",
         "reading": "にほん",
-        "meaning": "Japan"
+        "meaning": "Jepang"
       },
       {
         "word": "日曜日",
         "reading": "にちようび",
-        "meaning": "Sunday"
+        "meaning": "hari Minggu"
       },
       {
         "word": "日",
         "reading": "ひ",
-        "meaning": "day / sun"
+        "meaning": "hari / matahari"
       }
     ]
   },
@@ -405,8 +405,8 @@ const KANJI_DATA_N5 = [
     "kanji": "月",
     "level": "N5",
     "meanings": [
-      "month",
-      "moon"
+      "bulan (waktu)",
+      "bulan (langit)"
     ],
     "onyomi": [
       "ゲツ",
@@ -419,12 +419,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "月曜日",
         "reading": "げつようび",
-        "meaning": "Monday"
+        "meaning": "hari Senin"
       },
       {
         "word": "月",
         "reading": "つき",
-        "meaning": "moon"
+        "meaning": "bulan (langit)"
       }
     ]
   },
@@ -432,7 +432,7 @@ const KANJI_DATA_N5 = [
     "kanji": "火",
     "level": "N5",
     "meanings": [
-      "fire"
+      "api"
     ],
     "onyomi": [
       "カ"
@@ -445,12 +445,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "火曜日",
         "reading": "かようび",
-        "meaning": "Tuesday"
+        "meaning": "hari Selasa"
       },
       {
         "word": "火",
         "reading": "ひ",
-        "meaning": "fire"
+        "meaning": "api"
       }
     ]
   },
@@ -458,7 +458,7 @@ const KANJI_DATA_N5 = [
     "kanji": "水",
     "level": "N5",
     "meanings": [
-      "water"
+      "air"
     ],
     "onyomi": [
       "スイ"
@@ -470,12 +470,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "水曜日",
         "reading": "すいようび",
-        "meaning": "Wednesday"
+        "meaning": "hari Rabu"
       },
       {
         "word": "水",
         "reading": "みず",
-        "meaning": "water"
+        "meaning": "air"
       }
     ]
   },
@@ -483,8 +483,8 @@ const KANJI_DATA_N5 = [
     "kanji": "木",
     "level": "N5",
     "meanings": [
-      "tree",
-      "wood"
+      "pohon",
+      "kayu"
     ],
     "onyomi": [
       "モク",
@@ -498,12 +498,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "木曜日",
         "reading": "もくようび",
-        "meaning": "Thursday"
+        "meaning": "hari Kamis"
       },
       {
         "word": "木",
         "reading": "き",
-        "meaning": "tree"
+        "meaning": "pohon"
       }
     ]
   },
@@ -511,8 +511,8 @@ const KANJI_DATA_N5 = [
     "kanji": "金",
     "level": "N5",
     "meanings": [
-      "gold",
-      "money"
+      "emas",
+      "uang"
     ],
     "onyomi": [
       "キン",
@@ -526,12 +526,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "金曜日",
         "reading": "きんようび",
-        "meaning": "Friday"
+        "meaning": "hari Jumat"
       },
       {
         "word": "お金",
         "reading": "おかね",
-        "meaning": "money"
+        "meaning": "uang"
       }
     ]
   },
@@ -539,8 +539,7 @@ const KANJI_DATA_N5 = [
     "kanji": "土",
     "level": "N5",
     "meanings": [
-      "earth",
-      "soil"
+      "tanah"
     ],
     "onyomi": [
       "ド",
@@ -553,12 +552,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "土曜日",
         "reading": "どようび",
-        "meaning": "Saturday"
+        "meaning": "hari Sabtu"
       },
       {
         "word": "土",
         "reading": "つち",
-        "meaning": "earth / soil"
+        "meaning": "tanah"
       }
     ]
   },
@@ -566,7 +565,7 @@ const KANJI_DATA_N5 = [
     "kanji": "人",
     "level": "N5",
     "meanings": [
-      "person"
+      "orang"
     ],
     "onyomi": [
       "ジン",
@@ -579,17 +578,17 @@ const KANJI_DATA_N5 = [
       {
         "word": "人",
         "reading": "ひと",
-        "meaning": "person"
+        "meaning": "orang"
       },
       {
         "word": "日本人",
         "reading": "にほんじん",
-        "meaning": "Japanese person"
+        "meaning": "orang Jepang"
       },
       {
         "word": "三人",
         "reading": "さんにん",
-        "meaning": "three people"
+        "meaning": "tiga orang"
       }
     ]
   },
@@ -597,8 +596,8 @@ const KANJI_DATA_N5 = [
     "kanji": "男",
     "level": "N5",
     "meanings": [
-      "man",
-      "male"
+      "pria",
+      "laki-laki"
     ],
     "onyomi": [
       "ダン",
@@ -611,12 +610,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "男の人",
         "reading": "おとこのひと",
-        "meaning": "man"
+        "meaning": "laki-laki"
       },
       {
         "word": "男性",
         "reading": "だんせい",
-        "meaning": "male"
+        "meaning": "pria"
       }
     ]
   },
@@ -624,8 +623,8 @@ const KANJI_DATA_N5 = [
     "kanji": "女",
     "level": "N5",
     "meanings": [
-      "woman",
-      "female"
+      "wanita",
+      "perempuan"
     ],
     "onyomi": [
       "ジョ",
@@ -640,12 +639,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "女の人",
         "reading": "おんなのひと",
-        "meaning": "woman"
+        "meaning": "perempuan"
       },
       {
         "word": "女性",
         "reading": "じょせい",
-        "meaning": "woman / female"
+        "meaning": "wanita"
       }
     ]
   },
@@ -653,7 +652,7 @@ const KANJI_DATA_N5 = [
     "kanji": "子",
     "level": "N5",
     "meanings": [
-      "child"
+      "anak"
     ],
     "onyomi": [
       "シ",
@@ -666,12 +665,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "子ども",
         "reading": "こども",
-        "meaning": "child"
+        "meaning": "anak"
       },
       {
         "word": "女の子",
         "reading": "おんなのこ",
-        "meaning": "girl"
+        "meaning": "anak perempuan"
       }
     ]
   },
@@ -679,7 +678,7 @@ const KANJI_DATA_N5 = [
     "kanji": "目",
     "level": "N5",
     "meanings": [
-      "eye"
+      "mata"
     ],
     "onyomi": [
       "モク",
@@ -693,12 +692,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "目",
         "reading": "め",
-        "meaning": "eye"
+        "meaning": "mata"
       },
       {
         "word": "一番目",
         "reading": "いちばんめ",
-        "meaning": "first"
+        "meaning": "yang pertama"
       }
     ]
   },
@@ -706,7 +705,7 @@ const KANJI_DATA_N5 = [
     "kanji": "耳",
     "level": "N5",
     "meanings": [
-      "ear"
+      "telinga"
     ],
     "onyomi": [
       "ジ"
@@ -718,7 +717,7 @@ const KANJI_DATA_N5 = [
       {
         "word": "耳",
         "reading": "みみ",
-        "meaning": "ear"
+        "meaning": "telinga"
       }
     ]
   },
@@ -726,7 +725,7 @@ const KANJI_DATA_N5 = [
     "kanji": "口",
     "level": "N5",
     "meanings": [
-      "mouth"
+      "mulut"
     ],
     "onyomi": [
       "コウ",
@@ -739,12 +738,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "口",
         "reading": "くち",
-        "meaning": "mouth"
+        "meaning": "mulut"
       },
       {
         "word": "入口",
         "reading": "いりぐち",
-        "meaning": "entrance"
+        "meaning": "pintu masuk"
       }
     ]
   },
@@ -752,7 +751,7 @@ const KANJI_DATA_N5 = [
     "kanji": "手",
     "level": "N5",
     "meanings": [
-      "hand"
+      "tangan"
     ],
     "onyomi": [
       "シュ"
@@ -765,12 +764,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "手",
         "reading": "て",
-        "meaning": "hand"
+        "meaning": "tangan"
       },
       {
         "word": "上手",
         "reading": "じょうず",
-        "meaning": "skillful"
+        "meaning": "mahir / pandai"
       }
     ]
   },
@@ -778,8 +777,7 @@ const KANJI_DATA_N5 = [
     "kanji": "足",
     "level": "N5",
     "meanings": [
-      "foot",
-      "leg"
+      "kaki"
     ],
     "onyomi": [
       "ソク"
@@ -793,12 +791,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "足",
         "reading": "あし",
-        "meaning": "foot / leg"
+        "meaning": "kaki"
       },
       {
         "word": "足りる",
         "reading": "たりる",
-        "meaning": "to be enough"
+        "meaning": "cukup"
       }
     ]
   },
@@ -806,8 +804,8 @@ const KANJI_DATA_N5 = [
     "kanji": "力",
     "level": "N5",
     "meanings": [
-      "power",
-      "strength"
+      "tenaga",
+      "kekuatan"
     ],
     "onyomi": [
       "リョク",
@@ -820,12 +818,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "力",
         "reading": "ちから",
-        "meaning": "strength"
+        "meaning": "kekuatan"
       },
       {
         "word": "体力",
         "reading": "たいりょく",
-        "meaning": "physical strength"
+        "meaning": "kekuatan fisik"
       }
     ]
   },
@@ -833,7 +831,7 @@ const KANJI_DATA_N5 = [
     "kanji": "山",
     "level": "N5",
     "meanings": [
-      "mountain"
+      "gunung"
     ],
     "onyomi": [
       "サン",
@@ -846,12 +844,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "山",
         "reading": "やま",
-        "meaning": "mountain"
+        "meaning": "gunung"
       },
       {
         "word": "富士山",
         "reading": "ふじさん",
-        "meaning": "Mount Fuji"
+        "meaning": "Gunung Fuji"
       }
     ]
   },
@@ -859,7 +857,7 @@ const KANJI_DATA_N5 = [
     "kanji": "川",
     "level": "N5",
     "meanings": [
-      "river"
+      "sungai"
     ],
     "onyomi": [
       "セン"
@@ -871,12 +869,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "川",
         "reading": "かわ",
-        "meaning": "river"
+        "meaning": "sungai"
       },
       {
         "word": "川口",
         "reading": "かわぐち",
-        "meaning": "river mouth"
+        "meaning": "muara sungai"
       }
     ]
   },
@@ -884,8 +882,8 @@ const KANJI_DATA_N5 = [
     "kanji": "天",
     "level": "N5",
     "meanings": [
-      "heaven",
-      "sky"
+      "langit",
+      "surga"
     ],
     "onyomi": [
       "テン"
@@ -898,12 +896,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "天気",
         "reading": "てんき",
-        "meaning": "weather"
+        "meaning": "cuaca"
       },
       {
         "word": "天",
         "reading": "てん",
-        "meaning": "heaven / sky"
+        "meaning": "langit / surga"
       }
     ]
   },
@@ -911,9 +909,9 @@ const KANJI_DATA_N5 = [
     "kanji": "気",
     "level": "N5",
     "meanings": [
-      "spirit",
-      "mind",
-      "air"
+      "semangat",
+      "pikiran",
+      "udara"
     ],
     "onyomi": [
       "キ",
@@ -924,12 +922,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "天気",
         "reading": "てんき",
-        "meaning": "weather"
+        "meaning": "cuaca"
       },
       {
         "word": "元気",
         "reading": "げんき",
-        "meaning": "healthy / energetic"
+        "meaning": "sehat / bersemangat"
       }
     ]
   },
@@ -937,8 +935,8 @@ const KANJI_DATA_N5 = [
     "kanji": "空",
     "level": "N5",
     "meanings": [
-      "sky",
-      "empty"
+      "langit",
+      "kosong"
     ],
     "onyomi": [
       "クウ"
@@ -953,12 +951,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "空",
         "reading": "そら",
-        "meaning": "sky"
+        "meaning": "langit"
       },
       {
         "word": "空港",
         "reading": "くうこう",
-        "meaning": "airport"
+        "meaning": "bandara"
       }
     ]
   },
@@ -966,7 +964,7 @@ const KANJI_DATA_N5 = [
     "kanji": "雨",
     "level": "N5",
     "meanings": [
-      "rain"
+      "hujan"
     ],
     "onyomi": [
       "ウ"
@@ -980,12 +978,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "雨",
         "reading": "あめ",
-        "meaning": "rain"
+        "meaning": "hujan"
       },
       {
         "word": "雨の日",
         "reading": "あめのひ",
-        "meaning": "rainy day"
+        "meaning": "hari hujan"
       }
     ]
   },
@@ -993,7 +991,7 @@ const KANJI_DATA_N5 = [
     "kanji": "電",
     "level": "N5",
     "meanings": [
-      "electricity"
+      "listrik"
     ],
     "onyomi": [
       "デン"
@@ -1003,12 +1001,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "電車",
         "reading": "でんしゃ",
-        "meaning": "train"
+        "meaning": "kereta"
       },
       {
         "word": "電話",
         "reading": "でんわ",
-        "meaning": "telephone"
+        "meaning": "telepon"
       }
     ]
   },
@@ -1016,8 +1014,8 @@ const KANJI_DATA_N5 = [
     "kanji": "車",
     "level": "N5",
     "meanings": [
-      "car",
-      "vehicle"
+      "mobil",
+      "kendaraan"
     ],
     "onyomi": [
       "シャ"
@@ -1029,12 +1027,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "車",
         "reading": "くるま",
-        "meaning": "car"
+        "meaning": "mobil"
       },
       {
         "word": "電車",
         "reading": "でんしゃ",
-        "meaning": "train"
+        "meaning": "kereta"
       }
     ]
   },
@@ -1042,7 +1040,7 @@ const KANJI_DATA_N5 = [
     "kanji": "駅",
     "level": "N5",
     "meanings": [
-      "station"
+      "stasiun"
     ],
     "onyomi": [
       "エキ"
@@ -1052,12 +1050,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "駅",
         "reading": "えき",
-        "meaning": "station"
+        "meaning": "stasiun"
       },
       {
         "word": "駅前",
         "reading": "えきまえ",
-        "meaning": "in front of the station"
+        "meaning": "depan stasiun"
       }
     ]
   },
@@ -1065,8 +1063,7 @@ const KANJI_DATA_N5 = [
     "kanji": "道",
     "level": "N5",
     "meanings": [
-      "road",
-      "way"
+      "jalan"
     ],
     "onyomi": [
       "ドウ",
@@ -1079,7 +1076,7 @@ const KANJI_DATA_N5 = [
       {
         "word": "道",
         "reading": "みち",
-        "meaning": "road / way"
+        "meaning": "jalan"
       },
       {
         "word": "北海道",
@@ -1092,7 +1089,7 @@ const KANJI_DATA_N5 = [
     "kanji": "町",
     "level": "N5",
     "meanings": [
-      "town"
+      "kota kecil"
     ],
     "onyomi": [
       "チョウ"
@@ -1104,12 +1101,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "町",
         "reading": "まち",
-        "meaning": "town"
+        "meaning": "kota kecil"
       },
       {
         "word": "町中",
         "reading": "まちなか",
-        "meaning": "downtown / in town"
+        "meaning": "di tengah kota"
       }
     ]
   },
@@ -1117,7 +1114,7 @@ const KANJI_DATA_N5 = [
     "kanji": "村",
     "level": "N5",
     "meanings": [
-      "village"
+      "desa"
     ],
     "onyomi": [
       "ソン"
@@ -1129,7 +1126,7 @@ const KANJI_DATA_N5 = [
       {
         "word": "村",
         "reading": "むら",
-        "meaning": "village"
+        "meaning": "desa"
       }
     ]
   },
@@ -1137,7 +1134,7 @@ const KANJI_DATA_N5 = [
     "kanji": "国",
     "level": "N5",
     "meanings": [
-      "country"
+      "negara"
     ],
     "onyomi": [
       "コク"
@@ -1149,12 +1146,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "国",
         "reading": "くに",
-        "meaning": "country"
+        "meaning": "negara"
       },
       {
         "word": "外国",
         "reading": "がいこく",
-        "meaning": "foreign country"
+        "meaning": "luar negeri"
       }
     ]
   },
@@ -1162,7 +1159,7 @@ const KANJI_DATA_N5 = [
     "kanji": "外",
     "level": "N5",
     "meanings": [
-      "outside"
+      "luar"
     ],
     "onyomi": [
       "ガイ",
@@ -1178,12 +1175,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "外国",
         "reading": "がいこく",
-        "meaning": "foreign country"
+        "meaning": "luar negeri"
       },
       {
         "word": "外",
         "reading": "そと",
-        "meaning": "outside"
+        "meaning": "luar"
       }
     ]
   },
@@ -1191,8 +1188,8 @@ const KANJI_DATA_N5 = [
     "kanji": "中",
     "level": "N5",
     "meanings": [
-      "middle",
-      "inside"
+      "tengah",
+      "dalam"
     ],
     "onyomi": [
       "チュウ"
@@ -1206,12 +1203,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "中",
         "reading": "なか",
-        "meaning": "inside / middle"
+        "meaning": "dalam / tengah"
       },
       {
         "word": "中国",
         "reading": "ちゅうごく",
-        "meaning": "China"
+        "meaning": "Tiongkok"
       }
     ]
   },
@@ -1219,8 +1216,7 @@ const KANJI_DATA_N5 = [
     "kanji": "上",
     "level": "N5",
     "meanings": [
-      "above",
-      "up"
+      "atas"
     ],
     "onyomi": [
       "ジョウ",
@@ -1236,12 +1232,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "上",
         "reading": "うえ",
-        "meaning": "above / up"
+        "meaning": "atas"
       },
       {
         "word": "上手",
         "reading": "じょうず",
-        "meaning": "skillful"
+        "meaning": "mahir / pandai"
       }
     ]
   },
@@ -1249,8 +1245,7 @@ const KANJI_DATA_N5 = [
     "kanji": "下",
     "level": "N5",
     "meanings": [
-      "below",
-      "down"
+      "bawah"
     ],
     "onyomi": [
       "カ",
@@ -1268,12 +1263,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "下",
         "reading": "した",
-        "meaning": "below / down"
+        "meaning": "bawah"
       },
       {
         "word": "地下",
         "reading": "ちか",
-        "meaning": "underground"
+        "meaning": "bawah tanah"
       }
     ]
   },
@@ -1281,7 +1276,7 @@ const KANJI_DATA_N5 = [
     "kanji": "左",
     "level": "N5",
     "meanings": [
-      "left"
+      "kiri"
     ],
     "onyomi": [
       "サ"
@@ -1293,12 +1288,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "左",
         "reading": "ひだり",
-        "meaning": "left"
+        "meaning": "kiri"
       },
       {
         "word": "左手",
         "reading": "ひだりて",
-        "meaning": "left hand"
+        "meaning": "tangan kiri"
       }
     ]
   },
@@ -1306,7 +1301,7 @@ const KANJI_DATA_N5 = [
     "kanji": "右",
     "level": "N5",
     "meanings": [
-      "right"
+      "kanan"
     ],
     "onyomi": [
       "ウ",
@@ -1319,12 +1314,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "右",
         "reading": "みぎ",
-        "meaning": "right"
+        "meaning": "kanan"
       },
       {
         "word": "右手",
         "reading": "みぎて",
-        "meaning": "right hand"
+        "meaning": "tangan kanan"
       }
     ]
   },
@@ -1332,8 +1327,8 @@ const KANJI_DATA_N5 = [
     "kanji": "前",
     "level": "N5",
     "meanings": [
-      "before",
-      "front"
+      "depan",
+      "sebelum"
     ],
     "onyomi": [
       "ゼン"
@@ -1345,12 +1340,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "前",
         "reading": "まえ",
-        "meaning": "front / before"
+        "meaning": "depan / sebelum"
       },
       {
         "word": "駅前",
         "reading": "えきまえ",
-        "meaning": "in front of the station"
+        "meaning": "depan stasiun"
       }
     ]
   },
@@ -1358,8 +1353,8 @@ const KANJI_DATA_N5 = [
     "kanji": "後",
     "level": "N5",
     "meanings": [
-      "after",
-      "behind"
+      "belakang",
+      "setelah"
     ],
     "onyomi": [
       "ゴ",
@@ -1375,12 +1370,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "後ろ",
         "reading": "うしろ",
-        "meaning": "behind"
+        "meaning": "belakang"
       },
       {
         "word": "午後",
         "reading": "ごご",
-        "meaning": "afternoon / PM"
+        "meaning": "siang / sore (PM)"
       }
     ]
   },
@@ -1388,7 +1383,7 @@ const KANJI_DATA_N5 = [
     "kanji": "午",
     "level": "N5",
     "meanings": [
-      "noon"
+      "tengah hari"
     ],
     "onyomi": [
       "ゴ"
@@ -1398,12 +1393,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "午前",
         "reading": "ごぜん",
-        "meaning": "AM / morning"
+        "meaning": "pagi (AM)"
       },
       {
         "word": "午後",
         "reading": "ごご",
-        "meaning": "PM / afternoon"
+        "meaning": "siang / sore (PM)"
       }
     ]
   },
@@ -1411,8 +1406,8 @@ const KANJI_DATA_N5 = [
     "kanji": "時",
     "level": "N5",
     "meanings": [
-      "time",
-      "hour"
+      "waktu",
+      "jam"
     ],
     "onyomi": [
       "ジ"
@@ -1424,12 +1419,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "時間",
         "reading": "じかん",
-        "meaning": "time"
+        "meaning": "waktu"
       },
       {
         "word": "時",
         "reading": "とき",
-        "meaning": "time / when"
+        "meaning": "waktu / saat"
       }
     ]
   },
@@ -1437,9 +1432,9 @@ const KANJI_DATA_N5 = [
     "kanji": "分",
     "level": "N5",
     "meanings": [
-      "minute",
-      "part",
-      "divide"
+      "menit",
+      "bagian",
+      "membagi"
     ],
     "onyomi": [
       "ブン",
@@ -1455,12 +1450,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "五分",
         "reading": "ごふん",
-        "meaning": "five minutes"
+        "meaning": "lima menit"
       },
       {
         "word": "分かる",
         "reading": "わかる",
-        "meaning": "to understand"
+        "meaning": "mengerti"
       }
     ]
   },
@@ -1468,7 +1463,7 @@ const KANJI_DATA_N5 = [
     "kanji": "半",
     "level": "N5",
     "meanings": [
-      "half"
+      "setengah"
     ],
     "onyomi": [
       "ハン"
@@ -1480,12 +1475,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "半分",
         "reading": "はんぶん",
-        "meaning": "half"
+        "meaning": "setengah"
       },
       {
         "word": "一時半",
         "reading": "いちじはん",
-        "meaning": "1:30"
+        "meaning": "jam 1:30"
       }
     ]
   },
@@ -1493,7 +1488,7 @@ const KANJI_DATA_N5 = [
     "kanji": "今",
     "level": "N5",
     "meanings": [
-      "now"
+      "sekarang"
     ],
     "onyomi": [
       "コン",
@@ -1506,12 +1501,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "今",
         "reading": "いま",
-        "meaning": "now"
+        "meaning": "sekarang"
       },
       {
         "word": "今日",
         "reading": "きょう",
-        "meaning": "today"
+        "meaning": "hari ini"
       }
     ]
   },
@@ -1519,7 +1514,7 @@ const KANJI_DATA_N5 = [
     "kanji": "毎",
     "level": "N5",
     "meanings": [
-      "every"
+      "setiap"
     ],
     "onyomi": [
       "マイ"
@@ -1529,12 +1524,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "毎日",
         "reading": "まいにち",
-        "meaning": "every day"
+        "meaning": "setiap hari"
       },
       {
         "word": "毎週",
         "reading": "まいしゅう",
-        "meaning": "every week"
+        "meaning": "setiap minggu"
       }
     ]
   },
@@ -1542,7 +1537,7 @@ const KANJI_DATA_N5 = [
     "kanji": "週",
     "level": "N5",
     "meanings": [
-      "week"
+      "minggu (satuan waktu)"
     ],
     "onyomi": [
       "シュウ"
@@ -1552,12 +1547,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "今週",
         "reading": "こんしゅう",
-        "meaning": "this week"
+        "meaning": "minggu ini"
       },
       {
         "word": "来週",
         "reading": "らいしゅう",
-        "meaning": "next week"
+        "meaning": "minggu depan"
       }
     ]
   },
@@ -1565,7 +1560,7 @@ const KANJI_DATA_N5 = [
     "kanji": "年",
     "level": "N5",
     "meanings": [
-      "year"
+      "tahun"
     ],
     "onyomi": [
       "ネン"
@@ -1577,12 +1572,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "今年",
         "reading": "ことし",
-        "meaning": "this year"
+        "meaning": "tahun ini"
       },
       {
         "word": "来年",
         "reading": "らいねん",
-        "meaning": "next year"
+        "meaning": "tahun depan"
       }
     ]
   },
@@ -1590,8 +1585,8 @@ const KANJI_DATA_N5 = [
     "kanji": "来",
     "level": "N5",
     "meanings": [
-      "come",
-      "next (as in next week)"
+      "datang",
+      "berikutnya"
     ],
     "onyomi": [
       "ライ"
@@ -1605,12 +1600,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "来る",
         "reading": "くる",
-        "meaning": "to come"
+        "meaning": "datang"
       },
       {
         "word": "来週",
         "reading": "らいしゅう",
-        "meaning": "next week"
+        "meaning": "minggu depan"
       }
     ]
   },
@@ -1618,8 +1613,8 @@ const KANJI_DATA_N5 = [
     "kanji": "行",
     "level": "N5",
     "meanings": [
-      "go",
-      "conduct"
+      "pergi",
+      "melakukan"
     ],
     "onyomi": [
       "コウ",
@@ -1634,7 +1629,7 @@ const KANJI_DATA_N5 = [
       {
         "word": "行く",
         "reading": "いく",
-        "meaning": "to go"
+        "meaning": "pergi"
       },
       {
         "word": "銀行",
@@ -1647,8 +1642,7 @@ const KANJI_DATA_N5 = [
     "kanji": "帰",
     "level": "N5",
     "meanings": [
-      "return",
-      "go home"
+      "pulang"
     ],
     "onyomi": [
       "キ"
@@ -1661,7 +1655,7 @@ const KANJI_DATA_N5 = [
       {
         "word": "帰る",
         "reading": "かえる",
-        "meaning": "to return / go home"
+        "meaning": "pulang"
       }
     ]
   },
@@ -1669,7 +1663,7 @@ const KANJI_DATA_N5 = [
     "kanji": "入",
     "level": "N5",
     "meanings": [
-      "enter"
+      "masuk"
     ],
     "onyomi": [
       "ニュウ"
@@ -1683,12 +1677,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "入る",
         "reading": "はいる",
-        "meaning": "to enter"
+        "meaning": "masuk"
       },
       {
         "word": "入口",
         "reading": "いりぐち",
-        "meaning": "entrance"
+        "meaning": "pintu masuk"
       }
     ]
   },
@@ -1696,8 +1690,7 @@ const KANJI_DATA_N5 = [
     "kanji": "出",
     "level": "N5",
     "meanings": [
-      "exit",
-      "leave"
+      "keluar"
     ],
     "onyomi": [
       "シュツ",
@@ -1711,12 +1704,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "出る",
         "reading": "でる",
-        "meaning": "to leave / come out"
+        "meaning": "keluar"
       },
       {
         "word": "出口",
         "reading": "でぐち",
-        "meaning": "exit"
+        "meaning": "pintu keluar"
       }
     ]
   },
@@ -1724,8 +1717,7 @@ const KANJI_DATA_N5 = [
     "kanji": "見",
     "level": "N5",
     "meanings": [
-      "see",
-      "look"
+      "melihat"
     ],
     "onyomi": [
       "ケン"
@@ -1739,12 +1731,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "見る",
         "reading": "みる",
-        "meaning": "to see / watch"
+        "meaning": "melihat / menonton"
       },
       {
         "word": "見せる",
         "reading": "みせる",
-        "meaning": "to show"
+        "meaning": "menunjukkan"
       }
     ]
   },
@@ -1752,9 +1744,8 @@ const KANJI_DATA_N5 = [
     "kanji": "聞",
     "level": "N5",
     "meanings": [
-      "hear",
-      "listen",
-      "ask"
+      "mendengar",
+      "bertanya"
     ],
     "onyomi": [
       "ブン",
@@ -1768,12 +1759,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "聞く",
         "reading": "きく",
-        "meaning": "to hear / ask"
+        "meaning": "mendengar / bertanya"
       },
       {
         "word": "新聞",
         "reading": "しんぶん",
-        "meaning": "newspaper"
+        "meaning": "koran"
       }
     ]
   },
@@ -1781,7 +1772,7 @@ const KANJI_DATA_N5 = [
     "kanji": "読",
     "level": "N5",
     "meanings": [
-      "read"
+      "membaca"
     ],
     "onyomi": [
       "ドク",
@@ -1795,12 +1786,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "読む",
         "reading": "よむ",
-        "meaning": "to read"
+        "meaning": "membaca"
       },
       {
         "word": "読書",
         "reading": "どくしょ",
-        "meaning": "reading books"
+        "meaning": "membaca buku"
       }
     ]
   },
@@ -1808,7 +1799,7 @@ const KANJI_DATA_N5 = [
     "kanji": "書",
     "level": "N5",
     "meanings": [
-      "write"
+      "menulis"
     ],
     "onyomi": [
       "ショ"
@@ -1820,12 +1811,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "書く",
         "reading": "かく",
-        "meaning": "to write"
+        "meaning": "menulis"
       },
       {
         "word": "図書館",
         "reading": "としょかん",
-        "meaning": "library"
+        "meaning": "perpustakaan"
       }
     ]
   },
@@ -1833,9 +1824,8 @@ const KANJI_DATA_N5 = [
     "kanji": "話",
     "level": "N5",
     "meanings": [
-      "talk",
-      "speak",
-      "story"
+      "berbicara",
+      "cerita"
     ],
     "onyomi": [
       "ワ"
@@ -1848,12 +1838,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "話す",
         "reading": "はなす",
-        "meaning": "to speak / talk"
+        "meaning": "berbicara"
       },
       {
         "word": "電話",
         "reading": "でんわ",
-        "meaning": "telephone"
+        "meaning": "telepon"
       }
     ]
   },
@@ -1861,8 +1851,8 @@ const KANJI_DATA_N5 = [
     "kanji": "語",
     "level": "N5",
     "meanings": [
-      "language",
-      "word"
+      "bahasa",
+      "kata"
     ],
     "onyomi": [
       "ゴ"
@@ -1875,12 +1865,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "日本語",
         "reading": "にほんご",
-        "meaning": "Japanese language"
+        "meaning": "bahasa Jepang"
       },
       {
         "word": "英語",
         "reading": "えいご",
-        "meaning": "English language"
+        "meaning": "bahasa Inggris"
       }
     ]
   },
@@ -1888,8 +1878,8 @@ const KANJI_DATA_N5 = [
     "kanji": "言",
     "level": "N5",
     "meanings": [
-      "say",
-      "word"
+      "berkata",
+      "kata"
     ],
     "onyomi": [
       "ゲン",
@@ -1903,12 +1893,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "言う",
         "reading": "いう",
-        "meaning": "to say"
+        "meaning": "berkata"
       },
       {
         "word": "言葉",
         "reading": "ことば",
-        "meaning": "word / language"
+        "meaning": "kata / bahasa"
       }
     ]
   },
@@ -1916,8 +1906,8 @@ const KANJI_DATA_N5 = [
     "kanji": "食",
     "level": "N5",
     "meanings": [
-      "eat",
-      "food"
+      "makan",
+      "makanan"
     ],
     "onyomi": [
       "ショク",
@@ -1931,12 +1921,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "食べる",
         "reading": "たべる",
-        "meaning": "to eat"
+        "meaning": "makan"
       },
       {
         "word": "食事",
         "reading": "しょくじ",
-        "meaning": "meal"
+        "meaning": "makanan / santapan"
       }
     ]
   },
@@ -1944,7 +1934,7 @@ const KANJI_DATA_N5 = [
     "kanji": "飲",
     "level": "N5",
     "meanings": [
-      "drink"
+      "minum"
     ],
     "onyomi": [
       "イン"
@@ -1956,12 +1946,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "飲む",
         "reading": "のむ",
-        "meaning": "to drink"
+        "meaning": "minum"
       },
       {
         "word": "飲み物",
         "reading": "のみもの",
-        "meaning": "drink / beverage"
+        "meaning": "minuman"
       }
     ]
   },
@@ -1969,7 +1959,7 @@ const KANJI_DATA_N5 = [
     "kanji": "買",
     "level": "N5",
     "meanings": [
-      "buy"
+      "membeli"
     ],
     "onyomi": [
       "バイ"
@@ -1981,12 +1971,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "買う",
         "reading": "かう",
-        "meaning": "to buy"
+        "meaning": "membeli"
       },
       {
         "word": "買い物",
         "reading": "かいもの",
-        "meaning": "shopping"
+        "meaning": "belanja"
       }
     ]
   },
@@ -1994,8 +1984,8 @@ const KANJI_DATA_N5 = [
     "kanji": "休",
     "level": "N5",
     "meanings": [
-      "rest",
-      "holiday"
+      "istirahat",
+      "libur"
     ],
     "onyomi": [
       "キュウ"
@@ -2009,12 +1999,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "休む",
         "reading": "やすむ",
-        "meaning": "to rest / take a day off"
+        "meaning": "beristirahat / libur"
       },
       {
         "word": "休日",
         "reading": "きゅうじつ",
-        "meaning": "holiday"
+        "meaning": "hari libur"
       }
     ]
   },
@@ -2022,7 +2012,7 @@ const KANJI_DATA_N5 = [
     "kanji": "立",
     "level": "N5",
     "meanings": [
-      "stand"
+      "berdiri"
     ],
     "onyomi": [
       "リツ",
@@ -2036,12 +2026,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "立つ",
         "reading": "たつ",
-        "meaning": "to stand"
+        "meaning": "berdiri"
       },
       {
         "word": "立てる",
         "reading": "たてる",
-        "meaning": "to stand something up"
+        "meaning": "mendirikan"
       }
     ]
   },
@@ -2049,8 +2039,7 @@ const KANJI_DATA_N5 = [
     "kanji": "住",
     "level": "N5",
     "meanings": [
-      "live",
-      "dwell"
+      "tinggal"
     ],
     "onyomi": [
       "ジュウ"
@@ -2063,12 +2052,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "住む",
         "reading": "すむ",
-        "meaning": "to live / reside"
+        "meaning": "tinggal / menetap"
       },
       {
         "word": "住所",
         "reading": "じゅうしょ",
-        "meaning": "address"
+        "meaning": "alamat"
       }
     ]
   },
@@ -2076,8 +2065,8 @@ const KANJI_DATA_N5 = [
     "kanji": "会",
     "level": "N5",
     "meanings": [
-      "meet",
-      "association"
+      "bertemu",
+      "perkumpulan"
     ],
     "onyomi": [
       "カイ",
@@ -2090,12 +2079,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "会う",
         "reading": "あう",
-        "meaning": "to meet"
+        "meaning": "bertemu"
       },
       {
         "word": "会社",
         "reading": "かいしゃ",
-        "meaning": "company"
+        "meaning": "perusahaan"
       }
     ]
   },
@@ -2103,8 +2092,8 @@ const KANJI_DATA_N5 = [
     "kanji": "社",
     "level": "N5",
     "meanings": [
-      "company",
-      "shrine"
+      "perusahaan",
+      "kuil"
     ],
     "onyomi": [
       "シャ"
@@ -2116,12 +2105,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "会社",
         "reading": "かいしゃ",
-        "meaning": "company"
+        "meaning": "perusahaan"
       },
       {
         "word": "神社",
         "reading": "じんじゃ",
-        "meaning": "Shinto shrine"
+        "meaning": "kuil Shinto"
       }
     ]
   },
@@ -2129,8 +2118,7 @@ const KANJI_DATA_N5 = [
     "kanji": "店",
     "level": "N5",
     "meanings": [
-      "shop",
-      "store"
+      "toko"
     ],
     "onyomi": [
       "テン"
@@ -2142,12 +2130,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "店",
         "reading": "みせ",
-        "meaning": "shop / store"
+        "meaning": "toko"
       },
       {
         "word": "店員",
         "reading": "てんいん",
-        "meaning": "store clerk"
+        "meaning": "pramuniaga"
       }
     ]
   },
@@ -2155,7 +2143,7 @@ const KANJI_DATA_N5 = [
     "kanji": "白",
     "level": "N5",
     "meanings": [
-      "white"
+      "putih"
     ],
     "onyomi": [
       "ハク",
@@ -2170,12 +2158,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "白い",
         "reading": "しろい",
-        "meaning": "white"
+        "meaning": "putih"
       },
       {
         "word": "白",
         "reading": "しろ",
-        "meaning": "white"
+        "meaning": "putih"
       }
     ]
   },
@@ -2183,7 +2171,7 @@ const KANJI_DATA_N5 = [
     "kanji": "赤",
     "level": "N5",
     "meanings": [
-      "red"
+      "merah"
     ],
     "onyomi": [
       "セキ",
@@ -2198,12 +2186,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "赤い",
         "reading": "あかい",
-        "meaning": "red"
+        "meaning": "merah"
       },
       {
         "word": "赤",
         "reading": "あか",
-        "meaning": "red"
+        "meaning": "merah"
       }
     ]
   },
@@ -2211,8 +2199,8 @@ const KANJI_DATA_N5 = [
     "kanji": "青",
     "level": "N5",
     "meanings": [
-      "blue",
-      "green"
+      "biru",
+      "hijau"
     ],
     "onyomi": [
       "セイ",
@@ -2226,12 +2214,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "青い",
         "reading": "あおい",
-        "meaning": "blue"
+        "meaning": "biru"
       },
       {
         "word": "青",
         "reading": "あお",
-        "meaning": "blue"
+        "meaning": "biru"
       }
     ]
   },
@@ -2239,8 +2227,7 @@ const KANJI_DATA_N5 = [
     "kanji": "大",
     "level": "N5",
     "meanings": [
-      "big",
-      "large"
+      "besar"
     ],
     "onyomi": [
       "ダイ",
@@ -2254,12 +2241,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "大きい",
         "reading": "おおきい",
-        "meaning": "big"
+        "meaning": "besar"
       },
       {
         "word": "大学",
         "reading": "だいがく",
-        "meaning": "university"
+        "meaning": "universitas"
       }
     ]
   },
@@ -2267,7 +2254,7 @@ const KANJI_DATA_N5 = [
     "kanji": "小",
     "level": "N5",
     "meanings": [
-      "small"
+      "kecil"
     ],
     "onyomi": [
       "ショウ"
@@ -2281,12 +2268,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "小さい",
         "reading": "ちいさい",
-        "meaning": "small"
+        "meaning": "kecil"
       },
       {
         "word": "小学校",
         "reading": "しょうがっこう",
-        "meaning": "elementary school"
+        "meaning": "sekolah dasar"
       }
     ]
   },
@@ -2294,9 +2281,8 @@ const KANJI_DATA_N5 = [
     "kanji": "高",
     "level": "N5",
     "meanings": [
-      "high",
-      "expensive",
-      "tall"
+      "tinggi",
+      "mahal"
     ],
     "onyomi": [
       "コウ"
@@ -2310,12 +2296,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "高い",
         "reading": "たかい",
-        "meaning": "high / expensive"
+        "meaning": "tinggi / mahal"
       },
       {
         "word": "高校",
         "reading": "こうこう",
-        "meaning": "high school"
+        "meaning": "SMA"
       }
     ]
   },
@@ -2323,8 +2309,8 @@ const KANJI_DATA_N5 = [
     "kanji": "安",
     "level": "N5",
     "meanings": [
-      "cheap",
-      "peaceful"
+      "murah",
+      "tenteram"
     ],
     "onyomi": [
       "アン"
@@ -2338,12 +2324,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "安い",
         "reading": "やすい",
-        "meaning": "cheap / inexpensive"
+        "meaning": "murah"
       },
       {
         "word": "安心",
         "reading": "あんしん",
-        "meaning": "peace of mind"
+        "meaning": "tenang / lega"
       }
     ]
   },
@@ -2351,7 +2337,7 @@ const KANJI_DATA_N5 = [
     "kanji": "新",
     "level": "N5",
     "meanings": [
-      "new"
+      "baru"
     ],
     "onyomi": [
       "シン"
@@ -2365,12 +2351,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "新しい",
         "reading": "あたらしい",
-        "meaning": "new"
+        "meaning": "baru"
       },
       {
         "word": "新聞",
         "reading": "しんぶん",
-        "meaning": "newspaper"
+        "meaning": "koran"
       }
     ]
   },
@@ -2378,7 +2364,8 @@ const KANJI_DATA_N5 = [
     "kanji": "古",
     "level": "N5",
     "meanings": [
-      "old"
+      "lama",
+      "tua"
     ],
     "onyomi": [
       "コ"
@@ -2391,12 +2378,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "古い",
         "reading": "ふるい",
-        "meaning": "old"
+        "meaning": "lama / tua"
       },
       {
         "word": "中古",
         "reading": "ちゅうこ",
-        "meaning": "secondhand"
+        "meaning": "bekas"
       }
     ]
   },
@@ -2404,8 +2391,8 @@ const KANJI_DATA_N5 = [
     "kanji": "長",
     "level": "N5",
     "meanings": [
-      "long",
-      "chief"
+      "panjang",
+      "kepala/ketua"
     ],
     "onyomi": [
       "チョウ"
@@ -2418,12 +2405,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "長い",
         "reading": "ながい",
-        "meaning": "long"
+        "meaning": "panjang"
       },
       {
         "word": "校長",
         "reading": "こうちょう",
-        "meaning": "principal"
+        "meaning": "kepala sekolah"
       }
     ]
   },
@@ -2431,7 +2418,7 @@ const KANJI_DATA_N5 = [
     "kanji": "多",
     "level": "N5",
     "meanings": [
-      "many"
+      "banyak"
     ],
     "onyomi": [
       "タ"
@@ -2443,7 +2430,7 @@ const KANJI_DATA_N5 = [
       {
         "word": "多い",
         "reading": "おおい",
-        "meaning": "many / numerous"
+        "meaning": "banyak"
       }
     ]
   },
@@ -2451,8 +2438,7 @@ const KANJI_DATA_N5 = [
     "kanji": "少",
     "level": "N5",
     "meanings": [
-      "few",
-      "little"
+      "sedikit"
     ],
     "onyomi": [
       "ショウ"
@@ -2465,12 +2451,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "少ない",
         "reading": "すくない",
-        "meaning": "few / little"
+        "meaning": "sedikit"
       },
       {
         "word": "少し",
         "reading": "すこし",
-        "meaning": "a little"
+        "meaning": "sedikit (jumlah kecil)"
       }
     ]
   },
@@ -2478,7 +2464,7 @@ const KANJI_DATA_N5 = [
     "kanji": "名",
     "level": "N5",
     "meanings": [
-      "name"
+      "nama"
     ],
     "onyomi": [
       "メイ",
@@ -2491,12 +2477,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "名前",
         "reading": "なまえ",
-        "meaning": "name"
+        "meaning": "nama"
       },
       {
         "word": "有名",
         "reading": "ゆうめい",
-        "meaning": "famous"
+        "meaning": "terkenal"
       }
     ]
   },
@@ -2504,9 +2490,9 @@ const KANJI_DATA_N5 = [
     "kanji": "本",
     "level": "N5",
     "meanings": [
-      "book",
-      "origin",
-      "main"
+      "buku",
+      "asal",
+      "utama"
     ],
     "onyomi": [
       "ホン"
@@ -2518,12 +2504,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "本",
         "reading": "ほん",
-        "meaning": "book"
+        "meaning": "buku"
       },
       {
         "word": "日本",
         "reading": "にほん",
-        "meaning": "Japan"
+        "meaning": "Jepang"
       }
     ]
   },
@@ -2531,7 +2517,7 @@ const KANJI_DATA_N5 = [
     "kanji": "何",
     "level": "N5",
     "meanings": [
-      "what"
+      "apa"
     ],
     "onyomi": [
       "カ"
@@ -2544,12 +2530,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "何",
         "reading": "なに",
-        "meaning": "what"
+        "meaning": "apa"
       },
       {
         "word": "何時",
         "reading": "なんじ",
-        "meaning": "what time"
+        "meaning": "jam berapa"
       }
     ]
   },
@@ -2557,8 +2543,7 @@ const KANJI_DATA_N5 = [
     "kanji": "学",
     "level": "N5",
     "meanings": [
-      "study",
-      "learning"
+      "belajar"
     ],
     "onyomi": [
       "ガク"
@@ -2570,12 +2555,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "学校",
         "reading": "がっこう",
-        "meaning": "school"
+        "meaning": "sekolah"
       },
       {
         "word": "学生",
         "reading": "がくせい",
-        "meaning": "student"
+        "meaning": "siswa/mahasiswa"
       }
     ]
   },
@@ -2583,7 +2568,7 @@ const KANJI_DATA_N5 = [
     "kanji": "校",
     "level": "N5",
     "meanings": [
-      "school"
+      "sekolah"
     ],
     "onyomi": [
       "コウ"
@@ -2593,12 +2578,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "学校",
         "reading": "がっこう",
-        "meaning": "school"
+        "meaning": "sekolah"
       },
       {
         "word": "高校",
         "reading": "こうこう",
-        "meaning": "high school"
+        "meaning": "SMA"
       }
     ]
   },
@@ -2606,9 +2591,9 @@ const KANJI_DATA_N5 = [
     "kanji": "生",
     "level": "N5",
     "meanings": [
-      "life",
-      "birth",
-      "raw"
+      "hidup",
+      "lahir",
+      "mentah"
     ],
     "onyomi": [
       "セイ",
@@ -2625,17 +2610,17 @@ const KANJI_DATA_N5 = [
       {
         "word": "学生",
         "reading": "がくせい",
-        "meaning": "student"
+        "meaning": "siswa/mahasiswa"
       },
       {
         "word": "先生",
         "reading": "せんせい",
-        "meaning": "teacher"
+        "meaning": "guru"
       },
       {
         "word": "生きる",
         "reading": "いきる",
-        "meaning": "to live"
+        "meaning": "hidup"
       }
     ]
   },
@@ -2643,9 +2628,8 @@ const KANJI_DATA_N5 = [
     "kanji": "先",
     "level": "N5",
     "meanings": [
-      "ahead",
-      "previous",
-      "before"
+      "sebelumnya",
+      "duluan"
     ],
     "onyomi": [
       "セン"
@@ -2657,12 +2641,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "先生",
         "reading": "せんせい",
-        "meaning": "teacher"
+        "meaning": "guru"
       },
       {
         "word": "先",
         "reading": "さき",
-        "meaning": "ahead / previous"
+        "meaning": "sebelumnya / lebih dulu"
       }
     ]
   },
@@ -2670,7 +2654,7 @@ const KANJI_DATA_N5 = [
     "kanji": "友",
     "level": "N5",
     "meanings": [
-      "friend"
+      "teman"
     ],
     "onyomi": [
       "ユウ"
@@ -2682,12 +2666,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "友達",
         "reading": "ともだち",
-        "meaning": "friend"
+        "meaning": "teman"
       },
       {
         "word": "友人",
         "reading": "ゆうじん",
-        "meaning": "friend"
+        "meaning": "teman"
       }
     ]
   },
@@ -2695,7 +2679,7 @@ const KANJI_DATA_N5 = [
     "kanji": "父",
     "level": "N5",
     "meanings": [
-      "father"
+      "ayah"
     ],
     "onyomi": [
       "フ"
@@ -2707,12 +2691,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "父",
         "reading": "ちち",
-        "meaning": "my father"
+        "meaning": "ayah (saya)"
       },
       {
         "word": "お父さん",
         "reading": "おとうさん",
-        "meaning": "father"
+        "meaning": "ayah"
       }
     ]
   },
@@ -2720,7 +2704,7 @@ const KANJI_DATA_N5 = [
     "kanji": "母",
     "level": "N5",
     "meanings": [
-      "mother"
+      "ibu"
     ],
     "onyomi": [
       "ボ"
@@ -2732,12 +2716,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "母",
         "reading": "はは",
-        "meaning": "my mother"
+        "meaning": "ibu (saya)"
       },
       {
         "word": "お母さん",
         "reading": "おかあさん",
-        "meaning": "mother"
+        "meaning": "ibu"
       }
     ]
   },
@@ -2745,7 +2729,7 @@ const KANJI_DATA_N5 = [
     "kanji": "兄",
     "level": "N5",
     "meanings": [
-      "older brother"
+      "kakak laki-laki"
     ],
     "onyomi": [
       "ケイ",
@@ -2758,12 +2742,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "兄",
         "reading": "あに",
-        "meaning": "my older brother"
+        "meaning": "kakak laki-laki (saya)"
       },
       {
         "word": "お兄さん",
         "reading": "おにいさん",
-        "meaning": "older brother"
+        "meaning": "kakak laki-laki"
       }
     ]
   },
@@ -2771,7 +2755,7 @@ const KANJI_DATA_N5 = [
     "kanji": "姉",
     "level": "N5",
     "meanings": [
-      "older sister"
+      "kakak perempuan"
     ],
     "onyomi": [
       "シ"
@@ -2783,12 +2767,12 @@ const KANJI_DATA_N5 = [
       {
         "word": "姉",
         "reading": "あね",
-        "meaning": "my older sister"
+        "meaning": "kakak perempuan (saya)"
       },
       {
         "word": "お姉さん",
         "reading": "おねえさん",
-        "meaning": "older sister"
+        "meaning": "kakak perempuan"
       }
     ]
   },
@@ -2796,7 +2780,7 @@ const KANJI_DATA_N5 = [
     "kanji": "弟",
     "level": "N5",
     "meanings": [
-      "younger brother"
+      "adik laki-laki"
     ],
     "onyomi": [
       "テイ",
@@ -2810,7 +2794,7 @@ const KANJI_DATA_N5 = [
       {
         "word": "弟",
         "reading": "おとうと",
-        "meaning": "younger brother"
+        "meaning": "adik laki-laki"
       }
     ]
   },
@@ -2818,7 +2802,7 @@ const KANJI_DATA_N5 = [
     "kanji": "妹",
     "level": "N5",
     "meanings": [
-      "younger sister"
+      "adik perempuan"
     ],
     "onyomi": [
       "マイ"
@@ -2830,13 +2814,13 @@ const KANJI_DATA_N5 = [
       {
         "word": "妹",
         "reading": "いもうと",
-        "meaning": "younger sister"
+        "meaning": "adik perempuan"
       }
     ]
   }
 ];
 
-// Registry of all available levels. Add new level arrays here as they're built.
+// Daftar semua level yang tersedia. Tambahkan array level baru di sini.
 const KANJI_LEVELS = {
   N5: KANJI_DATA_N5
 };
