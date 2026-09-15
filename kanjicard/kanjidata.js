@@ -26,7 +26,8 @@ const KANJI_DATA_N5 = [
         "reading": "いちがつ",
         "meaning": "Januari"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "二",
@@ -52,7 +53,8 @@ const KANJI_DATA_N5 = [
         "reading": "にがつ",
         "meaning": "Februari"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "三",
@@ -79,7 +81,8 @@ const KANJI_DATA_N5 = [
         "reading": "さんがつ",
         "meaning": "Maret"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "四",
@@ -107,7 +110,8 @@ const KANJI_DATA_N5 = [
         "reading": "しがつ",
         "meaning": "April"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "五",
@@ -133,7 +137,8 @@ const KANJI_DATA_N5 = [
         "reading": "ごがつ",
         "meaning": "Mei"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "六",
@@ -160,7 +165,8 @@ const KANJI_DATA_N5 = [
         "reading": "ろくがつ",
         "meaning": "Juni"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "七",
@@ -186,7 +192,8 @@ const KANJI_DATA_N5 = [
         "reading": "しちがつ",
         "meaning": "Juli"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "八",
@@ -213,7 +220,8 @@ const KANJI_DATA_N5 = [
         "reading": "はちがつ",
         "meaning": "Agustus"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "九",
@@ -240,7 +248,8 @@ const KANJI_DATA_N5 = [
         "reading": "くがつ",
         "meaning": "September"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "十",
@@ -266,7 +275,8 @@ const KANJI_DATA_N5 = [
         "reading": "じゅうがつ",
         "meaning": "Oktober"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "百",
@@ -289,7 +299,8 @@ const KANJI_DATA_N5 = [
         "reading": "ひゃく",
         "meaning": "seratus"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "千",
@@ -314,7 +325,8 @@ const KANJI_DATA_N5 = [
         "reading": "せん",
         "meaning": "seribu"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "万",
@@ -339,7 +351,8 @@ const KANJI_DATA_N5 = [
         "reading": "いちまん",
         "meaning": "sepuluh ribu"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "円",
@@ -366,7 +379,8 @@ const KANJI_DATA_N5 = [
         "reading": "えん",
         "meaning": "yen"
       }
-    ]
+    ],
+    "day": 1
   },
   {
     "kanji": "日",
@@ -399,7 +413,8 @@ const KANJI_DATA_N5 = [
         "reading": "ひ",
         "meaning": "hari / matahari"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "月",
@@ -426,7 +441,8 @@ const KANJI_DATA_N5 = [
         "reading": "つき",
         "meaning": "bulan (langit)"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "火",
@@ -452,7 +468,8 @@ const KANJI_DATA_N5 = [
         "reading": "ひ",
         "meaning": "api"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "水",
@@ -477,7 +494,8 @@ const KANJI_DATA_N5 = [
         "reading": "みず",
         "meaning": "air"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "木",
@@ -505,7 +523,8 @@ const KANJI_DATA_N5 = [
         "reading": "き",
         "meaning": "pohon"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "金",
@@ -533,7 +552,8 @@ const KANJI_DATA_N5 = [
         "reading": "おかね",
         "meaning": "uang"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "土",
@@ -559,7 +579,8 @@ const KANJI_DATA_N5 = [
         "reading": "つち",
         "meaning": "tanah"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "人",
@@ -590,7 +611,8 @@ const KANJI_DATA_N5 = [
         "reading": "さんにん",
         "meaning": "tiga orang"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "男",
@@ -617,7 +639,8 @@ const KANJI_DATA_N5 = [
         "reading": "だんせい",
         "meaning": "pria"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "女",
@@ -646,7 +669,8 @@ const KANJI_DATA_N5 = [
         "reading": "じょせい",
         "meaning": "wanita"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "子",
@@ -672,7 +696,8 @@ const KANJI_DATA_N5 = [
         "reading": "おんなのこ",
         "meaning": "anak perempuan"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "目",
@@ -699,7 +724,8 @@ const KANJI_DATA_N5 = [
         "reading": "いちばんめ",
         "meaning": "yang pertama"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "耳",
@@ -719,7 +745,8 @@ const KANJI_DATA_N5 = [
         "reading": "みみ",
         "meaning": "telinga"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "口",
@@ -745,7 +772,8 @@ const KANJI_DATA_N5 = [
         "reading": "いりぐち",
         "meaning": "pintu masuk"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "手",
@@ -771,7 +799,8 @@ const KANJI_DATA_N5 = [
         "reading": "じょうず",
         "meaning": "mahir / pandai"
       }
-    ]
+    ],
+    "day": 2
   },
   {
     "kanji": "足",
@@ -798,7 +827,8 @@ const KANJI_DATA_N5 = [
         "reading": "たりる",
         "meaning": "cukup"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "力",
@@ -825,7 +855,8 @@ const KANJI_DATA_N5 = [
         "reading": "たいりょく",
         "meaning": "kekuatan fisik"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "山",
@@ -851,7 +882,8 @@ const KANJI_DATA_N5 = [
         "reading": "ふじさん",
         "meaning": "Gunung Fuji"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "川",
@@ -876,7 +908,8 @@ const KANJI_DATA_N5 = [
         "reading": "かわぐち",
         "meaning": "muara sungai"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "天",
@@ -903,7 +936,8 @@ const KANJI_DATA_N5 = [
         "reading": "てん",
         "meaning": "langit / surga"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "気",
@@ -929,7 +963,8 @@ const KANJI_DATA_N5 = [
         "reading": "げんき",
         "meaning": "sehat / bersemangat"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "空",
@@ -958,7 +993,8 @@ const KANJI_DATA_N5 = [
         "reading": "くうこう",
         "meaning": "bandara"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "雨",
@@ -985,7 +1021,8 @@ const KANJI_DATA_N5 = [
         "reading": "あめのひ",
         "meaning": "hari hujan"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "電",
@@ -1008,7 +1045,8 @@ const KANJI_DATA_N5 = [
         "reading": "でんわ",
         "meaning": "telepon"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "車",
@@ -1034,7 +1072,8 @@ const KANJI_DATA_N5 = [
         "reading": "でんしゃ",
         "meaning": "kereta"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "駅",
@@ -1057,7 +1096,8 @@ const KANJI_DATA_N5 = [
         "reading": "えきまえ",
         "meaning": "depan stasiun"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "道",
@@ -1083,7 +1123,8 @@ const KANJI_DATA_N5 = [
         "reading": "ほっかいどう",
         "meaning": "Hokkaido"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "町",
@@ -1108,7 +1149,8 @@ const KANJI_DATA_N5 = [
         "reading": "まちなか",
         "meaning": "di tengah kota"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "村",
@@ -1128,7 +1170,8 @@ const KANJI_DATA_N5 = [
         "reading": "むら",
         "meaning": "desa"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "国",
@@ -1153,7 +1196,8 @@ const KANJI_DATA_N5 = [
         "reading": "がいこく",
         "meaning": "luar negeri"
       }
-    ]
+    ],
+    "day": 3
   },
   {
     "kanji": "外",
@@ -1182,7 +1226,8 @@ const KANJI_DATA_N5 = [
         "reading": "そと",
         "meaning": "luar"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "中",
@@ -1210,7 +1255,8 @@ const KANJI_DATA_N5 = [
         "reading": "ちゅうごく",
         "meaning": "Tiongkok"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "上",
@@ -1239,7 +1285,8 @@ const KANJI_DATA_N5 = [
         "reading": "じょうず",
         "meaning": "mahir / pandai"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "下",
@@ -1270,7 +1317,8 @@ const KANJI_DATA_N5 = [
         "reading": "ちか",
         "meaning": "bawah tanah"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "左",
@@ -1295,7 +1343,8 @@ const KANJI_DATA_N5 = [
         "reading": "ひだりて",
         "meaning": "tangan kiri"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "右",
@@ -1321,7 +1370,8 @@ const KANJI_DATA_N5 = [
         "reading": "みぎて",
         "meaning": "tangan kanan"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "前",
@@ -1347,7 +1397,8 @@ const KANJI_DATA_N5 = [
         "reading": "えきまえ",
         "meaning": "depan stasiun"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "後",
@@ -1377,7 +1428,8 @@ const KANJI_DATA_N5 = [
         "reading": "ごご",
         "meaning": "siang / sore (PM)"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "午",
@@ -1400,7 +1452,8 @@ const KANJI_DATA_N5 = [
         "reading": "ごご",
         "meaning": "siang / sore (PM)"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "時",
@@ -1426,7 +1479,8 @@ const KANJI_DATA_N5 = [
         "reading": "とき",
         "meaning": "waktu / saat"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "分",
@@ -1457,7 +1511,8 @@ const KANJI_DATA_N5 = [
         "reading": "わかる",
         "meaning": "mengerti"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "半",
@@ -1482,7 +1537,8 @@ const KANJI_DATA_N5 = [
         "reading": "いちじはん",
         "meaning": "jam 1:30"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "今",
@@ -1508,7 +1564,8 @@ const KANJI_DATA_N5 = [
         "reading": "きょう",
         "meaning": "hari ini"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "毎",
@@ -1531,7 +1588,8 @@ const KANJI_DATA_N5 = [
         "reading": "まいしゅう",
         "meaning": "setiap minggu"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "週",
@@ -1554,7 +1612,8 @@ const KANJI_DATA_N5 = [
         "reading": "らいしゅう",
         "meaning": "minggu depan"
       }
-    ]
+    ],
+    "day": 4
   },
   {
     "kanji": "年",
@@ -1579,7 +1638,8 @@ const KANJI_DATA_N5 = [
         "reading": "らいねん",
         "meaning": "tahun depan"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "来",
@@ -1607,7 +1667,8 @@ const KANJI_DATA_N5 = [
         "reading": "らいしゅう",
         "meaning": "minggu depan"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "行",
@@ -1636,7 +1697,8 @@ const KANJI_DATA_N5 = [
         "reading": "ぎんこう",
         "meaning": "bank"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "帰",
@@ -1657,7 +1719,8 @@ const KANJI_DATA_N5 = [
         "reading": "かえる",
         "meaning": "pulang"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "入",
@@ -1684,7 +1747,8 @@ const KANJI_DATA_N5 = [
         "reading": "いりぐち",
         "meaning": "pintu masuk"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "出",
@@ -1711,7 +1775,8 @@ const KANJI_DATA_N5 = [
         "reading": "でぐち",
         "meaning": "pintu keluar"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "見",
@@ -1738,7 +1803,8 @@ const KANJI_DATA_N5 = [
         "reading": "みせる",
         "meaning": "menunjukkan"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "聞",
@@ -1766,7 +1832,8 @@ const KANJI_DATA_N5 = [
         "reading": "しんぶん",
         "meaning": "koran"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "読",
@@ -1793,7 +1860,8 @@ const KANJI_DATA_N5 = [
         "reading": "どくしょ",
         "meaning": "membaca buku"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "書",
@@ -1818,7 +1886,8 @@ const KANJI_DATA_N5 = [
         "reading": "としょかん",
         "meaning": "perpustakaan"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "話",
@@ -1845,7 +1914,8 @@ const KANJI_DATA_N5 = [
         "reading": "でんわ",
         "meaning": "telepon"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "語",
@@ -1872,7 +1942,8 @@ const KANJI_DATA_N5 = [
         "reading": "えいご",
         "meaning": "bahasa Inggris"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "言",
@@ -1900,7 +1971,8 @@ const KANJI_DATA_N5 = [
         "reading": "ことば",
         "meaning": "kata / bahasa"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "食",
@@ -1928,7 +2000,8 @@ const KANJI_DATA_N5 = [
         "reading": "しょくじ",
         "meaning": "makanan / santapan"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "飲",
@@ -1953,7 +2026,8 @@ const KANJI_DATA_N5 = [
         "reading": "のみもの",
         "meaning": "minuman"
       }
-    ]
+    ],
+    "day": 5
   },
   {
     "kanji": "買",
@@ -1978,7 +2052,8 @@ const KANJI_DATA_N5 = [
         "reading": "かいもの",
         "meaning": "belanja"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "休",
@@ -2006,7 +2081,8 @@ const KANJI_DATA_N5 = [
         "reading": "きゅうじつ",
         "meaning": "hari libur"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "立",
@@ -2033,7 +2109,8 @@ const KANJI_DATA_N5 = [
         "reading": "たてる",
         "meaning": "mendirikan"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "住",
@@ -2059,7 +2136,8 @@ const KANJI_DATA_N5 = [
         "reading": "じゅうしょ",
         "meaning": "alamat"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "会",
@@ -2086,7 +2164,8 @@ const KANJI_DATA_N5 = [
         "reading": "かいしゃ",
         "meaning": "perusahaan"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "社",
@@ -2112,7 +2191,8 @@ const KANJI_DATA_N5 = [
         "reading": "じんじゃ",
         "meaning": "kuil Shinto"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "店",
@@ -2137,7 +2217,8 @@ const KANJI_DATA_N5 = [
         "reading": "てんいん",
         "meaning": "pramuniaga"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "白",
@@ -2165,7 +2246,8 @@ const KANJI_DATA_N5 = [
         "reading": "しろ",
         "meaning": "putih"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "赤",
@@ -2193,7 +2275,8 @@ const KANJI_DATA_N5 = [
         "reading": "あか",
         "meaning": "merah"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "青",
@@ -2221,7 +2304,8 @@ const KANJI_DATA_N5 = [
         "reading": "あお",
         "meaning": "biru"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "大",
@@ -2248,7 +2332,8 @@ const KANJI_DATA_N5 = [
         "reading": "だいがく",
         "meaning": "universitas"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "小",
@@ -2275,7 +2360,8 @@ const KANJI_DATA_N5 = [
         "reading": "しょうがっこう",
         "meaning": "sekolah dasar"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "高",
@@ -2303,7 +2389,8 @@ const KANJI_DATA_N5 = [
         "reading": "こうこう",
         "meaning": "SMA"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "安",
@@ -2331,7 +2418,8 @@ const KANJI_DATA_N5 = [
         "reading": "あんしん",
         "meaning": "tenang / lega"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "新",
@@ -2358,7 +2446,8 @@ const KANJI_DATA_N5 = [
         "reading": "しんぶん",
         "meaning": "koran"
       }
-    ]
+    ],
+    "day": 6
   },
   {
     "kanji": "古",
@@ -2385,7 +2474,8 @@ const KANJI_DATA_N5 = [
         "reading": "ちゅうこ",
         "meaning": "bekas"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "長",
@@ -2412,7 +2502,8 @@ const KANJI_DATA_N5 = [
         "reading": "こうちょう",
         "meaning": "kepala sekolah"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "多",
@@ -2432,7 +2523,8 @@ const KANJI_DATA_N5 = [
         "reading": "おおい",
         "meaning": "banyak"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "少",
@@ -2458,7 +2550,8 @@ const KANJI_DATA_N5 = [
         "reading": "すこし",
         "meaning": "sedikit (jumlah kecil)"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "名",
@@ -2484,7 +2577,8 @@ const KANJI_DATA_N5 = [
         "reading": "ゆうめい",
         "meaning": "terkenal"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "本",
@@ -2511,7 +2605,8 @@ const KANJI_DATA_N5 = [
         "reading": "にほん",
         "meaning": "Jepang"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "何",
@@ -2537,7 +2632,8 @@ const KANJI_DATA_N5 = [
         "reading": "なんじ",
         "meaning": "jam berapa"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "学",
@@ -2562,7 +2658,8 @@ const KANJI_DATA_N5 = [
         "reading": "がくせい",
         "meaning": "siswa/mahasiswa"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "校",
@@ -2585,7 +2682,8 @@ const KANJI_DATA_N5 = [
         "reading": "こうこう",
         "meaning": "SMA"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "生",
@@ -2622,7 +2720,8 @@ const KANJI_DATA_N5 = [
         "reading": "いきる",
         "meaning": "hidup"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "先",
@@ -2648,7 +2747,8 @@ const KANJI_DATA_N5 = [
         "reading": "さき",
         "meaning": "sebelumnya / lebih dulu"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "友",
@@ -2673,7 +2773,8 @@ const KANJI_DATA_N5 = [
         "reading": "ゆうじん",
         "meaning": "teman"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "父",
@@ -2698,7 +2799,8 @@ const KANJI_DATA_N5 = [
         "reading": "おとうさん",
         "meaning": "ayah"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "母",
@@ -2723,7 +2825,8 @@ const KANJI_DATA_N5 = [
         "reading": "おかあさん",
         "meaning": "ibu"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "兄",
@@ -2749,7 +2852,8 @@ const KANJI_DATA_N5 = [
         "reading": "おにいさん",
         "meaning": "kakak laki-laki"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "姉",
@@ -2774,7 +2878,8 @@ const KANJI_DATA_N5 = [
         "reading": "おねえさん",
         "meaning": "kakak perempuan"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "弟",
@@ -2796,7 +2901,8 @@ const KANJI_DATA_N5 = [
         "reading": "おとうと",
         "meaning": "adik laki-laki"
       }
-    ]
+    ],
+    "day": 7
   },
   {
     "kanji": "妹",
@@ -2816,7 +2922,8 @@ const KANJI_DATA_N5 = [
         "reading": "いもうと",
         "meaning": "adik perempuan"
       }
-    ]
+    ],
+    "day": 7
   }
 ];
 
@@ -2824,3 +2931,43 @@ const KANJI_DATA_N5 = [
 const KANJI_LEVELS = {
   N5: KANJI_DATA_N5
 };
+
+// Day-by-day lesson grouping for the N5 set, used by the lesson site
+// and by kanjicard's own day-filtered practice mode (?day=N).
+const KANJI_N5_DAYS = [
+  {
+    "day": 1,
+    "title": "Angka",
+    "count": 14
+  },
+  {
+    "day": 2,
+    "title": "Kalender & Orang",
+    "count": 15
+  },
+  {
+    "day": 3,
+    "title": "Alam & Transportasi",
+    "count": 15
+  },
+  {
+    "day": 4,
+    "title": "Arah & Waktu",
+    "count": 15
+  },
+  {
+    "day": 5,
+    "title": "Kata Kerja 1",
+    "count": 15
+  },
+  {
+    "day": 6,
+    "title": "Kata Kerja & Warna",
+    "count": 15
+  },
+  {
+    "day": 7,
+    "title": "Sekolah & Keluarga",
+    "count": 18
+  }
+];
