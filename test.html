@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nihongo Study — Japanese Learning Web</title>
+<style>
+:root{
+  --bg:#f5f6fb;--card:#fff;--ink:#171927;--muted:#74778a;--line:#e9e9f0;
+  --purple:#6650d8;--purple2:#eeeafd;--blue:#4d8ff7;--green:#63c6b6;
+  --shadow:0 14px 40px rgba(35,31,75,.10);--radius:24px;
+}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button{font:inherit;border:0;cursor:pointer}.app{max-width:1180px;margin:auto;min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;padding:22px 26px}
+.brand{font-weight:850;font-size:22px;letter-spacing:-.5px}.brand span{color:var(--purple)}
+.avatar{width:42px;height:42px;border-radius:50%;background:#e7e1ff;display:grid;place-items:center;font-weight:800}
+main{padding:8px 26px 40px}.hero{display:grid;grid-template-columns:1.35fr .65fr;gap:18px}
+.card{background:var(--card);border:1px solid rgba(0,0,0,.03);border-radius:var(--radius);box-shadow:var(--shadow)}
+.heroMain{padding:34px;min-height:230px;background:linear-gradient(135deg,#f1edff,#fff)}
+.eyebrow{color:var(--purple);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1px}
+h1{font-size:40px;line-height:1.05;margin:9px 0 12px;letter-spacing:-1.6px} h2{margin:0 0 12px;font-size:24px}
+p{color:var(--muted);line-height:1.55}.btn{background:var(--ink);color:#fff;padding:13px 18px;border-radius:14px;font-weight:750}.btn.secondary{background:#eeeafd;color:#4d3ab7}
+.progressCard{padding:25px}.progressRing{width:104px;height:104px;border-radius:50%;background:conic-gradient(var(--purple) 0 58%,#ececf3 58%);display:grid;place-items:center;margin:8px auto 14px}.progressRing:after{content:"58%";width:78px;height:78px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:850;font-size:20px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}.section{margin-top:30px}
+.lesson{padding:20px;min-height:175px;position:relative;overflow:hidden}.lesson .num{width:38px;height:38px;border-radius:12px;background:#f0edff;color:#5944ca;display:grid;place-items:center;font-weight:850}.lesson h3{margin:14px 0 5px}.meta{font-size:13px;color:var(--muted)}
+.badge{display:inline-block;padding:6px 9px;border-radius:10px;font-size:11px;font-weight:800;background:#eef8f6;color:#2f8d80}.tabs{display:flex;gap:8px;margin:22px 0;overflow:auto}.tab{white-space:nowrap;padding:11px 15px;border-radius:13px;background:#fff;color:var(--muted);font-weight:750}.tab.active{background:var(--ink);color:#fff}
+.view{display:none}.view.active{display:block}.lessonHeader{padding:26px;margin-bottom:16px}.lessonHeader .jp{font-size:36px;font-weight:850}.jp{font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif}.rule{padding:18px;background:#faf9ff;border-radius:18px;margin:12px 0;border:1px solid #eeeafd}.rule strong{display:block;margin-bottom:8px}.example{padding:14px 0;border-top:1px solid var(--line)}.example:first-child{border-top:0}.romaji{color:#7a6fbd;font-size:13px}.translation{color:#626578;font-size:14px}
+.kanjiArea{display:grid;grid-template-columns:1fr .8fr;gap:18px}.kanjiCard{min-height:420px;padding:30px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:linear-gradient(150deg,#fff,#f1efff)}.bigKanji{font-size:150px;line-height:1;font-weight:850}.reading{font-size:20px;font-weight:800;color:#5d49c9}.meaning{margin:8px 0 20px;font-size:17px}.swipeBtns{display:flex;gap:10px}.smallPanel{padding:22px}.vocab{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}.vocab:last-child{border:0}.vocab .left b{font-size:20px}.vocab .left small{display:block;color:var(--muted);margin-top:3px}.quizCard{padding:28px}.question{font-size:22px;font-weight:800;margin:10px 0 20px}.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}.option{padding:16px;border:1px solid var(--line);background:#fff;border-radius:16px;text-align:left;font-weight:750}.option:hover{border-color:#bcb2f4;background:#faf9ff}.result{margin-top:14px;padding:14px;border-radius:14px;background:#f2f8f7;display:none}.footer{color:#9698a6;text-align:center;font-size:12px;margin:34px 0}
+@media(max-width:800px){.hero,.kanjiArea{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.heroMain{min-height:auto}h1{font-size:32px}.bigKanji{font-size:120px}main{padding:8px 16px 30px}header{padding:18px 16px}.options{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand">Nihongo<span>Study</span></div><div class="avatar">L</div></header>
+<main>
+<section class="hero">
+  <div class="card heroMain">
+    <div class="eyebrow">Japanese learning workspace</div>
+    <h1>Belajar Jepang,<br>sedikit tapi setiap hari.</h1>
+    <p>Materi dipecah menjadi lesson kecil dari PDF: grammar, kanji, kotoba, Japanese Text (JT), dan quiz.</p>
+    <button class="btn" onclick="openLesson(0)">Mulai Lesson 1</button>
+  </div>
+  <div class="card progressCard">
+    <div class="eyebrow">Progress</div><div class="progressRing"></div>
+    <div style="text-align:center;font-weight:800">N5 Grammar</div><div class="meta" style="text-align:center">3 lesson tersedia di prototype</div>
+  </div>
+</section>
+
+<div class="tabs" id="mainTabs">
+  <button class="tab active" onclick="showView('home',this)">Lessons</button>
+  <button class="tab" onclick="showView('kanji',this)">Kanji Swipe</button>
+  <button class="tab" onclick="showView('kotoba',this)">Kotoba</button>
+  <button class="tab" onclick="showView('quiz',this)">Quiz Kanji</button>
+  <button class="tab" onclick="showView('jt',this)">JT</button>
+</div>
+
+<section id="home" class="view active">
+  <div class="section"><div class="eyebrow">N5 Grammar</div><h2>Lesson per halaman</h2></div>
+  <div class="grid">
+    <article class="card lesson" onclick="openLesson(0)"><div class="num">01</div><h3>Kata Sifat & Perubahan</h3><div class="meta">i-adjective · na-adjective · verb changes</div><div style="margin-top:14px"><span class="badge">Grammar</span></div></article>
+    <article class="card lesson" onclick="openLesson(1)"><div class="num">02</div><h3>Partikel の</h3><div class="meta">Menerangkan kata benda · pengganti kata benda</div><div style="margin-top:14px"><span class="badge">Grammar</span></div></article>
+    <article class="card lesson" onclick="openLesson(2)"><div class="num">03</div><h3>います & あります</h3><div class="meta">Keberadaan manusia/hewan vs benda/tumbuhan</div><div style="margin-top:14px"><span class="badge">Grammar</span></div></article>
+  </div>
+  <div class="section"><div class="eyebrow">Kanji</div><h2>20-day style</h2></div>
+  <div class="grid">
+    <article class="card lesson" onclick="openKanjiDay(0)"><div class="num">01</div><h3>通 降 着 動 物 品</h3><div class="meta">6 kanji · vocabulary built in</div></article>
+    <article class="card lesson" onclick="openKanjiDay(1)"><div class="num">02</div><h3>同 回 晩 勉 進 集</h3><div class="meta">6 kanji · vocabulary built in</div></article>
+  </div>
+</section>
+
+<section id="lesson" class="view">
+  <div class="card lessonHeader"><div class="eyebrow" id="lessonTag"></div><div class="jp" id="lessonTitle"></div><p id="lessonIntro"></p></div>
+  <div class="card" style="padding:26px" id="lessonBody"></div>
+  <div style="margin-top:14px"><button class="btn secondary" onclick="showView('home',document.querySelector('#mainTabs .tab'))">← Kembali ke lessons</button></div>
+</section>
+
+<section id="kanji" class="view">
+ <div class="kanjiArea">
+  <div class="card kanjiCard">
+    <div class="eyebrow">Swipe card</div><div class="bigKanji jp" id="kChar">通</div>
+    <div class="reading" id="kRead">つう · TSUU</div><div class="meaning" id="kMeaning">lewat</div>
+    <div class="swipeBtns"><button class="btn secondary" onclick="prevKanji()">←</button><button class="btn" onclick="nextKanji()">Saya ingat →</button></div>
+  </div>
+  <div class="card smallPanel"><div class="eyebrow">Contoh penggunaan</div><h2 id="kExample">交通</h2><p id="kExampleMeaning">lalu lintas</p><div id="kVocabList"></div></div>
+ </div>
+</section>
+
+<section id="kotoba" class="view">
+ <div class="card" style="padding:26px"><div class="eyebrow">Kotoba</div><h2>Vocabulary dari materi kanji</h2><p>Setiap kanji langsung terhubung ke kata yang muncul di PDF.</p><div id="allVocab"></div></div>
+</section>
+
+<section id="quiz" class="view">
+ <div class="card quizCard"><div class="eyebrow">Quiz Kanji</div><div id="quizProgress" class="meta"></div><div class="question" id="qText"></div><div class="options" id="qOptions"></div><div class="result" id="qResult"></div></div>
+</section>
+
+<section id="jt" class="view">
+ <div class="card" style="padding:26px"><div class="eyebrow">JT · Japanese Text</div><h2>Baca kalimat, lalu pahami strukturnya</h2>
+ <div class="rule"><strong>Grammar Lesson 2</strong><div class="jp">この ペンは あなたのですか。</div><div class="translation">Apakah pena ini milikmu?</div><div class="romaji">Kono pen wa anata no desu ka.</div></div>
+ <div class="rule"><strong>Grammar Lesson 3</strong><div class="jp">れいぞうこの 中に ケーキが あります。</div><div class="translation">Ada kue di dalam kulkas.</div><div class="romaji">Reizouko no naka ni keeki ga arimasu.</div></div>
+ <div class="rule"><strong>Kanji Day 1</strong><div class="jp">交通は 便利です。</div><div class="translation">Lalu lintas / transportasi itu praktis.</div><div class="romaji">Koutsuu wa benri desu.</div></div>
+ </div>
+</section>
+
+<div class="footer">Prototype · materi bersumber dari PDF yang kamu upload. Struktur dibuat supaya nanti semua halaman PDF bisa dimasukkan sebagai lesson.</div>
+</main>
+</div>
+
+<script>
+const lessons=[
+ {tag:"N5 GRAMMAR · LESSON 01",title:"KATA SIFAT & PERUBAHAN",intro:"Pelajari perubahan kata sifat-i, kata sifat-na, dan bentuk dasar perubahan kata kerja.",body:`
+ <div class="rule"><strong>Kata sifat-i</strong><div class="jp">おもしろいです → おもしろく ありません</div><div class="jp">おもしろいです → おもしろかったです</div><div class="jp">おもしろいです → おもしろく なかったです</div></div>
+ <div class="rule"><strong>Perhatian: いい（いい＝よい）</strong><div class="jp">いいです → よく ありません → よかったです → よく なかったです</div></div>
+ <div class="rule"><strong>Kata sifat-na</strong><div class="jp">きれいです → きれいでは ありません / きれいじゃ ないです</div><div class="jp">きれいです → きれいでした → きれいじゃ なかったです</div><p>では = じゃ</p></div>
+ <div class="rule"><strong>Perubahan kata kerja</strong><div class="example"><span class="jp">あります / ある → ありません / ない → ありました / あった → ありませんでした / なかった</span></div><div class="example"><span class="jp">します / する → しません / しない → しました / した → しませんでした / しなかった</span></div><div class="example"><span class="jp">きます / くる → きません / こない → きました / きた → きませんでした / こなかった</span></div></div>
+ `},
+ {tag:"N5 GRAMMAR · LESSON 02",title:"PARTIKEL の",intro:"Gunakan の untuk menerangkan hubungan antarkata benda dan sebagai pengganti kata benda.",body:`
+ <div class="rule"><strong>Kata sifat + kata benda</strong><div class="jp">高い山　　きれいな海</div><p>Contoh ini menunjukkan kata sifat menerangkan kata benda.</p></div>
+ <div class="rule"><strong>Kata benda + kata benda</strong><div class="jp">日本の車　　きのうの新聞</div><p>の dapat menyatakan kepemilikan, buatan, hubungan, dan keterangan lain.</p></div>
+ <div class="rule"><strong>の sebagai pengganti kata benda</strong><div class="example jp">この ペンは あなたのですか。</div><div class="example jp">いいえ、田中さんのです。</div><div class="example jp">大きいのですか。小さいのですか。</div><div class="example jp">いい 時計ですね。どこのですか。日本のですか。</div></div>
+ `},
+ {tag:"N5 GRAMMAR · LESSON 03",title:"います & あります",intro:"Menyatakan keberadaan: います untuk manusia/hewan, あります untuk benda mati/tumbuhan.",body:`
+ <div class="rule"><strong>Perbedaan utama</strong><p>います = manusia dan hewan. あります = benda mati dan tumbuhan. Dalam konteks tertentu keduanya juga dapat berarti “punya”.</p></div>
+ <div class="rule"><strong>Pola</strong><div class="jp">(tempat) に ……が あります。</div><div class="jp">(tempat) に ……が います。</div></div>
+ <div class="rule"><strong>Contoh</strong><div class="example jp">雨ですよ。傘が ありますか。</div><div class="translation">Hujan. Apakah kamu punya payung?</div><div class="example jp">わたしは 兄弟が いません。</div><div class="translation">Saya tidak punya saudara.</div><div class="example jp">れいぞうこの 中に ケーキが あります。</div><div class="translation">Ada kue di dalam kulkas.</div><div class="example jp">この クラスに 中国人が ５人 います。</div><div class="translation">Di kelas ini ada 5 orang Tiongkok.</div><div class="example jp">ここに キムさんは いません。</div><div class="translation">Kim tidak ada di sini.</div></div>
+ `}];
+
+const kanji=[
+ {c:"通",r:"つう · TSUU",m:"lewat",ex:"交通",em:"lalu lintas",v:[["通る・通り","とおる・とおり","lewat / jalan raya"],["通う","かよう","pulang-pergi"],["普通","ふつう","biasa"]]},
+ {c:"降",r:"こう · おりる・ふる",m:"turun",ex:"降る",em:"turun (hujan, salju)",v:[["降りる","おりる","turun"],["降る","ふる","turun (hujan, salju)"]]},
+ {c:"着",r:"き · つく",m:"memakai, tiba",ex:"着る",em:"memakai (baju)",v:[["着く","つく","tiba, sampai"],["着物","きもの","kimono"]]},
+ {c:"動",r:"どう · うごく",m:"bergerak",ex:"動く",em:"bergerak",v:[["動物","どうぶつ","hewan"],["運動","うんどう","olahraga"]]},
+ {c:"物",r:"ぶつ・もつ · もの",m:"barang",ex:"食べ物",em:"makanan",v:[["荷物","にもつ","barang"],["物","もの","barang"],["動物","どうぶつ","hewan"]]},
+ {c:"品",r:"ひん · しな",m:"barang",ex:"品物",em:"barang dagangan",v:[["品物","しなもの","barang dagangan"],["食料品","しょくりょうひん","makanan (selain makanan pokok)"]]},
+ {c:"同",r:"どう · おなじ",m:"sama",ex:"同じ",em:"sama",v:[]},
+ {c:"回",r:"かい · まわる・まわす",m:"memutar, kali",ex:"回る",em:"berputar",v:[["回す","まわす","memutar"],["～回","～かい","...kali"]]},
+ {c:"晩",r:"ばん",m:"malam",ex:"今晩",em:"malam ini",v:[]},
+ {c:"勉",r:"べん",m:"giat, tekun",ex:"勉強",em:"belajar",v:[["勉強","べんきょう","belajar"]]},
+ {c:"進",r:"しん · すすむ・すすめる",m:"maju",ex:"進む",em:"maju",v:[["進める","すすめる","memajukan"]]},
+ {c:"集",r:"しゅう · あつまる・あつめる",m:"berkumpul",ex:"集まる",em:"berkumpul",v:[["集める","あつめる","mengumpulkan"]]}
+];
+let ki=0, qi=0;
+const quiz=[
+ ["通","Apa arti utama 通 dalam materi ini?",["lewat","turun","malam","sama"],0],
+ ["動","Kata 動物 berarti…",["barang dagangan","hewan","olahraga","kimono"],1],
+ ["勉","Kata 勉強 berarti…",["belajar","memutar","tiba","makanan"],0],
+ ["集","Kata 集まる berarti…",["memakai","berkumpul","bergerak","memotong"],1]
+];
+function showView(id,btn){
+ document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll("#mainTabs .tab").forEach(x=>x.classList.remove("active"));
+ if(btn)btn.classList.add("active");
+ window.scrollTo({top:0,behavior:"smooth"});
+ if(id==="quiz")renderQuiz();
+ if(id==="kanji")renderKanji();
+ if(id==="kotoba")renderVocab();
+}
+function openLesson(i){const l=lessons[i];document.getElementById("lessonTag").textContent=l.tag;document.getElementById("lessonTitle").textContent=l.title;document.getElementById("lessonIntro").textContent=l.intro;document.getElementById("lessonBody").innerHTML=l.body;showView("lesson");}
+function renderKanji(){let k=kanji[ki];document.getElementById("kChar").textContent=k.c;document.getElementById("kRead").textContent=k.r;document.getElementById("kMeaning").textContent=k.m;document.getElementById("kExample").textContent=k.ex;document.getElementById("kExampleMeaning").textContent=k.em;document.getElementById("kVocabList").innerHTML=k.v.map(x=>`<div class="vocab"><div class="left"><b class="jp">${x[0]}</b><small>${x[1]} · ${x[2]}</small></div></div>`).join("")||"<p>Belum ada contoh tambahan di halaman sumber.</p>";}
+function nextKanji(){ki=(ki+1)%kanji.length;renderKanji()}function prevKanji(){ki=(ki-1+kanji.length)%kanji.length;renderKanji()}
+function openKanjiDay(day){ki=day?6:0;showView("kanji",document.querySelectorAll("#mainTabs .tab")[1]);}
+function renderVocab(){let arr=[];kanji.forEach(k=>k.v.forEach(v=>arr.push(v)));document.getElementById("allVocab").innerHTML=arr.map(v=>`<div class="vocab"><div class="left"><b class="jp">${v[0]}</b><small>${v[1]} · ${v[2]}</small></div><span class="badge">Kotoba</span></div>`).join("");}
+function renderQuiz(){let q=quiz[qi%quiz.length];document.getElementById("quizProgress").textContent=`Question ${(qi%quiz.length)+1} / ${quiz.length}`;document.getElementById("qText").textContent=q[1];document.getElementById("qOptions").innerHTML=q[2].map((o,i)=>`<button class="option" onclick="answerQuiz(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join("");document.getElementById("qResult").style.display="none";}
+function answerQuiz(i){let q=quiz[qi%quiz.length],r=document.getElementById("qResult");r.style.display="block";if(i===q[3]){r.textContent="Benar. Lanjut ke kartu berikutnya.";setTimeout(()=>{qi++;renderQuiz()},650)}else r.textContent="Belum tepat. Coba cocokkan kanji dengan kata yang dipelajari."}
+renderKanji();renderVocab();
+</script>
+</body></html>
