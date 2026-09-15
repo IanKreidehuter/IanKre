@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kanji N5 — Nihongo Lessons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nihongo.css">
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow--mint"></div>
+  <div class="bg-glow bg-glow--blue"></div>
+</div>
+
+<div class="app">
+
+  <header class="topbar glass">
+    <div class="topbar-left">
+      <a class="back-btn" href="#" id="backBtn" aria-label="Kembali">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="topbar-title">
+        <h1 id="pageTitle">Kanji N5</h1>
+        <p id="pageSub">107 huruf · 7 hari</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- LIST VIEW -->
+  <div id="listView">
+    <div class="lesson-list" id="lessonList"></div>
+  </div>
+
+  <!-- DETAIL VIEW -->
+  <div id="detailView" hidden>
+    <section class="lesson-header glass-strong">
+      <span class="lesson-header-day" id="detailDay">Hari 1</span>
+      <h2 class="lesson-header-title" id="detailTitle">—</h2>
+      <p class="lesson-header-jp" id="detailCount">— kanji</p>
+      <div class="lesson-actions">
+        <a class="btn btn--primary" id="practiceLink" href="#">🔄 Latihan Swipe</a>
+        <a class="btn btn--ghost" id="quizLink" href="#">📝 Kuis</a>
+      </div>
+      <div class="lesson-actions">
+        <button class="btn btn--ghost" id="markDoneBtn" type="button">☐ Tandai selesai</button>
+      </div>
+    </section>
+
+    <div class="word-list" id="kanjiList" style="margin-top:14px;"></div>
+  </div>
+
+</div>
+
+<script src="kanjidata.js"></script>
+<script src="nihongo.js"></script>
+<script>
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const day = params.get("day") ? parseInt(params.get("day"), 10) : null;
+
+  const listView = document.getElementById("listView");
+  const detailView = document.getElementById("detailView");
+  const backBtn = document.getElementById("backBtn");
+
+  function escapeHtml(str) {
+    const d = document.createElement("div");
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  if (!day) {
+    // ---- LIST VIEW ----
+    backBtn.href = "index.html";
+    const listEl = document.getElementById("lessonList");
+    KANJI_N5_DAYS.forEach((d) => {
+      const done = NihongoProgress.isDone("kanji", d.day);
+      const row = document.createElement("a");
+      row.className = "lesson-row glass" + (done ? " is-done" : "");
+      row.href = `kanji.html?day=${d.day}`;
+      row.innerHTML = `
+        <span class="lesson-day-badge">${d.day}</span>
+        <span class="lesson-info">
+          <p class="lesson-info-title">${escapeHtml(d.title)}</p>
+          <p class="lesson-info-sub">${d.count} kanji</p>
+        </span>
+        <span class="lesson-status">${done ? "✅" : "○"}</span>
+      `;
+      listEl.appendChild(row);
+    });
+  } else {
+    // ---- DETAIL VIEW ----
+    listView.hidden = true;
+    detailView.hidden = false;
+    backBtn.href = "kanji.html";
+
+    const meta = KANJI_N5_DAYS.find((d) => d.day === day);
+    const kanjiForDay = KANJI_DATA_N5.filter((k) => k.day === day);
+
+    document.getElementById("pageTitle").textContent = meta ? meta.title : `Hari ${day}`;
+    document.getElementById("pageSub").textContent = "Kanji N5";
+    document.getElementById("detailDay").textContent = `Hari ${day}`;
+    document.getElementById("detailTitle").textContent = meta ? meta.title : `Hari ${day}`;
+    document.getElementById("detailCount").textContent = `${kanjiForDay.length} kanji`;
+    document.getElementById("practiceLink").href = `../kanjicard/?day=${day}`;
+    document.getElementById("quizLink").href = `quiz.html?day=${day}`;
+
+    const listEl = document.getElementById("kanjiList");
+    kanjiForDay.forEach((k) => {
+      const card = document.createElement("div");
+      card.className = "kword-card glass";
+      const examplesHtml = (k.examples || [])
+        .slice(0, 2)
+        .map((ex) => `<div class="kword-example">${escapeHtml(ex.word)} (${escapeHtml(ex.reading)}) — ${escapeHtml(ex.meaning)}</div>`)
+        .join("");
+      card.innerHTML = `
+        <div class="kword-top">
+          <span class="kword-glyph">${escapeHtml(k.kanji)}</span>
+          <span class="kword-meaning">${escapeHtml(k.meanings.join(", "))}</span>
+        </div>
+        <div class="kword-readings">音: ${escapeHtml(k.onyomi.join("、") || "—")} ・ 訓: ${escapeHtml(k.kunyomi.join("、") || "—")}</div>
+        ${examplesHtml ? `<div class="kword-examples">${examplesHtml}</div>` : ""}
+      `;
+      listEl.appendChild(card);
+    });
+
+    const markBtn = document.getElementById("markDoneBtn");
+    function syncMarkBtn() {
+      const done = NihongoProgress.isDone("kanji", day);
+      markBtn.textContent = done ? "✅ Selesai" : "☐ Tandai selesai";
+    }
+    syncMarkBtn();
+    markBtn.addEventListener("click", () => {
+      const done = NihongoProgress.isDone("kanji", day);
+      NihongoProgress.setDone("kanji", day, !done);
+      syncMarkBtn();
+    });
+  }
+})();
+</script>
+</body>
+</html>
+
