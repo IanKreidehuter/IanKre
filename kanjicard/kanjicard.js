@@ -21,6 +21,13 @@
 
   const SENSITIVITY_PX = { low: 160, medium: 110, high: 70 };
 
+  /* ---------------- Optional day filter (launched from a lesson page) ---------------- */
+  // /kanjicard/?day=3 scopes practice to that lesson's kanji only. This is a
+  // launch parameter, not a persisted setting — it always reflects the URL.
+  const urlParams = new URLSearchParams(window.location.search);
+  const dayFilterParam = urlParams.get("day");
+  const dayFilter = dayFilterParam ? parseInt(dayFilterParam, 10) : null;
+
   /* ---------------- State ---------------- */
 
   let progress = loadProgress();     // { [kanji]: { status } }
@@ -114,7 +121,12 @@
   /* ---------------- Data / queue ---------------- */
 
   function currentLevelData() {
-    return KANJI_LEVELS[settings.level] || KANJI_LEVELS.N5;
+    const data = KANJI_LEVELS[settings.level] || KANJI_LEVELS.N5;
+    if (dayFilter && data.some((k) => typeof k.day === "number")) {
+      const scoped = data.filter((k) => k.day === dayFilter);
+      if (scoped.length) return scoped;
+    }
+    return data;
   }
 
   function shuffle(arr) {
@@ -298,7 +310,7 @@
     el.countRemembered.textContent = rem;
     el.countNotYet.textContent = notYet;
     el.countNew.textContent = isNew;
-    el.levelPill.textContent = settings.level;
+    el.levelPill.textContent = dayFilter ? `${settings.level} · Hari ${dayFilter}` : settings.level;
   }
 
   function updateProgress() {
@@ -320,38 +332,56 @@
   function attachDrag(cardEl, data) {
     let startX = 0, startY = 0;
     let dx = 0, dy = 0;
-    let dragging = false;
+    let mode = null; // null (undecided) | "swipe" | "scroll"
     let pointerId = null;
 
     const threshold = () => SENSITIVITY_PX[settings.sensitivity] || SENSITIVITY_PX.medium;
     const upThreshold = () => Math.max(70, threshold() * 0.85);
 
+    function startedInsideScrollArea(e) {
+      return !!(e.target && e.target.closest && e.target.closest(".kcard-face--back"));
+    }
+
     function onPointerDown(e) {
-      if (cardEl.classList.contains("revealed") && !isPrimaryButton(e)) {
-        // allow scrolling the revealed back content without hijacking every touch,
-        // but still allow dragging by grabbing anywhere on the card.
-      }
       pointerId = e.pointerId;
       startX = e.clientX;
       startY = e.clientY;
-      dragging = true;
-      cardEl.classList.add("dragging");
-      cardEl.setPointerCapture && cardEl.setPointerCapture(pointerId);
+      dx = 0;
+      dy = 0;
+      mode = null;
+      // Pointer capture is deferred: we don't yet know if this gesture is a
+      // swipe or a scroll, and capturing too early would steal scroll input.
     }
 
-    function isPrimaryButton(e) {
-      return e.button === 0 || e.pointerType !== "mouse";
+    function beginSwipe(e) {
+      mode = "swipe";
+      cardEl.classList.add("dragging");
+      cardEl.setPointerCapture && cardEl.setPointerCapture(pointerId);
+      e.preventDefault();
     }
 
     function onPointerMove(e) {
-      if (!dragging || e.pointerId !== pointerId) return;
-      dx = e.clientX - startX;
-      dy = e.clientY - startY;
+      if (e.pointerId !== pointerId) return;
+      const curDx = e.clientX - startX;
+      const curDy = e.clientY - startY;
 
-      // Once a clear horizontal or vertical intent is established, prevent page scroll.
-      if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
-        e.preventDefault();
+      if (mode === null) {
+        if (Math.abs(curDx) < 8 && Math.abs(curDy) < 8) return; // too small to tell yet
+        const horizontalDominant = Math.abs(curDx) > Math.abs(curDy);
+        if (!horizontalDominant && cardEl.classList.contains("revealed") && startedInsideScrollArea(e)) {
+          // Vertical drag starting on the revealed answer's own content:
+          // let the browser scroll it natively instead of hijacking it.
+          mode = "scroll";
+          return;
+        }
+        beginSwipe(e);
       }
+
+      if (mode !== "swipe") return;
+
+      dx = curDx;
+      dy = curDy;
+      e.preventDefault();
 
       const rotate = Math.max(-18, Math.min(18, dx / 12));
       cardEl.style.transform = `translate(${dx}px, ${dy}px) rotate(${rotate}deg)`;
@@ -380,8 +410,9 @@
     }
 
     function onPointerUp(e) {
-      if (!dragging || e.pointerId !== pointerId) return;
-      dragging = false;
+      if (e.pointerId !== pointerId) return;
+      if (mode !== "swipe") { mode = null; return; }
+      mode = null;
       cardEl.classList.remove("dragging");
 
       const horizontalDominant = Math.abs(dx) > Math.abs(dy);
@@ -609,15 +640,6 @@
 
     // Keyboard
     document.addEventListener("keydown", onKeyDown);
-
-    // Prevent iOS bounce/scroll while actively dragging a card
-    el.stack.addEventListener(
-      "touchmove",
-      (e) => {
-        e.preventDefault();
-      },
-      { passive: false }
-    );
 
     initTheme();
     syncSettingsUI();
