@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kotoba N4 — Nihongo Lessons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nihongo.css">
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow--mint"></div>
+  <div class="bg-glow bg-glow--blue"></div>
+</div>
+
+<div class="app">
+
+  <header class="topbar glass">
+    <div class="topbar-left">
+      <a class="back-btn" href="#" id="backBtn" aria-label="Kembali">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="topbar-title">
+        <h1 id="pageTitle">Kotoba N4</h1>
+        <p id="pageSub">224 kosakata · 18 hari</p>
+      </div>
+    </div>
+  </header>
+
+  <div id="listView">
+    <div class="lesson-list" id="lessonList"></div>
+  </div>
+
+  <div id="detailView" hidden>
+    <section class="lesson-header glass-strong">
+      <span class="lesson-header-day" id="detailDay">Hari 1</span>
+      <h2 class="lesson-header-title" id="detailTitle">—</h2>
+      <p class="lesson-header-jp" id="detailJp">—</p>
+      <div class="lesson-actions">
+        <button class="btn btn--ghost" id="markDoneBtn" type="button">☐ Tandai selesai</button>
+      </div>
+    </section>
+
+    <div id="tipsHolder" style="margin-top:14px;"></div>
+    <div class="word-list" id="wordList" style="margin-top:14px;"></div>
+  </div>
+
+</div>
+
+<script src="kotobadata.js"></script>
+<script src="nihongo.js"></script>
+<script>
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const day = params.get("day") ? parseInt(params.get("day"), 10) : null;
+
+  const listView = document.getElementById("listView");
+  const detailView = document.getElementById("detailView");
+  const backBtn = document.getElementById("backBtn");
+
+  function escapeHtml(str) {
+    const d = document.createElement("div");
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  if (!day) {
+    backBtn.href = "index.html";
+    const listEl = document.getElementById("lessonList");
+    KOTOBA_N4_DAYS.forEach((d) => {
+      const done = NihongoProgress.isDone("kotoba", d.day);
+      const row = document.createElement("a");
+      row.className = "lesson-row glass" + (done ? " is-done" : "");
+      row.href = `kotoba.html?day=${d.day}`;
+      row.innerHTML = `
+        <span class="lesson-day-badge">${d.day}</span>
+        <span class="lesson-info">
+          <p class="lesson-info-title">${escapeHtml(d.title)}</p>
+          <p class="lesson-info-sub">${d.words.length} kosakata</p>
+        </span>
+        <span class="lesson-status">${done ? "✅" : "○"}</span>
+      `;
+      listEl.appendChild(row);
+    });
+  } else {
+    listView.hidden = true;
+    detailView.hidden = false;
+    backBtn.href = "kotoba.html";
+
+    const meta = KOTOBA_N4_DAYS.find((d) => d.day === day);
+    if (!meta) return;
+
+    document.getElementById("pageTitle").textContent = meta.title;
+    document.getElementById("pageSub").textContent = "Kotoba N4";
+    document.getElementById("detailDay").textContent = `Hari ${day}`;
+    document.getElementById("detailTitle").textContent = meta.title;
+    document.getElementById("detailJp").textContent = meta.titleJp;
+
+    if (meta.tips && meta.tips.length) {
+      const box = document.createElement("div");
+      box.className = "tips-box glass";
+      box.innerHTML = `<div class="tips-box-title">💡 Catatan</div>` +
+        meta.tips.map((t) => `<p>${escapeHtml(t)}</p>`).join("");
+      document.getElementById("tipsHolder").appendChild(box);
+    }
+
+    const listEl = document.getElementById("wordList");
+    meta.words.forEach((w) => {
+      const card = document.createElement("div");
+      card.className = "vword-card glass";
+      const examplesHtml = (w.examples || [])
+        .map((ex) => `<div class="vword-example">・${escapeHtml(ex)}</div>`)
+        .join("");
+      card.innerHTML = `
+        <div class="vword-term">${escapeHtml(w.term)}</div>
+        <div class="vword-meaning">${escapeHtml(w.meaning)}</div>
+        ${w.note ? `<div class="vword-note">${escapeHtml(w.note)}</div>` : ""}
+        ${examplesHtml ? `<div class="vword-examples">${examplesHtml}</div>` : ""}
+      `;
+      listEl.appendChild(card);
+    });
+
+    const markBtn = document.getElementById("markDoneBtn");
+    function syncMarkBtn() {
+      const done = NihongoProgress.isDone("kotoba", day);
+      markBtn.textContent = done ? "✅ Selesai" : "☐ Tandai selesai";
+    }
+    syncMarkBtn();
+    markBtn.addEventListener("click", () => {
+      const done = NihongoProgress.isDone("kotoba", day);
+      NihongoProgress.setDone("kotoba", day, !done);
+      syncMarkBtn();
+    });
+  }
+})();
+</script>
+</body>
+</html>
+
