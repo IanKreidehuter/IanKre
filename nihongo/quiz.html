@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kuis Kanji — Nihongo Lessons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nihongo.css">
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow--mint"></div>
+  <div class="bg-glow bg-glow--blue"></div>
+</div>
+
+<div class="app">
+
+  <header class="topbar glass">
+    <div class="topbar-left">
+      <a class="back-btn" href="index.html" aria-label="Kembali">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="topbar-title">
+        <h1>Kuis Kanji</h1>
+        <p id="pageSub">N5</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- SETUP -->
+  <div id="setupView">
+    <section class="hero glass-strong">
+      <span class="hero-eyebrow">📝 Kuis</span>
+      <h2 class="hero-title">Uji pemahaman Kanji-mu</h2>
+    </section>
+    <div class="setting-group" style="margin-top:14px;">
+      <label class="setting-label" for="modeSelect">Jenis soal</label>
+      <select id="modeSelect" class="control">
+        <option value="meaning">Kanji → Arti</option>
+        <option value="reading">Kanji → Cara baca</option>
+        <option value="mixed" selected>Campuran</option>
+      </select>
+    </div>
+    <div class="setting-group" style="margin-top:10px;">
+      <label class="setting-label" for="countSelect">Jumlah soal</label>
+      <select id="countSelect" class="control">
+        <option value="5">5 soal</option>
+        <option value="10" selected>10 soal</option>
+        <option value="15">15 soal</option>
+      </select>
+    </div>
+    <button class="btn btn--primary" id="startBtn" type="button" style="margin-top:16px; width:100%; justify-content:center; padding:14px;">Mulai Kuis</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quizView" hidden>
+    <p class="quiz-progress" id="quizProgress">Soal 1/10</p>
+    <div class="quiz-card glass-strong">
+      <span class="quiz-glyph" id="quizGlyph">漢</span>
+      <span class="quiz-prompt" id="quizPrompt">Apa artinya?</span>
+    </div>
+    <div class="quiz-options" id="quizOptions" style="margin-top:14px;"></div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="resultView" hidden>
+    <div class="quiz-result glass-strong">
+      <span class="hero-eyebrow">Selesai!</span>
+      <span class="quiz-score" id="quizScore">0/10</span>
+      <p id="quizScoreMsg" style="margin:0; opacity:0.7; font-size:0.85rem;"></p>
+      <div class="lesson-actions" style="margin-top:8px;">
+        <button class="btn btn--primary" id="retryBtn" type="button">🔄 Ulangi</button>
+        <a class="btn btn--ghost" href="index.html">🏠 Beranda</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="kanjidata.js"></script>
+<script>
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const dayFilter = params.get("day") ? parseInt(params.get("day"), 10) : null;
+
+  const pool = dayFilter ? KANJI_DATA_N5.filter((k) => k.day === dayFilter) : KANJI_DATA_N5;
+  document.getElementById("pageSub").textContent = dayFilter ? `N5 · Hari ${dayFilter}` : "N5 · Semua";
+
+  const setupView = document.getElementById("setupView");
+  const quizView = document.getElementById("quizView");
+  const resultView = document.getElementById("resultView");
+
+  let questions = [];
+  let qIndex = 0;
+  let score = 0;
+  let answered = false;
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function readingsOf(k) {
+    return [...k.onyomi, ...k.kunyomi];
+  }
+
+  function buildQuestion(kanji, mode) {
+    const type = mode === "mixed" ? (Math.random() < 0.5 ? "meaning" : "reading") : mode;
+    if (type === "reading" && readingsOf(kanji).length === 0) {
+      return buildQuestion(kanji, "meaning");
+    }
+
+    if (type === "meaning") {
+      const correct = kanji.meanings[0];
+      const distractorPool = shuffle(
+        pool.filter((k) => k.kanji !== kanji.kanji).map((k) => k.meanings[0])
+      ).slice(0, 3);
+      const options = shuffle([correct, ...distractorPool]);
+      return { kanji: kanji.kanji, prompt: "Apa artinya?", correct, options, type };
+    } else {
+      const correct = readingsOf(kanji)[0];
+      const distractorPool = shuffle(
+        pool.filter((k) => k.kanji !== kanji.kanji).flatMap(readingsOf)
+      ).slice(0, 3);
+      const options = shuffle([correct, ...new Set(distractorPool)]).slice(0, 4);
+      if (!options.includes(correct)) options[0] = correct;
+      return { kanji: kanji.kanji, prompt: "Bagaimana cara membacanya?", correct, options, type };
+    }
+  }
+
+  function startQuiz() {
+    const mode = document.getElementById("modeSelect").value;
+    const count = Math.min(parseInt(document.getElementById("countSelect").value, 10), pool.length);
+    const chosenKanji = shuffle(pool).slice(0, count);
+    questions = chosenKanji.map((k) => buildQuestion(k, mode));
+    qIndex = 0;
+    score = 0;
+    setupView.hidden = true;
+    resultView.hidden = true;
+    quizView.hidden = false;
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    answered = false;
+    const q = questions[qIndex];
+    document.getElementById("quizProgress").textContent = `Soal ${qIndex + 1}/${questions.length}`;
+    document.getElementById("quizGlyph").textContent = q.kanji;
+    document.getElementById("quizPrompt").textContent = q.prompt;
+
+    const optsEl = document.getElementById("quizOptions");
+    optsEl.innerHTML = "";
+    q.options.forEach((opt) => {
+      const btn = document.createElement("button");
+      btn.className = "quiz-option";
+      btn.type = "button";
+      btn.textContent = opt;
+      btn.addEventListener("click", () => selectAnswer(btn, opt, q));
+      optsEl.appendChild(btn);
+    });
+  }
+
+  function selectAnswer(btn, opt, q) {
+    if (answered) return;
+    answered = true;
+    const isCorrect = opt === q.correct;
+    if (isCorrect) score++;
+    btn.classList.add(isCorrect ? "is-correct" : "is-wrong");
+
+    document.querySelectorAll(".quiz-option").forEach((b) => {
+      b.disabled = true;
+      if (b.textContent === q.correct) b.classList.add("is-correct");
+    });
+
+    setTimeout(() => {
+      qIndex++;
+      if (qIndex < questions.length) {
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }, 900);
+  }
+
+  function showResult() {
+    quizView.hidden = true;
+    resultView.hidden = false;
+    document.getElementById("quizScore").textContent = `${score}/${questions.length}`;
+    const pct = Math.round((score / questions.length) * 100);
+    let msg = "Terus berlatih ya!";
+    if (pct >= 90) msg = "Luar biasa! 🎉";
+    else if (pct >= 70) msg = "Bagus sekali!";
+    else if (pct >= 50) msg = "Lumayan, ayo diulang!";
+    document.getElementById("quizScoreMsg").textContent = msg;
+  }
+
+  document.getElementById("startBtn").addEventListener("click", startQuiz);
+  document.getElementById("retryBtn").addEventListener("click", () => {
+    resultView.hidden = true;
+    setupView.hidden = false;
+  });
+
+  if (pool.length < 4) {
+    setupView.innerHTML = '<p class="empty-note">Kanji di sesi ini belum cukup untuk membuat kuis (minimal 4 kanji).</p>';
+  }
+})();
+</script>
+</body>
+</html>
+
