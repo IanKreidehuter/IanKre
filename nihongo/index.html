@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Belajar Bahasa Jepang — Nihongo Lessons</title>
+<meta name="description" content="Belajar Kanji dan Kosakata JLPT dengan kartu, kuis, dan latihan swipe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nihongo.css">
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow--mint"></div>
+  <div class="bg-glow bg-glow--blue"></div>
+</div>
+
+<div class="app">
+
+  <header class="topbar glass">
+    <div class="topbar-left">
+      <div class="topbar-title">
+        <h1>Nihongo Lessons</h1>
+        <p>Belajar bahasa Jepang</p>
+      </div>
+    </div>
+    <a class="icon-btn" href="quiz.html" aria-label="Kuis Kanji" title="Kuis Kanji">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.9.4-1.5 1.2-1.5 2.2v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17.5" r="0.9" fill="currentColor"/></svg>
+    </a>
+  </header>
+
+  <section class="hero glass-strong">
+    <span class="hero-eyebrow">おかえりなさい 👋</span>
+    <h2 class="hero-title">Yuk lanjutkan belajar hari ini</h2>
+  </section>
+
+  <div class="quick-actions">
+    <a class="quick-action glass" href="../kanjicard/">
+      <span class="quick-action-icon">🔄</span>
+      <span class="quick-action-label">Swipe Kanji</span>
+    </a>
+    <a class="quick-action glass" href="quiz.html">
+      <span class="quick-action-icon">📝</span>
+      <span class="quick-action-label">Kuis Kanji</span>
+    </a>
+  </div>
+
+  <h3 class="section-title">Materi Belajar</h3>
+
+  <div class="course-grid">
+    <a class="course-card glass-strong" href="kanji.html" id="kanjiCourseCard">
+      <div class="course-emoji">漢</div>
+      <div class="course-body">
+        <p class="course-title">Kanji N5</p>
+        <p class="course-sub" id="kanjiCourseSub">107 huruf · 7 hari</p>
+        <div class="course-progress-track"><div class="course-progress-fill" id="kanjiCourseFill" style="width:0%"></div></div>
+      </div>
+      <svg class="course-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+
+    <a class="course-card glass-strong" href="kotoba.html" id="kotobaCourseCard">
+      <div class="course-emoji">言</div>
+      <div class="course-body">
+        <p class="course-title">Kotoba N4</p>
+        <p class="course-sub" id="kotobaCourseSub">224 kosakata · 18 hari</p>
+        <div class="course-progress-track"><div class="course-progress-fill" id="kotobaCourseFill" style="width:0%"></div></div>
+      </div>
+      <svg class="course-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+  <h3 class="section-title">Segera hadir</h3>
+  <div class="course-grid">
+    <div class="course-card glass" style="opacity:0.55; cursor:default;">
+      <div class="course-emoji">文</div>
+      <div class="course-body">
+        <p class="course-title">Bunpo N5 &amp; N4</p>
+        <p class="course-sub">Tata bahasa — sedang disiapkan</p>
+      </div>
+    </div>
+    <div class="course-card glass" style="opacity:0.55; cursor:default;">
+      <div class="course-emoji">本</div>
+      <div class="course-body">
+        <p class="course-title">Minna no Nihongo</p>
+        <p class="course-sub">Buku teks lengkap — sedang disiapkan</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="kanjidata.js"></script>
+<script src="kotobadata.js"></script>
+<script src="nihongo.js"></script>
+<script>
+  (function () {
+    const kanjiTotalDays = KANJI_N5_DAYS.length;
+    const kotobaTotalDays = KOTOBA_N4_DAYS.length;
+
+    const kp = NihongoProgress.courseProgress("kanji", kanjiTotalDays);
+    const cp = NihongoProgress.courseProgress("kotoba", kotobaTotalDays);
+
+    document.getElementById("kanjiCourseFill").style.width = (kp.total ? (kp.done / kp.total) * 100 : 0) + "%";
+    document.getElementById("kotobaCourseFill").style.width = (cp.total ? (cp.done / cp.total) * 100 : 0) + "%";
+
+    if (kp.done > 0) {
+      document.getElementById("kanjiCourseSub").textContent = `${kp.done}/${kp.total} hari selesai`;
+    }
+    if (cp.done > 0) {
+      document.getElementById("kotobaCourseSub").textContent = `${cp.done}/${cp.total} hari selesai`;
+    }
+  })();
+</script>
+</body>
+</html>
