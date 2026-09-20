@@ -1,118 +1,600 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Belajar Bahasa Jepang — Nihongo Lessons</title>
-<meta name="description" content="Belajar Kanji dan Kosakata JLPT dengan kartu, kuis, dan latihan swipe.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="nihongo.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nihongo Study — Japanese Learning Web</title>
+<style>
+:root{
+  --bg:#F3F1FC;--card:#fff;--ink:#1E1B33;--muted:#8B879C;--line:#EDEBF7;
+  --grad-a:#7B5CFA;--grad-b:#4E8EF7;--grad-pink:#E85FC0;
+  --tileA:#EDEBFD;--tileB:#E7F1FE;--tileC:#FDEBF6;--tileD:#EAF7F1;
+  --iconA:#7B5CFA;--iconB:#3E8EF0;--iconC:#E85FC0;--iconD:#2FA98A;
+  --shadow:0 16px 40px rgba(76,60,160,.14);--radius:24px;
+  --navH:74px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-tap-highlight-color:transparent}
+button{font:inherit;border:0;cursor:pointer;background:none}
+.jp{font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif}
+.app{max-width:520px;margin:0 auto;min-height:100vh;padding:18px 18px calc(var(--navH) + 22px)}
+[hidden]{display:none !important}
+
+/* header */
+.topHeader{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.greeting{display:flex;align-items:center;gap:12px}
+.avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--grad-a),var(--grad-b));display:grid;place-items:center;font-size:20px}
+.hi{font-weight:800;font-size:16px}
+.sub{color:var(--muted);font-size:12.5px;margin-top:1px}
+.iconBtn{width:40px;height:40px;border-radius:50%;background:#fff;box-shadow:var(--shadow);display:grid;place-items:center;font-size:16px}
+
+/* hero */
+.hero{border-radius:var(--radius);padding:24px 20px 26px;background:linear-gradient(135deg,var(--grad-a),var(--grad-b));color:#fff;position:relative;overflow:hidden;margin-bottom:16px}
+.hero::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.14)}
+.heroTag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.85}
+.hero h1{font-size:24px;line-height:1.25;margin:8px 0 16px;font-weight:800;position:relative;z-index:1}
+.searchBar{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:14px;padding:11px 14px;position:relative;z-index:1}
+.searchBar input{flex:1;background:none;border:0;outline:0;color:#fff;font-size:14px}
+.searchBar input::placeholder{color:rgba(255,255,255,.75)}
+
+/* progress strip */
+.progressStrip{display:flex;align-items:center;gap:14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);margin-bottom:20px}
+.progressRing{width:52px;height:52px;border-radius:50%;background:conic-gradient(var(--grad-a) 0 0%,#ececf3 0%);display:grid;place-items:center;flex-shrink:0}
+.progressRing:after{content:attr(data-pct);width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:800;font-size:11px}
+.progressStripBody{flex:1}
+.progressStripTitle{font-weight:800;font-size:13.5px}
+.progressStripSub{color:var(--muted);font-size:12px;margin-top:2px}
+
+/* section title */
+.sectionTitle{display:flex;justify-content:space-between;align-items:baseline;margin:6px 4px 12px}
+.sectionTitle h2{margin:0;font-size:16px;font-weight:800}
+.sectionTitle span{font-size:12px;color:var(--grad-a);font-weight:700}
+
+/* category grid */
+.catGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.catTile{border-radius:20px;padding:16px;text-align:left;box-shadow:var(--shadow)}
+.catIcon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:20px;margin-bottom:10px}
+.catTitle{font-weight:800;font-size:14px}
+.catSub{color:var(--muted);font-size:11.5px;margin-top:2px}
+
+/* search results */
+.searchResults{margin-bottom:20px}
+.resultCard{display:flex;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);margin-bottom:8px;text-align:left;width:100%}
+.resultGlyph{font-size:22px;font-weight:800;width:34px;text-align:center;flex-shrink:0}
+.resultBody{flex:1;min-width:0}
+.resultTitle{font-weight:800;font-size:13.5px}
+.resultMeta{color:var(--muted);font-size:11.5px;margin-top:1px}
+.resultBadge{font-size:10px;font-weight:800;padding:4px 8px;border-radius:8px;background:var(--tileA);color:var(--iconA);flex-shrink:0}
+
+/* views */
+.view{display:none}
+.view.active{display:block}
+.viewHeader{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.backBtn{width:38px;height:38px;border-radius:50%;background:#fff;box-shadow:var(--shadow);display:grid;place-items:center;flex-shrink:0}
+.viewHeaderTitle{font-weight:800;font-size:17px}
+.viewHeaderSub{color:var(--muted);font-size:12px;margin-top:1px}
+
+.courseHero{border-radius:var(--radius);padding:22px 20px;background:linear-gradient(135deg,var(--grad-a),var(--grad-pink));color:#fff;margin-bottom:16px;position:relative;overflow:hidden}
+.courseHero::after{content:"";position:absolute;right:-30px;bottom:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.14)}
+.courseHeroTag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.85}
+.courseHeroTitle{font-size:20px;font-weight:800;margin:6px 0 4px;position:relative;z-index:1}
+.courseHeroMeta{font-size:12.5px;opacity:.9}
+
+.lessonRow{display:flex;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:13px 15px;box-shadow:var(--shadow);margin-bottom:10px;width:100%;text-align:left}
+.lessonNum{width:36px;height:36px;border-radius:11px;background:var(--tileA);color:var(--iconA);display:grid;place-items:center;font-weight:800;font-size:13px;flex-shrink:0}
+.lessonRow.is-done .lessonNum{background:linear-gradient(135deg,var(--grad-a),var(--grad-b));color:#fff}
+.lessonBody{flex:1;min-width:0}
+.lessonTitle{font-weight:800;font-size:13.5px}
+.lessonMeta{color:var(--muted);font-size:11.5px;margin-top:1px}
+.playBtn{width:36px;height:36px;border-radius:50%;background:var(--tileB);color:var(--iconB);display:grid;place-items:center;flex-shrink:0;font-size:13px}
+.lessonRow.is-done .playBtn{background:var(--tileD);color:var(--iconD)}
+
+/* swipe card */
+.dayPills{display:flex;gap:8px;overflow:auto;margin-bottom:14px;padding-bottom:2px}
+.dayPill{white-space:nowrap;padding:8px 13px;border-radius:11px;background:#fff;color:var(--muted);font-weight:750;font-size:12.5px;box-shadow:var(--shadow)}
+.dayPill.active{background:linear-gradient(135deg,var(--grad-a),var(--grad-b));color:#fff}
+.swipeCard{border-radius:var(--radius);padding:34px 20px;text-align:center;background:linear-gradient(160deg,#fff,#F1EEFE);box-shadow:var(--shadow);margin-bottom:14px}
+.swipeEyebrow{font-size:11px;font-weight:800;color:var(--grad-a);text-transform:uppercase;letter-spacing:1px}
+.bigKanji{font-size:110px;line-height:1;font-weight:800;margin:8px 0}
+.reading{font-size:14px;font-weight:800;color:#5d49c9}
+.meaning{margin:6px 0 18px;font-size:15px}
+.swipeBtns{display:flex;gap:10px;justify-content:center}
+.btn{font-weight:800;font-size:13.5px;padding:12px 18px;border-radius:14px;display:inline-flex;align-items:center;gap:6px}
+.btn.primary{background:linear-gradient(135deg,var(--grad-a),var(--grad-b));color:#fff}
+.btn.secondary{background:var(--tileA);color:var(--iconA)}
+.kanjiCounter{font-size:12px;color:var(--muted);margin-top:10px}
+.linkOut{display:inline-block;margin-top:10px;font-size:12px;color:var(--grad-a);font-weight:750}
+.exPanel{background:#fff;border-radius:18px;padding:16px;box-shadow:var(--shadow)}
+.exPanel .eyebrow{font-size:11px;font-weight:800;color:var(--grad-a);text-transform:uppercase;letter-spacing:1px}
+.exPanel h3{margin:6px 0 2px;font-size:18px}
+.exPanel p{margin:0 0 10px;color:var(--muted);font-size:12.5px}
+.vocab{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.vocab:first-of-type{border-top:0}
+.vocab b{font-size:15px}
+.vocab small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+
+/* word list */
+.wordCard{background:#fff;border-radius:16px;padding:13px 15px;box-shadow:var(--shadow);margin-bottom:9px}
+.wordTerm{font-weight:800;font-size:14.5px}
+.wordMeaning{font-size:12.5px;margin-top:2px}
+.wordNote{font-size:11px;color:var(--muted);margin-top:4px}
+.wordEx{font-size:11px;color:var(--muted);margin-top:3px}
+.dayHeading{font-weight:800;font-size:12px;color:var(--muted);margin:16px 4px 8px}
+
+/* quiz */
+.quizCard{background:#fff;border-radius:var(--radius);padding:26px 20px;box-shadow:var(--shadow)}
+.question{font-size:16px;font-weight:800;margin:12px 0 18px;text-align:center}
+.options{display:flex;flex-direction:column;gap:10px}
+.option{padding:14px 16px;border:1px solid var(--line);background:#fff;border-radius:14px;text-align:left;font-weight:700;font-size:13.5px}
+.option.correct{border-color:#63c6b6;background:#eefaf7}
+.option.wrong{border-color:#e78a8a;background:#fdefef}
+.option:disabled{cursor:default}
+.result{margin-top:12px;padding:12px;border-radius:12px;background:#F1EEFE;font-size:12.5px}
+.quizStartBtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+/* JT */
+.jtCard{background:#fff;border-radius:16px;padding:16px;box-shadow:var(--shadow);margin-bottom:10px}
+.jtTag{font-size:11px;font-weight:800;color:var(--grad-a);text-transform:uppercase}
+.jtJp{font-size:18px;font-weight:700;margin:6px 0}
+.jtTranslation{font-size:13px;color:var(--ink)}
+.jtRomaji{font-size:11.5px;color:var(--muted);margin-top:2px}
+
+/* bottom nav */
+.bottomNav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;padding:0 16px calc(10px + env(safe-area-inset-bottom))}
+.bottomNavInner{display:flex;background:#fff;border-radius:20px;box-shadow:0 14px 30px rgba(76,60,160,.22);padding:8px;gap:2px;max-width:520px;width:100%}
+.navBtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;border-radius:14px;color:var(--muted);font-size:10.5px;font-weight:700}
+.navBtn .navIcon{font-size:18px}
+.navBtn.active{background:linear-gradient(135deg,var(--grad-a),var(--grad-b));color:#fff}
+
+.footerNote{text-align:center;color:var(--muted);font-size:11px;margin:20px 0 4px}
+</style>
 </head>
 <body>
-
-<div class="bg" aria-hidden="true">
-  <div class="bg-grid"></div>
-  <div class="bg-glow bg-glow--mint"></div>
-  <div class="bg-glow bg-glow--blue"></div>
-</div>
-
 <div class="app">
 
-  <header class="topbar glass">
-    <div class="topbar-left">
-      <div class="topbar-title">
-        <h1>Nihongo Lessons</h1>
-        <p>Belajar bahasa Jepang</p>
-      </div>
+  <header class="topHeader">
+    <div class="greeting">
+      <div class="avatar">🇯🇵</div>
+      <div><div class="hi">Halo!</div><div class="sub">Yuk lanjutkan belajar</div></div>
     </div>
-    <a class="icon-btn" href="quiz.html" aria-label="Kuis Kanji" title="Kuis Kanji">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.9.4-1.5 1.2-1.5 2.2v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17.5" r="0.9" fill="currentColor"/></svg>
-    </a>
   </header>
 
-  <section class="hero glass-strong">
-    <span class="hero-eyebrow">おかえりなさい 👋</span>
-    <h2 class="hero-title">Yuk lanjutkan belajar hari ini</h2>
+  <section id="homeView" class="view active">
+    <div class="hero">
+      <div class="heroTag">Japanese learning workspace</div>
+      <h1>Belajar Kanji &amp; Kotoba,<br>sedikit tapi setiap hari.</h1>
+      <div class="searchBar">
+        <span>🔍</span>
+        <input id="searchInput" placeholder="Cari kanji atau kosakata...">
+      </div>
+    </div>
+
+    <div id="searchResults" class="searchResults" hidden></div>
+
+    <div id="homeSections">
+      <div class="progressStrip">
+        <div class="progressRing" id="progressRing" data-pct="0%"></div>
+        <div class="progressStripBody">
+          <div class="progressStripTitle">Progress Kanji N5</div>
+          <div class="progressStripSub" id="progressMeta">0 / 107 diingat</div>
+        </div>
+      </div>
+
+      <div class="sectionTitle"><h2>Materi belajar</h2></div>
+      <div class="catGrid">
+        <button class="catTile" style="background:var(--tileA)" onclick="goto('kanjiList')">
+          <div class="catIcon jp" style="background:#fff;color:var(--iconA)">漢</div>
+          <div class="catTitle">Kanji N5</div>
+          <div class="catSub">107 huruf · 7 hari</div>
+        </button>
+        <button class="catTile" style="background:var(--tileB)" onclick="goto('kotobaList')">
+          <div class="catIcon jp" style="background:#fff;color:var(--iconB)">言</div>
+          <div class="catTitle">Kotoba N4</div>
+          <div class="catSub">224 kosakata · 18 hari</div>
+        </button>
+        <button class="catTile" style="background:var(--tileC)" onclick="goto('quiz')">
+          <div class="catIcon" style="background:#fff;color:var(--iconC)">📝</div>
+          <div class="catTitle">Quiz Kanji</div>
+          <div class="catSub">Uji pemahamanmu</div>
+        </button>
+        <button class="catTile" style="background:var(--tileD)" onclick="goto('lessonList')">
+          <div class="catIcon jp" style="background:#fff;color:var(--iconD)">文</div>
+          <div class="catTitle">Grammar &amp; JT</div>
+          <div class="catSub">3 lesson tersedia</div>
+        </button>
+      </div>
+    </div>
   </section>
 
-  <div class="quick-actions">
-    <a class="quick-action glass" href="../kanjicard/">
-      <span class="quick-action-icon">🔄</span>
-      <span class="quick-action-label">Swipe Kanji</span>
-    </a>
-    <a class="quick-action glass" href="quiz.html">
-      <span class="quick-action-icon">📝</span>
-      <span class="quick-action-label">Kuis Kanji</span>
-    </a>
-  </div>
+  <!-- Kanji day list -->
+  <section id="kanjiListView" class="view">
+    <div class="viewHeader">
+      <button class="backBtn" onclick="goto('home')">←</button>
+      <div><div class="viewHeaderTitle">Kanji N5</div><div class="viewHeaderSub">107 huruf · 7 hari</div></div>
+    </div>
+    <div class="courseHero">
+      <div class="courseHeroTag">Kanji swipe card</div>
+      <div class="courseHeroTitle">Pilih hari untuk mulai</div>
+      <div class="courseHeroMeta" id="kanjiListProgress">0 / 107 diingat</div>
+    </div>
+    <div id="kanjiDayList"></div>
+  </section>
 
-  <h3 class="section-title">Materi Belajar</h3>
-
-  <div class="course-grid">
-    <a class="course-card glass-strong" href="kanji.html" id="kanjiCourseCard">
-      <div class="course-emoji">漢</div>
-      <div class="course-body">
-        <p class="course-title">Kanji N5</p>
-        <p class="course-sub" id="kanjiCourseSub">107 huruf · 7 hari</p>
-        <div class="course-progress-track"><div class="course-progress-fill" id="kanjiCourseFill" style="width:0%"></div></div>
+  <!-- Kanji swipe -->
+  <section id="kanjiSwipeView" class="view">
+    <div class="viewHeader">
+      <button class="backBtn" onclick="goto('kanjiList')">←</button>
+      <div><div class="viewHeaderTitle">Kanji Swipe</div><div class="viewHeaderSub" id="swipeSub">Semua</div></div>
+    </div>
+    <div class="dayPills" id="kanjiDayPills"></div>
+    <div class="swipeCard">
+      <div class="swipeEyebrow" id="kEyebrow">Swipe card</div>
+      <div class="bigKanji jp" id="kChar">通</div>
+      <div class="reading" id="kRead"></div>
+      <div class="meaning" id="kMeaning"></div>
+      <div class="swipeBtns">
+        <button class="btn secondary" onclick="prevKanji()">←</button>
+        <button class="btn primary" onclick="rememberKanji()">Saya ingat →</button>
       </div>
-      <svg class="course-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
+      <div class="kanjiCounter" id="kCounter"></div>
+      <a class="linkOut" id="fullSwipeLink" href="../kanjicard/" target="_blank" rel="noopener">🔄 Buka mode swipe gesture penuh →</a>
+    </div>
+    <div class="exPanel">
+      <div class="eyebrow">Contoh penggunaan</div>
+      <h3 id="kExample">交通</h3>
+      <p id="kExampleMeaning">lalu lintas</p>
+      <div id="kVocabList"></div>
+    </div>
+  </section>
 
-    <a class="course-card glass-strong" href="kotoba.html" id="kotobaCourseCard">
-      <div class="course-emoji">言</div>
-      <div class="course-body">
-        <p class="course-title">Kotoba N4</p>
-        <p class="course-sub" id="kotobaCourseSub">224 kosakata · 18 hari</p>
-        <div class="course-progress-track"><div class="course-progress-fill" id="kotobaCourseFill" style="width:0%"></div></div>
+  <!-- Kotoba day list -->
+  <section id="kotobaListView" class="view">
+    <div class="viewHeader">
+      <button class="backBtn" onclick="goto('home')">←</button>
+      <div><div class="viewHeaderTitle">Kotoba N4</div><div class="viewHeaderSub">224 kosakata · 18 hari</div></div>
+    </div>
+    <div class="courseHero">
+      <div class="courseHeroTag">Kosakata</div>
+      <div class="courseHeroTitle">Pilih hari untuk belajar</div>
+      <div class="courseHeroMeta">Setiap hari punya tema sendiri</div>
+    </div>
+    <div class="sectionTitle"><h2>Dari Kanji N5</h2></div>
+    <button class="lessonRow" onclick="openKotobaAll()">
+      <div class="lessonNum jp">語</div>
+      <div class="lessonBody"><div class="lessonTitle">Semua contoh kata dari kanji</div><div class="lessonMeta">194 kata</div></div>
+      <div class="playBtn">▶</div>
+    </button>
+    <div class="sectionTitle" style="margin-top:18px"><h2>Kosakata N4</h2></div>
+    <div id="kotobaDayList"></div>
+  </section>
+
+  <!-- Kotoba words -->
+  <section id="kotobaWordsView" class="view">
+    <div class="viewHeader">
+      <button class="backBtn" onclick="goto('kotobaList')">←</button>
+      <div><div class="viewHeaderTitle" id="kotobaWordsTitle">—</div><div class="viewHeaderSub" id="kotobaWordsSub">—</div></div>
+    </div>
+    <div id="kotobaWordsTips"></div>
+    <div id="kotobaWordsList"></div>
+  </section>
+
+  <!-- Grammar lesson list -->
+  <section id="lessonListView" class="view">
+    <div class="viewHeader">
+      <button class="backBtn" onclick="goto('home')">←</button>
+      <div><div class="viewHeaderTitle">Grammar N5</div><div class="viewHeaderSub">Lesson per halaman</div></div>
+    </div>
+    <div id="lessonGrid"></div>
+  </section>
+
+  <!-- Grammar lesson detail -->
+  <section id="lessonView" class="view">
+    <div class="viewHeader">
+      <button class="backBtn" onclick="goto('lessonList')">←</button>
+      <div><div class="viewHeaderTitle" id="lessonTitle">—</div><div class="viewHeaderSub" id="lessonTag">—</div></div>
+    </div>
+    <p id="lessonIntro" style="margin-top:-6px"></p>
+    <div id="lessonBody"></div>
+  </section>
+
+  <!-- Quiz -->
+  <section id="quizView" class="view">
+    <div class="viewHeader">
+      <button class="backBtn" onclick="goto('home')">←</button>
+      <div><div class="viewHeaderTitle">Quiz Kanji</div><div class="viewHeaderSub">N5</div></div>
+    </div>
+    <div class="quizCard">
+      <div id="quizSetup">
+        <div class="eyebrow" style="color:var(--grad-a);font-weight:800;font-size:12px">📝 KUIS</div>
+        <h3 style="margin:6px 0">Uji pemahaman Kanji-mu</h3>
+        <p style="color:var(--muted);font-size:13px;margin:0">Pilih jumlah soal dari seluruh 107 Kanji N5.</p>
+        <div class="quizStartBtns">
+          <button class="btn secondary" onclick="startQuiz(5)">5 Soal</button>
+          <button class="btn secondary" onclick="startQuiz(10)">10 Soal</button>
+          <button class="btn primary" onclick="startQuiz(15)">15 Soal</button>
+        </div>
       </div>
-      <svg class="course-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-  </div>
-
-  <h3 class="section-title">Segera hadir</h3>
-  <div class="course-grid">
-    <div class="course-card glass" style="opacity:0.55; cursor:default;">
-      <div class="course-emoji">文</div>
-      <div class="course-body">
-        <p class="course-title">Bunpo N5 &amp; N4</p>
-        <p class="course-sub">Tata bahasa — sedang disiapkan</p>
+      <div id="quizPlay" style="display:none">
+        <div id="quizProgress" style="color:var(--muted);font-size:12px;text-align:center"></div>
+        <div class="question" id="qText"></div>
+        <div class="options" id="qOptions"></div>
+        <div class="result" id="qResult" style="display:none"></div>
+      </div>
+      <div id="quizDone" style="display:none;text-align:center">
+        <h2 id="quizScoreText"></h2>
+        <p id="quizScoreMsg" style="color:var(--muted)"></p>
+        <button class="btn primary" onclick="resetQuiz()">Ulangi</button>
       </div>
     </div>
-    <div class="course-card glass" style="opacity:0.55; cursor:default;">
-      <div class="course-emoji">本</div>
-      <div class="course-body">
-        <p class="course-title">Minna no Nihongo</p>
-        <p class="course-sub">Buku teks lengkap — sedang disiapkan</p>
-      </div>
-    </div>
-  </div>
+  </section>
 
+  <!-- JT -->
+  <section id="jtView" class="view">
+    <div class="viewHeader">
+      <button class="backBtn" onclick="goto('home')">←</button>
+      <div><div class="viewHeaderTitle">JT · Japanese Text</div><div class="viewHeaderSub">Baca &amp; pahami strukturnya</div></div>
+    </div>
+    <div class="jtCard"><div class="jtTag">Grammar Lesson 2</div><div class="jtJp jp">この ペンは あなたのですか。</div><div class="jtTranslation">Apakah pena ini milikmu?</div><div class="jtRomaji">Kono pen wa anata no desu ka.</div></div>
+    <div class="jtCard"><div class="jtTag">Grammar Lesson 3</div><div class="jtJp jp">れいぞうこの 中に ケーキが あります。</div><div class="jtTranslation">Ada kue di dalam kulkas.</div><div class="jtRomaji">Reizouko no naka ni keeki ga arimasu.</div></div>
+    <div class="jtCard"><div class="jtTag">Kanji Day 3</div><div class="jtJp jp">道を わたって ください。</div><div class="jtTranslation">Tolong seberangi jalan itu.</div><div class="jtRomaji">Michi o watatte kudasai.</div></div>
+    <p class="footerNote" style="margin-top:12px">Lesson tata bahasa lengkap dari Minna no Nihongo &amp; Bunpo N5/N4 menyusul.</p>
+  </section>
+
+  <div class="footerNote">Nihongo Study · materi Kanji N5 &amp; Kotoba N4 dari PDF yang kamu upload.</div>
 </div>
 
-<script src="kanjidata.js"></script>
-<script src="kotobadata.js"></script>
-<script src="nihongo.js"></script>
+<nav class="bottomNav">
+  <div class="bottomNavInner">
+    <button class="navBtn active" data-nav="home" onclick="goto('home')"><span class="navIcon">🏠</span>Home</button>
+    <button class="navBtn" data-nav="kanjiList" onclick="goto('kanjiList')"><span class="navIcon jp">漢</span>Kanji</button>
+    <button class="navBtn" data-nav="kotobaList" onclick="goto('kotobaList')"><span class="navIcon jp">言</span>Kotoba</button>
+    <button class="navBtn" data-nav="quiz" onclick="goto('quiz')"><span class="navIcon">📝</span>Quiz</button>
+    <button class="navBtn" data-nav="jtView" onclick="goto('jt')"><span class="navIcon jp">文</span>JT</button>
+  </div>
+</nav>
+
+<script src="nihongo-data.js"></script>
 <script>
-  (function () {
-    const kanjiTotalDays = KANJI_N5_DAYS.length;
-    const kotobaTotalDays = KOTOBA_N4_DAYS.length;
+const lessons=[
+ {tag:"N5 GRAMMAR · LESSON 01",title:"KATA SIFAT & PERUBAHAN",intro:"Pelajari perubahan kata sifat-i, kata sifat-na, dan bentuk dasar perubahan kata kerja.",body:`
+ <div class="jtCard"><div class="jtTag">Kata sifat-i</div><div class="jtJp jp">おもしろいです → おもしろく ありません</div><div class="jtJp jp">おもしろいです → おもしろかったです</div><div class="jtJp jp">おもしろいです → おもしろく なかったです</div></div>
+ <div class="jtCard"><div class="jtTag">Perhatian: いい（いい＝よい）</div><div class="jtJp jp">いいです → よく ありません → よかったです → よく なかったです</div></div>
+ <div class="jtCard"><div class="jtTag">Kata sifat-na</div><div class="jtJp jp">きれいです → きれいでは ありません / きれいじゃ ないです</div><div class="jtJp jp">きれいです → きれいでした → きれいじゃ なかったです</div><p style="margin:8px 0 0;font-size:12.5px">では = じゃ</p></div>
+ <div class="jtCard"><div class="jtTag">Perubahan kata kerja</div><div class="jtJp jp">あります／ある → ありません／ない → ありました／あった → ありませんでした／なかった</div><div class="jtJp jp" style="margin-top:8px">します／する → しません／しない → しました／した → しませんでした／しなかった</div><div class="jtJp jp" style="margin-top:8px">きます／くる → きません／こない → きました／きた → きませんでした／こなかった</div></div>
+ `},
+ {tag:"N5 GRAMMAR · LESSON 02",title:"PARTIKEL の",intro:"Gunakan の untuk menerangkan hubungan antarkata benda dan sebagai pengganti kata benda.",body:`
+ <div class="jtCard"><div class="jtTag">Kata sifat + kata benda</div><div class="jtJp jp">高い山　　きれいな海</div><p style="margin:8px 0 0;font-size:12.5px">Contoh ini menunjukkan kata sifat menerangkan kata benda.</p></div>
+ <div class="jtCard"><div class="jtTag">Kata benda + kata benda</div><div class="jtJp jp">日本の車　　きのうの新聞</div><p style="margin:8px 0 0;font-size:12.5px">の dapat menyatakan kepemilikan, buatan, hubungan, dan keterangan lain.</p></div>
+ <div class="jtCard"><div class="jtTag">の sebagai pengganti kata benda</div><div class="jtJp jp">この ペンは あなたのですか。</div><div class="jtJp jp">いいえ、田中さんのです。</div><div class="jtJp jp">大きいのですか。小さいのですか。</div><div class="jtJp jp">いい 時計ですね。どこのですか。日本のですか。</div></div>
+ `},
+ {tag:"N5 GRAMMAR · LESSON 03",title:"います & あります",intro:"Menyatakan keberadaan: います untuk manusia/hewan, あります untuk benda mati/tumbuhan.",body:`
+ <div class="jtCard"><div class="jtTag">Perbedaan utama</div><p style="margin:8px 0 0;font-size:13px">います = manusia dan hewan. あります = benda mati dan tumbuhan. Dalam konteks tertentu keduanya juga dapat berarti "punya".</p></div>
+ <div class="jtCard"><div class="jtTag">Pola</div><div class="jtJp jp">(tempat) に ……が あります。</div><div class="jtJp jp">(tempat) に ……が います。</div></div>
+ <div class="jtCard"><div class="jtTag">Contoh</div><div class="jtJp jp">雨ですよ。傘が ありますか。</div><div class="jtTranslation">Hujan. Apakah kamu punya payung?</div><div class="jtJp jp" style="margin-top:10px">わたしは 兄弟が いません。</div><div class="jtTranslation">Saya tidak punya saudara.</div><div class="jtJp jp" style="margin-top:10px">れいぞうこの 中に ケーキが あります。</div><div class="jtTranslation">Ada kue di dalam kulkas.</div><div class="jtJp jp" style="margin-top:10px">この クラスに 中国人が ５人 います。</div><div class="jtTranslation">Di kelas ini ada 5 orang Tiongkok.</div><div class="jtJp jp" style="margin-top:10px">ここに キムさんは いません。</div><div class="jtTranslation">Kim tidak ada di sini.</div></div>
+ `}];
 
-    const kp = NihongoProgress.courseProgress("kanji", kanjiTotalDays);
-    const cp = NihongoProgress.courseProgress("kotoba", kotobaTotalDays);
+/* ---------------- Shared kanji progress (same localStorage as /kanjicard/) ---------------- */
+const KANJI_PROGRESS_KEY = "kanjicard.progress.v1";
+function loadKanjiProgress(){ try { return JSON.parse(localStorage.getItem(KANJI_PROGRESS_KEY)) || {}; } catch(e){ return {}; } }
+function saveKanjiProgress(p){ try { localStorage.setItem(KANJI_PROGRESS_KEY, JSON.stringify(p)); } catch(e){} }
+function markRemembered(char){ const p=loadKanjiProgress(); p[char]={status:"remembered"}; saveKanjiProgress(p); }
+function rememberedCount(){ const p=loadKanjiProgress(); return KANJI.filter(k=>p[k.c]&&p[k.c].status==="remembered").length; }
+function refreshProgress(){
+  const total=KANJI.length, done=rememberedCount();
+  const pct = total? Math.round((done/total)*100):0;
+  const ring=document.getElementById("progressRing");
+  ring.style.background=`conic-gradient(var(--grad-a) 0 ${pct}%, #ececf3 ${pct}%)`;
+  ring.setAttribute("data-pct", pct+"%");
+  document.getElementById("progressMeta").textContent=`${done} / ${total} diingat`;
+  document.getElementById("kanjiListProgress").textContent=`${done} / ${total} diingat`;
+}
 
-    document.getElementById("kanjiCourseFill").style.width = (kp.total ? (kp.done / kp.total) * 100 : 0) + "%";
-    document.getElementById("kotobaCourseFill").style.width = (cp.total ? (cp.done / cp.total) * 100 : 0) + "%";
+/* ---------------- View / nav routing ---------------- */
+const NAV_MAP = { home:"home", kanjiList:"kanjiList", kanjiSwipe:"kanjiList", kotobaList:"kotobaList", kotobaWords:"kotobaList", quiz:"quiz", jt:"jtView", lessonList:"home", lesson:"home" };
+function goto(view){
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  document.getElementById(view+"View").classList.add("active");
+  document.querySelectorAll(".navBtn").forEach(b=>b.classList.remove("active"));
+  const navKey = NAV_MAP[view] || "home";
+  const btn = document.querySelector(`.navBtn[data-nav="${navKey}"]`);
+  if (btn) btn.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+  if (view==="home") refreshProgress();
+  if (view==="kanjiList") { refreshProgress(); buildKanjiDayList(); }
+  if (view==="kanjiSwipe") renderKanji();
+  if (view==="kotobaList") buildKotobaDayList();
+  if (view==="quiz") resetQuiz();
+}
 
-    if (kp.done > 0) {
-      document.getElementById("kanjiCourseSub").textContent = `${kp.done}/${kp.total} hari selesai`;
-    }
-    if (cp.done > 0) {
-      document.getElementById("kotobaCourseSub").textContent = `${cp.done}/${cp.total} hari selesai`;
-    }
-  })();
+/* ---------------- Search ---------------- */
+function runSearch(term){
+  const results = document.getElementById("searchResults");
+  const sections = document.getElementById("homeSections");
+  term = term.trim().toLowerCase();
+  if (!term) { results.hidden = true; sections.hidden = false; return; }
+  sections.hidden = true; results.hidden = false;
+
+  const kanjiHits = KANJI.filter(k => k.c===term || k.m.toLowerCase().includes(term) || k.r.toLowerCase().includes(term)).slice(0,6);
+  const kotobaHits = [];
+  KOTOBA_DAYS.forEach(d => d.words.forEach(w => {
+    if (kotobaHits.length>=6) return;
+    if (w.term.toLowerCase().includes(term) || w.meaning.toLowerCase().includes(term)) kotobaHits.push(w);
+  }));
+
+  if (!kanjiHits.length && !kotobaHits.length){
+    results.innerHTML = `<p style="text-align:center;color:var(--muted);font-size:13px;padding:16px 0">Tidak ada hasil untuk "${term}"</p>`;
+    return;
+  }
+  let html = "";
+  kanjiHits.forEach(k=>{
+    html += `<div class="resultCard"><div class="resultGlyph jp">${k.c}</div><div class="resultBody"><div class="resultTitle">${k.m}</div><div class="resultMeta">${k.r}</div></div><span class="resultBadge">Kanji</span></div>`;
+  });
+  kotobaHits.forEach(w=>{
+    html += `<div class="resultCard"><div class="resultGlyph jp" style="font-size:14px">${w.term.split(" ")[0]}</div><div class="resultBody"><div class="resultTitle">${w.meaning}</div><div class="resultMeta">${w.term}</div></div><span class="resultBadge" style="background:var(--tileB);color:var(--iconB)">Kotoba</span></div>`;
+  });
+  results.innerHTML = html;
+}
+document.getElementById("searchInput").addEventListener("input", (e)=>runSearch(e.target.value));
+
+/* ---------------- Grammar lessons ---------------- */
+function buildLessonGrid(){
+  document.getElementById("lessonGrid").innerHTML = lessons.map((l,i)=>`
+    <button class="lessonRow" onclick="openLesson(${i})">
+      <div class="lessonNum">0${i+1}</div>
+      <div class="lessonBody"><div class="lessonTitle">${l.title}</div><div class="lessonMeta">${l.tag}</div></div>
+      <div class="playBtn">▶</div>
+    </button>`).join("");
+}
+function openLesson(i){
+  const l=lessons[i];
+  document.getElementById("lessonTag").textContent=l.tag;
+  document.getElementById("lessonTitle").textContent=l.title;
+  document.getElementById("lessonIntro").textContent=l.intro;
+  document.getElementById("lessonBody").innerHTML=l.body;
+  goto("lesson");
+}
+
+/* ---------------- Kanji day list ---------------- */
+function buildKanjiDayList(){
+  const p = loadKanjiProgress();
+  document.getElementById("kanjiDayList").innerHTML = KANJI_DAYS.map(d=>{
+    const dayKanji = KANJI.filter(k=>k.day===d.day);
+    const done = dayKanji.filter(k=>p[k.c]&&p[k.c].status==="remembered").length;
+    const isDone = done===dayKanji.length && dayKanji.length>0;
+    return `<button class="lessonRow${isDone?" is-done":""}" onclick="openKanjiDay(${d.day})">
+      <div class="lessonNum">0${d.day}</div>
+      <div class="lessonBody"><div class="lessonTitle">${d.title}</div><div class="lessonMeta">${d.count} kanji · ${done}/${dayKanji.length} diingat</div></div>
+      <div class="playBtn">${isDone? "✓" : "▶"}</div>
+    </button>`;
+  }).join("");
+}
+function openKanjiDay(day){
+  kanjiDayFilter = day; ki = 0;
+  buildDayPills();
+  goto("kanjiSwipe");
+}
+
+/* ---------------- Kanji Swipe ---------------- */
+let kanjiDayFilter = null;
+let ki = 0;
+function currentKanjiList(){ return kanjiDayFilter ? KANJI.filter(k=>k.day===kanjiDayFilter) : KANJI; }
+function buildDayPills(){
+  const pills = document.getElementById("kanjiDayPills");
+  const chips = [{day:null,label:"Semua"}].concat(KANJI_DAYS.map(d=>({day:d.day,label:"Hari "+d.day})));
+  pills.innerHTML = chips.map(c=>`<button class="dayPill${kanjiDayFilter===c.day?" active":""}" onclick="setKanjiDay(${c.day})">${c.label}</button>`).join("");
+}
+function setKanjiDay(day){ kanjiDayFilter=day; ki=0; buildDayPills(); renderKanji(); }
+function renderKanji(){
+  const list = currentKanjiList();
+  if (!list.length){ ki=0; return; }
+  if (ki>=list.length) ki=0;
+  if (ki<0) ki=list.length-1;
+  const k = list[ki];
+  document.getElementById("swipeSub").textContent = kanjiDayFilter ? `Hari ${kanjiDayFilter}` : "Semua";
+  document.getElementById("kEyebrow").textContent = kanjiDayFilter ? `Swipe card · Hari ${kanjiDayFilter}` : "Swipe card · Semua";
+  document.getElementById("kChar").textContent = k.c;
+  document.getElementById("kRead").textContent = k.r;
+  document.getElementById("kMeaning").textContent = k.m;
+  document.getElementById("kExample").textContent = k.ex;
+  document.getElementById("kExampleMeaning").textContent = k.em;
+  document.getElementById("kCounter").textContent = `${ki+1} / ${list.length}`;
+  document.getElementById("fullSwipeLink").href = kanjiDayFilter ? `../kanjicard/?day=${kanjiDayFilter}` : "../kanjicard/";
+  document.getElementById("kVocabList").innerHTML = k.v.map(x=>`<div class="vocab"><b class="jp">${x[0]}</b><small>${x[1]} · ${x[2]}</small></div>`).join("") || "<p style='color:var(--muted);font-size:12.5px'>Belum ada contoh tambahan.</p>";
+}
+function nextKanji(){ const list=currentKanjiList(); ki=(ki+1)%list.length; renderKanji(); }
+function prevKanji(){ const list=currentKanjiList(); ki=(ki-1+list.length)%list.length; renderKanji(); }
+function rememberKanji(){ const list=currentKanjiList(); markRemembered(list[ki].c); nextKanji(); }
+
+/* ---------------- Kotoba ---------------- */
+function buildKotobaDayList(){
+  document.getElementById("kotobaDayList").innerHTML = KOTOBA_DAYS.map(d=>`
+    <button class="lessonRow" onclick="openKotobaDay(${d.day})">
+      <div class="lessonNum">${String(d.day).padStart(2,'0')}</div>
+      <div class="lessonBody"><div class="lessonTitle">${d.title}</div><div class="lessonMeta">${d.words.length} kosakata</div></div>
+      <div class="playBtn">▶</div>
+    </button>`).join("");
+}
+function openKotobaDay(day){
+  const d = KOTOBA_DAYS.find(x=>x.day===day);
+  document.getElementById("kotobaWordsTitle").textContent = d.title;
+  document.getElementById("kotobaWordsSub").textContent = `Hari ${d.day} · ${d.titleJp}`;
+  const tipsEl = document.getElementById("kotobaWordsTips");
+  tipsEl.innerHTML = (d.tips&&d.tips.length) ? `<div class="jtCard"><div class="jtTag">💡 Catatan</div>` + d.tips.map(t=>`<p style="margin:6px 0 0;font-size:12.5px">${t}</p>`).join("") + `</div>` : "";
+  document.getElementById("kotobaWordsList").innerHTML = d.words.map(w=>`
+    <div class="wordCard">
+      <div class="wordTerm jp">${w.term}</div>
+      <div class="wordMeaning">${w.meaning}</div>
+      ${w.note?`<div class="wordNote">${w.note}</div>`:""}
+      ${(w.examples||[]).map(ex=>`<div class="wordEx">・${ex}</div>`).join("")}
+    </div>`).join("");
+  goto("kotobaWords");
+}
+function openKotobaAll(){
+  const seen = new Set(); const rows = [];
+  KANJI.forEach(k=>k.v.forEach(v=>{ const key=v[0]+"|"+v[1]; if(seen.has(key))return; seen.add(key); rows.push(v); }));
+  document.getElementById("kotobaWordsTitle").textContent = "Semua kata dari Kanji N5";
+  document.getElementById("kotobaWordsSub").textContent = `${rows.length} kata`;
+  document.getElementById("kotobaWordsTips").innerHTML = "";
+  document.getElementById("kotobaWordsList").innerHTML = rows.map(v=>`
+    <div class="wordCard"><div class="wordTerm jp">${v[0]}</div><div class="wordMeaning">${v[2]}</div><div class="wordNote">${v[1]}</div></div>`).join("");
+  goto("kotobaWords");
+}
+
+/* ---------------- Quiz ---------------- */
+let quizQuestions=[], quizIndex=0, quizScore=0, quizAnswered=false;
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function buildQuizQuestion(k){
+  const askReading = Math.random()<0.5 && k.r;
+  if (askReading){
+    const correct=k.r; const distractors=shuffle(KANJI.filter(x=>x.c!==k.c).map(x=>x.r)).slice(0,3);
+    return { c:k.c, q:"Bagaimana cara membacanya?", correct, options:shuffle([correct,...distractors]) };
+  } else {
+    const correct=k.m; const distractors=shuffle(KANJI.filter(x=>x.c!==k.c).map(x=>x.m)).slice(0,3);
+    return { c:k.c, q:"Apa artinya?", correct, options:shuffle([correct,...distractors]) };
+  }
+}
+function startQuiz(n){
+  const chosen = shuffle(KANJI).slice(0,n);
+  quizQuestions = chosen.map(buildQuizQuestion);
+  quizIndex=0; quizScore=0;
+  document.getElementById("quizSetup").style.display="none";
+  document.getElementById("quizDone").style.display="none";
+  document.getElementById("quizPlay").style.display="block";
+  renderQuizQuestion();
+}
+function renderQuizQuestion(){
+  quizAnswered=false;
+  const q=quizQuestions[quizIndex];
+  document.getElementById("quizProgress").textContent=`Soal ${quizIndex+1} / ${quizQuestions.length}`;
+  document.getElementById("qText").innerHTML=`<span class="jp" style="font-size:30px">${q.c}</span><br>${q.q}`;
+  document.getElementById("qOptions").innerHTML=q.options.map((o,i)=>`<button class="option" onclick="answerQuiz(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join("");
+  document.getElementById("qResult").style.display="none";
+}
+function answerQuiz(i){
+  if (quizAnswered) return; quizAnswered=true;
+  const q=quizQuestions[quizIndex]; const chosen=q.options[i]; const correct=chosen===q.correct;
+  if (correct) quizScore++;
+  document.querySelectorAll("#qOptions .option").forEach((btn,idx)=>{ btn.disabled=true; if(q.options[idx]===q.correct) btn.classList.add("correct"); else if(idx===i) btn.classList.add("wrong"); });
+  const r=document.getElementById("qResult"); r.style.display="block";
+  r.textContent = correct ? "Benar! Lanjut ke soal berikutnya." : `Belum tepat — jawaban yang benar: ${q.correct}`;
+  setTimeout(()=>{ quizIndex++; if(quizIndex<quizQuestions.length) renderQuizQuestion(); else finishQuiz(); },1000);
+}
+function finishQuiz(){
+  document.getElementById("quizPlay").style.display="none";
+  document.getElementById("quizDone").style.display="block";
+  document.getElementById("quizScoreText").textContent=`${quizScore} / ${quizQuestions.length}`;
+  const pct=Math.round((quizScore/quizQuestions.length)*100);
+  document.getElementById("quizScoreMsg").textContent = pct>=80?"Mantap sekali! 🎉":pct>=50?"Lumayan, terus berlatih!":"Ayo diulang lagi!";
+}
+function resetQuiz(){
+  document.getElementById("quizSetup").style.display="block";
+  document.getElementById("quizPlay").style.display="none";
+  document.getElementById("quizDone").style.display="none";
+}
+
+/* ---------------- Init ---------------- */
+buildLessonGrid();
+buildDayPills();
+refreshProgress();
 </script>
-</body>
-</html>
+</body></html>
