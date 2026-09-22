@@ -48,7 +48,7 @@ button{font:inherit;border:0;cursor:pointer;background:none}
 /* section title */
 .sectionTitle{display:flex;justify-content:space-between;align-items:baseline;margin:6px 4px 12px}
 .sectionTitle h2{margin:0;font-size:16px;font-weight:800}
-.sectionTitle span{font-size:12px;color:var(--grad-a);font-weight:700}
+.sectionTitle span{font-size:12px;color:var(--grad-a);font-weight:700;cursor:pointer}
 
 /* category grid */
 .catGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
@@ -68,7 +68,21 @@ button{font:inherit;border:0;cursor:pointer;background:none}
 
 /* views */
 .view{display:none}
-.view.active{display:block}
+.view.active{display:block;animation:viewIn .38s cubic-bezier(.22,1,.36,1) both}
+@keyframes viewIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes rowIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+.catTile,.lessonRow,.dayPill,.navBtn,.resultCard,.option,.btn,.backBtn,.iconBtn{transition:transform .15s ease,background .2s ease,border-color .2s ease,color .2s ease,box-shadow .2s ease}
+.catTile:active,.lessonRow:active,.dayPill:active,.navBtn:active,.resultCard:active,.option:not(:disabled):active,.btn:active,.backBtn:active,.iconBtn:active{transform:scale(.96)}
+.lessonRow,.resultCard,.wordCard,.jtCard{animation:rowIn .4s cubic-bezier(.22,1,.36,1) both}
+.lessonRow:nth-child(1){animation-delay:.02s}.lessonRow:nth-child(2){animation-delay:.05s}.lessonRow:nth-child(3){animation-delay:.08s}.lessonRow:nth-child(4){animation-delay:.11s}.lessonRow:nth-child(5){animation-delay:.14s}.lessonRow:nth-child(6){animation-delay:.17s}.lessonRow:nth-child(7){animation-delay:.2s}.lessonRow:nth-child(n+8){animation-delay:.22s}
+.swipeCard{animation:popIn .3s cubic-bezier(.22,1,.36,1) both}
+.bigKanji{transition:opacity .2s ease}
+.navBtn{transition:background .25s cubic-bezier(.22,1,.36,1),color .25s ease,transform .15s ease}
+.progressRing{transition:background .5s cubic-bezier(.22,1,.36,1)}
+.option{transition:transform .15s ease,background .25s ease,border-color .25s ease}
+.hero,.courseHero,.progressStrip,.quizCard{animation:viewIn .45s cubic-bezier(.22,1,.36,1) both}
+html{scroll-behavior:smooth}
 .viewHeader{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .backBtn{width:38px;height:38px;border-radius:50%;background:#fff;box-shadow:var(--shadow);display:grid;place-items:center;flex-shrink:0}
 .viewHeaderTitle{font-weight:800;font-size:17px}
@@ -189,8 +203,8 @@ button{font:inherit;border:0;cursor:pointer;background:none}
         </button>
         <button class="catTile" style="background:var(--tileB)" onclick="goto('kotobaList')">
           <div class="catIcon jp" style="background:#fff;color:var(--iconB)">言</div>
-          <div class="catTitle">Kotoba N4</div>
-          <div class="catSub">224 kosakata · 18 hari</div>
+          <div class="catTitle">Kotoba</div>
+          <div class="catSub">N5 &amp; N4 · 18 hari</div>
         </button>
         <button class="catTile" style="background:var(--tileC)" onclick="goto('quiz')">
           <div class="catIcon" style="background:#fff;color:var(--iconC)">📝</div>
@@ -251,20 +265,16 @@ button{font:inherit;border:0;cursor:pointer;background:none}
   <section id="kotobaListView" class="view">
     <div class="viewHeader">
       <button class="backBtn" onclick="goto('home')">←</button>
-      <div><div class="viewHeaderTitle">Kotoba N4</div><div class="viewHeaderSub">224 kosakata · 18 hari</div></div>
+      <div><div class="viewHeaderTitle">Kotoba</div><div class="viewHeaderSub">N5 &amp; N4</div></div>
     </div>
     <div class="courseHero">
       <div class="courseHeroTag">Kosakata</div>
       <div class="courseHeroTitle">Pilih hari untuk belajar</div>
       <div class="courseHeroMeta">Setiap hari punya tema sendiri</div>
     </div>
-    <div class="sectionTitle"><h2>Dari Kanji N5</h2></div>
-    <button class="lessonRow" onclick="openKotobaAll()">
-      <div class="lessonNum jp">語</div>
-      <div class="lessonBody"><div class="lessonTitle">Semua contoh kata dari kanji</div><div class="lessonMeta">194 kata</div></div>
-      <div class="playBtn">▶</div>
-    </button>
-    <div class="sectionTitle" style="margin-top:18px"><h2>Kosakata N4</h2></div>
+    <div class="sectionTitle"><h2>Kotoba N5 · dari Kanji</h2><span id="kotobaN5AllBtn" onclick="openKotobaAll()">Lihat semua →</span></div>
+    <div id="kotobaN5DayList"></div>
+    <div class="sectionTitle" style="margin-top:18px"><h2>Kotoba N4</h2></div>
     <div id="kotobaDayList"></div>
   </section>
 
@@ -355,23 +365,7 @@ button{font:inherit;border:0;cursor:pointer;background:none}
 
 <script src="nihongo-data.js"></script>
 <script>
-const lessons=[
- {tag:"N5 GRAMMAR · LESSON 01",title:"KATA SIFAT & PERUBAHAN",intro:"Pelajari perubahan kata sifat-i, kata sifat-na, dan bentuk dasar perubahan kata kerja.",body:`
- <div class="jtCard"><div class="jtTag">Kata sifat-i</div><div class="jtJp jp">おもしろいです → おもしろく ありません</div><div class="jtJp jp">おもしろいです → おもしろかったです</div><div class="jtJp jp">おもしろいです → おもしろく なかったです</div></div>
- <div class="jtCard"><div class="jtTag">Perhatian: いい（いい＝よい）</div><div class="jtJp jp">いいです → よく ありません → よかったです → よく なかったです</div></div>
- <div class="jtCard"><div class="jtTag">Kata sifat-na</div><div class="jtJp jp">きれいです → きれいでは ありません / きれいじゃ ないです</div><div class="jtJp jp">きれいです → きれいでした → きれいじゃ なかったです</div><p style="margin:8px 0 0;font-size:12.5px">では = じゃ</p></div>
- <div class="jtCard"><div class="jtTag">Perubahan kata kerja</div><div class="jtJp jp">あります／ある → ありません／ない → ありました／あった → ありませんでした／なかった</div><div class="jtJp jp" style="margin-top:8px">します／する → しません／しない → しました／した → しませんでした／しなかった</div><div class="jtJp jp" style="margin-top:8px">きます／くる → きません／こない → きました／きた → きませんでした／こなかった</div></div>
- `},
- {tag:"N5 GRAMMAR · LESSON 02",title:"PARTIKEL の",intro:"Gunakan の untuk menerangkan hubungan antarkata benda dan sebagai pengganti kata benda.",body:`
- <div class="jtCard"><div class="jtTag">Kata sifat + kata benda</div><div class="jtJp jp">高い山　　きれいな海</div><p style="margin:8px 0 0;font-size:12.5px">Contoh ini menunjukkan kata sifat menerangkan kata benda.</p></div>
- <div class="jtCard"><div class="jtTag">Kata benda + kata benda</div><div class="jtJp jp">日本の車　　きのうの新聞</div><p style="margin:8px 0 0;font-size:12.5px">の dapat menyatakan kepemilikan, buatan, hubungan, dan keterangan lain.</p></div>
- <div class="jtCard"><div class="jtTag">の sebagai pengganti kata benda</div><div class="jtJp jp">この ペンは あなたのですか。</div><div class="jtJp jp">いいえ、田中さんのです。</div><div class="jtJp jp">大きいのですか。小さいのですか。</div><div class="jtJp jp">いい 時計ですね。どこのですか。日本のですか。</div></div>
- `},
- {tag:"N5 GRAMMAR · LESSON 03",title:"います & あります",intro:"Menyatakan keberadaan: います untuk manusia/hewan, あります untuk benda mati/tumbuhan.",body:`
- <div class="jtCard"><div class="jtTag">Perbedaan utama</div><p style="margin:8px 0 0;font-size:13px">います = manusia dan hewan. あります = benda mati dan tumbuhan. Dalam konteks tertentu keduanya juga dapat berarti "punya".</p></div>
- <div class="jtCard"><div class="jtTag">Pola</div><div class="jtJp jp">(tempat) に ……が あります。</div><div class="jtJp jp">(tempat) に ……が います。</div></div>
- <div class="jtCard"><div class="jtTag">Contoh</div><div class="jtJp jp">雨ですよ。傘が ありますか。</div><div class="jtTranslation">Hujan. Apakah kamu punya payung?</div><div class="jtJp jp" style="margin-top:10px">わたしは 兄弟が いません。</div><div class="jtTranslation">Saya tidak punya saudara.</div><div class="jtJp jp" style="margin-top:10px">れいぞうこの 中に ケーキが あります。</div><div class="jtTranslation">Ada kue di dalam kulkas.</div><div class="jtJp jp" style="margin-top:10px">この クラスに 中国人が ５人 います。</div><div class="jtTranslation">Di kelas ini ada 5 orang Tiongkok.</div><div class="jtJp jp" style="margin-top:10px">ここに キムさんは いません。</div><div class="jtTranslation">Kim tidak ada di sini.</div></div>
- `}];
+const lessons = GRAMMAR_LESSONS;
 
 /* ---------------- Shared kanji progress (same localStorage as /kanjicard/) ---------------- */
 const KANJI_PROGRESS_KEY = "kanjicard.progress.v1";
@@ -402,7 +396,7 @@ function goto(view){
   if (view==="home") refreshProgress();
   if (view==="kanjiList") { refreshProgress(); buildKanjiDayList(); }
   if (view==="kanjiSwipe") renderKanji();
-  if (view==="kotobaList") buildKotobaDayList();
+  if (view==="kotobaList") { buildKotobaN5DayList(); buildKotobaDayList(); }
   if (view==="quiz") resetQuiz();
 }
 
@@ -490,9 +484,11 @@ function renderKanji(){
   if (ki>=list.length) ki=0;
   if (ki<0) ki=list.length-1;
   const k = list[ki];
+  const kCharEl = document.getElementById("kChar");
+  kCharEl.style.opacity = "0";
+  kCharEl.style.transform = "scale(.9)";
   document.getElementById("swipeSub").textContent = kanjiDayFilter ? `Hari ${kanjiDayFilter}` : "Semua";
   document.getElementById("kEyebrow").textContent = kanjiDayFilter ? `Swipe card · Hari ${kanjiDayFilter}` : "Swipe card · Semua";
-  document.getElementById("kChar").textContent = k.c;
   document.getElementById("kRead").textContent = k.r;
   document.getElementById("kMeaning").textContent = k.m;
   document.getElementById("kExample").textContent = k.ex;
@@ -500,6 +496,12 @@ function renderKanji(){
   document.getElementById("kCounter").textContent = `${ki+1} / ${list.length}`;
   document.getElementById("fullSwipeLink").href = kanjiDayFilter ? `../kanjicard/?day=${kanjiDayFilter}` : "../kanjicard/";
   document.getElementById("kVocabList").innerHTML = k.v.map(x=>`<div class="vocab"><b class="jp">${x[0]}</b><small>${x[1]} · ${x[2]}</small></div>`).join("") || "<p style='color:var(--muted);font-size:12.5px'>Belum ada contoh tambahan.</p>";
+  requestAnimationFrame(()=>{
+    kCharEl.style.transition = "opacity .22s ease, transform .22s cubic-bezier(.22,1,.36,1)";
+    kCharEl.textContent = k.c;
+    kCharEl.style.opacity = "1";
+    kCharEl.style.transform = "scale(1)";
+  });
 }
 function nextKanji(){ const list=currentKanjiList(); ki=(ki+1)%list.length; renderKanji(); }
 function prevKanji(){ const list=currentKanjiList(); ki=(ki-1+list.length)%list.length; renderKanji(); }
@@ -534,6 +536,35 @@ function openKotobaAll(){
   KANJI.forEach(k=>k.v.forEach(v=>{ const key=v[0]+"|"+v[1]; if(seen.has(key))return; seen.add(key); rows.push(v); }));
   document.getElementById("kotobaWordsTitle").textContent = "Semua kata dari Kanji N5";
   document.getElementById("kotobaWordsSub").textContent = `${rows.length} kata`;
+  document.getElementById("kotobaWordsTips").innerHTML = "";
+  document.getElementById("kotobaWordsList").innerHTML = rows.map(v=>`
+    <div class="wordCard"><div class="wordTerm jp">${v[0]}</div><div class="wordMeaning">${v[2]}</div><div class="wordNote">${v[1]}</div></div>`).join("");
+  goto("kotobaWords");
+}
+
+/* Kotoba N5 — vocabulary derived from each day's Kanji examples */
+function kotobaN5WordsForDay(day){
+  const seen = new Set(); const rows = [];
+  KANJI.filter(k=>k.day===day).forEach(k=>k.v.forEach(v=>{
+    const key=v[0]+"|"+v[1]; if(seen.has(key))return; seen.add(key); rows.push(v);
+  }));
+  return rows;
+}
+function buildKotobaN5DayList(){
+  document.getElementById("kotobaN5DayList").innerHTML = KANJI_DAYS.map(d=>{
+    const count = kotobaN5WordsForDay(d.day).length;
+    return `<button class="lessonRow" onclick="openKotobaN5Day(${d.day})">
+      <div class="lessonNum">0${d.day}</div>
+      <div class="lessonBody"><div class="lessonTitle">${d.title}</div><div class="lessonMeta">${count} kata</div></div>
+      <div class="playBtn">▶</div>
+    </button>`;
+  }).join("");
+}
+function openKotobaN5Day(day){
+  const d = KANJI_DAYS.find(x=>x.day===day);
+  const rows = kotobaN5WordsForDay(day);
+  document.getElementById("kotobaWordsTitle").textContent = `Kotoba N5 · ${d.title}`;
+  document.getElementById("kotobaWordsSub").textContent = `Hari ${day} · ${rows.length} kata`;
   document.getElementById("kotobaWordsTips").innerHTML = "";
   document.getElementById("kotobaWordsList").innerHTML = rows.map(v=>`
     <div class="wordCard"><div class="wordTerm jp">${v[0]}</div><div class="wordMeaning">${v[2]}</div><div class="wordNote">${v[1]}</div></div>`).join("");
