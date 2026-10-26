@@ -1126,7 +1126,7 @@
 
 
     modal.style.display =
-      "block";
+      "flex";
 
 
     document.body.style.overflow =
@@ -1744,6 +1744,122 @@
   /* =========================================================
      Start
      ========================================================= */
+
+  /* =========================================================
+     Active nav highlight
+     ========================================================= */
+
+  var spyLinks =
+    document.querySelectorAll(
+      ".nav-links a, .rail-pill a"
+    );
+
+  var spyMap = {
+    "home-section": "#home",
+    "about": "#about",
+    "projects": "#projects",
+    "contact": "#contact"
+  };
+
+  if ("IntersectionObserver" in window) {
+
+    var spyObserver =
+      new IntersectionObserver(
+        function (entries) {
+
+          entries.forEach(function (entry) {
+
+            if (!entry.isIntersecting) {
+              return;
+            }
+
+            var target =
+              spyMap[entry.target.id];
+
+            spyLinks.forEach(function (a) {
+
+              a.classList.toggle(
+                "is-active",
+                a.getAttribute("href") === target
+              );
+
+            });
+
+          });
+
+        },
+        { rootMargin: "-45% 0px -50% 0px" }
+      );
+
+    Object.keys(spyMap).forEach(function (id) {
+
+      var el =
+        document.getElementById(id);
+
+      if (el) {
+        spyObserver.observe(el);
+      }
+
+    });
+
+  }
+
+
+  /* =========================================================
+     Hero panel tilt (mouse devices only)
+     ========================================================= */
+
+  var heroPanel =
+    document.getElementById("heroPanel");
+
+  if (
+    heroPanel &&
+    window.matchMedia(
+      "(hover: hover) and (prefers-reduced-motion: no-preference)"
+    ).matches
+  ) {
+
+    var heroMedia =
+      heroPanel.parentElement;
+
+    heroMedia.addEventListener(
+      "pointermove",
+      function (e) {
+
+        var r =
+          heroMedia.getBoundingClientRect();
+
+        var x =
+          (e.clientX - r.left) / r.width - 0.5;
+
+        var y =
+          (e.clientY - r.top) / r.height - 0.5;
+
+        heroPanel.style.setProperty(
+          "--ry",
+          (-6 + x * 10) + "deg"
+        );
+
+        heroPanel.style.setProperty(
+          "--rx",
+          (2 - y * 8) + "deg"
+        );
+
+      }
+    );
+
+    heroMedia.addEventListener(
+      "pointerleave",
+      function () {
+
+        heroPanel.style.removeProperty("--ry");
+        heroPanel.style.removeProperty("--rx");
+
+      }
+    );
+
+  }
+
 
   loadPosts();
 
