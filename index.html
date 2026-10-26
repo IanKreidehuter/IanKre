@@ -7,12 +7,34 @@
 <meta name="description" content="Adrianの個人サイト。ウェブサイトやUI、ゲームなど、いろいろ試しながら学んでいるものを置いています。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Zen+Maru+Gothic:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5 19c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 7.5h5l1.6 2H20a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8.5a1 1 0 0 1 1-1Z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="m4 7.5 8 6 8-6"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2m-2.34-7.07-1.41 1.41M6.34 17.66l-1.41 1.41m0-12.73 1.41 1.41m11.32 11.32 1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5a8.7 8.7 0 1 0 12 12Z"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m9 8-4 4 4 4"/><path d="m15 8 4 4-4 4"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+</defs></svg>
+
 <a class="skip-link" href="#home">本文へスキップ</a>
+
+<aside class="side-rail" aria-label="クイックナビゲーション">
+  <nav class="rail-pill blue">
+    <a href="#home" aria-label="ホーム"><svg class="ic"><use href="#i-home"/></svg></a>
+    <a href="#about" aria-label="自己紹介"><svg class="ic"><use href="#i-user"/></svg></a>
+    <a href="#projects" aria-label="制作物"><svg class="ic"><use href="#i-folder"/></svg></a>
+    <a href="#contact" aria-label="お問い合わせ"><svg class="ic"><use href="#i-mail"/></svg></a>
+  </nav>
+  <p class="rail-note">いっしょに、<b>COLORFUL</b>に。</p>
+</aside>
 
 <header class="site-header">
   <div class="nav-shell">
@@ -20,47 +42,19 @@
       <a href="#home" class="nav-mark">Adrian</a>
 
       <ul class="nav-links">
-        <li><a href="#home"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg>ホーム</a></li>
-        <li><a href="#about"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M5 19c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4"/></svg>自己紹介</a></li>
-        <li><a href="#projects"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7.5h5l1.6 2H20a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8.5a1 1 0 0 1 1-1Z"/></svg>制作物</a></li>
-        <li><a href="#contact"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="m4 7.5 8 6 8-6"/></svg>お問い合わせ</a></li>
+        <li><a href="#home"><svg class="ic nav-icon"><use href="#i-home"/></svg>ホーム</a></li>
+        <li><a href="#about"><svg class="ic nav-icon"><use href="#i-user"/></svg>自己紹介</a></li>
+        <li><a href="#projects"><svg class="ic nav-icon"><use href="#i-folder"/></svg>制作物</a></li>
+        <li><a href="#contact"><svg class="ic nav-icon"><use href="#i-mail"/></svg>お問い合わせ</a></li>
       </ul>
 
       <div class="theme-switcher">
-        <button type="button" class="theme-toggle" id="themeToggle"
-          aria-expanded="false" aria-controls="themePanel" aria-label="テーマを選択">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2"/><path d="M12 20v2"/>
-            <path d="m4.93 4.93 1.41 1.41"/>
-            <path d="m17.66 17.66 1.41 1.41"/>
-            <path d="M2 12h2"/><path d="M20 12h2"/>
-            <path d="m6.34 17.66-1.41 1.41"/>
-            <path d="m19.07 4.93-1.41 1.41"/>
-          </svg>
+        <button type="button" class="theme-toggle" id="themeToggle" aria-expanded="false" aria-controls="themePanel" aria-label="テーマを選択">
+          <svg class="ic"><use href="#i-sun"/></svg>
         </button>
-
         <div class="theme-panel" id="themePanel" aria-label="テーマ選択" hidden>
-          <button type="button" data-theme-choice="light" aria-pressed="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="4"/>
-              <path d="M12 2v2"/><path d="M12 20v2"/>
-              <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
-              <path d="M2 12h2"/><path d="M20 12h2"/>
-              <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
-            </svg>
-            Light
-          </button>
-
-          <button type="button" data-theme-choice="dark" aria-pressed="false">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5a8.7 8.7 0 1 0 12 12Z"/>
-            </svg>
-            Dark
-          </button>
+          <button type="button" data-theme-choice="light" aria-pressed="true"><svg class="ic"><use href="#i-sun"/></svg>Light</button>
+          <button type="button" data-theme-choice="dark" aria-pressed="false"><svg class="ic"><use href="#i-moon"/></svg>Dark</button>
         </div>
       </div>
 
@@ -88,8 +82,8 @@
       <p class="hero-role">学びながら、つくっています</p>
       <p class="hero-intro">ウェブサイトやUI、ゲームなど、インターネット上でいろんなものを作るのが好きです。まだ勉強中なので、作っては壊し、直してまた作る——そうやって学んでいます。</p>
       <ul class="hero-tags">
-        <li class="glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 8-4 4 4 4"/><path d="m15 8 4 4-4 4"/></svg>HTML &amp; CSS</li>
-        <li class="glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>JavaScript</li>
+        <li class="glass"><svg class="ic"><use href="#i-code"/></svg>HTML &amp; CSS</li>
+        <li class="glass"><svg class="ic"><use href="#i-bolt"/></svg>JavaScript</li>
       </ul>
       <div class="hero-actions">
         <a href="#projects" class="btn btn-primary">作ったものを見る</a>
@@ -99,22 +93,45 @@
 
     <div class="hero-media">
       <div class="hero-media-glow" aria-hidden="true"></div>
-      <div class="hero-image-frame glass">
-        <img src="assets/hikaru.png" alt="Adrianの写真" class="protected-img" draggable="false">
+      <div class="hero-panel blue" id="heroPanel">
+        <div class="hero-image-frame">
+          <img src="assets/hikaru.png" alt="Adrianの写真" class="protected-img" draggable="false">
+        </div>
+        <p class="hero-note glass">作りながら<br>学んでいます<span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span></p>
+        <p class="hero-script" aria-hidden="true">Adrian</p>
       </div>
+
+      <ul class="tile-grid glass">
+        <li><a class="blue" href="#about"><svg class="ic"><use href="#i-user"/></svg>自己紹介</a></li>
+        <li><a class="blue" href="#projects"><svg class="ic"><use href="#i-folder"/></svg>制作物</a></li>
+        <li><a class="blue" href="#contact"><svg class="ic"><use href="#i-mail"/></svg>連絡</a></li>
+        <li><a class="blue" href="#home"><svg class="ic"><use href="#i-home"/></svg>トップ</a></li>
+      </ul>
+
+      <a class="next-orb" href="#projects" aria-label="制作物へ進む">
+        <span class="orb blue"><svg class="ic"><use href="#i-arrow"/></svg></span>
+        <small>NEXT PROJECT<br>次のステージへ</small>
+      </a>
     </div>
   </section>
 
   <section class="about" id="about">
-    <div class="section-heading"><h2>自己紹介</h2></div>
+    <div class="section-heading"><p class="script-label">About me</p><h2>自己紹介</h2></div>
     <div class="about-grid">
-      <p class="about-text">インターネット上でものを作るのが好きな人間です。ウェブサイトやUI、ゲーム、ちょっとした実験的な制作物をいろいろ試しています。まだまだ手探りなので、作っているものの多くは「とりあえずやってみて、どうなるか見てみる」という段階のものばかりです。<br><br>実際に手を動かして作ることで一番学べるタイプなので、途中で壊れたり、見た目が変になったり、作り直しが必要になったりする部分も、大事な過程だと思っています。</p>
-      <ul class="skills-list"><li class="glass">HTML &amp; CSS</li><li class="glass">JavaScript</li></ul>
+      <div class="about-card glass">
+        <p class="about-text">インターネット上でものを作るのが好きな人間です。ウェブサイトやUI、ゲーム、ちょっとした実験的な制作物をいろいろ試しています。まだまだ手探りなので、作っているものの多くは「とりあえずやってみて、どうなるか見てみる」という段階のものばかりです。<br><br>実際に手を動かして作ることで一番学べるタイプなので、途中で壊れたり、見た目が変になったり、作り直しが必要になったりする部分も、大事な過程だと思っています。</p>
+      </div>
+      <article class="profile-card blue">
+        <img class="avatar protected-img" src="assets/hikaru.png" alt="" draggable="false">
+        <p class="script-name">Adrian</p>
+        <p class="role">CREATOR &amp; LEARNER</p>
+        <ul class="skills-list"><li class="glass">HTML &amp; CSS</li><li class="glass">JavaScript</li></ul>
+      </article>
     </div>
   </section>
 
   <section class="projects" id="projects">
-    <div class="section-heading"><h2>制作物</h2></div>
+    <div class="section-heading"><p class="script-label">Projects</p><h2>制作物</h2></div>
     <div class="project-slider" id="projectSlider"><div class="project-track" id="projectTrack"></div></div>
     <div class="project-slider-controls" id="projectControls" hidden>
       <button type="button" class="project-slider-btn" id="projectPrev" aria-label="前の制作物">‹</button>
@@ -124,7 +141,8 @@
   </section>
 
   <section class="contact" id="contact">
-    <div class="contact-card glass">
+    <div class="contact-card blue">
+      <p class="script-title">Contact</p>
       <h2>お問い合わせ</h2>
       <p>挨拶したい方は、下のメールかInstagramからどうぞ。<br>このサイトでは制作依頼(フリーランス案件)は受け付けていません。ここはあくまで自分の小さな場所です。</p>
       <a class="contact-email" href="mailto:yoshkadityawork@hotmail.com">yoshkiadityawork@hotmail.com</a>
